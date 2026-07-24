@@ -1,20 +1,18 @@
 ---
 name: eas-planning-writer
-version: "2.0.0"
-description: 该技能应在 Agent 启动多步骤、跨 session、需要持久化进度的复杂任务时使用，例如重构项目、模块开发、跨多个 session 的调研或长任务执行。
+description: 该技能应在 Agent 处理跨 session、需要持久化进度的复杂任务时使用——任务通过 Markdown 三件套（task_plan / findings / progress）落地到 `.easbot/knowledge/tasks/{task-name}/`，支持跨 session 状态恢复与事后 Review。
 category: workflow
-tags: [easbot, planning, task-management, project-task, file-based, manus]
 ---
 
 # 基于文件的规划 (Planning with Files)
 
-像 Manus 一样工作：使用持久化的 Markdown 文件作为 Agent 的"磁盘上的工作记忆"，防止上下文窗口过载导致目标遗忘。
+使用持久化的 Markdown 文件作为 Agent 的"磁盘上的工作记忆"，防止上下文窗口过载导致目标遗忘。
 
 ## 概述 (Overview)
 
-`eas-planning-writer` 是 EASBot 项目级长任务（Project-level Task）的物理实现工具，对应 `spec/task-management.md` 中"项目级长任务"分类。
+`eas-planning-writer` 是项目级长任务（Project-level Task）的物理实现工具，对应"项目级长任务"分类——跨 session、需要持久化、文档化、会 Review 的工作。
 
-技能遵循 Manus 上下文工程六大原则，把"任务计划 / 调研发现 / 进度记录"分别落地为三个文件，作为 Agent 跨工具调用、跨 session 的外部记忆：
+技能把"任务计划 / 调研发现 / 进度记录"分别落地为三个文件，作为 Agent 跨工具调用、跨 session 的外部记忆：
 
 - `task_plan.md` — 阶段、决策、错误
 - `findings.md` — 研究、发现、学习
@@ -24,26 +22,26 @@ tags: [easbot, planning, task-management, project-task, file-based, manus]
 
 **适用于**：
 
-- 多步骤任务（≥3 个阶段，>5 次工具调用）
-- 重构项目、模块开发等跨 session 任务
-- 调研任务（多 Agent 协作 + 大量信息搜集）
+- **跨 session** 推进的工作（今日未完明日续做）
+- 需要**事后 Review / 文档化**的任务（决策可追溯）
+- 多阶段、跨工具调用的复杂任务（阶段数不是判断标准，关键看跨 session + Review 需求）
 - 需要中断恢复的长任务
 - 用户明确要求"做计划"或"先规划再执行"时
 
 **不适用于**：
 
 - 单次工具调用能完成的简单问题
-- Agent `todo` 工具即可管理的单 session 子任务
+- Agent 内部 todo 工具即可管理的单 session 子任务
 - 单文件编辑、快速查询
 - 已有 `task` 工具 / `scheduler.*` 工具更适合的场景
 
-> **与 EASBot 四类任务的关系**：该技能是"项目级长任务"分类的物理实现层。与 `task`（一次性 subagent）、`scheduler.*`（定时任务）、`todo`（Agent 内部 todo）平行存在，不替代。详见 [easbot-alignment.md](references/easbot-alignment.md)。
+> **与其他任务工具的边界**：该技能是"项目级长任务"分类的物理实现层。与一次性 subagent 工具、定时调度工具、Agent 内部 todo 工具平行存在，不替代。选择标准：跨 session / 需要 Review / 文档化时用本技能；仅当前 session 内的步骤拆解用 Agent 内部 todo。
 
 ## 快速开始 (Quick Start)
 
 ### 1. 任务文件存放位置
 
-根据决策 0034，项目级长任务文件统一存放在：
+项目级长任务文件统一存放在仓库的隐藏知识目录（不参与版本控制）：
 
 ```
 .easbot/knowledge/tasks/{task-name}/
@@ -53,36 +51,40 @@ tags: [easbot, planning, task-management, project-task, file-based, manus]
 ```
 
 - `{task-name}` 使用 kebab-case
-- **永远不要**放在 `docs/`（避免污染 L1 文档）
+- **永远不要**放在 `docs/`（避免污染项目级发布文档）
 - 三件套**固定结构**，不能缺少
 
-### 2. 初始化文件
+### 2. 复制模板（主路径）
 
-```bash
-# 推荐：TypeScript 主推（与项目栈一致）
-npx tsx scripts/init-planning-session.ts --output .easbot/knowledge/tasks/{task-name}
-```
-
-该脚本会从 `references/templates/` 读取模板并落地三件套（文件已存在则跳过）。详见 [scripts/README.md](scripts/README.md)。
-
-### 3. 复制模板手动初始化
-
-如果不便运行脚本，可手动复制模板：
+直接复制三个模板到任务目录，然后按需修改目标、阶段：
 
 - [task_plan.md 模板](references/templates/task_plan.md) — 阶段追踪
 - [findings.md 模板](references/templates/findings.md) — 研究存储
 - [progress.md 模板](references/templates/progress.md) — 会话日志
 
-### 4. 任务执行核心流程
+模板本身已带完整 HTML 注释解释每个章节的"何时填 / 为什么填"，无需再读 SKILL.md 即可上手。
+
+### 3. 任务执行核心流程
 
 ```
 1. 读取 task_plan.md           # 刷新目标
 2. 执行当前阶段动作
 3. 每 2 次"查看/搜索/浏览器"操作 → 立即写入 findings.md（双动作规则）
 4. 完成阶段 → 更新 task_plan.md 状态 (pending → in_progress → complete)
-5. 记录行动到 progress.md
+5. 记录行动到 progress.md（按"会话 N"分节记录）
 6. 决策前重读 task_plan.md（注意力操纵）
+7. 跨 session 推进 → 追加新"会话 N"节，不要改写历史
+8. 上下文爆炸 → 拆子任务目录（见模板"子任务拆分判断"）
 ```
+
+### 4. 辅助脚本（可选）
+
+仅在不想手动复制模板时使用；阶段完成度检查仍推荐：
+
+- [scripts/init-planning-session.ts](scripts/init-planning-session.ts) — 从模板生成三件套
+- [scripts/check-complete.ts](scripts/check-complete.ts) — 统计 `###` / `####` 阶段完成度
+
+完整脚本说明请参阅 [scripts/README.md](scripts/README.md)。
 
 ## 核心模式 (Core Pattern)
 
@@ -98,7 +100,7 @@ npx tsx scripts/init-planning-session.ts --output .easbot/knowledge/tasks/{task-
 
 ### 3. 决策前阅读 (Read-Before-Decide)
 
-在做出重大决策前，**重读** `task_plan.md`。这让目标回到注意力窗口中，避免"迷失在中间"效应。
+在做出重大决策前，**重读** `task_plan.md`。这让目标回到注意力窗口中，避免长 session 后注意力漂移。
 
 ### 4. 行动后更新
 
@@ -180,26 +182,10 @@ if action_failed:
 
 需要深入时按需加载：
 
-- [easbot-alignment.md](references/easbot-alignment.md) — 与 EASBot 四类任务体系的对齐说明
-- [manus-context-engineering.md](references/manus-context-engineering.md) — Manus 六大原则 + 三种上下文工程策略
+- [context-engineering.md](references/context-engineering.md) — Manus 六大原则 + 三种上下文工程策略
 - [examples.md](references/examples.md) — 实战示例（研究任务 / Bug 修复 / 功能开发 / 错误恢复）
 - [scripts/README.md](scripts/README.md) — 脚本使用说明
 
-## 模板 (Templates)
+## 决策沉淀 (Decision Sediment)
 
-直接复制使用：
-
-- [task_plan.md 模板](references/templates/task_plan.md)
-- [findings.md 模板](references/templates/findings.md)
-- [progress.md 模板](references/templates/progress.md)
-
-## 相关决策 (Related Decisions)
-
-- 决策 0034 — 文档三层架构（`docs/decisions/0034-documentation-structure.md`）
-- 决策 0016/0017/0018 — 心跳任务约束
-
-## 相关规范 (Related Specs)
-
-- `spec/task-management.md` — EASBot 任务管理规范
-- `spec/documentation-structure.md` — 文档结构
-- `AGENTS.md` — 项目元规范
+跨 session 才会复用、影响其他模块、需要 Review 的关键判断，必须写入 `docs/decisions/00NN-xxx.md`（项目级 ADR 目录，由 Nygard ADR 规范驱动）。`progress.md` 是临时记录，`docs/decisions/` 是永久归档。

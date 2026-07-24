@@ -3,14 +3,14 @@
   内容：你的任务知识库。存储你所有的发现和决定。
   原因：上下文窗口是有限的。这个文件是你的"外部存储器"——持久且无限。
   时机：在任何发现之后更新，特别是在 2 次查看/浏览器/搜索操作之后（双动作规则）。
-  路径：本文件位于 .easbot/knowledge/tasks/{task-name}/（决策 0034），不进 git。
+  路径：本文件位于 .easbot/knowledge/tasks/{task-name}/（仓库隐藏知识目录，不进 git）。
 -->
 
 ## 需求 (Requirements)
 <!--
   内容：用户要求的细分，分解为具体需求。
   原因：保持需求可见，以免忘记你要构建什么。
-  时机：在阶段 1（需求与发现）期间填写。
+  时机：在阶段 1（需求与发现）期间填写；后续需求变更同步追加。
   示例：
     - 命令行界面
     - 添加任务
@@ -39,6 +39,7 @@
   内容：你做出的架构和实现选择，以及理由。
   原因：你会忘记为什么选择某种技术或方法。这个表格保留了这些知识。
   时机：每当你做出重大的技术选择时更新。
+       跨 session 推进时，新增决策追加到表尾（不要重写历史）。
   示例：
     | Use JSON for storage | Simple, human-readable, built-in Python support |
     | argparse with subcommands | Clean CLI: python todo.py add "task" |
@@ -53,6 +54,7 @@
   内容：你遇到的问题以及你是如何解决的。
   原因：类似于 task_plan.md 中的错误，但侧重于更广泛的问题（不仅仅是代码错误）。
   时机：当你遇到阻碍或意外挑战时记录。
+       重复 3 次的问题考虑升级为 decision（永久归档到 docs/decisions/）。
   示例：
     | Empty file causes JSONDecodeError | Added explicit empty file check before json.load() |
 -->
@@ -65,7 +67,7 @@
 <!--
   内容：你发现有用的 URL、文件路径、API 参考、文档链接。
   原因：便于以后参考。不要在上下文中丢失重要链接。
-  时机：发现有用资源时添加。
+  时机：发现有用资源时添加；优先使用 [file:///](file:///绝对路径) 链接仓库内文件。
   示例：
     - Python argparse docs: https://docs.python.org/3/library/argparse.html
     - Project structure: src/main.py, src/utils.py
@@ -90,8 +92,15 @@
 
 <!--
   关键判断（如架构选型、流程优化）必须沉淀为决策日志：
-  .easbot/knowledge/tasks/{task-name}/progress.md  ← 进度临时记录
-  docs/decisions/00NN-{task}-xxx.md                ← 决策永久归档
+  progress.md  ← 进度临时记录（会话级，不沉淀）
+  docs/decisions/00NN-{task}-xxx.md  ← 决策永久归档（Nygard ADR 模式）
+
+  沉淀时机：
+  - 跨 session 才会复用的决策（架构选型、命名约定、流程优化）
+  - 影响其他模块的设计决策
+  - 需要 Review 的判断
+  - 不沉淀：纯局部代码修复、临时变量命名、单文件内的实现细节
+
   Review 决策日志后，可将进度文件清理或保留。
 -->
 - (待补充：每条关键判断对应一条决策日志引用)
