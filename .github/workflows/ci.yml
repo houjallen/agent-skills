@@ -1,0 +1,48 @@
+name: 技能校验 (Skill Validation)
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+env:
+  NODE_VERSION: '22'
+
+jobs:
+  # 校验所有 SKILL.md 是否符合 EASBot 技能规范
+  validate-skills:
+    name: 校验所有 SKILL.md
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 安装依赖 (使用根 package.json 全量依赖)
+        run: npm ci --no-audit --no-fund
+
+      - name: 循环校验全部技能
+        run: |
+          set -e
+          fail=0
+          for s in skills/buildin/*/ skills/tools/*/; do
+            [ -f "$s/SKILL.md" ] || continue
+            echo "=== $s ==="
+            if npx tsx skills/buildin/eas-skill-creator/scripts/quick-validate.ts "$s"; then
+              :
+            else
+              echo "❌ FAIL: $s"
+              fail=$((fail+1))
+            fi
+          done
+          if [ "$fail" -gt 0 ]; then
+            echo "❌ 共 $fail 个技能未通过基础校验"
+            exit 1
+          fi
+          echo "✅ 全部技能通过基础校验"

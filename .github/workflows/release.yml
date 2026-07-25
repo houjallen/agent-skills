@@ -1,0 +1,65 @@
+name: 发布 agent-skills (Publish @easbot/agent-skills)
+
+on:
+  push:
+    tags:
+      - 'easbot-skills@*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: '版本号 (例如: 1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  # 创建 GitHub Release（无需 Node / npm，仓库本身就是元信息包）
+  release:
+    name: 创建 GitHub Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 确定并校验版本号
+        id: validate
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            # 去掉前缀 easbot-skills@ → 0.1.11
+            VERSION="${GITHUB_REF#refs/tags/easbot-skills@}"
+          fi
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9\.-]+)?$ ]]; then
+            echo "❌ 版本号格式无效: $VERSION"
+            exit 1
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "✅ 版本号格式有效: $VERSION"
+
+      - name: 创建 Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: easbot-skills@${{ steps.validate.outputs.version }}
+          name: easbot-skills@${{ steps.validate.outputs.version }}
+          body: |
+            ## EASBot Agent Skills @easbot/agent-skills@${{ steps.validate.outputs.version }}
+
+            本仓库是 EASBot agent-skills **管理项目**（纯 skills 资源库），不含应用代码。
+
+            通过 EASBot CLI 安装：
+
+            ```bash
+            easbot skills add houjallen/agent-skills
+            ```
+
+            或作为 npm 元包安装：
+
+            ```bash
+            npm install @easbot/agent-skills
+            ```
+          draft: false
+          prerelease: false

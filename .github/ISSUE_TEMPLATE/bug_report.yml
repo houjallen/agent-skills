@@ -1,0 +1,127 @@
+name: 🐛 错误报告
+ description: 报告发现的问题或缺陷
+ title: '[Bug]: '
+ labels: ['bug', 'needs-triage']
+ body:
+   - type: markdown
+     attributes:
+       value: |
+         感谢您花时间报告问题！请填写以下信息以帮助我们更快地定位和解决问题。
+
+   - type: checkboxes
+     id: prerequisites
+     attributes:
+       label: 前提条件
+       description: 在提交问题之前，请确认以下事项
+       options:
+         - label: 我已经搜索了现有的 issues，确认这不是重复问题
+           required: true
+         - label: 我已经升级到最新版本，问题仍然存在
+           required: true
+         - label: 我已经仔细阅读了文档，确认这不是使用问题
+           required: true
+
+   - type: textarea
+     id: description
+     attributes:
+       label: 问题描述
+       description: 清晰简洁地描述问题
+       placeholder: 请详细描述您遇到的问题...
+     validations:
+       required: true
+
+   - type: textarea
+     id: reproduction
+     attributes:
+       label: 复现步骤
+       description: 提供详细的复现步骤
+       placeholder: |
+         1. 执行命令 '...'
+         2. 选择选项 '...'
+         3. 输入参数 '...'
+         4. 出现错误 '...'
+     validations:
+       required: true
+
+   - type: textarea
+     id: expected
+     attributes:
+       label: 预期行为
+       description: 描述您期望发生的行为
+       placeholder: 正常情况下应该发生什么...
+     validations:
+       required: true
+
+   - type: textarea
+     id: actual
+     attributes:
+       label: 实际行为
+       description: 描述实际发生的行为
+       placeholder: 实际上发生了什么...
+     validations:
+       required: true
+
+   - type: textarea
+     id: logs
+     attributes:
+       label: 错误日志
+       description: 提供相关的错误日志或输出
+       render: shell
+       placeholder: |
+         请粘贴完整的错误日志或输出...
+
+   - type: input
+     id: version
+     attributes:
+       label: 软件版本
+       description: 您使用的软件版本
+       placeholder: 例如：1.0.0
+     validations:
+       required: true
+
+   - type: dropdown
+     id: os
+     attributes:
+       label: 操作系统
+       description: 您使用的操作系统
+       options:
+         - Windows
+         - macOS
+         - Linux
+         - 其他
+     validations:
+       required: true
+
+   - type: input
+     id: node-version
+     attributes:
+       label: Node.js 版本
+       description: 您使用的 Node.js 版本
+       placeholder: 例如：18.17.0
+
+   - type: textarea
+     id: environment
+     attributes:
+       label: 环境信息
+       description: 提供相关的环境信息
+       placeholder: |
+         - 命令行工具版本
+         - 相关配置文件内容
+         - 网络环境（如适用）
+         - 其他相关信息
+
+   - type: textarea
+     id: additional
+     attributes:
+       label: 附加信息
+       description: 提供任何其他相关信息
+       placeholder: 任何其他可能有帮助的信息...
+
+   - type: checkboxes
+     id: volunteer
+     attributes:
+       label: 参与修复
+       description: 您是否愿意参与修复这个问题？
+       options:
+         - label: 我愿意提交 PR 来修复这个问题
+           required: false
