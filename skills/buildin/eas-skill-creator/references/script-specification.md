@@ -4,24 +4,27 @@
 
 本文档定义 Skill 脚本的编写规范。
 
+> **统一 TypeScript**：本技能仅维护 TypeScript 实现（`.ts`），不提供 Python 平行版本。所有 Skill 脚本 MUST 使用 TypeScript 编写。
+
 ## 设计原则 (Design Principles)
 
-### 1. 最小化外部依赖 (Minimize External Dependencies)
+### 1. 零外部依赖 (Zero External Dependencies)
 
-- 优先使用内置模块（fs, path, os）
-- 避免不必要的外部库
-- ES 模块兼容性
+- **MUST** 优先使用 Node.js 内置模块（`fs` / `fs/promises`、`path`、`url`、`node:zlib`、`node:stream` 等）
+- **MUST NOT** 引入非必要的第三方依赖
+- ES 模块兼容性（`import/export` + `import.meta.url`）
+- 例外：仅当内置模块确实无法满足需求时（如 PDF 处理、图像编解码等），可引入第三方库，且 MUST 在 SKILL.md 中标注
 
 ### 2. 类型安全 (Type Safety)
 
 - TypeScript 使用完整类型定义
-- Python 使用类型注解
-- 明确的返回值类型
+- 明确的入参 / 返回值类型
+- 禁止 `any` 滥用（必要时用 `unknown`）
 
 ### 3. 可维护性 (Maintainability)
 
 - 清晰的函数边界
-- 适当的注释
+- 适当的注释（中文）
 - 易于测试
 
 ## 文件结构 (File Structure)
@@ -46,21 +49,6 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
     process.exit(1);
   });
 }
-
-### Python
-
-```python
-#!/usr/bin/env python3
-"""
-脚本功能描述
-"""
-
-def main():
-    # 主体逻辑
-    pass
-
-if __name__ == "__main__":
-    main()
 ```
 
 ## 模式特定脚本 (Mode-Specific Scripts)
@@ -83,14 +71,15 @@ if __name__ == "__main__":
 
 ## 最佳实践 (Best Practices)
 
-- 使用内置模块（fs, path, os）
+- 使用 Node.js 内置模块（`fs`, `path`, `url`）
 - 提供中文注释
 - 包含错误处理
-- 使用 async/await
-- 进程正确退出
+- 使用 `async/await`
+- 进程正确退出（`process.exit(1)`）
+- Shebang 行使用 `#!/usr/bin/env tsx`
 
 ## 错误处理 (Error Handling)
 
 - TypeScript: try-catch + async/await
-- Python: try-except
-- 错误时使用 `process.exit(1)` 或 `sys.exit(1)`
+- 错误时统一 `process.exit(1)`
+- 不静默吞错，必须打印可读错误信息

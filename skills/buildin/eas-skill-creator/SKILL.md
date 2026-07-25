@@ -15,17 +15,19 @@ eas-skill-creator 是EASBot项目的官方技能创建和构建工具，为Agent
 ### 关于技能（About Skills）
 
 使用此技能当需要：
-- 创建新的EASBot技能
-- 构建专业的Agent技能包
-- 为Agent设计包含脚本、参考资料和资产的技能包
-- 遵循EASBot最佳实践创建技能
-- **EaSBot Agent 主动创造技能**
+- 创建新的 EASBot 技能
+- 构建专业的 Agent 技能包
+- 为 Agent 设计包含脚本、参考资料和资产的技能包
+- 遵循 EASBot 最佳实践创建技能
+- EASBot Agent 主动创造技能
 
 不适用于：
 - 临时解决方案的记录
 - 针对单一场景的特殊处理
 
 ### 技能类型 (Skill Type)
+
+> **与五大模式的关系**：技能类型（Technique / Pattern / Reference）与五大模式（Tool Wrapper / Generator / Reviewer / Inversion / Pipeline）正交。**类型决定内容形态（怎么写）**——Technique 写步骤、Pattern 写思维框架、Reference 写静态信息；**模式决定行为结构（怎么触发和执行）**——例如同样是"内容侧"类型，可选 Tool Wrapper（补知识）或 Generator（固定模板）。两类分类独立选择，可任意叠加。
 
 #### 技术（Technique）
 有明确步骤可遵循的具体方法
@@ -53,15 +55,17 @@ API文档、语法指南、工具文档
 ## 何时使用 (When to Use)
 
 使用此技能当需要：
-- 创建新的EASBot技能
+- 创建新的 EASBot 技能
 - 更新现有技能的结构和内容
-- 为Agent设计包含脚本、参考资料和资产的技能包
-- 遵循EASBot最佳实践创建技能
-- **EaSBot Agent 主动创造技能**
+- 为 Agent 设计包含脚本、参考资料和资产的技能包
+- 遵循 EASBot 最佳实践创建技能
+- EASBot Agent 主动创造技能
 
 不适用于：
 - 临时解决方案的记录
 - 针对单一场景的特殊处理
+
+> **说明**：本节与上方「关于技能」内容一致，保留以符合 SKILL.md 模板的「何时使用 (When to Use)」章节约定。
 
 ## 核心功能 (Core Functions)
 
@@ -89,13 +93,13 @@ skill-name/
 *此处省略具体模板，因为它是说明性的示例，而非实际内容*
 
 ##### YAML前置信息（必需）(YAML Frontmatter (Required))
-**元数据质量：** YAML frontmatter中的`name`、`description`决定了Agent何时使用该技能。总字符数最多1024个字符以内,具体说明技能的作用和使用时机。使用第三人称（例如"该技能应在...时使用"而不是"使用该技能当..."）。
+**元数据质量：** YAML frontmatter 中的 `name`、`description` 决定了 Agent 何时使用该技能。`description` 推荐控制在 500 个字符以内（硬上限 1024 个字符），具体说明技能的作用和使用时机。使用第三人称（例如"该技能应在...时使用"而不是"使用该技能当..."）。
 
-- **name**: 必需字段，使用hyphen-case格式，仅使用字母、数字和连字符（无括号、特殊字符）
+- **name**: 必需字段，使用 hyphen-case 格式，仅使用字母、数字和连字符（无括号、特殊字符）
 - **description**: 必需字段， 第三人称，仅描述何时使用（不是做什么）
   - 以"该技能应在..."开头，专注于触发条件
   - **永远不要总结技能的过程或工作流程**
-  - 如果可能，保持在500个字符以内
+  - **推荐 ≤ 500 字符，硬上限 1024 字符**
 - **category**: 扩展字段（推荐），用于分类管理，便于技能组织和发现
 
 ##### Markdown主体（必需）(Markdown Body (Required))
@@ -126,9 +130,9 @@ skill-name/
 - **包含时机：** 当相同代码被重复重写或需要确定性可靠性时
 - **示例：** `scripts/rotate_pdf.ts` 用于PDF旋转任务
 - **技术栈推荐：**
-  - **主推 TypeScript**（类型安全、与项目一致、IDE支持更好、支持ESM模块）
+  - **统一 TypeScript**（类型安全、IDE 支持好、支持 ESM 模块、跨平台）
   - **推荐使用 tsx 运行 TypeScript 脚本**: `tsx script-file.ts` (无需预编译)
-  - **次选 Python**（简单易用、直接运行）
+  - **不推荐 Python**：本技能不维护 Python 实现，避免 TS/Python 双版本漂移
 - **现代脚本标准：** 详细规范请参阅 [script-specification.md](references/script-specification.md)
   - 使用 `.ts` 后缀的 TypeScript 文件
   - 使用 ESM 模块语法 (import/export)
@@ -245,6 +249,7 @@ skill-name/
 
 **路径变量**：
 - `<cwd>`：宿主项目根目录（Agent 调用本技能时的当前工作目录）
+- `docs/decisions/` 是 ADR（Architecture Decision Record）行业标准目录约定（Michael Nygard 格式）；宿主项目若有自有决策目录，Agent 应优先遵循宿主项目规范
 
 **模板使用规范**：
 - 复制 [`references/templates/00NN-requirement.md`](references/templates/00NN-requirement.md) 到落地路径
@@ -277,9 +282,11 @@ skill-name/
 
 **组合模式**：当需求复杂时，可组合 2~3 种模式（如 Pipeline + Reviewer）。
 
+> **完整规范**：五大模式详细定义、字段约束与组合模式规则见 [skill-spec.md](references/skill-spec.md)。SKILL.md 步骤 2 仅保留速查入口。
+
 ### 步骤 3：初始化技能结构 (Initialize Skill Structure)
 
-使用 `tsx scripts/init-skill.ts <技能名> --path <输出目录> --resources scripts,references,assets --examples` 创建基础结构。
+使用 `tsx scripts/init-skill.ts <skill-name> --path <output-dir> --resources scripts,references,assets --examples` 创建基础结构。
 
 ### 步骤 4：计划可重用技能内容 (Plan Reusable Content)
 
@@ -347,7 +354,21 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 
 ### 核心脚本实现 (Core Scripts Implementation)
 
-#### init-skill.ts / init_skill.py (技能初始化脚本)
+> **统一 TypeScript**：本技能仅维护 TypeScript 实现（`.ts`），不提供 Python 平行版本。这样可以避免双语言实现漂移、减少维护负担、保持行为一致。
+
+#### 零外部依赖原则 (Zero External Dependencies)
+
+**核心脚本（`scripts/init-skill.ts`、`scripts/quick-validate.ts`、`scripts/package-skill.ts`）仅依赖 Node.js 内置模块**：
+- `fs` / `fs/promises` — 文件系统操作
+- `path` — 路径处理
+- `url` — URL 解析（用于 ESM `import.meta.url`）
+- `node:fs/promises`、`node:path` 等 — Node 内置命名空间
+
+> **关于 `package-skill.ts` 中的 `jszip`**：`jszip` 是当前实现的依赖项，未来计划替换为 Node 内置的 `node:zlib` + `node:stream` 实现（ZIP 格式可纯 Node 实现）。在替换完成前，新创建技能的 `scripts/` 不应再引入 `jszip` 等第三方依赖。
+
+新技能创建脚本时，**SHOULD 优先使用 Node 内置模块**，仅在确实无法满足需求时引入第三方依赖，且 MUST 在 SKILL.md 的「实现」章节明确标注依赖原因。
+
+#### init-skill.ts (技能初始化脚本)
 此脚本用于创建新的技能目录结构，包含：
 - 技能目录的创建
 - SKILL.md 模板文件的生成
@@ -358,7 +379,7 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 tsx scripts/init-skill.ts my-skill --path ./skills --resources scripts,references,assets --examples
 ```
 
-#### quick-validate.ts / quick_validate.py (技能验证脚本)
+#### quick-validate.ts (技能验证脚本)
 此脚本用于验证技能是否符合 EASBot 规范，包含：
 - 检查 SKILL.md 文件是否存在
 - 验证 YAML frontmatter 格式和内容
@@ -370,10 +391,10 @@ tsx scripts/init-skill.ts my-skill --path ./skills --resources scripts,reference
 tsx scripts/quick-validate.ts ./skills/my-skill
 ```
 
-#### package-skill.ts / package_skill.py (技能打包脚本)
-此脚本用于将技能打包成可分发的 .skill.jar 文件，包含：
+#### package-skill.ts (技能打包脚本)
+此脚本用于将技能打包成可分发的 `.skill` 文件（ZIP 格式），包含：
 - 验证技能格式是否正确
-- 使用 ZIP 格式创建 .skill.jar 文件
+- 使用 ZIP 格式创建 `.skill` 文件
 - 将技能目录中的所有文件添加到包中
 
 使用示例：

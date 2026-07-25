@@ -53,7 +53,7 @@ tags: [easbot, skill, {skill_name}]
 
 ## 参考资料 (References)
 
-如需更详细的参考资料，请参见 [references/](./references/) 目录下的相关文档。
+如需更详细的参考资料，请参见 [references](./references/) 目录下的相关文档。
 
 [注：上面的模板遵循EASBot技能创建规范，包含了必需的部分和可选部分，同时保持简洁性。]
 `;
@@ -67,10 +67,11 @@ const EXAMPLE_SCRIPT = `#!/usr/bin/env tsx
  * This is a placeholder script that can be executed directly with tsx.
  * Replace with actual implementation or delete if not needed.
  *
- * Example real scripts from other skills:
- * - pdf/scripts/fill_fillable_fields.ts - Fills PDF form fields
- * - pdf/scripts/convert_pdf_to_images.ts - Converts PDF pages to images
+ * 零外部依赖原则：优先使用 Node.js 内置模块（fs / fs/promises / path / url），
+ * 避免引入非必要的第三方库。
  */
+
+import { promises as fs } from 'fs';
 
 async function main() {
     console.log("This is an example script for {skill_name}");
@@ -83,7 +84,7 @@ async function main() {
 }
 
 // Execute main function if this file is run directly
-if (typeof require !== 'undefined' && require.main === module) {
+if (process.argv[1] === new URL(import.meta.url).pathname) {
     main().catch(error => {
         console.error('Error running script:', error);
         process.exit(1);
@@ -96,11 +97,6 @@ const EXAMPLE_REFERENCE = `# Reference Documentation for {skill_title}
 
 This is a placeholder for detailed reference documentation.
 Replace with actual reference content or delete if not needed.
-
-Example real reference docs from other skills:
-- product-management/references/communication.md - Comprehensive guide for status updates
-- product-management/references/context_building.md - Deep-dive on gathering context
-- bigquery/references/ - API references and query examples
 
 ## When Reference Docs Are Useful
 
@@ -135,17 +131,11 @@ Replace with actual asset files (templates, images, fonts, etc.) or delete if no
 Asset files are NOT intended to be loaded into context, but rather used within
 the output Agent produces.
 
-Example asset files from other skills:
-- Brand guidelines: logo.png, slides_template.pptx
-- Frontend builder: hello-world/ directory with HTML/React boilerplate
-- Typography: custom-font.ttf, font-family.woff2
-- Data: sample_data.csv, test_dataset.json
-
 ## Common Asset Types
 
 - Templates: .pptx, .docx, boilerplate directories
 - Images: .png, .jpg, .svg, .gif
-- Fonts: .tff, .otf, .woff, .woff2
+- Fonts: .ttf, .otf, .woff, .woff2
 - Boilerplate code: Project directories, starter files
 - Icons: .ico, .svg
 - Data files: .csv, .json, .xml, .yaml

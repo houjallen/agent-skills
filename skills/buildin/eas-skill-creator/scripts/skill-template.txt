@@ -33,7 +33,7 @@ tags: [easbot, skill, {skill_name}]
 
 ## 参考资料 (References)
 
-如需更详细的参考资料，请参见 [references/](./references/) 目录下的相关文档。
+如需更详细的参考资料，请参见 [references](./references/) 目录下的相关文档。
 
 ## 决策记录 (Decision Records)
 

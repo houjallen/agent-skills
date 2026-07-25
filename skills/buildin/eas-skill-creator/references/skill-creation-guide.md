@@ -85,6 +85,8 @@ composition: single | composed
 
 ## 脚本编写规范 (Script Guidelines)
 
+> **统一 TypeScript**：本技能仅维护 TypeScript 实现（`.ts`），不提供 Python 平行版本。所有 Skill 脚本 MUST 使用 TypeScript 编写。
+
 ### TypeScript 脚本 (TypeScript Script)
 
 ```typescript
@@ -109,7 +111,8 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
 
 ### 最佳实践 (Best Practices)
 
-- 使用内置模块（fs, path, os）
+- **零外部依赖**：优先使用 Node.js 内置模块（`fs`, `path`, `url`, `node:zlib`, `node:stream`）
+- **MUST NOT** 引入非必要的第三方库
 - 避免不必要的外部依赖
 - 提供中文注释
 - 包含错误处理

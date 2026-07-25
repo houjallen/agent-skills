@@ -2,7 +2,7 @@
 name: {skill-name}-requirement
 description: "{skill-name}: 一句话决策标题 —— 关键设计判断（不超过 200 字）"
 category: requirement
-author: <XiaoMo | LaoHou | name>
+author: <name>
 version: 1.0.0
 date: "YYYY-MM-DD"
 keywords:
@@ -189,7 +189,7 @@ requirement_profile:
 
 | 版本 | 日期 | 修订内容 | 修订人 |
 |------|------|----------|--------|
-| 1.0.0 | YYYY-MM-DD | 初版 | XiaoMo |
+| 1.0.0 | YYYY-MM-DD | 初版 | <name> |
 
 ---
 
