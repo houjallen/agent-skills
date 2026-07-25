@@ -142,7 +142,7 @@ optional: [comma-separated optional fields]
 
 ## 提示词验证规范 (Prompt Validation)
 
-### 核心原则
+### 核心原则 (Core Principles)
 
 提示词验证遵循以下核心原则：
 
@@ -150,33 +150,39 @@ optional: [comma-separated optional fields]
 2. **U型注意力曲线**：关键内容放在开头和结尾
 3. **Token 预算**：系统提示词 < 6,000 tokens
 
-### 验证清单
+### 验证清单 (Validation Checklist)
 
 详细验证规范请参阅 [prompt-validation.md](references/prompt-validation.md)
 
-#### 结构验证
+#### 结构验证 (Structure Validation)
 
-- [ ] 身份定义在最顶部？
-- [ ] 安全约束使用 IMPORTANT 标记并在结尾重复？
-- [ ] 清晰的章节分隔？
-- [ ] 示例使用 <example> 标签？
+| 检查项 | 通过条件 |
+|--------|----------|
+| 身份定义在最顶部 | ✅ |
+| 安全约束使用 IMPORTANT 标记并在结尾重复 | ✅ |
+| 清晰的章节分隔 | ✅ |
+| 示例使用 `<example>` 标签 | ✅ |
 
-#### Token 预算验证
+#### Token 预算验证 (Token Budget Validation)
 
-- [ ] 自定义部分 < 6,000 tokens？
-- [ ] 不重复工具定义中已有的信息？
-- [ ] 领域知识按需加载，非预加载？
-- [ ] 无冗长的背景故事？
+| 检查项 | 通过条件 |
+|--------|----------|
+| 自定义部分 < 6,000 tokens | ✅ |
+| 不重复工具定义中已有的信息 | ✅ |
+| 领域知识按需加载，非预加载 | ✅ |
+| 无冗长的背景故事 | ✅ |
 
-#### 规则质量验证
+#### 规则质量验证 (Rule Quality Validation)
 
-- [ ] 每条规则可真/假测试？
-- [ ] 硬约束使用绝对语言（NEVER/MUST）？
-- [ ] 软建议使用推荐语言（recommended/prefer）？
-- [ ] 关键规则解释原因？
-- [ ] 双向约束（做什么 + 不做什么）？
+| 检查项 | 通过条件 |
+|--------|----------|
+| 每条规则可真/假测试 | ✅ |
+| 硬约束使用绝对语言（NEVER/MUST） | ✅ |
+| 软建议使用推荐语言（recommended/prefer） | ✅ |
+| 关键规则解释原因 | ✅ |
+| 双向约束（做什么 + 不做什么） | ✅ |
 
-### 反模式检测
+### 反模式检测 (Anti-pattern Detection)
 
 | 反模式 | 问题 | 解决方案 |
 |--------|------|----------|
