@@ -1,12 +1,12 @@
 ---
 name: eas-skill-using
-description: 该技能应在 Agent 需要了解 EASBot 技能生态系统的能力清单、使用指引或场景匹配时使用，作为 6 个 EASBot builtin 技能（`eas-skill-find` / `eas-skill-creator` / `eas-agent-creation` / `eas-agent-evolution` / `eas-prompt-creator` / `eas-planning-writer`）的中央导航和上下文提供者。当 Agent 不确定该用哪个技能时，本技能指引到正确的技能并给出典型场景下的推荐组合。
+description: 该技能应在 Agent 不确定该加载哪个 EASBot builtin 技能、需要查看能力清单或场景映射时使用。作为 builtin 技能生态的中央导航和上下文提供者，给出"我应该用哪个技能"的判断与典型场景下的推荐组合。
 category: builtin
-version: 1.2.0
+version: 1.0.0
 tags: [easbot, guidance, navigation, ecosystem, overview, entry-point, builtin]
 ---
 
-# eas-skill-using - EASBot 技能生态导航 (EASBot Skill Ecosystem Navigator)
+# eas-skill-using (EASBot 技能生态导航)
 
 ## 概述 (Overview)
 
@@ -103,19 +103,6 @@ tool.execute({ name: 'eas-skill-using' })
 - **不做什么**：不教 Skill 怎么写（那是 `eas-skill-creator`）；不教具体业务提示词内容
 - **关键约束**：**生成的所有提示词内容必须使用英文**
 
-### 6. eas-planning-writer —— 基于文件的规划（项目级长任务）
-
-- **何时用**：Agent 启动多步骤、跨 session、需要持久化进度的复杂任务（重构项目、模块开发、跨 session 调研、长任务执行）
-- **做什么**：实现 Manus 风格"基于文件的规划"——把 `task_plan.md` / `findings.md` / `progress.md` 三件套落到 `.easbot/knowledge/tasks/{task-name}/` 下，作为 Agent 跨工具调用、跨 session 的外部记忆
-- **不做什么**：不替代 `task` 工具（一次性 subagent）、不替代 `scheduler.*`（定时任务）、不替代 `todo` 工具（Agent 内部 todo）；详见 `spec/task-management.md` 第 3 节
-- **核心脚本**：
-  - `init-planning-session.ts` — 初始化三件套
-  - `check-complete.ts` — 检查阶段完成度
-  - `session-catchup.ts` — Session 恢复
-  - `test_planning_writer.ts` — 健康度自检
-- **遵循规范**：`spec/task-management.md` 第 3 节（项目级长任务） + 决策 0034（文档三层架构）
-- **触发后必读**：`references/easbot-alignment.md`（与四类任务体系的对齐说明）
-
 ## 使用场景与技能匹配 (Use Cases and Skill Matching)
 
 下表把典型任务映射到"先加载哪个 / 还需要哪个"。
@@ -158,24 +145,15 @@ tool.execute({ name: 'eas-skill-using' })
 - **现有 Agent 进化**：用 `eas-agent-evolution` 增量更新配置 → 用 `eas-agent-creation` 评估技能表现 → 用 `eas-skill-creator` 改写质量差的技能
 - **研究新能力方向**：用 `eas-skill-using` 看生态全景 → 用 `eas-skill-find` 搜市场 → 用 `eas-skill-creator` 落地新技能
 
-### 长任务管理（Long-running Tasks）
+### 任务管理通用指引 (General Task Management Guidance)
 
-> 任务管理分为四类（`task` 工具 / `scheduler.*` / **项目级长任务** / `todo` 工具），详见 `spec/task-management.md`。本节仅说明何时引入 `eas-planning-writer`。
-
-| 需求 | 第一步 | 第二步 |
-|---|---|---|
-| 启动多步骤、跨 session 复杂任务 | `eas-planning-writer`（先看 SKILL.md） | 用其 `init-planning-session.ts` 落地三件套 |
-| 心跳/定时任务期间做了关键判断 | `eas-planning-writer` 已建立的 task 目录 | 把判断沉淀到 `docs/decisions/00NN-xxx.md`（决策沉淀） |
-| 任务执行中上下文窗口过载 | `eas-planning-writer` | 触发"双动作规则"：每 2 次 find/search 后立即写 `findings.md` |
-| Session 重启需要恢复上下文 | `eas-planning-writer` | 跑 `session-catchup.ts`，读 `task_plan.md` / `findings.md` / `progress.md` |
-| 验证技能自身健康度 | `eas-planning-writer` | 跑 `test_planning_writer.ts`（5/5 PASS） |
-
-**何时不用 `eas-planning-writer`**：
-
-- 单次工具调用能完成 → 直接做
-- 当前 session 内 Agent 自己拆解子任务 → 用 `todo` 工具（DB 持久化）
-- 启动一次性 subagent → 用 `task` 工具
-- 定时/周期任务 → 用 `scheduler.*` 工具
+> 当前 builtin 技能生态未提供专门的长任务规划技能。如需长任务支持：
+>
+> - 单次工具调用能完成 → 直接做
+> - 当前 session 内 Agent 自己拆解子任务 → 用 `todo` 工具（DB 持久化）
+> - 启动一次性 subagent → 用 `task` 工具
+> - 定时/周期任务 → 用 `scheduler.*` 工具
+> - 跨 session 的项目级长任务 → 等待后续 `eas-planning-writer` 落地（当前不可用）
 
 ## 决策辅助：应该加载哪个技能 (Decision Helper)
 
@@ -187,12 +165,12 @@ tool.execute({ name: 'eas-skill-using' })
 4. **是管理技能生命周期 / 组合 Bundle**？→ `eas-agent-creation`
 5. **是写 EASBot 系统提示词**？→ `eas-prompt-creator`
 6. **是搜市场找现成技能**？→ `eas-skill-find`
-7. **是启动多步骤 / 跨 session / 长任务 / 需要持久化进度**？→ `eas-planning-writer`
+7. **是启动多步骤 / 跨 session / 长任务 / 需要持久化进度**？→ 当前 builtin 生态暂未提供，等待后续 `eas-planning-writer` 落地
 8. **都不确定 / 跨多个领域**？→ `eas-skill-using`（自身）
 
 ## 关键概念 (Key Concepts)
 
-### 技能与 Agent 的关系
+### 技能与 Agent 的关系 (Skill vs Agent)
 
 - **技能 = 给 Agent 的提示词包**：通过 SKILL.md + bundled resources 注入领域知识
 - **Agent = 技能的执行者**：Agent 根据 SKILL.md 的 description 判断何时加载
@@ -225,7 +203,6 @@ EASBot 技能遵循三级加载，最大限度节省上下文：
 - **eas-agent-creation**：管理技能生命周期 + Bundle 组合
 - **eas-agent-evolution**：Agent 自身配置（独立于"技能"，是 Agent bootstrap / 进化）
 - **eas-prompt-creator**：写 EASBot 系统提示词（不是 SKILL.md，是 Agent / Tool 等的 prompt）
-- **eas-planning-writer**：执行项目级长任务（与本技能平行，但本技能是"导航"，该技能是"执行工具"）
 
 ### 技能 vs Task 工具 vs 命名空间 (Skill vs Task Tool vs Namespace)
 
@@ -242,28 +219,28 @@ EASBot 技能遵循三级加载，最大限度节省上下文：
 **关系**：
 
 - 技能**不**做具体执行，**不**调用工具；技能**只**给 Agent 提供指令
-- 项目级长任务 = **技能** (`eas-planning-writer`) + **Tool** (`Bash` / `Write` / `Read` / `Glob`) 协作
+- 项目级长任务 = **Tool** (`Bash` / `Write` / `Read` / `Glob`) 协作；当前 builtin 技能生态暂未提供专用规划技能
 - Agent 工作流 = 先 `skill` 工具加载技能 → 按技能指令决定调用哪些 Tool
 
 ## 最佳实践 (Best Practices)
 
-### 技能选择指南
+### 技能选择指南 (Skill Selection Guide)
 
 1. **优先复用**：先用 `eas-skill-find` 看市场有没有现成的
 2. **再考虑创建**：没有就 `eas-skill-creator` 写一个
 3. **最后考虑组合**：用 `eas-agent-creation` 把已有技能打包成 Bundle
 4. **不要重新发明**：如果 builtin 已经有覆盖，就别新建
 
-### 避免常见错误
+### 避免常见错误 (Common Pitfalls)
 
 - **不要在 description 里写过程**：只写触发条件，过程放进 Markdown 主体
 - **不要把所有信息塞进 SKILL.md**：超 500 行就拆 references/，让 Agent 按需加载
 - **不要手改 eas-agent-evolution 模板**：所有改动走引导流程
 - **不要混淆 skill 提示词与系统提示词**：前者是给 Agent 加载的（SKILL.md），后者是 Agent 自身的（用 `eas-prompt-creator`）
-- **不要用 `todo` 工具跟踪跨 session 长任务**：`todo` 仅限单 session，跨 session 必须用 `eas-planning-writer`（详见 `spec/task-management.md` 第 3 节 vs 第 4 节）
+- **不要用 `todo` 工具跟踪跨 session 长任务**：`todo` 仅限单 session；跨 session 的项目级长任务当前 builtin 生态暂未提供专用技能，需走 `task` 工具 + 外部文件 / `scheduler.*` 协同
 - **不要让 Agent 直接 `Read` SKILL.md 路径**：通过 `skill` 工具以 `name` 加载（技能可能在多个目录中，物理路径不固定）
 
-### 上下文窗口预算
+### 上下文窗口预算 (Context Window Budget)
 
 | 加载阶段 | 体积建议 | 说明 |
 |---|---|---|
@@ -271,7 +248,7 @@ EASBot 技能遵循三级加载，最大限度节省上下文：
 | SKILL.md 主体 | ≤ 500 行 | 触发后加载，含完整指令 |
 | references/* | 无硬性限制 | 按需加载，单文件 < 10k 字 |
 
-### 技能版本与维护
+### 技能版本与维护 (Skill Versioning and Maintenance)
 
 | 字段 | 规范 | 升级时机 |
 |------|------|----------|
@@ -284,7 +261,7 @@ EASBot 技能遵循三级加载，最大限度节省上下文：
 - [ ] 更新本技能"能力索引"节
 - [ ] 更新"决策辅助"流程图
 - [ ] 更新"场景映射"表
-- [ ] 更新 frontmatter `description`（含 6 个技能的全名）
+- [ ] 更新 frontmatter `description`（含 5 个核心技能的全名）
 - [ ] 更新 `tags` 数组
 - [ ] bump `version`（patch）
 - [ ] 在 `docs/decisions/00NN-xxx.md` 写决策（如新增分类）
@@ -293,8 +270,8 @@ EASBot 技能遵循三级加载，最大限度节省上下文：
 
 `eas-skill-using` 不做具体任务，做**导航**：
 
-- 提供 builtin 技能的**能力索引**（含 6 个核心技能），让 Agent 快速知道"我能做什么"
-- 提供**场景 → 技能组合**的推荐表（含 5 大场景：找现成 / 创建 / 维护 / 提示词 / 长任务管理），避免 Agent 漏用或误用
+- 提供 builtin 技能的**能力索引**（含 5 个核心技能），让 Agent 快速知道"我能做什么"
+- 提供**场景 → 技能组合**的推荐表（含 5 大场景：找现成 / 创建 / 维护 / 提示词 / 任务管理），避免 Agent 漏用或误用
 - 作为**其他技能的前置**，统一上下文术语与命名约定
 - 区分**技能（提示词包）**与 **Tool（执行工具）**，避免概念混淆
 
