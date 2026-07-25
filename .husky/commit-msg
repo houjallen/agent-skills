@@ -12,8 +12,9 @@ commit_message_file=$1
 first_line=$(head -n 1 "$commit_message_file")
 
 # 三个允许的提交前缀
-skill_re='^\[skill: [a-z][a-z0-9-]*\] (feat|fix|docs|test|chore|refactor|perf|ci): .+'
-repo_re='^\[repo\] (feat|fix|docs|test|chore|refactor|perf|ci): .+'
+# <type> 支持 (feat|fix|...): 或 (feat|fix|...)(<scope>): 两种形式
+skill_re='^\[skill: [a-z][a-z0-9-]*\] (feat|fix|docs|test|chore|refactor|perf|ci)(\([a-z][a-z0-9-]*\))?: .+'
+repo_re='^\[repo\] (feat|fix|docs|test|chore|refactor|perf|ci)(\([a-z][a-z0-9-]*\))?: .+'
 auto_re='^\[auto\] .+'
 
 if echo "$first_line" | grep -qE "$skill_re"; then

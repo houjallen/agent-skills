@@ -95,9 +95,14 @@ function git(command: string): string {
  * 检查 git tag 是否存在
  */
 function tagExists(tag: string): boolean {
+  // 使用 refs/tags/ 限定符 + --verify 静默模式，避开 "ambiguous argument" 歧义
+  // 退出码 0 = 存在，128 = 不存在
   try {
-    git(`rev-parse ${tag}`);
-    return true;
+    const out = execSync(`git rev-parse -q --verify refs/tags/${tag}`, {
+      encoding: 'utf-8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+    return out.length > 0;
   } catch {
     return false;
   }
@@ -215,13 +220,13 @@ function main(): void {
     git(`add ${pkgPath}`);
   }
 
-  const commitMessage = `chore(release): easbot@${newVersion}`;
+  const commitMessage = `[auto] chore(release): easbot-skills@${newVersion}`;
   git(`commit -m "${commitMessage}" --no-verify`);
 
   console.log(`   ✅ 已提交: ${commitMessage}`);
 
   // 创建统一的 tag
-  const tagMessage = `chore(release): easbot@${newVersion}`;
+  const tagMessage = `[auto] chore(release): easbot-skills@${newVersion}`;
   git(`tag -a ${tag} -m "${tagMessage}"`);
 
   console.log(`\n✅ 版本升级完成`);
