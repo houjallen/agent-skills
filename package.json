@@ -1,0 +1,71 @@
+{
+  "name": "@easbot/agent-skills",
+  "version": "0.3.10",
+  "description": "EASBot Agent Skills — the EASBot agent-skills management repository. Aggregates EASBot builtin (buildin) and tools (tools) skill categories for agents to load, compose, and reuse. The repository is a pure skills resource: no build artifacts, no application code.",
+  "type": "module",
+  "scripts": {
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "lint:report": "biome check --reporter=summary .",
+    "format": "biome format ./packages",
+    "format:fix": "biome format --write .",
+    "prepare": "husky install",
+    "type-check": "tsc --noEmit",
+    "version:pre-commit": "tsx scripts/pre-commit-version.ts",
+    "version:patch": "tsx scripts/bump-version.ts patch",
+    "version:minor": "tsx scripts/bump-version.ts minor",
+    "publish:npm": "bash scripts/publish.sh",
+    "publish:npm:win": "powershell -ExecutionPolicy Bypass -File scripts/publish.ps1",
+    "docs:add": "npx tsx ./scripts/docs_add_frontmatter.ts",
+    "docs:sync": "npx tsx ./scripts/docs_sync_automation.ts",
+    "docs:validate": "npx tsx ./scripts/docs_sync_automation.ts --validate"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "skills",
+    "easbot"
+  ],
+  "author": "houjallen",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/houjallen/agent-skills.git"
+  },
+  "homepage": "https://github.com/houjallen/agent-skills",
+  "bugs": {
+    "url": "https://github.com/houjallen/agent-skills/issues"
+  },
+  "files": [
+    "skills",
+    "scripts",
+    "CHANGELOG.md",
+    "AGENTS.md",
+    "README.md",
+    "README.en.md",
+    "LICENSE"
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.14",
+    "@types/node": "^25.9.5",
+    "@types/js-yaml": "^4.0.9",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.6",
+    "husky": "^9.1.7",
+    "js-yaml": "^4.1.1",
+    "jszip": "^3.10.1",
+    "tsx": "^4.22.2"
+  },
+  "peerDependencies": {
+    "@easbot/agent": "^0.3.10"
+  },
+  "peerDependenciesMeta": {
+    "@easbot/agent": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  }
+}

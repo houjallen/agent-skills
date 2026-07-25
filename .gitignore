@@ -1,0 +1,45 @@
+# Dependencies (only for transient CI / local quick-validate run)
+node_modules/
+
+# Skill bundle staging
+dist/
+*.tsbuildinfo
+
+# Environment variables
+.env*
+!.env.example
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Editor-specific working directories (local-only, never part of skills/)
+.agents/
+.local/
+.claude/
+.qoder/
+.opencode/
+.easbot/
+.windsurf/
+.trae/
+.cursor/
+.kiro/
+.omc/
+.claude-flow/
+.swarm/
