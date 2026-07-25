@@ -1,12 +1,12 @@
 ---
 name: eas-skill-find
-description: 该技能应在 Agent 需要在 EASBot 技能生态系统中查找、搜索或探索可用技能时使用。它教会 Agent 通过 `easbot skills find` 命令帮用户搜索候选技能，并按安装数与来源可信度筛选后给出可操作的安装建议。
+description: 该技能应在 Agent 需要在 EASBot 技能生态中搜索候选技能、或在执行任务前确认是否有更合适的现成 skill 可加载时使用。覆盖 skills.sh 市场搜索、过滤、验证、安装的完整链路。
 category: builtin
 version: 1.0.0
-tags: [easbot, skill, discovery, search]
+tags: [easbot, skill, discovery, search, market]
 ---
 
-# eas-skill-find - EASBot 技能查找器 (EASBot Skill Finder)
+# eas-skill-find (EASBot 技能查找器)
 
 ## 概述 (Overview)
 
@@ -48,7 +48,7 @@ easbot skills add <owner>/<repo>@<skill> -g -y
 
 ## 搜索工作流 (Search Workflow)
 
-### Step 1: 明确用户意图
+### Step 1：明确用户意图 (Clarify User Intent)
 
 先把用户的自然语言需求拆成可搜索的关键字：
 
@@ -61,7 +61,7 @@ easbot skills add <owner>/<repo>@<skill> -g -y
 
 表达模糊时先追问 1-2 个问题再搜索，避免一次搜太宽泛。
 
-### Step 2: 先看官方 Leaderboard
+### Step 2：先看官方 Leaderboard (Check Official Leaderboard First)
 
 skills.sh 排行榜按安装数倒序，能直接命中很多热门需求：
 
@@ -71,7 +71,7 @@ skills.sh 排行榜按安装数倒序，能直接命中很多热门需求：
 
 如果排行榜已经覆盖用户需求，**直接给推荐**，跳过 CLI 搜索以节省时间。
 
-### Step 3: 执行 `easbot skills find`
+### Step 3：执行 `easbot skills find` (Run the Search Command)
 
 ```bash
 easbot skills find [keywords] [--owner <owner>]
@@ -87,7 +87,7 @@ vercel-labs/agent-skills / react-best-practices  ·  185K installs
   React + Next.js 性能优化建议（来自 Vercel 工程团队）
 ```
 
-### Step 4: 验证质量再推荐
+### Step 4：验证质量再推荐 (Validate Before Recommending)
 
 **不要只看搜索结果就推荐**。每条候选至少过三道关：
 
@@ -95,7 +95,7 @@ vercel-labs/agent-skills / react-best-practices  ·  185K installs
 2. **来源可信度** —— 官方组织（`vercel-labs` / `anthropics` / `microsoft`）> 社区个人
 3. **仓库活跃度** —— 进 GitHub 看 star / 最近提交，<100 star 或半年没更新建议换一条
 
-### Step 5: 给出可操作的推荐
+### Step 5：给出可操作的推荐 (Present Actionable Recommendations)
 
 每条候选 4 行内展示，最多给 3 条：
 
@@ -109,7 +109,7 @@ vercel-labs/agent-skills / react-best-practices  ·  185K installs
     详情: https://skills.sh/vercel-labs/agent-skills/react-best-practices
 ```
 
-### Step 6: 用户同意后立即安装
+### Step 6：用户同意后立即安装 (Install on User Approval)
 
 ```bash
 easbot skills add <owner>/<repo>@<skill> -g -y
@@ -131,6 +131,10 @@ easbot skills add <owner>/<repo>@<skill> -g -y
 | Documentation | `docs`, `readme`, `changelog`, `api-docs` | `anthropics/skills` |
 | Code Quality | `review`, `lint`, `refactor`, `best-practices` | `vercel-labs/agent-skills`, `microsoft/skills` |
 | Productivity | `git`, `workflow`, `automation`, `commit` | `anthropics/skills` |
+| AI / LLM | `ai`, `llm`, `prompt`, `rag`, `agent` | `anthropics/skills`, `vercel-labs/agent-skills` |
+| Data | `database`, `sql`, `analytics`, `data` | `microsoft/skills` |
+| Security | `security`, `auth`, `encryption`, `oauth` | `microsoft/skills` |
+| Mobile | `mobile`, `ios`, `android`, `react-native`, `flutter` | `vercel-labs/agent-skills` |
 
 ## 搜索技巧 (Tips)
 
@@ -153,22 +157,19 @@ easbot skills init my-xyz-skill
 
 ## 数据目录约定 (Data Layout)
 
-`easbot skills find / add / list / remove / update` 共用同一棵数据树：
+详细路径表、加载顺序、多设备同步注意事项见 [references/data-layout.md](references/data-layout.md)。核心要点：
 
-| 路径 | 用途 |
-|---|---|
-| `${Global.Path.config}/skills/` | 全局已安装技能（EASBot agent） |
-| `<cwd>/.easbot/skills/` | 项目级已安装技能（EASBot agent） |
-| `${Global.Path.config}/skills/.skill-lock.json` | 全局锁定文件 |
-| `<cwd>/skills-lock.json` | 项目级锁定文件 |
-
-EASBot Agent 启动时通过 `Skill.all()` 自动扫描这两条路径，所以**一旦安装就立即可用**，无需重启或重载。
+- 全局技能位于 `${Global.Path.config}/skills/`，项目级技能位于 `<cwd>/.easbot/skills/`
+- `Skill.all()` 按"项目级 > 全局"加载同名 skill
+- 多设备同步需把 `.skill-lock.json` / `skills-lock.json` 纳入 git 或 dotfiles 管理
+- EASBot Agent 启动时自动扫描这两条路径，**一旦安装就立即可用**，无需重启或重载
 
 ## 注意事项 (Caveats)
 
 - `easbot skills find` 需要联网调用 skills.sh API；网络不通时会回退到本地 `--owner` 已缓存列表
 - 第三方未审核技能（特别是 `openclaw` 组织下的）会在 `add` 时提示风险；除非用户明确要求并加 `--dangerously-accept-openclaw-risks`，否则拒绝安装
 - 安装操作会写 `${Global.Path.config}/skills/.skill-lock.json`，多设备同步时记得把这个锁文件纳入 git 或 dotfiles 管理
+- 数据目录加载顺序与多设备同步细节请参阅 [references/data-layout.md](references/data-layout.md)
 
 ## 与其他技能的关系 (Relationships with Other Skills)
 
