@@ -239,7 +239,7 @@ async function main() {
       console.log('❌', result.message);
       process.exit(1);
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error packaging skill:', error.message);
     process.exit(1);
   }

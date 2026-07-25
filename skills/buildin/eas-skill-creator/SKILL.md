@@ -42,6 +42,7 @@ API文档、语法指南、工具文档
 - **使用示例**：请参阅 [usage-example.md](references/usage-example.md) 获取五大模式的完整示例
 - **工作流程**：请参阅 [workflows.md](references/workflows.md) 获取创建、验证、迭代的工作流程
 - **设计决策**：请参阅 [design-decisions.md](references/design-decisions.md) 获取核心设计原则和架构说明
+- **需求收集方法论**：请参阅 [requirements-gathering.md](references/requirements-gathering.md) 获取步骤 1 的苏格拉底式六维度、领域分支问句库、轮次策略与退出条件
 - **脚本规范**：请参阅 [script-specification.md](references/script-specification.md) 获取脚本编写规范和最佳实践
 - **说服原则**：请参阅 [persuasion-principles.md](references/persuasion-principles.md) 了解如何在复杂技能中应用说服心理学原则
 - **翻译规范**：请参阅 [translation-guidelines.md](references/translation-guidelines.md) 了解哪些术语应保持英文原样
@@ -194,14 +195,73 @@ skill-name/
 
 ### 步骤 1：通过具体示例了解需求 (Understand Requirements)
 
-仅在技能需求已经清楚时跳过此步骤。
+> **[MUST] 本步骤 MUST 收集足够的需求信息后 MUST 进入步骤 2；MUST 不可跳过。**
+> 仅当用户提供完整 PRD/Spec 或引用既有规范时，可压缩但不可整段省略。
+> 完整方法论、苏格拉底式六维度、领域分支问句库、轮次策略、退出条件与 3 轮提问示范见 [requirements-gathering.md](references/requirements-gathering.md)。
 
-要创建有效的技能，清楚了解技能将如何使用的具体示例。这种理解可以来自直接的用户示例或经用户反馈验证的生成示例。
+#### 1.1 核心方法论：苏格拉底式六维度
 
-相关问题：
-- "技能应支持哪些功能？"
-- "用户说什么会触发此技能？"
-- "有哪些使用场景的示例？"
+| 维度 | 目标 | 必出产物 |
+|---|---|---|
+| **澄清问题** | 让"技能做什么"无歧义 | 领域识别 + 核心场景 |
+| **探究假设** | 暴露隐性约束 | 必要性论证 + 硬约束清单 |
+| **挖掘证据** | 得到可验证案例 | 5+ 触发短语 + 3+ 使用场景 |
+| **视角探索** | 发现边界用例 | 不应触发的场景清单 |
+| **后果分析** | 评估模式取舍 | 失败兜底策略 + 模式候选 |
+| **反思完整性** | 检查遗漏 | 跨领域相关方清单 |
+
+#### 1.2 强制规范
+
+- **[MUST] 使用结构化提问工具**：MUST 调用宿主 Agent 提供的「结构化提问工具」（structured-question tool）一次性抛出多个选项让用户选择；MUST NOT 仅靠自由文本对话提开放问题。
+  - 不同 Agent 框架下该工具的名称不同，常见别名：`AskUserQuestion`（Trae/Cursor/Claude Code）、`AskUserChoice`（OpenAI Agents）、`request_user_input`（某些自研框架）等。Agent MUST 按本机环境识别其别名后调用，调用参数 SHOULD 包含：问题文本、2-4 个互斥选项（其中 1 个 SHOULD 标记「（推荐）」）、是否允许多选。
+  - 若宿主环境未提供此类工具，退化为"分段对话 + 主动声明每段答案"，但仍 MUST 遵守下方选项设计与轮次策略。
+- **[MUST] 选项设计**：每题 MUST 提供 2-4 个互斥选项；SHOULD 在 label 后加「（推荐）」标识推荐项；MUST NOT 出现「以上都对 / 以上都不对」类安全选项。
+- **[SHOULD] 领域分支**：先识别领域（code/design/writing/business/data/hybrid），按需加载对应问句模板。
+- **[MUST] 轮次策略**：简单技能 MUST ≥1 轮、中等技能 MUST ≥2 轮、复杂技能 MUST ≥3 轮；每轮 3-4 题。
+- **[MUST] 最后一题预留自定义输入**：每轮 MUST 预留一题让用户自定义补充（如「其他需求 / 其他场景」），捕获遗漏。
+
+#### 1.3 退出条件（满足全部 4 项 MUST 才能进入步骤 2）
+
+- [ ] **[MUST] 场景明确**：能用 3 个具体使用场景描述技能
+- [ ] **[MUST] 触发短语**：已列出 5+ 触发短语
+- [ ] **[MUST] 边界用例**：已识别至少 1 个不应触发的场景
+- [ ] **[MUST] 模式候选**：步骤 2 决策树已有至少 1 个有效解
+
+#### 1.4 跳过与暂停（MUST 区分「压缩」与「整段跳过」）
+
+- **[MUST-NOT] 整段跳过**：除下列条件外，本步骤 MUST NOT 整段省略；仅可在保留方法论骨架的前提下**压缩轮次**（如简单技能从 1 轮压到 1 轮内 3 题一次性抛出）。
+- **[MAY] 可压缩**：用户提供完整 PRD/Spec（引用文件链接）、或说"照这个文档做"、或为既有技能的小幅修改（引用原技能名 + 变更点）。
+- **[MUST] 应暂停**：用户回答"我再想想 / 我也不知道 / 等一下"——Agent MUST 给出 2-3 个默认假设让用户挑选，或直接退出等待下次触发；MUST NOT 在需求不清时强行推进。
+
+#### 步骤 1.5：产出需求决策文档 (Produce Requirement Decision Doc)
+
+**[MUST] 步骤 1 完成后、步骤 2 启动前 MUST 产出需求决策文档**，避免关键设计判断随上下文丢失。
+
+| 场景 | 沉淀路径 | 使用模板 |
+|------|----------|----------|
+| 单技能内的设计决策（推荐） | `<cwd>/skills/{skill-name}/0001-initial-design.md` | [`references/templates/00NN-requirement.md`](references/templates/00NN-requirement.md) |
+| 跨技能架构决策 | `<cwd>/docs/decisions/00NN-{topic}.md` | 宿主项目级 ADR 模板 |
+| 迭代小决策 / bugfix | `<cwd>/docs/decisions/00NN-{topic}.md` | 宿主项目级 ADR 模板 |
+
+**路径变量**：
+- `<cwd>`：宿主项目根目录（Agent 调用本技能时的当前工作目录）
+
+**模板使用规范**：
+- 复制 [`references/templates/00NN-requirement.md`](references/templates/00NN-requirement.md) 到落地路径
+- 填写 frontmatter + 9 章节（背景/需求画像/关键判断/备选方案/决策/依据/具体动作/影响/回溯链接）
+- 「需求画像」章节 MUST 100% 复制 `requirement_profile` 内容
+- 在新技能 SKILL.md 末尾追加「决策记录」小节链接到本决策文档
+
+**模板与规范文件**（自包含于本技能目录）：
+- 使用指南：[`references/templates/requirement-decision-guide.md`](references/requirement-decision-guide.md)
+- 决策模板：[`references/templates/00NN-requirement.md`](references/templates/00NN-requirement.md)
+
+**反模式**：
+- ❌ 跳过决策文档直接进入步骤 2
+- ❌ 决策文档"需求画像"与 `requirement_profile` 不一致
+- ❌ 跨技能决策放本目录模板路径
+- ❌ 决策文档不写备选方案（至少 2 个）
+- ❌ 决策文档无"具体动作"清单
 
 ### 步骤 2：确定技能模式 (Determine Skill Mode)
 

@@ -219,7 +219,7 @@ async function main() {
       }
       process.exit(1);
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error validating skill:', error.message);
     process.exit(1);
   }

@@ -35,4 +35,17 @@ tags: [easbot, skill, {skill_name}]
 
 如需更详细的参考资料，请参见 [references/](./references/) 目录下的相关文档。
 
+## 决策记录 (Decision Records)
+
+<!--
+  本技能的创建决策（步骤 1.5 产出）保存在：
+  - 0001-initial-design.md  ← 第一份需求决策
+  - 后续决策按 00NN-{topic}.md 编号追加
+
+  模板与规范：见 <eas-skill-creator>/references/requirement-decision-guide.md
+  模板文件：<eas-skill-creator>/references/templates/00NN-requirement.md
+-->
+
+- [0001-initial-design.md](./0001-initial-design.md) — 初始需求与设计决策
+
 [注：上面的模板遵循EASBot技能创建规范，包含了必需的部分和可选部分，同时保持简洁性。]

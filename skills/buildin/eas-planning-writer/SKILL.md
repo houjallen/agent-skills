@@ -188,4 +188,26 @@ if action_failed:
 
 ## 决策沉淀 (Decision Sediment)
 
-跨 session 才会复用、影响其他模块、需要 Review 的关键判断，必须写入 `docs/decisions/00NN-xxx.md`（项目级 ADR 目录，由 Nygard ADR 规范驱动）。`progress.md` 是临时记录，`docs/decisions/` 是永久归档。
+跨 session 才会复用、影响其他模块、需要 Review 的关键判断，必须写入 `docs/decisions/00NN-xxx.md`（项目级 ADR 目录）。`progress.md` 是临时记录，`docs/decisions/` 是永久归档。
+
+### 沉淀规范
+
+`docs/decisions/` 已固化两套模板 + 一份使用指南，按"影响范围"选择：
+
+| 类型 | 适用场景 | 章节数 | 模板 |
+|------|----------|--------|------|
+| **架构型** | 跨模块、影响 API/数据流、需 Review | 11 章 | [`00NN-architecture.md`](../../docs/decisions/references/templates/00NN-architecture.md) |
+| **执行型** | 心跳动作、阶段收尾、单模块修复 | 8 章 | [`00NN-execution.md`](../../docs/decisions/references/templates/00NN-execution.md) |
+
+完整规范、frontmatter 规范、修订与废弃流程：[`docs/decisions/references/decision-template-guide.md`](../../docs/decisions/references/decision-template-guide.md)。
+
+### 沉淀判定速查
+
+```
+✅ 跨 session 才会复用 → 沉淀
+✅ 影响其他模块 → 沉淀
+✅ 需要 Review → 沉淀
+❌ 纯局部代码修复 / 临时变量 → 不沉淀
+```
+
+不确定时默认按**架构型**处理（事后可降级为执行型）。
