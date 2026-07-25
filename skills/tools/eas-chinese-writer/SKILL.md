@@ -1,7 +1,7 @@
 ---
 name: eas-chinese-writer
 description: 该技能应在需要编写中文文档、翻译英文内容到中文、或在代码中添加规范的中文注释（JSDoc）时使用。该技能提供专业技术名词保留英文、文档与代码中文使用规范、i18n 输出规范等指导，确保中文文档和代码注释的准确性与一致性。
-category: tool
+category: tools
 ---
 
 # EAS Chinese Writer - 中文文档与注释编写规范 (Chinese Documentation and Comment Writing Guidelines)
