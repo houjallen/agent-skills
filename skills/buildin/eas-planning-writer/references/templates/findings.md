@@ -92,8 +92,9 @@
 
 <!--
   关键判断（如架构选型、流程优化）必须沉淀为决策日志：
-  progress.md  ← 进度临时记录（会话级，不沉淀）
-  docs/decisions/00NN-{task}-xxx.md  ← 决策永久归档（Nygard ADR 模式）
+
+      progress.md        ← 进度临时记录（会话级，不沉淀）
+      <cwd>/docs/decisions/00NN-{topic}.md  ← 决策永久归档（Michael Nygard ADR 模式）
 
   沉淀时机：
   - 跨 session 才会复用的决策（架构选型、命名约定、流程优化）

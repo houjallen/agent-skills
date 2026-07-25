@@ -17,8 +17,18 @@ status: proposed
 
 <!--
   本模板用于"架构/原则型"决策：影响跨模块、改变 API/数据流、需要 Review。
-  使用方法：复制本文 → 替换所有占位符 → 删除本注释块。
-  详细规范：见 ../decision-template-guide.md
+  共 11 章节，必填项见 SKILL.md「决策沉淀」节的判定表。
+
+  使用方法：
+    1. 复制本文 → 替换所有 <占位符>
+    2. 落地路径：<cwd>/docs/decisions/00NN-{topic}.md（去掉本注释块）
+       其中 <cwd> = 宿主项目根目录（Agent 调用本技能时的当前工作目录）
+    3. 决策文件落地后，Agent **MUST 把文中所有 <cwd> 替换为实际工作目录的绝对路径**
+       （如 `e:/work/proj/spec/xxx.md`），不可保留 `<cwd>` 字面量——否则文档链接失效。
+       替换范围包括本注释块下方的"详细规范"链接与"关联"章节示例。
+
+  详细规范：见 <cwd>/docs/decisions/references/decision-template-guide.md
+           （宿主项目级 ADR 统一规范，本模板是其精简自包含副本）
 -->
 
 > **决策日期**：YYYY-MM-DD
@@ -146,12 +156,15 @@ status: proposed
 
 ## 关联 (References)
 
-<!-- 关联决策、相关 spec、参考实现、外部参考。 -->
+<!--
+  关联决策、相关 spec、参考实现、外部参考。
+  所有宿主项目路径 MUST 使用 <cwd>/... 占位符（落地后由 Agent 替换，见顶部注释）。
+-->
 
 - **关联决策**：[编号 1](编号1-xxx.md) / [编号 2](编号2-xxx.md)
-- **相关 spec**：[`spec/xxx.md`](../../spec/xxx.md)
-- **相关代码**：[`packages/xxx/src/yyy.ts`](../../packages/xxx/src/yyy.ts)
-- **相关 task**：[.easbot/knowledge/tasks/xxx/](../../.easbot/knowledge/tasks/xxx/)
+- **相关 spec**：[`spec/xxx.md`](<cwd>/spec/xxx.md)
+- **相关代码**：[`packages/xxx/src/yyy.ts`](<cwd>/packages/xxx/src/yyy.ts)
+- **相关 task**：[.easbot/knowledge/tasks/xxx/](<cwd>/.easbot/knowledge/tasks/xxx/)
 - **外部参考**：[GitHub Issue #N](url) / [官方文档](url)
 
 ---

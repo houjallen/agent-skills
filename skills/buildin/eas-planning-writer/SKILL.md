@@ -41,16 +41,17 @@ category: workflow
 
 ### 1. 任务文件存放位置
 
-项目级长任务文件统一存放在仓库的隐藏知识目录（不参与版本控制）：
+项目级长任务文件统一存放在宿主项目的隐藏知识目录（不参与版本控制）：
 
 ```
-.easbot/knowledge/tasks/{task-name}/
+<cwd>/.easbot/knowledge/tasks/{task-name}/
 ├── task_plan.md       # 任务计划（目标、阶段、决策）
 ├── findings.md        # 调研发现、问题记录
 └── progress.md        # 进度记录
 ```
 
 - `{task-name}` 使用 kebab-case
+- `<cwd>` = 宿主项目根目录（Agent 调用本技能时的当前工作目录）
 - **永远不要**放在 `docs/`（避免污染项目级发布文档）
 - 三件套**固定结构**，不能缺少
 
@@ -84,7 +85,7 @@ category: workflow
 - [scripts/init-planning-session.ts](scripts/init-planning-session.ts) — 从模板生成三件套
 - [scripts/check-complete.ts](scripts/check-complete.ts) — 统计 `###` / `####` 阶段完成度
 
-完整脚本说明请参阅 [scripts/README.md](scripts/README.md)。
+> 详细 CLI 参数、退出码、设计原则与扩展方式，请参阅 [scripts-specification.md](references/scripts-specification.md)。
 
 ## 核心模式 (Core Pattern)
 
@@ -184,22 +185,37 @@ if action_failed:
 
 - [context-engineering.md](references/context-engineering.md) — Manus 六大原则 + 三种上下文工程策略
 - [examples.md](references/examples.md) — 实战示例（研究任务 / Bug 修复 / 功能开发 / 错误恢复）
-- [scripts/README.md](scripts/README.md) — 脚本使用说明
+- [scripts-specification.md](references/scripts-specification.md) — 辅助脚本 CLI、退出码、设计原则
 
 ## 决策沉淀 (Decision Sediment)
 
-跨 session 才会复用、影响其他模块、需要 Review 的关键判断，必须写入 `docs/decisions/00NN-xxx.md`（项目级 ADR 目录）。`progress.md` 是临时记录，`docs/decisions/` 是永久归档。
+跨 session 才会复用、影响其他模块、需要 Review 的关键判断，必须写入 `<cwd>/docs/decisions/00NN-{topic}.md`（宿主项目级 ADR 目录）。`progress.md` 是临时记录，`<cwd>/docs/decisions/` 是永久归档。
+
+### 路径变量 (Path Variables)
+
+为支持技能在任意宿主项目下复用，统一采用 `<cwd>` 前缀约定（与 [`eas-skill-creator`](../eas-skill-creator/SKILL.md) 保持一致）：
+
+| 占位符 | 含义 |
+|--------|------|
+| `<cwd>` | 宿主项目根目录（Agent 调用本技能时的当前工作目录） |
+| `<cwd>/.easbot/knowledge/tasks/{task-name}/` | 宿主项目级任务文件目录（本技能三件套落地路径） |
+| `<cwd>/docs/decisions/` | 宿主项目级 ADR 目录（由宿主项目维护，遵循 Michael Nygard 约定） |
+| `<cwd>/docs/decisions/references/decision-template-guide.md` | 宿主项目 ADR 规范文档（可能存在） |
+
+> **路径回退规则**：宿主项目若有自有决策目录（如 `<cwd>/.easbot/decisions/`、`<cwd>/adr/` 等），Agent 应优先遵循宿主项目规范。
 
 ### 沉淀规范
 
-`docs/decisions/` 已固化两套模板 + 一份使用指南，按"影响范围"选择：
+按"影响范围"选择模板（自包含于本技能目录内）：
 
 | 类型 | 适用场景 | 章节数 | 模板 |
 |------|----------|--------|------|
-| **架构型** | 跨模块、影响 API/数据流、需 Review | 11 章 | [`00NN-architecture.md`](../../docs/decisions/references/templates/00NN-architecture.md) |
-| **执行型** | 心跳动作、阶段收尾、单模块修复 | 8 章 | [`00NN-execution.md`](../../docs/decisions/references/templates/00NN-execution.md) |
+| **架构型** | 跨模块、影响 API/数据流、需 Review | 11 章 | [`00NN-architecture.md`](references/templates/decisions/00NN-architecture.md) |
+| **执行型** | 心跳动作、阶段收尾、单模块修复 | 8 章 | [`00NN-execution.md`](references/templates/decisions/00NN-execution.md) |
 
-完整规范、frontmatter 规范、修订与废弃流程：[`docs/decisions/references/decision-template-guide.md`](../../docs/decisions/references/decision-template-guide.md)。
+> **模板定位**：本技能自包含这两份模板副本（精简自 ADR 行业规范 + 项目级实践）。完整规范、frontmatter 规范、修订与废弃流程以宿主项目 `<cwd>/docs/decisions/references/decision-template-guide.md` 为准（如存在）；不存在时按本目录模板自包含版本落地。
+>
+> **落地路径**：两份模板均落地到 `<cwd>/docs/decisions/00NN-{topic}.md`（或宿主项目自定义决策目录）。模板顶部 HTML 注释有详细说明。
 
 ### 沉淀判定速查
 
