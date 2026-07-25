@@ -1,7 +1,7 @@
 ---
 name: eas-planning-writer
 description: 该技能应在 Agent 处理跨 session、需要持久化进度的复杂任务时使用——任务通过 Markdown 三件套（task_plan / findings / progress）落地到 `.easbot/knowledge/tasks/{task-name}/`，支持跨 session 状态恢复与事后 Review。
-category: workflow
+category: builtin
 ---
 
 # 基于文件的规划 (Planning with Files)
