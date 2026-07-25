@@ -1,42 +1,20 @@
 ---
 name: eas-agent-creation
-description: 该技能应用于 EASBot Agent 的技能创建、演化和生命周期管理。当 Agent 需要按应用场景创建新技能、演化现有技能、或管理技能组合时使用。
+description: 该技能应在 EASBot Agent 需要按应用场景创建新技能、演化现有技能、或管理技能组合（Bundle）时使用。覆盖技能从创建到废弃的完整生命周期。
 category: builtin
 version: 1.0.0
-tags: [easbot, skill, creation, evolution, lifecycle]
+tags: [easbot, skill, lifecycle, bundle]
 ---
 
 # eas-agent-creation (EASBot 技能创建与演化)
 
-## Overview
+## 概述 (Overview)
 
-eas-agent-creation 是 EASBot 的核心技能，用于管理 Agent 技能的完整生命周期。它指导 Agent 如何：
+`eas-agent-creation` 是 EASBot 技能生态系统的生命周期管理入口，覆盖技能从需求捕获、模式选择、创建、演化到废弃的全链路。
 
-1. **创建技能**：根据需求创建符合 Agent Skills 标准的技能
-2. **演化技能**：基于反馈和经验优化现有技能
-3. **管理组合**：组合多种模式形成完整的行为控制链路
+## 何时使用 (When to Use)
 
-### 关于本技能
-
-使用此技能当需要：
-- 根据用户需求创建新的 EASBot 技能
-- 演化/优化现有技能的描述、模板或行为
-- 将多个技能组合成 Bundle
-- 诊断技能失败原因并提出改进建议
-- 管理技能的生命周期（创建 → 演化 → 废弃）
-
-不适用于：
-- 临时性的单次任务
-- 与技能管理无关的常规开发任务
-
-### 技能类型 (Skill Type)
-
-#### 技术（Technique）+ 模式（Pattern）
-既有明确步骤可遵循，又涉及决策判断的复合型技能
-
-## When to Use
-
-使用此技能当需要：
+该技能应在以下场景使用：
 
 ### 场景 1：创建新技能
 - 用户提出需要某种能力，但尚无对应 Skill
@@ -58,17 +36,28 @@ eas-agent-creation 是 EASBot 的核心技能，用于管理 Agent 技能的完�
 - 需要生成自我评估报告
 - 需要制定进化计划
 
-## Quick Reference
+不适用于：
+- 临时性的单次任务
+- 与技能管理无关的常规开发任务
+- 单个技能的内容写作（那是 `eas-skill-creator`）
+
+## 快速参考 (Quick Reference)
 
 | Item | Value |
 |------|-------|
 | 核心模块 | Creator, Evolver, Assessor, Validator |
 | 模式数量 | 5 种（Tool Wrapper, Generator, Reviewer, Inversion, Pipeline） |
 | 组合策略 | 支持 2~3 种模式组合 |
+| 关联技能 | `eas-skill-creator`（写单技能） / `eas-skill-find`（搜市场技能） |
 
-## Core Pattern: 技能创建与演化
+## 核心模式 (Core Pattern)
 
-### 技能创建流程
+### 技能类型 (Skill Type)
+
+#### 技术（Technique）+ 模式（Pattern）
+既有明确步骤可遵循，又涉及决策判断的复合型技能。
+
+### 技能创建流程 (Creation Workflow)
 
 ```
 User/Agent Request
@@ -97,7 +86,7 @@ Creator.register()
 Skill Ready for Agent
 ```
 
-### 技能演化流程
+### 技能演化流程 (Evolution Workflow)
 
 ```
 Scheduler Trigger / Agent Request
@@ -119,7 +108,7 @@ applyPlan()
 Skill Evolved
 ```
 
-## Five Skill Modes
+## 五种模式 (Five Skill Modes)
 
 ### 1. Tool Wrapper（补知识）
 
@@ -191,7 +180,7 @@ Skill Evolved
 - 数据 ETL 流程
 - 多阶段审查
 
-## Mode Selection Decision Tree
+## 模式选择决策树 (Mode Selection Decision Tree)
 
 ```
                  User Requirement
@@ -219,7 +208,7 @@ Skill Evolved
                   (Default Base Skill)
 ```
 
-## Mode Composition Matrix
+## 模式组合矩阵 (Mode Composition Matrix)
 
 | Primary | Secondary | Typical Scenario | Form |
 |---------|-----------|------------------|------|
@@ -229,7 +218,7 @@ Skill Evolved
 | Pipeline | Inversion + Reviewer | Full lifecycle control | Complete 3-mode composition |
 | Tool Wrapper | Inversion | Complex SDK with pre-clarification | Knowledge supplement + requirement clarify |
 
-## Delivery Checklist
+## 交付清单 (Delivery Checklist)
 
 每个 Skill 必须自检以下交付项：
 
@@ -242,13 +231,13 @@ Skill Evolved
 | observability | 日志、metrics、调试入口 |
 | scripts | 自动化辅助脚本 |
 
-## Implementation
+## 实现 (Implementation)
 
 ### 使用 creation 工具
 
 Agent 应使用 `creation` 工具完成任务。所有创建、演化、评估操作都通过该工具执行。
 
-#### 工具调用示例
+#### 工具调用示例 (Tool Call Examples)
 
 ```typescript
 // 1. 创建新技能
@@ -285,12 +274,12 @@ creation({
 })
 ```
 
-### 创建 Skill 的步骤
+### 创建 Skill 的步骤 (Creation Steps)
 
-#### 步骤 1：分析需求
-理解用户需求的本质，判断需要的模式组合
+#### 步骤 1：分析需求 (Analyze Requirements)
+理解用户需求的本质，判断需要的模式组合。
 
-#### 步骤 2：使用 creation 工具创建
+#### 步骤 2：使用 creation 工具创建 (Invoke creation Tool)
 调用 `creation` 工具的 `create` 操作：
 
 ```typescript
@@ -305,19 +294,19 @@ creation({
 - `name`: 技能名称
 - `spec`: 完整的技能规格对象
 
-#### 步骤 3：使用 eas-skill-creator 完善
-**关键**：creation 工具只生成骨架，必须使用 eas-skill-creator 完善：
+#### 步骤 3：使用 eas-skill-creator 完善 (Refine via eas-skill-creator)
+**关键**：creation 工具只生成骨架，必须使用 `eas-skill-creator` 完善：
 1. **完善示例**：添加正向/反向使用示例
 2. **补全文档**：填充 references/ 目录的详细内容
 3. **优化模板**：补充具体参数和配置
-4. **验证结构**：tsx scripts/quick-validate.ts <skill-path>
+4. **验证结构**：`tsx scripts/quick-validate.ts <skill-path>`
 
-#### 步骤 4：测试使用
-在实际任务中验证技能效果
+#### 步骤 4：测试使用 (Test in Real Tasks)
+在实际任务中验证技能效果。
 
-### 演化 Skill 的步骤
+### 演化 Skill 的步骤 (Evolution Steps)
 
-#### 步骤 1：获取评估
+#### 步骤 1：获取评估 (Run Self Assessment)
 调用 `creation` 工具的 `assess` 操作：
 
 ```typescript
@@ -327,16 +316,16 @@ creation({
 })
 ```
 
-#### 步骤 2：分析弱点
-查看返回的 `weaknesses` 和 `opportunities` 列表
+#### 步骤 2：分析弱点 (Analyze Weaknesses)
+查看返回的 `weaknesses` 和 `opportunities` 列表。
 
-#### 步骤 3：使用 eas-skill-creator 优化
-根据弱点分析结果，使用 eas-skill-creator 完善技能内容：
+#### 步骤 3：使用 eas-skill-creator 优化 (Optimize via eas-skill-creator)
+根据弱点分析结果，使用 `eas-skill-creator` 完善技能内容：
 - 针对识别的问题补充示例
 - 修复已知坑
 - 优化验证规则
 
-#### 步骤 4：运行进化
+#### 步骤 4：运行进化 (Run Evolution)
 调用 `evolve` 操作：
 
 ```typescript
@@ -353,7 +342,7 @@ creation({
 })
 ```
 
-#### 步骤 5：应用计划（如需审批）
+#### 步骤 5：应用计划（如需审批）(Apply Plan)
 如果计划需要人工审批：
 
 ```typescript
@@ -364,25 +353,25 @@ creation({
 })
 ```
 
-## Common Pitfalls
+## 常见错误 (Common Pitfalls)
 
-### Pitfall 1: 模式选择错误
+### Pitfall 1：模式选择错误 (Wrong Mode Selection)
 **问题**：将 Generator 误用为 Reviewer
 **解决**：记住 Generator 是"稳输出"，Reviewer 是"按清单审"
 
-### Pitfall 2: 清单与流程耦合
+### Pitfall 2：清单与流程耦合 (Checklist Coupled with Process)
 **问题**：将 checklist 内容写在 SKILL.md body
 **解决**：checklist 放 references/checklist.md，body 只写流程
 
-### Pitfall 3: 缺少 Gate 定义
+### Pitfall 3：缺少 Gate 定义 (Missing Gate Definition)
 **问题**：Pipeline 步骤没有完整的 Gate 三要素
 **解决**：每个步骤必须定义 entryConditions、exitConditions、onFailure
 
-### Pitfall 4: Inversion 过于开放
+### Pitfall 4：Inversion 过于开放 (Too Open-ended Inversion)
 **问题**：问题选项太多或无选项
 **解决**：每题必须 2-4 个互斥选项
 
-## References
+## 参考资料 (References)
 
 详细规范请参阅：
 - [Skill Spec 规范](references/skill-spec.md) - 完整的 Skill 类型定义
@@ -390,7 +379,7 @@ creation({
 - [Validation 规则](references/validation.md) - Validator 校验规则
 - [Evolution 流程](references/evolution.md) - 技能演化流程
 
-## Examples
+## 示例 (Examples)
 
 ### Example 1: Create a Tool Wrapper Skill
 
