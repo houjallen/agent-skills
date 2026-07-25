@@ -1,0 +1,7 @@
+onlyBuiltDependencies:
+  - esbuild
+  - node-pty
+
+allowBuilds:
+  esbuild: true
+  node-pty: true
