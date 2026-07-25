@@ -1,6 +1,6 @@
 {
   "name": "@easbot/agent-skills",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "EASBot Agent Skills — the EASBot agent-skills management repository. Aggregates EASBot builtin (buildin) and tools (tools) skill categories for agents to load, compose, and reuse. The repository is a pure skills resource: no build artifacts, no application code.",
   "type": "module",
   "scripts": {
