@@ -1,0 +1,46 @@
+#!/usr/bin/env sh
+#
+# 验证提交消息格式（AGENTS.md §6）
+# 规则：
+#   1) 技能改动（影响 skills/<cat>/<name>/）：^[skill: <name>] <type>: <summary>
+#   2) 仓库维护（影响根 scripts/、AGENTS.md、README、.github、.husky）：
+#      ^[repo] <type>: <summary>
+#   3) 自动生成（CI / release bot 写入）：^[auto] <summary>
+#   type ∈ {feat, fix, docs, test, chore, refactor, perf, ci}
+
+commit_message_file=$1
+first_line=$(head -n 1 "$commit_message_file")
+
+# 三个允许的提交前缀
+skill_re='^\[skill: [a-z][a-z0-9-]*\] (feat|fix|docs|test|chore|refactor|perf|ci): .+'
+repo_re='^\[repo\] (feat|fix|docs|test|chore|refactor|perf|ci): .+'
+auto_re='^\[auto\] .+'
+
+if echo "$first_line" | grep -qE "$skill_re"; then
+  exit 0
+fi
+if echo "$first_line" | grep -qE "$repo_re"; then
+  exit 0
+fi
+if echo "$first_line" | grep -qE "$auto_re"; then
+  exit 0
+fi
+
+echo ""
+echo "❌ 提交消息不符合 agent-skills 规范 (AGENTS.md §6)"
+echo "   首行: $first_line"
+echo ""
+echo "允许的格式："
+echo "  [skill: <name>] <type>: <summary>   # 改一个技能（影响 skills/<cat>/<name>/）"
+echo "  [repo] <type>: <summary>            # 改仓库维护（根 scripts/、AGENTS.md、README、.github、.husky）"
+echo "  [auto] <summary>                    # CI / release bot 写入（如版本号升级、CHANGELOG 自动维护）"
+echo ""
+echo "type ∈ {feat, fix, docs, test, chore, refactor, perf, ci}"
+echo ""
+echo "示例："
+echo "  [skill: eas-skill-creator] docs: clarify naming convention"
+echo "  [skill: eas-agent-evolution] feat: add scheduler CLI"
+echo "  [repo] chore: bump version to 0.4.0"
+echo "  [repo] docs: update AGENTS.md §5"
+echo "  [auto] chore(release): 0.4.0"
+exit 1

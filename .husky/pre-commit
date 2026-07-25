@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+#
+# 统一版本管理（默认禁用）
+# 使用 ENABLE_VERSION_BUMP=1 启用自动版本升级
+#
+# 启用后行为：
+#   - 升级 package.json 版本号
+#   - 重新生成 CHANGELOG.md（基于 git commits + [skill: <name>] / [repo] 格式）
+#   - git add CHANGELOG.md
+#   - 创建 git tag
+# 详见 scripts/pre-commit-version.ts
+npx --no-install tsx scripts/pre-commit-version.ts || {
+  echo ""
+  echo "❌ pre-commit hook 失败"
+  echo "   如需跳过版本管理：git commit --no-verify"
+  exit 1
+}
