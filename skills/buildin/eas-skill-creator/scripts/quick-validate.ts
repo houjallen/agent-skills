@@ -64,10 +64,21 @@ export class SkillValidator {
       // 五大模式必填字段：mode / composition / behavior / reviewer / secondaryModes / compositionConnections / deliveryChecklist
       // 仅作为提示，不阻断校验（skill-spec.md 中允许扩展）
       const allowedProperties = new Set([
-        'name', 'description', 'license', 'allowed-tools', 'metadata',
-        'category', 'version', 'tags',
-        'mode', 'composition', 'secondaryModes', 'compositionConnections',
-        'behavior', 'reviewer', 'deliveryChecklist',
+        'name',
+        'description',
+        'license',
+        'allowed-tools',
+        'metadata',
+        'category',
+        'version',
+        'tags',
+        'mode',
+        'composition',
+        'secondaryModes',
+        'compositionConnections',
+        'behavior',
+        'reviewer',
+        'deliveryChecklist',
       ]);
       const unexpectedKeys = Object.keys(frontmatter).filter((key) => !allowedProperties.has(key));
 
