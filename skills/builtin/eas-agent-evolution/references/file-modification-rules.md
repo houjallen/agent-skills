@@ -9,7 +9,7 @@ eas-agent-evolution 技能管理以下核心文件：
 | 文件类型 | 文件路径 | 说明 |
 |----------|----------|------|
 | 协议文件 | `.easbot/protocol.json` | 存储初始化状态和元数据 |
-| 模板文件 | `skills/buildin/eas-agent-evolution/references/templates/*.md` | 配置文档模板 |
+| 模板文件 | `skills/builtin/eas-agent-evolution/references/templates/*.md` | 配置文档模板 |
 | 生成文件 | `.easbot/*.md` | 运行时加载的配置文件 |
 
 ## 修改原则

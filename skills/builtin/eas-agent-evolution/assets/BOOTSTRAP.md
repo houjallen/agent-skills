@@ -35,9 +35,11 @@ worktree: E:\work\apps\eas\easbot
 
 ### Agent 调用示例
 
+> **作用域说明**：在技能内部调用脚本时，基于技能作用域使用**相对路径** `scripts/init-agent.ts`，绝对不能使用 `skills/builtin/eas-agent-evolution/scripts/init-agent.ts` 这种绝对路径。
+
 **正确做法** ✅：
 ```bash
-npx tsx skills/buildin/eas-agent-evolution/scripts/init-agent.ts \
+npx tsx scripts/init-agent.ts \
   --workspace E:\work\apps\eas\easbot\packages\agent \
   --output .easbot \
   --agent-name 小莫 \
@@ -52,13 +54,17 @@ npx tsx skills/buildin/eas-agent-evolution/scripts/init-agent.ts \
 **错误示例** ❌：
 ```bash
 # 没有传 --workspace，脚本会报错
-npx tsx skills/buildin/eas-agent-evolution/scripts/init-agent.ts --output .easbot
+npx tsx scripts/init-agent.ts --output .easbot
 # 结果：Error: workspace (Agent workspace 路径) 为必填参数
 
 # 在 easbot 源码目录下运行（不使用 --workspace）
 cd e:\work\apps\eas\easbot
-npx tsx skills/buildin/eas-agent-evolution/scripts/init-agent.ts --output .easbot
+npx tsx scripts/init-agent.ts --output .easbot
 # 结果：workspace 被设置为 easbot 源码目录，而不是 Agent 的 workspace
+
+# 使用技能绝对路径调用是错误的（违反技能作用域）
+npx tsx skills/builtin/eas-agent-evolution/scripts/init-agent.ts --output .easbot
+# 结果：应基于技能作用域使用 scripts/init-agent.ts 相对路径
 ```
 
 ### 如何获取 workspace？
@@ -166,7 +172,7 @@ npx tsx skills/buildin/eas-agent-evolution/scripts/init-agent.ts --output .easbo
 
 **完整示例（9个参数，包括 --workspace）**：
 ```bash
-npx tsx skills/buildin/eas-agent-evolution/scripts/init-agent.ts \
+npx tsx scripts/init-agent.ts \
   --workspace E:\work\apps\eas\easbot\packages\agent \
   --non-interactive \
   --output .easbot \

@@ -23,7 +23,7 @@ status: proposed
 
   路径约束：
   - 本文件是模板，仅供复制使用
-  - 复制后落地到 <cwd>/skills/buildin/{skill-name}/00NN-{topic}.md
+  - 复制后落地到 <cwd>/skills/builtin/{skill-name}/00NN-{topic}.md
   - 落地后 MUST 用相对路径引用同目录的 SKILL.md / scripts/
   - MUST NOT 引用本技能目录外的资源
 -->
@@ -137,12 +137,12 @@ requirement_profile:
 
 <!-- 可勾选清单，必须落到文件路径。MUST 项。 -->
 
-- [ ] 创建 `<cwd>/skills/buildin/{skill-name}/SKILL.md`，含 frontmatter + 双语标题 + 必填章节
-- [ ] 创建 `<cwd>/skills/buildin/{skill-name}/references/` 目录
-- [ ] 创建 `<cwd>/skills/buildin/{skill-name}/scripts/` 目录（如需要）
-- [ ] 创建 `<cwd>/skills/buildin/{skill-name}/assets/` 目录（如需要）
-- [ ] 运行 `tsx <eas-skill-creator>/scripts/init-skill.ts {skill-name} --path <cwd>/skills/buildin --resources scripts,references,assets --examples`
-- [ ] 验证：`tsx <eas-skill-creator>/scripts/quick-validate.ts <cwd>/skills/buildin/{skill-name}`
+- [ ] 创建 `<cwd>/skills/builtin/{skill-name}/SKILL.md`，含 frontmatter + 双语标题 + 必填章节
+- [ ] 创建 `<cwd>/skills/builtin/{skill-name}/references/` 目录
+- [ ] 创建 `<cwd>/skills/builtin/{skill-name}/scripts/` 目录（如需要）
+- [ ] 创建 `<cwd>/skills/builtin/{skill-name}/assets/` 目录（如需要）
+- [ ] 运行 `tsx <skillPath>/scripts/init-skill.ts {skill-name} --path <cwd>/skills/builtin --resources scripts,references,assets --examples`（**`<skillPath>`** 为 `eas-skill-creator` 技能的实际安装路径，例如 `{cwd}/skills/builtin/eas-skill-creator` 或 `~/.local/share/easbot/skills/builtin/eas-skill-creator`）
+- [ ] 验证：`tsx <skillPath>/scripts/quick-validate.ts <cwd>/skills/builtin/{skill-name}`（同上，`<skillPath>` 替换为实际路径）
 - [ ] 在 SKILL.md 末尾追加"决策记录"小节，链向本决策文档
 
 ---
@@ -171,10 +171,10 @@ requirement_profile:
 
 ### 后续步骤产出（本决策驱动）
 
-- SKILL.md：`<cwd>/skills/buildin/{skill-name}/SKILL.md`
-- scripts/：`<cwd>/skills/buildin/{skill-name}/scripts/`
-- references/：`<cwd>/skills/buildin/{skill-name}/references/`
-- assets/：`<cwd>/skills/buildin/{skill-name}/assets/`（如有）
+- SKILL.md：`<cwd>/skills/builtin/{skill-name}/SKILL.md`
+- scripts/：`<cwd>/skills/builtin/{skill-name}/scripts/`
+- references/：`<cwd>/skills/builtin/{skill-name}/references/`
+- assets/：`<cwd>/skills/builtin/{skill-name}/assets/`（如有）
 
 ### 宿主项目级 ADR 引用（如有）
 
@@ -198,6 +198,6 @@ requirement_profile:
 <!--
   本模板路径：<eas-skill-creator>/references/templates/00NN-requirement.md
   使用指南：<eas-skill-creator>/references/templates/requirement-decision-guide.md
-  落地路径：<cwd>/skills/buildin/{skill-name}/00NN-{topic}.md
+  落地路径：<cwd>/skills/builtin/{skill-name}/00NN-{topic}.md
   [MUST] 落地后 MUST 保持自包含，仅引用同目录文件，MUST NOT 跨技能目录引用
 -->

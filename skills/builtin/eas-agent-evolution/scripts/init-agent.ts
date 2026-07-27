@@ -18,12 +18,17 @@
  * - 所有配置通过 question 工具收集
  * - 禁止人工落盘
  *
- * 使用示例（Agent 调用）：
- *   npx tsx skills/buildin/eas-agent-evolution/scripts/init-agent.ts \
+ * 使用示例（Agent 调用，基于技能作用域的相对路径）：
+ *   npx tsx scripts/init-agent.ts \
  *     --workspace E:\work\apps\eas\easbot\packages\agent \
  *     --output .easbot \
  *     --agent-name 小莫 \
  *     --user-name jallen
+ *
+ * 注意：技能被加载后，Agent 当前上下文即为技能目录。
+ * 因此脚本调用应使用 scripts/xxx.ts 相对路径，
+ * 禁止使用 skills/builtin/eas-agent-evolution/scripts/... 这种硬编码绝对路径。
+ * 模板/跨技能场景下请改用 <skillPath>/scripts/xxx.ts 占位符。
  *
  * 命令行参数（9个）：
  *   --workspace <路径>            Agent 的 workspace 路径（必须传入）

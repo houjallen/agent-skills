@@ -2,7 +2,7 @@
 
 ## Overview
 
-Context prompts define context building, context injection, and context management behavior specifications.
+Context prompts define context builting, context injection, and context management behavior specifications.
 
 ## Frontmatter Specification
 
