@@ -29,14 +29,14 @@ if ($actualName -ne $expectedName) {
 Write-Host "🔍 校验全部 skills 结构..." -ForegroundColor Cyan
 $failCount = 0
 $skillDirs = @()
-$skillDirs += Get-ChildItem -Directory "skills\buildin" -ErrorAction SilentlyContinue
+$skillDirs += Get-ChildItem -Directory "skills\builtin" -ErrorAction SilentlyContinue
 $skillDirs += Get-ChildItem -Directory "skills\tools" -ErrorAction SilentlyContinue
 
 foreach ($dir in $skillDirs) {
     $skillMd = Join-Path $dir.FullName "SKILL.md"
     if (-not (Test-Path $skillMd)) { continue }
     Write-Host "  - $($dir.Name)"
-    $output = npx --no-install tsx skills/buildin/eas-skill-creator/scripts/quick-validate.ts $dir.FullName 2>&1
+    $output = npx --no-install tsx skills/builtin/eas-skill-creator/scripts/quick-validate.ts $dir.FullName 2>&1
     if ($LASTEXITCODE -ne 0) {
         Write-Host "    ❌ FAIL: $($dir.Name)" -ForegroundColor Red
         $failCount++

@@ -6,7 +6,7 @@
 
 ## 项目简介
 
-`agent-skills` 是 EASBot 的 **agent-skills 管理项目**，聚合了 EASBot 内置（`buildin`）与工具（`tools`）类技能，供各类 Agent 加载、组合与复用。仓库本体**不包含应用代码、无构建产物、无单元测试套件**；`package.json` 仅作为元信息包存在（声明对 `@easbot/agent` 的依赖与 `files` 字段），不提供 `build`/`lint`/`test` scripts。根 `scripts/` 目录仅放**项目级维护脚本**（changelog 生成、版本号升级、docs 同步等），与各技能内部的 `scripts/` 同根同源。每个技能遵循统一的 `SKILL.md` 规范，提供描述、触发场景、参考资料与脚本。
+`agent-skills` 是 EASBot 的 **agent-skills 管理项目**，聚合了 EASBot 内置（`builtin`）与工具（`tools`）类技能，供各类 Agent 加载、组合与复用。仓库本体**不包含应用代码、无构建产物、无单元测试套件**；`package.json` 仅作为元信息包存在（声明对 `@easbot/agent` 的依赖与 `files` 字段），不提供 `build`/`lint`/`test` scripts。根 `scripts/` 目录仅放**项目级维护脚本**（changelog 生成、版本号升级、docs 同步等），与各技能内部的 `scripts/` 同根同源。每个技能遵循统一的 `SKILL.md` 规范，提供描述、触发场景、参考资料与脚本。
 
 ### 安装与使用
 
@@ -29,7 +29,7 @@ agent-skills/
 ├── package.json         # 元信息包（依赖 @easbot/agent，声明 files）
 ├── scripts/             # 项目级维护脚本（见下表）
 └── skills/
-    ├── buildin/         # 内置核心技能
+    ├── builtin/         # 内置核心技能
     │   ├── eas-agent-creation/      # 技能生命周期管理（创建/演化/废弃）
     │   ├── eas-agent-evolution/     # Agent 自我初始化与身份认知
     │   ├── eas-planning-writer/     # 计划与决策文档撰写
@@ -52,8 +52,9 @@ agent-skills/
 | `generate-changelog.ts` | 根据 git commits 生成 CHANGELOG |
 | `bump-version.ts` | 手动升级版本号并打 tag |
 | `pre-commit-version.ts` | pre-commit hook 用，默认禁用 |
+| `publish.sh` / `publish.ps1` | 发布到 npm 前对全部技能跑一次 `quick-validate` 校验 |
 
-## 内置技能一览（buildin）
+## 内置技能一览（builtin）
 
 | 技能 | 说明 |
 | --- | --- |
@@ -81,6 +82,20 @@ agent-skills/
 2. 它会给出当前生态的能力索引与场景 → 技能映射
 3. 按指引进一步加载具体技能（如 `eas-skill-creator`）执行任务
 
+如果已经知道要用哪个技能（例如 `eas-skill-creator`），直接让 Agent 加载对应 `SKILL.md` 即可——不必走中央导航。
+
+### 全仓技能结构校验
+
+修改 / 新增技能后，跑一遍全量校验：
+
+```bash
+for s in skills/builtin/*/ skills/tools/*/; do
+  [ -f "$s/SKILL.md" ] && npx tsx skills/builtin/eas-skill-creator/scripts/quick-validate.ts "$s"
+done
+```
+
+详见 [AGENTS.md §5.2](./AGENTS.md#52-技能包内部脚本)。
+
 ## 设计原则
 
 - **职责单一**：每个技能聚焦一类问题或一类能力
@@ -91,3 +106,9 @@ agent-skills/
 ## 许可
 
 本项目基于 [MIT License](./LICENSE) 开源。
+
+## 变更与贡献
+
+- 版本变更与发布流程详见 [CHANGELOG.md](./CHANGELOG.md)
+- 仓库维护、提交约定、协作流程详见 [AGENTS.md](./AGENTS.md)
+- 新增 / 演化技能时务必先加载 `eas-skill-using/SKILL.md` 确认分类，再加载 `eas-skill-creator/SKILL.md` 按规约创建

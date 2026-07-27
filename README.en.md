@@ -6,7 +6,7 @@
 
 ## Overview
 
-`agent-skills` is EASBot's **agent-skills management repository**. It aggregates the builtin (`buildin`) and tools (`tools`) categories of skills for EASBot, designed for agents to load, compose, and reuse. The repository itself contains **no application code, no build artifacts, and no test suite**; `package.json` is only a metadata manifest (declares the dependency on `@easbot/agent` and the `files` field) and provides no `build`/`lint`/`test` scripts. The root `scripts/` directory holds **project-level maintenance scripts** (changelog generation, version bump, docs sync, etc.), which share the same conventions as the per-skill `scripts/` folders. Every skill follows the unified `SKILL.md` specification, providing description, trigger scenarios, references, and scripts.
+`agent-skills` is EASBot's **agent-skills management repository**. It aggregates the builtin (`builtin`) and tools (`tools`) categories of skills for EASBot, designed for agents to load, compose, and reuse. The repository itself contains **no application code, no build artifacts, and no test suite**; `package.json` is only a metadata manifest (declares the dependency on `@easbot/agent` and the `files` field) and provides no `build`/`lint`/`test` scripts. The root `scripts/` directory holds **project-level maintenance scripts** (changelog generation, version bump, docs sync, etc.), which share the same conventions as the per-skill `scripts/` folders. Every skill follows the unified `SKILL.md` specification, providing description, trigger scenarios, references, and scripts.
 
 ### Install & Use
 
@@ -29,7 +29,7 @@ agent-skills/
 ├── package.json         # Metadata manifest (depends on @easbot/agent, declares files)
 ├── scripts/             # Project-level maintenance scripts (see table below)
 └── skills/
-    ├── buildin/         # Core builtin skills
+    ├── builtin/         # Core builtin skills
     │   ├── eas-agent-creation/      # Skill lifecycle management (create / evolve / deprecate)
     │   ├── eas-agent-evolution/     # Agent self-init and identity bootstrapping
     │   ├── eas-planning-writer/     # Authoring of plans and decision docs
@@ -52,6 +52,7 @@ Engineering scripts invoked locally or by CI by repository maintainers. See [AGE
 | `generate-changelog.ts` | Generate CHANGELOG from git commits |
 | `bump-version.ts` | Manually bump versions and create a tag |
 | `pre-commit-version.ts` | Pre-commit hook variant, disabled by default |
+| `publish.sh` / `publish.ps1` | Run `quick-validate` against every skill before publishing to npm |
 
 ## Builtin Skills
 
@@ -81,6 +82,20 @@ Example flow with the central navigation:
 2. It returns a capability index and a scenario → skill mapping
 3. Follow its guidance to load the concrete skill (e.g. `eas-skill-creator`) and execute the task
 
+If you already know which skill you want (e.g. `eas-skill-creator`), just have the agent load that `SKILL.md` directly — no need to go through the central navigation.
+
+### Repository-wide Skill Validation
+
+After editing or adding a skill, run a full validation pass:
+
+```bash
+for s in skills/builtin/*/ skills/tools/*/; do
+  [ -f "$s/SKILL.md" ] && npx tsx skills/builtin/eas-skill-creator/scripts/quick-validate.ts "$s"
+done
+```
+
+See [AGENTS.md §5.2](./AGENTS.md#52-skill-internal-scripts) for details.
+
 ## Design Principles
 
 - **Single responsibility** — each skill focuses on one class of problem or capability
@@ -91,3 +106,9 @@ Example flow with the central navigation:
 ## License
 
 This project is released under the [MIT License](./LICENSE).
+
+## Changes & Contributing
+
+- Version history and release process: see [CHANGELOG.md](./CHANGELOG.md)
+- Maintenance rules, commit conventions, and collaboration flow: see [AGENTS.md](./AGENTS.md)
+- Before adding or evolving a skill, load `eas-skill-using/SKILL.md` to confirm the category, then load `eas-skill-creator/SKILL.md` to follow the creation spec

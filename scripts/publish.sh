@@ -25,10 +25,10 @@ fi
 # 3) 校验所有 SKILL.md（必跑）
 echo "🔍 校验全部 skills 结构..."
 fail=0
-for s in skills/buildin/*/ skills/tools/*/; do
+for s in skills/builtin/*/ skills/tools/*/; do
   [ -f "$s/SKILL.md" ] || continue
   echo "  - $s"
-  if ! npx --no-install tsx skills/buildin/eas-skill-creator/scripts/quick-validate.ts "$s" >/dev/null 2>&1; then
+  if ! npx --no-install tsx skills/builtin/eas-skill-creator/scripts/quick-validate.ts "$s" >/dev/null 2>&1; then
     echo "    ❌ FAIL: $s"
     fail=$((fail+1))
   fi
