@@ -43,3 +43,6 @@ temp/
 .omc/
 .claude-flow/
 .swarm/
+
+# Others files
+skills-lock.json
