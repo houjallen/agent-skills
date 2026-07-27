@@ -1,0 +1,90 @@
+{
+  "name": "easbot-dev",
+  "description": "Development marketplace for EASBOT core skills library",
+  "owner": {
+    "name": "houjallen",
+    "email": "houjallen@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "eas-agent-creation",
+      "description": "技能生命周期管理入口，覆盖创建、演化、组合与废弃",
+      "source": "./skills/builtin/eas-agent-creation",
+      "category": "builtin",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-agent-evolution",
+      "description": "Agent 自我初始化、身份认知建立、配置文件生成与持续进化",
+      "source": "./skills/builtin/eas-agent-evolution",
+      "category": "builtin",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-planning-writer",
+      "description": "计划与决策文档撰写（task_plan / progress / decisions / findings）",
+      "source": "./skills/builtin/eas-planning-writer",
+      "category": "builtin",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-prompt-creator",
+      "description": "Agent / Tool / Task / Command / Mode 等各类 Prompt 的设计与生成",
+      "source": "./skills/builtin/eas-prompt-creator",
+      "category": "builtin",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-skill-creator",
+      "description": "官方技能创建与构建工具，提供创建、结构化、验证、打包技能的完整指导",
+      "source": "./skills/builtin/eas-skill-creator",
+      "category": "builtin",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-skill-find",
+      "description": "在 EASBot 技能生态中搜索候选技能，覆盖 skills.sh 市场的搜索、过滤与安装",
+      "source": "./skills/builtin/eas-skill-find",
+      "category": "builtin",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-skill-using",
+      "description": "技能生态中央导航，给出「我应该用哪个技能」的判断与典型场景下的推荐组合",
+      "source": "./skills/builtin/eas-skill-using",
+      "category": "builtin",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-chinese-writer",
+      "description": "中文文档与注释编写规范工具，确保中文内容遵循一致的术语翻译、JSDoc 注释和 i18n 输出标准",
+      "source": "./skills/tools/eas-chinese-writer",
+      "category": "tools",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    }
+  ]
+}
