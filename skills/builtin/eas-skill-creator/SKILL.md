@@ -67,6 +67,21 @@ API文档、语法指南、工具文档
 
 > **说明**：本节与上方「关于技能」内容一致，保留以符合 SKILL.md 模板的「何时使用 (When to Use)」章节约定。
 
+## 快速参考 (Quick Reference)
+
+| 项目 | 取值 / 说明 |
+| --- | --- |
+| 核心职责 | 创建、构建、验证、打包 EASBot 技能 |
+| 核心脚本 | `scripts/init-skill.ts`（初始化） / `scripts/quick-validate.ts`（校验） / `scripts/package-skill.ts`（打包） |
+| 技能目录模板 | `<skill-name>/` 下含 `SKILL.md` + 可选 `scripts/`、`references/`、`assets/` |
+| **脚本调用路径规范** | 默认 `scripts/xxx.ts` 相对路径；模板/跨技能场景用 `<skillPath>/scripts/xxx.ts` 占位符；**禁止** `skills/builtin/.../scripts/...` 硬编码绝对路径（详见 [脚本调用路径规范](#脚本调用路径规范-script-invocation-path-specification)） |
+| 五大模式 | Tool Wrapper / Generator / Reviewer / Inversion / Pipeline |
+| 三类技能类型 | Technique / Pattern / Reference（与模式正交，可叠加） |
+| 必填 frontmatter | `name`（hyphen-case，≤64）/ `description`（第三人称，≤1024） |
+| 必填正文节 | 概述 / 何时使用 / 快速参考 |
+| 关联技能 | `eas-skill-using`（导航） / `eas-skill-find`（搜市场） / `eas-agent-creation`（生命周期） |
+| 详细规范 | 详见 [references/skill-spec.md](references/skill-spec.md) / [references/skill-creation-guide.md](references/skill-creation-guide.md) |
+
 ## 核心功能 (Core Functions)
 
 ### 1. 技能的构成（Anatomy of a Skill）
@@ -403,6 +418,56 @@ tsx scripts/package-skill.ts ./skills/my-skill
 ```
 
 ## 核心原则 (Core Principles)
+
+### 脚本调用路径规范 (Script Invocation Path Specification)
+
+**MUST: 技能内部调用脚本时，必须遵循以下两种写法之一，禁止硬编码绝对路径。**
+
+#### 规范 1：基于技能作用域的相对路径（推荐）
+
+技能被加载后，Agent 的当前上下文就是技能目录。**默认使用 `scripts/xxx.ts` 相对路径**：
+
+```bash
+tsx scripts/init-skill.ts my-skill --path ./skills --resources scripts,references,assets --examples
+tsx scripts/quick-validate.ts ./skills/my-skill
+```
+
+**适用场景**：技能内部自带的脚本（self-contained）。
+
+#### 规范 2：技能路径占位符（用于模板/跨技能引用）
+
+当需要在模板、跨技能文档或外部说明中描述"调用哪个技能的脚本"时，使用 `<skillPath>/scripts/xxx.ts` 占位符：
+
+```bash
+tsx <skillPath>/scripts/init-skill.ts my-skill --path ./skills --resources scripts,references,assets --examples
+```
+
+**适用场景**：模板文件（如 `00NN-requirement.md`）、跨技能说明、用户文档。
+
+> **`<skillPath>` 解析规则**：
+> - builtin 技能：`{workspace}/skills/builtin/{skill-name}/`
+> - 用户技能：`{workspace}/skills/{skill-name}/`
+> - 全局技能：`~/.local/share/easbot/skills/{skill-name}/`
+> - Agent 应根据技能的实际安装位置替换 `<skillPath>`
+
+#### 反模式（绝对禁止）
+
+```bash
+# ❌ 错误：硬编码绝对路径
+tsx skills/builtin/eas-skill-creator/scripts/init-skill.ts my-skill
+
+# ❌ 错误：使用了具体技能名作为占位符
+tsx eas-skill-creator/scripts/init-skill.ts my-skill
+
+# ❌ 错误：使用 @ 引用格式
+tsx @skills/builtin/eas-skill-creator/scripts/init-skill.ts
+```
+
+#### 脚本路径错误的常见后果
+
+- **作用域错乱**：在错误的目录运行脚本，配置文件写到错误位置
+- **跨环境失败**：硬编码路径在全局/项目级不同安装位置下失败
+- **可移植性差**：技能复制到其他位置后路径全部失效
 
 ### 简洁性是关键 (Conciseness is Key)
 上下文窗口是共享资源，所有内容都与系统提示、对话历史、其他技能元数据和用户请求共享。
