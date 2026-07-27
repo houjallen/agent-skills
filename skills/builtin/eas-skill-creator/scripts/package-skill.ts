@@ -47,10 +47,16 @@ export class SkillValidator {
       try {
         frontmatter = yaml.load(frontmatterText) as any;
         if (typeof frontmatter !== 'object' || frontmatter === null) {
-          return { valid: false, message: 'Frontmatter must be a YAML dictionary' };
+          return {
+            valid: false,
+            message: 'Frontmatter must be a YAML dictionary',
+          };
         }
       } catch (error) {
-        return { valid: false, message: `Invalid YAML in frontmatter: ${(error as Error).message}` };
+        return {
+          valid: false,
+          message: `Invalid YAML in frontmatter: ${(error as Error).message}`,
+        };
       }
 
       // 检查不允许的属性
@@ -88,45 +94,72 @@ export class SkillValidator {
         return { valid: false, message: "Missing 'name' in frontmatter" };
       }
       if (!Object.hasOwn(frontmatter, 'description')) {
-        return { valid: false, message: "Missing 'description' in frontmatter" };
+        return {
+          valid: false,
+          message: "Missing 'description' in frontmatter",
+        };
       }
 
       // 验证名称
       let name = frontmatter.name;
       if (typeof name !== 'string') {
-        return { valid: false, message: `Name must be a string, got ${typeof name}` };
+        return {
+          valid: false,
+          message: `Name must be a string, got ${typeof name}`,
+        };
       }
       name = name.trim();
       if (name) {
         if (!/^[a-z0-9-]+$/.test(name)) {
-          return { valid: false, message: `Name '${name}' should be hyphen-case (lowercase letters, digits, and hyphens only)` };
+          return {
+            valid: false,
+            message: `Name '${name}' should be hyphen-case (lowercase letters, digits, and hyphens only)`,
+          };
         }
         if (name.startsWith('-') || name.endsWith('-') || name.includes('--')) {
-          return { valid: false, message: `Name '${name}' cannot start/end with hyphen or contain consecutive hyphens` };
+          return {
+            valid: false,
+            message: `Name '${name}' cannot start/end with hyphen or contain consecutive hyphens`,
+          };
         }
         if (name.length > MAX_SKILL_NAME_LENGTH) {
-          return { valid: false, message: `Name is too long (${name.length} characters). Maximum is ${MAX_SKILL_NAME_LENGTH} characters.` };
+          return {
+            valid: false,
+            message: `Name is too long (${name.length} characters). Maximum is ${MAX_SKILL_NAME_LENGTH} characters.`,
+          };
         }
       }
 
       // 验证描述
       let description = frontmatter.description;
       if (typeof description !== 'string') {
-        return { valid: false, message: `Description must be a string, got ${typeof description}` };
+        return {
+          valid: false,
+          message: `Description must be a string, got ${typeof description}`,
+        };
       }
       description = description.trim();
       if (description) {
         if (description.includes('<') || description.includes('>')) {
-          return { valid: false, message: 'Description cannot contain angle brackets (< or >)' };
+          return {
+            valid: false,
+            message: 'Description cannot contain angle brackets (< or >)',
+          };
         }
         if (description.length > 1024) {
-          return { valid: false, message: `Description is too long (${description.length} characters). Maximum is 1024 characters.` };
+          return {
+            valid: false,
+            message: `Description is too long (${description.length} characters). Maximum is 1024 characters.`,
+          };
         }
       }
 
       return { valid: true, message: 'Skill is valid!' };
     } catch (error: any) {
-      return { valid: false, message: `Error validating skill: ` + error.message };
+      return {
+        valid: false,
+        message: `Error validating skill: ` + error.message,
+      };
     }
   }
 }
@@ -143,12 +176,18 @@ export class SkillPackager {
       try {
         await fs.access(skillPathObj);
       } catch {
-        return { success: false, message: `Skill folder not found: ${skillPathObj}` };
+        return {
+          success: false,
+          message: `Skill folder not found: ${skillPathObj}`,
+        };
       }
 
       const stat = await fs.stat(skillPathObj);
       if (!stat.isDirectory) {
-        return { success: false, message: `Path is not a directory: ${skillPathObj}` };
+        return {
+          success: false,
+          message: `Path is not a directory: ${skillPathObj}`,
+        };
       }
 
       // 检查SKILL.md是否存在
@@ -156,7 +195,10 @@ export class SkillPackager {
       try {
         await fs.access(skillMdPath);
       } catch {
-        return { success: false, message: `SKILL.md not found in ${skillPathObj}` };
+        return {
+          success: false,
+          message: `SKILL.md not found in ${skillPathObj}`,
+        };
       }
 
       // 运行验证
@@ -165,14 +207,17 @@ export class SkillPackager {
       const validation = await validator.validateSkill(skillPathObj);
 
       if (!validation.valid) {
-        return { success: false, message: `Validation failed: ${validation.message}\n   Please fix the validation errors before packaging.` };
+        return {
+          success: false,
+          message: `Validation failed: ${validation.message}\n   Please fix the validation errors before packaging.`,
+        };
       }
 
       console.log(`✅ ${validation.message}\n`);
 
       // 确定输出位置
       const skillName = path.basename(skillPathObj);
-      let outputDir;
+      let outputDir: string;
 
       if (outputPath) {
         outputDir = path.resolve(outputPath);
@@ -215,12 +260,22 @@ export class SkillPackager {
         await fs.writeFile(skillFilename, zipBuffer);
 
         console.log(`\n✅ Successfully packaged skill to: ${skillFilename}`);
-        return { success: true, message: `Successfully packaged skill to: ${skillFilename}`, zipPath: skillFilename };
+        return {
+          success: true,
+          message: `Successfully packaged skill to: ${skillFilename}`,
+          zipPath: skillFilename,
+        };
       } catch (zipError: any) {
-        return { success: false, message: `Error creating .skill file: ${zipError.message}` };
+        return {
+          success: false,
+          message: `Error creating .skill file: ${zipError.message}`,
+        };
       }
     } catch (error: any) {
-      return { success: false, message: `Error packaging skill: ` + error.message };
+      return {
+        success: false,
+        message: `Error packaging skill: ` + error.message,
+      };
     }
   }
 }

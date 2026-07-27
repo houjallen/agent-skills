@@ -18,7 +18,8 @@
     "publish:npm:win": "powershell -ExecutionPolicy Bypass -File scripts/publish.ps1",
     "docs:add": "npx tsx ./scripts/docs_add_frontmatter.ts",
     "docs:sync": "npx tsx ./scripts/docs_sync_automation.ts",
-    "docs:validate": "npx tsx ./scripts/docs_sync_automation.ts --validate"
+    "docs:validate": "npx tsx ./scripts/docs_sync_automation.ts --validate",
+    "plugin:generate": "npx tsx ./scripts/generate-plugin.ts .claude-plugin"
   },
   "keywords": [
     "ai",
@@ -46,7 +47,7 @@
     "LICENSE"
   ],
   "devDependencies": {
-    "@biomejs/biome": "^2.4.14",
+    "@biomejs/biome": "2.5.5",
     "@types/node": "^25.9.5",
     "@types/js-yaml": "^4.0.9",
     "node-pty": "1.1.0",

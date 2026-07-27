@@ -54,10 +54,16 @@ export class SkillValidator {
       try {
         frontmatter = yaml.load(frontmatterText) as any;
         if (typeof frontmatter !== 'object' || frontmatter === null) {
-          return { valid: false, message: 'Frontmatter must be a YAML dictionary' };
+          return {
+            valid: false,
+            message: 'Frontmatter must be a YAML dictionary',
+          };
         }
       } catch (error) {
-        return { valid: false, message: `Invalid YAML in frontmatter: ${(error as Error).message}` };
+        return {
+          valid: false,
+          message: `Invalid YAML in frontmatter: ${(error as Error).message}`,
+        };
       }
 
       // 检查不允许的属性
@@ -95,45 +101,72 @@ export class SkillValidator {
         return { valid: false, message: "Missing 'name' in frontmatter" };
       }
       if (!Object.hasOwn(frontmatter, 'description')) {
-        return { valid: false, message: "Missing 'description' in frontmatter" };
+        return {
+          valid: false,
+          message: "Missing 'description' in frontmatter",
+        };
       }
 
       // 验证名称
       let name = frontmatter.name;
       if (typeof name !== 'string') {
-        return { valid: false, message: `Name must be a string, got ${typeof name}` };
+        return {
+          valid: false,
+          message: `Name must be a string, got ${typeof name}`,
+        };
       }
       name = name.trim();
       if (name) {
         if (!/^[a-z0-9-]+$/.test(name)) {
-          return { valid: false, message: `Name '${name}' should be hyphen-case (lowercase letters, digits, and hyphens only)` };
+          return {
+            valid: false,
+            message: `Name '${name}' should be hyphen-case (lowercase letters, digits, and hyphens only)`,
+          };
         }
         if (name.startsWith('-') || name.endsWith('-') || name.includes('--')) {
-          return { valid: false, message: `Name '${name}' cannot start/end with hyphen or contain consecutive hyphens` };
+          return {
+            valid: false,
+            message: `Name '${name}' cannot start/end with hyphen or contain consecutive hyphens`,
+          };
         }
         if (name.length > MAX_SKILL_NAME_LENGTH) {
-          return { valid: false, message: `Name is too long (${name.length} characters). Maximum is ${MAX_SKILL_NAME_LENGTH} characters.` };
+          return {
+            valid: false,
+            message: `Name is too long (${name.length} characters). Maximum is ${MAX_SKILL_NAME_LENGTH} characters.`,
+          };
         }
       }
 
       // 验证描述
       let description = frontmatter.description;
       if (typeof description !== 'string') {
-        return { valid: false, message: `Description must be a string, got ${typeof description}` };
+        return {
+          valid: false,
+          message: `Description must be a string, got ${typeof description}`,
+        };
       }
       description = description.trim();
       if (description) {
         if (description.includes('<') || description.includes('>')) {
-          return { valid: false, message: 'Description cannot contain angle brackets (< or >)' };
+          return {
+            valid: false,
+            message: 'Description cannot contain angle brackets (< or >)',
+          };
         }
         if (description.length > 1024) {
-          return { valid: false, message: `Description is too long (${description.length} characters). Maximum is 1024 characters.` };
+          return {
+            valid: false,
+            message: `Description is too long (${description.length} characters). Maximum is 1024 characters.`,
+          };
         }
       }
 
       return { valid: true, message: 'Skill is valid!' };
     } catch (error: any) {
-      return { valid: false, message: `Error validating skill: ` + error.message };
+      return {
+        valid: false,
+        message: `Error validating skill: ` + error.message,
+      };
     }
   }
 
@@ -215,7 +248,7 @@ async function main() {
   const validator = new SkillValidator();
 
   try {
-    let result;
+    let result: { valid: boolean; message: string; details?: any };
     if (complete) {
       console.log('Performing complete validation...');
       result = await validator.validateSkillComplete(skillPath);
