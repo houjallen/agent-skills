@@ -1,0 +1,14 @@
+{
+  "name": "easbot",
+  "description": "EASBOT - Advanced AI Assistant System with dynamic skill generation, intelligent workflows, and self-evolving capabilities built on the Easbot framework",
+  "version": "4.1.1",
+  "author": {
+    "name": "houjallen",
+    "email": "houjallen@gmail.com"
+  },
+  "homepage": "https://github.com/houjallen/agent-skills",
+  "repository": "https://github.com/houjallen/agent-skills",
+  "license": "MIT",
+  "keywords": ["skills", "tdd", "debugging", "collaboration", "best-practices", "workflows", "ai", "agents", "automation"],
+  "skills": ["./skills/"]
+}
