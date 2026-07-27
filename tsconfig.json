@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "./dist",
+    "rootDir": "./",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["node"],
+    "resolveJsonModule": true
+  },
+  "include": ["scripts/*", "skills/*"],
+  "exclude": ["node_modules", "dist"]
+}
