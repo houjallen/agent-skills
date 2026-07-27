@@ -1,6 +1,6 @@
 {
-  "name": "easbot-dev",
-  "description": "Development marketplace for EASBOT core skills library",
+  "name": "easbot-agent-skills",
+  "description": "the EASBot agent-skills management repository",
   "owner": {
     "name": "houjallen",
     "email": "houjallen@gmail.com"
@@ -8,9 +8,10 @@
   "plugins": [
     {
       "name": "eas-agent-creation",
-      "description": "技能生命周期管理入口，覆盖创建、演化、组合与废弃",
+      "description": "该技能应在 EASBot Agent 需要按应用场景创建新技能、演化现有技能、或管理技能组合（Bundle）时使用。覆盖技能从创建到废弃的完整生命周期。",
       "source": "./skills/builtin/eas-agent-creation",
       "category": "builtin",
+      "version": "1.0.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -18,9 +19,10 @@
     },
     {
       "name": "eas-agent-evolution",
-      "description": "Agent 自我初始化、身份认知建立、配置文件生成与持续进化",
+      "description": "该技能应在 Agent 需要进行自我初始化、身份认知建立、配置文件生成、备份恢复或持续进化时使用。覆盖 Agent 从 bootstrap 到持续完善的完整生命周期。",
       "source": "./skills/builtin/eas-agent-evolution",
       "category": "builtin",
+      "version": "1.0.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -28,9 +30,10 @@
     },
     {
       "name": "eas-planning-writer",
-      "description": "计划与决策文档撰写（task_plan / progress / decisions / findings）",
+      "description": "该技能应在 Agent 处理跨 session、需要持久化进度的复杂任务时使用——任务通过 Markdown 三件套（task_plan / findings / progress）落地到 `.easbot/knowledge/tasks/{task-name}/`，支持跨 session 状态恢复与事后 Review。",
       "source": "./skills/builtin/eas-planning-writer",
       "category": "builtin",
+      "version": "0.1.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -38,9 +41,10 @@
     },
     {
       "name": "eas-prompt-creator",
-      "description": "Agent / Tool / Task / Command / Mode 等各类 Prompt 的设计与生成",
+      "description": "该技能应在需要为 EASBot 创建、规范化或审核提示词时使用。技能提供完整的提示词分类体系、规范化模板和质量控制流程，确保提示词遵循 EASBot 设计规范和最佳实践。",
       "source": "./skills/builtin/eas-prompt-creator",
       "category": "builtin",
+      "version": "1.0.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -48,9 +52,10 @@
     },
     {
       "name": "eas-skill-creator",
-      "description": "官方技能创建与构建工具，提供创建、结构化、验证、打包技能的完整指导",
+      "description": "该技能应用于创建、构建和验证EASBot技能。当Agent需要为其他Agent设计、构建、验证或打包包含脚本、参考资料和资产的技能时使用。",
       "source": "./skills/builtin/eas-skill-creator",
       "category": "builtin",
+      "version": "1.0.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -58,9 +63,10 @@
     },
     {
       "name": "eas-skill-find",
-      "description": "在 EASBot 技能生态中搜索候选技能，覆盖 skills.sh 市场的搜索、过滤与安装",
+      "description": "该技能应在 Agent 需要在 EASBot 技能生态中搜索候选技能、或在执行任务前确认是否有更合适的现成 skill 可加载时使用。覆盖 skills.sh 市场搜索、过滤、验证、安装的完整链路。",
       "source": "./skills/builtin/eas-skill-find",
       "category": "builtin",
+      "version": "1.0.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -68,9 +74,10 @@
     },
     {
       "name": "eas-skill-using",
-      "description": "技能生态中央导航，给出「我应该用哪个技能」的判断与典型场景下的推荐组合",
+      "description": "该技能应在 Agent 不确定该加载哪个 EASBot builtin 技能、需要查看能力清单或场景映射时使用。作为 builtin 技能生态的中央导航和上下文提供者，给出\"我应该用哪个技能\"的判断与典型场景下的推荐组合。",
       "source": "./skills/builtin/eas-skill-using",
       "category": "builtin",
+      "version": "1.0.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -78,9 +85,10 @@
     },
     {
       "name": "eas-chinese-writer",
-      "description": "中文文档与注释编写规范工具，确保中文内容遵循一致的术语翻译、JSDoc 注释和 i18n 输出标准",
+      "description": "该技能应在需要编写中文文档、翻译英文内容到中文、或在代码中添加规范的中文注释（JSDoc）时使用。该技能提供专业技术名词保留英文、文档与代码中文使用规范、i18n 输出规范等指导，确保中文文档和代码注释的准确性与一致性。",
       "source": "./skills/tools/eas-chinese-writer",
       "category": "tools",
+      "version": "0.1.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"

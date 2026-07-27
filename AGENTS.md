@@ -99,8 +99,9 @@ agent-skills/
 | 根据 git commits 生成 CHANGELOG | `npx tsx scripts/generate-changelog.ts [version]` | 零依赖 |
 | 手动升级版本号（含子项目）与 tag | `npx tsx scripts/bump-version.ts <major\|minor\|patch>` | 零依赖 |
 | pre-commit 用的版本升级（默认禁用，需 `ENABLE_VERSION_BUMP=1`） | `npx tsx scripts/pre-commit-version.ts` | 零依赖 |
+| 生成 `.claude-plugin/marketplace.json` | `npx tsx scripts/generate-plugin.ts [output-dir]`（默认 `.claude-plugin`） | 零依赖 |
 
-> 根 `scripts/` 下的脚本**不通过 `package.json` 暴露**（仓库无应用代码、不设 `npm run` 别名），均通过 `npx tsx scripts/<name>.ts` 直接调用；其依赖按需 `npm install --no-save <pkg>` 后再跑。
+> 根 `scripts/` 下的脚本可在 `package.json` 的 `scripts` 字段中以 `npm run` 别名形式暴露（如 `npm run plugin:generate`），便于 CI / 一键调用；同时也支持 `npx tsx scripts/<name>.ts` 直接调用。其依赖按需 `npm install --no-save <pkg>` 后再跑。
 > 校验技能结构请用 `skills/builtin/eas-skill-creator/scripts/quick-validate.ts`（见 §5.2），不要用根 `scripts/` 下任何同名/同义脚本。
 
 ### 5.2 技能包内部脚本
