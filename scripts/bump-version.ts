@@ -31,7 +31,13 @@ interface PackageJson {
 /**
  * 解析版本号
  */
-function parseVersion(version: string): { major: number; minor: number; patch: number; prerelease?: string; build?: string } | null {
+function parseVersion(version: string): {
+  major: number;
+  minor: number;
+  patch: number;
+  prerelease?: string;
+  build?: string;
+} | null {
   const match = version.match(VERSION_REGEX);
   if (!match) return null;
 
@@ -207,7 +213,9 @@ function main(): void {
   // 生成 CHANGELOG.md
   console.log(`\n📝 生成 CHANGELOG.md...`);
   try {
-    execSync(`npx tsx scripts/generate-changelog.ts ${newVersion}`, { stdio: 'inherit' });
+    execSync(`npx tsx scripts/generate-changelog.ts ${newVersion}`, {
+      stdio: 'inherit',
+    });
     git('add CHANGELOG.md');
     console.log(`   ✅ CHANGELOG.md 已更新并添加到暂存区`);
   } catch (error) {

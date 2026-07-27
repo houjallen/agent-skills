@@ -36,9 +36,9 @@ import { execSync } from 'node:child_process';
 interface Commit {
   hash: string;
   // 提交归属：[skill: <name>] | [repo] | [auto]
-  scope: string;          // 例如 eas-skill-creator / repo / auto
-  type: string;           // feat / fix / docs / chore ...
-  subject: string;        // 提交首行去掉前缀后的描述
+  scope: string; // 例如 eas-skill-creator / repo / auto
+  type: string; // feat / fix / docs / chore ...
+  subject: string; // 提交首行去掉前缀后的描述
   date: string;
 }
 
@@ -134,7 +134,13 @@ function makeCommit(hash: string, date: string, scope: string, subject: string, 
   if (type === 'chore' && (lower.includes('release') || lower.includes('version'))) {
     return { hash, scope, type: '__skip__', subject, date };
   }
-  return { hash: hash.trim(), scope: scope.trim(), type: type.trim(), subject: subject.trim(), date: date.trim() };
+  return {
+    hash: hash.trim(),
+    scope: scope.trim(),
+    type: type.trim(),
+    subject: subject.trim(),
+    date: date.trim(),
+  };
 }
 
 /**
@@ -209,9 +215,7 @@ function generateChangelogContent(version: string, commits: Commit[]): string {
   }
 
   // 计算本次版本涉及的 skill 列表（用于 "Changed Skills" 摘要）
-  const skills = Array.from(
-    new Set(commits.filter((c) => c.scope.startsWith('eas-')).map((c) => c.scope)),
-  ).sort();
+  const skills = Array.from(new Set(commits.filter((c) => c.scope.startsWith('eas-')).map((c) => c.scope))).sort();
 
   let content = `## ${version}\n\n`;
   if (commits.length > 0) {
