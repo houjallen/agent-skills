@@ -6,7 +6,7 @@
 
 ## 项目简介
 
-`agent-skills` 是 EASBot 的 **agent-skills 管理项目**，聚合了 EASBot 内置（`builtin`）与工具（`tools`）类技能，供各类 Agent 加载、组合与复用。仓库本体**不包含应用代码、无构建产物、无单元测试套件**；`package.json` 仅作为元信息包存在（声明对 `@easbot/agent` 的依赖与 `files` 字段），不提供 `build`/`lint`/`test` scripts。根 `scripts/` 目录仅放**项目级维护脚本**（changelog 生成、版本号升级、docs 同步等），与各技能内部的 `scripts/` 同根同源。每个技能遵循统一的 `SKILL.md` 规范，提供描述、触发场景、参考资料与脚本。
+`agent-skills` 是 EASBot 的 **agent-skills 管理项目**，聚合了 EASBot 内置（`builtin`）与工具（`tools`）类技能，供各类 Agent 加载、组合与复用。仓库本体**不包含应用代码、无构建产物、无应用级测试套件**；`package.json` 是元信息包（声明对 `@easbot/agent` 的依赖与 `files` 字段），已配 `biome` + `lint-staged` 仅供**根维护脚本与各技能脚本本地开发使用**，**非 CI 强门禁**（CI 只跑 `quick-validate.ts`，详见 [AGENTS.md §2](./AGENTS.md#2-不强制-ci-门禁的工具)）。根 `scripts/` 目录仅放**项目级维护脚本**（changelog 生成、版本号升级、docs 同步等），与各技能内部的 `scripts/` 同根同源。每个技能遵循统一的 `SKILL.md` 规范，提供描述、触发场景、参考资料与脚本。
 
 ### 安装与使用
 
