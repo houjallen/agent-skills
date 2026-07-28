@@ -23,8 +23,9 @@ status: proposed
     1. 复制本文 → 替换所有 <占位符>
     2. 落地路径：<cwd>/docs/decisions/00NN-{topic}.md（去掉本注释块）
        其中 <cwd> = 宿主项目根目录（Agent 调用本技能时的当前工作目录）
-    3. 决策文件落地后，Agent **MUST 把文中所有 <cwd> 替换为实际工作目录的绝对路径**
-       （如 `e:/work/proj/spec/xxx.md`），不可保留 `<cwd>` 字面量——否则文档链接失效。
+    3. 决策文件落地后，`<cwd>` 占位符策略（**二选一**）：
+       - **策略 A（推荐，跨机器可移植）**：保留 `<cwd>` 字面量作为占位符，由后续渲染方（如文档站生成器）解析为实际路径
+       - **策略 B（单环境稳定）**：Agent **MUST 把文中所有 <cwd> 替换为实际工作目录的绝对路径**（如 `e:/work/proj/spec/xxx.md`）
        替换范围包括本注释块下方的"详细规范"链接与"关联"章节示例。
 
   详细规范：见 <cwd>/docs/decisions/references/decision-template-guide.md

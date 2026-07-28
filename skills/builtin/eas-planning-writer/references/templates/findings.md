@@ -67,10 +67,10 @@
 <!--
   内容：你发现有用的 URL、文件路径、API 参考、文档链接。
   原因：便于以后参考。不要在上下文中丢失重要链接。
-  时机：发现有用资源时添加；优先使用 [file:///](file:///绝对路径) 链接仓库内文件。
+  时机：发现有用资源时添加；优先使用相对路径链接仓库内文件，如 [path/to/file.ts](path/to/file.ts)。
   示例：
     - Python argparse docs: https://docs.python.org/3/library/argparse.html
-    - Project structure: src/main.py, src/utils.py
+    - Project structure: [src/main.py](src/main.py), [src/utils.py](src/utils.py)
 -->
 <!-- URL、文件路径、API 参考 -->
 -
@@ -91,10 +91,16 @@
 ## 决策沉淀 (Decision Sediment)
 
 <!--
-  关键判断（如架构选型、流程优化）必须沉淀为决策日志：
+  本节**只做引用登记**，不保存决策本身。决策归档到独立文件：
 
-      progress.md        ← 进度临时记录（会话级，不沉淀）
-      <cwd>/docs/decisions/00NN-{topic}.md  ← 决策永久归档（Michael Nygard ADR 模式）
+    progress.md                                      ← 进度临时记录（会话级，不沉淀）
+    <task-dir>/0001-{topic}.md                       ← 单任务内决策（最常见）
+    <cwd>/docs/decisions/00NN-{topic}.md             ← 跨任务/跨模块决策（Michael Nygard ADR 模式）
+
+  本节填写规范：
+  - 每条关键判断对应一行：决策主题 + 归档文件相对路径
+  - 单任务内决策：相对路径如 [0001-initial-design.md](0001-initial-design.md)
+  - 跨任务决策：相对路径如 [<cwd>/docs/decisions/0012-xxx.md](<cwd>/docs/decisions/0012-xxx.md)（落地后由 Agent 替换）
 
   沉淀时机：
   - 跨 session 才会复用的决策（架构选型、命名约定、流程优化）
@@ -103,6 +109,8 @@
   - 不沉淀：纯局部代码修复、临时变量命名、单文件内的实现细节
 
   Review 决策日志后，可将进度文件清理或保留。
+
+  完整规范：见 <eas-planning-writer>/SKILL.md §决策沉淀 + <eas-planning-writer>/references/requirement-decision-guide.md
 -->
 - (待补充：每条关键判断对应一条决策日志引用)
 

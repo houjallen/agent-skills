@@ -1,6 +1,6 @@
 ---
 name: eas-planning-writer
-description: 该技能应在 Agent 处理跨 session、需要持久化进度的复杂任务时使用——任务通过 Markdown 三件套（task_plan / findings / progress）落地到 `.easbot/knowledge/tasks/{task-name}/`，支持跨 session 状态恢复与事后 Review。
+description: 该技能应在 Agent 处理跨 session、需要持久化进度、需要事后 Review 或文档化的复杂长任务时使用——典型场景包括多日推进、多阶段实施、需要决策追溯的项目级任务。
 category: builtin
 ---
 
@@ -78,6 +78,8 @@ category: builtin
 8. 上下文爆炸 → 拆子任务目录（见模板"子任务拆分判断"）
 ```
 
+> **与模板 5 阶段的映射**：`task_plan.md` 模板定义了 5 个**粗阶段**（需求与发现 / 规划与结构 / 实现 / 测试与验证 / 交付），上方的 8 步流程是每个粗阶段**内部**的 day-to-day 操作序列。两者并不冲突：阶段 1-5 决定"做什么"，8 步决定"每天怎么做"。
+
 ### 4. 辅助脚本（可选）
 
 仅在不想手动复制模板时使用；阶段完成度检查仍推荐：
@@ -118,7 +120,7 @@ if action_failed:
     next_action != same_action
 ```
 
-追踪已尝试的方法，改变策略。**3 次失败后升级给用户**。
+追踪已尝试的方法，改变策略。**遵循下方「三次尝试错误协议」。**
 
 ## 三次尝试错误协议 (3-Attempt Error Protocol)
 
@@ -138,23 +140,26 @@ if action_failed:
   → 搜索解决方案
   → 考虑更新计划
 
-3 次失败后：升级给用户
+3 次失败后：升级给用户（详见「三次尝试错误协议 (3-Attempt Error Protocol)」）
   → 解释你尝试了什么
   → 分享具体错误
   → 寻求指导
 ```
 
-## 5 个问题重启测试 (5-Question Reboot Test)
+## 6 个问题重启测试 (6-Question Reboot Test)
 
 如果 Agent 能回答以下问题，说明上下文管理稳固：
 
-| 问题 | 答案来源 |
-|------|----------|
-| 我在哪？ | `task_plan.md` 中的当前阶段 |
-| 我要去哪？ | 剩余阶段 |
-| 目标是什么？ | 计划中的目标声明 |
-| 我学到了什么？ | `findings.md` |
-| 我做了什么？ | `progress.md` |
+| # | 问题 | 答案来源 |
+|---|------|----------|
+| 1 | 我在哪？ | `task_plan.md` 中的当前阶段 |
+| 2 | 我要去哪？ | 剩余阶段 |
+| 3 | 目标是什么？ | 计划中的目标声明 |
+| 4 | 我学到了什么？ | `findings.md` |
+| 5 | 我做了什么？ | `progress.md` |
+| 6 | 是否需要拆子任务目录？ | `progress.md` 中的「子任务拆分判断」节 |
+
+> **与模板对齐**：本节与 `progress.md` 模板中的「6-Question Reboot Check」一致（含「是否需要拆子任务目录」）。
 
 ## 读 vs 写 决策矩阵
 
@@ -189,11 +194,20 @@ if action_failed:
 
 ## 决策沉淀 (Decision Sediment)
 
-跨 session 才会复用、影响其他模块、需要 Review 的关键判断，必须写入 `<cwd>/docs/decisions/00NN-{topic}.md`（宿主项目级 ADR 目录）。`progress.md` 是临时记录，`<cwd>/docs/decisions/` 是永久归档。
+跨 session 才会复用、影响其他模块、需要 Review 的关键判断，必须沉淀为决策记录。`progress.md` 是临时记录（会话级，不沉淀）；决策文档是永久归档。
+
+### 沉淀路径（按影响范围二选一）
+
+| 影响范围 | 落地路径 | 模板 | 适用场景 |
+|----------|----------|------|----------|
+| **单任务内** | `<task-dir>/0001-{topic}.md`（与三件套同目录） | [`00NN-requirement.md`](references/templates/decisions/00NN-requirement.md) | 阶段划分、模式选择、字段约定等单任务内的设计判断（最常见） |
+| **跨任务 / 跨模块** | `<cwd>/docs/decisions/00NN-{topic}.md`（宿主项目级 ADR 目录） | [`00NN-architecture.md`](references/templates/decisions/00NN-architecture.md) / [`00NN-execution.md`](references/templates/decisions/00NN-execution.md) | 影响 ≥ 2 个任务、改变调用协议、需跨模块 Review 的判断 |
+
+> **不要混淆**：`findings.md` 模板中的「决策沉淀」节只做**引用登记**（指向真正的决策归档文件），不是决策本身；本节给出真正落地的路径与模板。完整判定速查与反模式见 [requirement-decision-guide.md](references/requirement-decision-guide.md)。
 
 ### 路径变量 (Path Variables)
 
-为支持技能在任意宿主项目下复用，统一采用 `<cwd>` 前缀约定（与 [`eas-skill-creator`](../eas-skill-creator/SKILL.md) 保持一致）：
+为支持技能在任意宿主项目下复用，统一采用 `<cwd>` 前缀约定：
 
 | 占位符 | 含义 |
 |--------|------|

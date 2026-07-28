@@ -105,7 +105,7 @@ Action: Read config.json
 Success!
 ```
 
-参考 SKILL.md 的「三次尝试错误协议」——失败 3 次后必须升级给用户。
+参考 SKILL.md 的「三次尝试错误协议 (3-Attempt Error Protocol)」——失败 3 次后必须升级给用户。
 
 ---
 
