@@ -3,7 +3,7 @@
   "files": {
     "maxSize": 2097152,
     "ignoreUnknown": true,
-    "includes": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.json", "!**/dist/", "!**/node_modules/", "!**/docs/", "!**/temp", "!**/.easbot/", "!**/*.md", "!**/models-snapshot.ts"]
+    "includes": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.json", "!**/dist/", "!**/node_modules/", "!**/docs/", "!**/temp", "!**/.easbot/", "!**/*.md"]
   },
   "formatter": {
     "enabled": true,
@@ -96,14 +96,14 @@
         "noCommentText": "warn",
         "noCompareNegZero": "warn",
         "noConsole": "off",
-        "noControlCharactersInRegex": "warn",
+        "noControlCharactersInRegex": "error",
         "noDebugger": "off",
         "noDuplicateCase": "warn",
         "noDuplicateClassMembers": "warn",
         "noDuplicateJsxProps": "warn",
         "noDuplicateObjectKeys": "warn",
         "noDuplicateParameters": "warn",
-        "noEmptyBlockStatements": "warn",
+        "noEmptyBlockStatements": "off",
         "noEmptyInterface": "warn",
         "noExplicitAny": "off",
         "noExtraNonNullAssertion": "warn",
@@ -156,6 +156,6 @@
       "attributePosition": "auto",
       "bracketSpacing": true
     },
-    "globals": ["window", "Bun"]
+    "globals": ["window", "process"]
   }
 }
