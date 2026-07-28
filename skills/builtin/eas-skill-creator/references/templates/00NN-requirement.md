@@ -19,7 +19,7 @@ status: proposed
   本模板用于"技能级需求决策"：在 eas-skill-creator 步骤 1 需求收集完成后、
   步骤 2 模式决策启动前产出。记录关键设计判断，避免上下文丢失。
   使用方法：复制本文 → 替换所有占位符 → 删除本注释块。
-  详细规范：见 ./requirement-decision-guide.md（同目录）
+  详细规范：见 <eas-skill-creator>/references/requirement-decision-guide.md（同目录）
 
   路径约束：
   - 本文件是模板，仅供复制使用
