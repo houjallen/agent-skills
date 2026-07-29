@@ -216,7 +216,7 @@ npx tsx scripts/register-backup-task.ts list
 
 - **eas-skill-creator**: 本技能遵循 eas-skill-creator 定义的技能结构
 - **eas-prompt-creator**: 生成的配置文件符合 eas-prompt-creator 规范
-- **eas-skill-using**: 本技能与 eas-skill-using 协同工作
+- **eas-skill-using**: 本技能与 `eas-skill-using` 协同工作；概念边界（Skill vs Agent）见 `eas-skill-using` §关键概念（按 `Skill` 工具按 name 加载）
 - **eas-skill-find**: 本技能支持通过 eas-skill-find 被发现
 
 ## 常见错误 (Common Mistakes)
