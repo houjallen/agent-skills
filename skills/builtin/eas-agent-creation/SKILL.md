@@ -110,75 +110,19 @@ Skill Evolved
 
 ## 五种模式 (Five Skill Modes)
 
-### 1. Tool Wrapper（补知识）
+五种模式的完整定义（核心问题 / Skill 形态 / 关键设计 / 示例结构 / 强约束原则）详见 [references/modes.md](references/modes.md)。本节仅保留速查入口与决策树。
 
-**核心问题**：模型不知道某个库/工具/API 的最新用法
+### 速查表 (Quick Lookup)
 
-**特征**：
-- 包含 API 速查表和调用示例
-- 标注版本兼容性
-- 列明不适用场景
+| 模式 | 一句话 | 核心问题 |
+|---|---|---|
+| **Tool Wrapper** | 补知识 | 模型不知道某个库/工具/API 的最新用法 |
+| **Generator** | 稳输出 | 输出格式不稳定，需要严格 Schema/模板 |
+| **Reviewer** | 按标准审 | 需要按清单逐项核查 |
+| **Inversion** | 先问再做 | 需求存在歧义/缺关键参数 |
+| **Pipeline** | 每步过 Gate | 流程必须按顺序执行，跳步会导致错误 |
 
-**典型场景**：
-- 补 API/库用法的最新语法
-- 提供 SDK 调用指导
-- 补充框架特定的最佳实践
-
-### 2. Generator（稳输出）
-
-**核心问题**：输出格式不稳定，需要严格 Schema/模板
-
-**特征**：
-- 包含固定输出模板
-- 明确的校验规则
-- 正反例对比
-
-**典型场景**：
-- 报表生成
-- Schema 化输出
-- 代码脚手架生成
-
-### 3. Reviewer（按标准审）
-
-**核心问题**：需要按清单逐项核查
-
-**特征**：
-- `references/checklist.md` 独立清单
-- 入口 → 步骤 → 出口三段式
-- 结构化输出 {passed, failed, severity[], comments}
-
-**典型场景**：
-- 代码审查
-- 合规检查
-- Pre-PR 检查
-
-### 4. Inversion（先问再做）
-
-**核心问题**：需求存在歧义/缺关键参数
-
-**特征**：
-- 三阶段澄清（范围/环境/约束）
-- 每题 2-4 选项
-- `refuseActionWhenIncomplete: true`
-
-**典型场景**：
-- 部署前澄清
-- 迁移需求确认
-- 复杂配置参数反问
-
-### 5. Pipeline（每步过 Gate）
-
-**核心问题**：流程必须按顺序执行，跳步会导致错误
-
-**特征**：
-- 步骤序列 + Gate 三要素
-- 入口条件 / 准出门槛 / 失败兜底
-- 支持 abort/skip/retry 策略
-
-**典型场景**：
-- CI/CD 流水线
-- 数据 ETL 流程
-- 多阶段审查
+> 完整定义（含 Skill 形态 / 关键设计 / 示例结构 / 强约束原则 / Gate 三要素 / 失败策略）请参阅 [references/modes.md](references/modes.md)。
 
 ## 模式选择决策树 (Mode Selection Decision Tree)
 
@@ -210,13 +154,9 @@ Skill Evolved
 
 ## 模式组合矩阵 (Mode Composition Matrix)
 
-| Primary | Secondary | Typical Scenario | Form |
-|---------|-----------|------------------|------|
-| Pipeline | Reviewer | Multi-stage review pipeline | Pipeline embeds Reviewer as gate |
-| Pipeline | Inversion | Deployment with pre-clarification | Pipeline starts with Inversion |
-| Generator | Reviewer | Auto-generate + compliance check | Generator output → Reviewer check |
-| Pipeline | Inversion + Reviewer | Full lifecycle control | Complete 3-mode composition |
-| Tool Wrapper | Inversion | Complex SDK with pre-clarification | Knowledge supplement + requirement clarify |
+完整组合矩阵与模式转换矩阵见 [references/modes.md](references/modes.md) §6 与 §7。
+
+> 速查：Pipeline + Reviewer（多阶段审查）/ Pipeline + Inversion（前置澄清部署）/ Generator + Reviewer（自动生成 + 合规）/ Pipeline + Inversion + Reviewer（全链路）/ Tool Wrapper + Inversion（SDK 前置澄清）。
 
 ## 交付清单 (Delivery Checklist)
 
@@ -234,6 +174,8 @@ Skill Evolved
 ## 实现 (Implementation)
 
 ### 使用 creation 工具
+
+> **[NOTE]** 以下示例调用的是宿主 Agent 的 `creation` 工具，**非**本技能自带 scripts/。本技能无内置 TypeScript 脚本，所有操作由宿主 Agent 通过 `creation` 工具完成。
 
 Agent 应使用 `creation` 工具完成任务。所有创建、演化、评估操作都通过该工具执行。
 
@@ -378,6 +320,8 @@ creation({
 - [Mode 模式详解](references/modes.md) - 五种模式的详细定义
 - [Validation 规则](references/validation.md) - Validator 校验规则
 - [Evolution 流程](references/evolution.md) - 技能演化流程
+
+> 概念边界（Skill vs Agent vs Tool vs Task）见 `eas-skill-using` §关键概念（按 `Skill` 工具按 name 加载，不依赖物理路径）。
 
 ## 示例 (Examples)
 
