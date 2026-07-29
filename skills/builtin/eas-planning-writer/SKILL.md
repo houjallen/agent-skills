@@ -2,6 +2,7 @@
 name: eas-planning-writer
 description: 该技能应在 Agent 处理跨 session、需要持久化进度、需要事后 Review 或文档化的复杂长任务时使用——典型场景包括多日推进、多阶段实施、需要决策追溯的项目级任务。
 category: builtin
+version: 1.0.0
 ---
 
 # 基于文件的规划 (Planning with Files)
@@ -191,6 +192,12 @@ if action_failed:
 - [context-engineering.md](references/context-engineering.md) — Manus 六大原则 + 三种上下文工程策略
 - [examples.md](references/examples.md) — 实战示例（研究任务 / Bug 修复 / 功能开发 / 错误恢复）
 - [scripts-specification.md](references/scripts-specification.md) — 辅助脚本 CLI、退出码、设计原则
+
+## 与其他技能的关系 (Relationships with Other Skills)
+
+- **eas-skill-using**: 加载本技能前可参考 `eas-skill-using` §关键概念（按 `Skill` 工具按 name 加载）确认 Skill 与 Tool 的边界
+- **eas-skill-creator**: 本技能遵循 eas-skill-creator 定义的技能结构规范（frontmatter / 必填节 / 引用路径）
+- **eas-prompt-creator**: 本技能的产物（决策文档模板）符合 eas-prompt-creator 八大类型中 Feature / Context 类型的边界控制原则
 
 ## 决策沉淀 (Decision Sediment)
 
