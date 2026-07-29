@@ -10,6 +10,12 @@ metadata:
     - windows
     - macos
     - linux
+  dependencies:
+    - docx (npm)            # CREATE 路径
+    - defusedxml (pip)      # EDIT/ACCEPT-CHANGES 路径
+    - soffice (optional)    # ACCEPT-CHANGES + .doc 转换
+    - pandoc (optional)     # 文本抽取
+    - poppler (optional)    # .docx → .pdf 预览
   sources:
     - ECMA-376 Office Open XML File Formats
     - docx-js API reference
