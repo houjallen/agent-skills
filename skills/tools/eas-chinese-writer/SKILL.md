@@ -177,3 +177,8 @@ async function loginUser(credentials: Credentials): Promise<UserSession> {
 - [术语翻译完整指南](references/terminology-guide.md) - 技术术语保持英文的完整列表和使用规则
 - [JSDoc 注释示例大全](references/jsdoc-examples.md) - 各种场景下的 JSDoc 中文注释示例和最佳实践
 - [i18n 国际化输出规范](references/i18n-guide.md) - 消息键命名、消息字典结构、使用示例和迁移指南
+
+## 与其他技能的关系 (Relationships with Other Skills)
+
+- **eas-skill-using** — EASBot builtin 技能生态中央导航；本技能作为 `tools/` 类技能不在 builtin 索引中，由 Agent 按 frontmatter description 自行匹配；概念边界（Skill vs Agent）见 `eas-skill-using` §关键概念（按 `Skill` 工具按 name 加载）
+- **eas-chinese-writer 不进入 `eas-skill-using` 能力索引**：根据 AGENTS.md §6.1 规则，仅 `builtin` 类技能进入 `eas-skill-using` 索引；`tools/` 类技能由 Agent 按 frontmatter description 触发
