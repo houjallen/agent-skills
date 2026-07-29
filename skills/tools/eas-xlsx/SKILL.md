@@ -6,6 +6,16 @@ metadata:
   version: "1.1.0"
   category: document-processing
   mode: tool-wrapper+generator+reviewer+pipeline
+  supported_os:
+    - windows
+    - macos
+    - linux
+  dependencies:
+    - python3 (system)          # 全部 .py 脚本
+    - pandas (pip)              # READ 路径数据分析
+    - lxml (pip)                # XML 直编（unpack/edit/pack）
+    - openpyxl (pip)            # 仅用于结构发现（**禁止**对既有 .xlsx round-trip）
+    - soffice (optional)        # VALIDATE 动态重算
   sources:
     - ECMA-376 Office Open XML File Formats
     - Microsoft Open XML SDK documentation
