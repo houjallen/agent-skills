@@ -173,5 +173,5 @@ easbot skills init my-xyz-skill
 
 ## 与其他技能的关系 (Relationships with Other Skills)
 
-- **eas-skill-using** —— EASBot 技能生态中央导航；如果用户问"我装了哪些技能 / 都有啥用"，优先用它
+- **eas-skill-using** —— EASBot 技能生态中央导航；如果用户问"我装了哪些技能 / 都有啥用"，优先用它；概念边界（Skill vs Agent）见 `eas-skill-using` §关键概念（按 `Skill` 工具按 name 加载）
 - **eas-skill-creator** —— 用户想自己写一个技能时引导过去
