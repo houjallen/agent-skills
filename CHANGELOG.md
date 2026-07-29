@@ -1,5 +1,51 @@
 # EASBot Agent Skills 更新日志
 
+## 0.3.11
+
+_2026-07-30_
+
+**影响技能 (12)**：`eas-agent-creation`、`eas-agent-evolution`、`eas-chinese-writer`、`eas-docx`、`eas-pdf`、`eas-planning-writer`、`eas-pptx`、`eas-prompt-creator`、`eas-skill-creator`、`eas-skill-find`、`eas-skill-using`、`eas-xlsx`
+
+### ♻️ 重构
+
+- **[skill:eas-pptx]** refactor: integrate pptx-generator content and move design CSV to references/design-data ([f0ac04c](https://github.com/houjallen/agent-skills/commit/f0ac04c))
+- **[skill:eas-docx]** refactor: replace .NET OpenXML SDK stack with docx-js + Python helper scripts ([7c7ff4a](https://github.com/houjallen/agent-skills/commit/7c7ff4a))
+- **[skill:eas-pdf]** refactor: unify structure, move design.md to references/aesthetic-system.md, README to references/overview.md ([a769877](https://github.com/houjallen/agent-skills/commit/a769877))
+- **[skill:eas-xlsx]** refactor: unify mode composition, path placeholders, and rename template to assets/xlsx_template ([10b0fc1](https://github.com/houjallen/agent-skills/commit/10b0fc1))
+
+### 📝 文档
+
+- **[repo]** docs: add builtin+tools skill review report (8 skills, all P0/P1/P2 closed) ([616d440](https://github.com/houjallen/agent-skills/commit/616d440))
+- **[skill:eas-chinese-writer]** docs: add relationships section + fix cross-skill reference ([f0ca844](https://github.com/houjallen/agent-skills/commit/f0ca844))
+- **[skill:eas-skill-using]** docs: fix 3 cross-skill references to eas-planning-writer ([4b4b3dc](https://github.com/houjallen/agent-skills/commit/4b4b3dc))
+- **[skill:eas-skill-find]** docs: fix cross-skill reference ([8f500da](https://github.com/houjallen/agent-skills/commit/8f500da))
+- **[skill:eas-skill-creator]** docs: deduplicate mode content + annotate anti-pattern blocks ([cf7290d](https://github.com/houjallen/agent-skills/commit/cf7290d))
+- **[skill:eas-planning-writer]** docs: align frontmatter + add relationships section ([e7b8864](https://github.com/houjallen/agent-skills/commit/e7b8864))
+- **[skill:eas-agent-evolution]** docs: fix cross-skill reference ([4bd0e17](https://github.com/houjallen/agent-skills/commit/4bd0e17))
+- **[skill:eas-agent-creation]** docs: move mode details to references + annotate tool source ([6fcc84a](https://github.com/houjallen/agent-skills/commit/6fcc84a))
+- **[skill:eas-prompt-creator]** docs: declare inversion mode + fix cross-skill reference ([f20586b](https://github.com/houjallen/agent-skills/commit/f20586b))
+- **[repo]** docs: add §14 review specification (5-dimension checklist + mandatory load sequence) ([0461a15](https://github.com/houjallen/agent-skills/commit/0461a15))
+- **[repo]** docs: add review report for 4 office document skills (eas-docx/eas-pdf/eas-pptx/eas-xlsx) ([a95d33d](https://github.com/houjallen/agent-skills/commit/a95d33d))
+- **[skill:eas-xlsx]** docs: declare runtime dependencies in frontmatter ([504a278](https://github.com/houjallen/agent-skills/commit/504a278))
+- **[skill:eas-docx]** docs: declare runtime dependencies in frontmatter ([80cea0f](https://github.com/houjallen/agent-skills/commit/80cea0f))
+- **[skill:eas-pdf]** docs: add counter-scenario + declare runtime dependencies ([f3ba3ed](https://github.com/houjallen/agent-skills/commit/f3ba3ed))
+- **[skill:eas-pptx]** docs: fix broken references links + declare runtime dependencies ([75e67c2](https://github.com/houjallen/agent-skills/commit/75e67c2))
+- **[repo]** docs: sync project metadata for 4 office document skills + fix quick-validate frontmatter regex ([1abcdda](https://github.com/houjallen/agent-skills/commit/1abcdda))
+- **[repo]** docs: align README* + AGENTS.md on lint/test model + Use Skill loading ([2233ac9](https://github.com/houjallen/agent-skills/commit/2233ac9))
+- **[skill:eas-skill-creator]** docs: align 00NN-requirement.md link to skill-path placeholder ([0e72f8d](https://github.com/houjallen/agent-skills/commit/0e72f8d))
+- **[skill:eas-planning-writer]** docs: review & fix conflicts + unify terminology ([6a4c04a](https://github.com/houjallen/agent-skills/commit/6a4c04a))
+- **[skill:eas-skill-using]** docs: align navigation with newly-landed eas-planning-writer ([26a611e](https://github.com/houjallen/agent-skills/commit/26a611e))
+- **[skill:eas-skill-creator]** docs: add Quick Reference section ([7fa98eb](https://github.com/houjallen/agent-skills/commit/7fa98eb))
+
+### 🔧 构建/工具
+
+- **[repo]** chore: trim package.json description to single line ([af40741](https://github.com/houjallen/agent-skills/commit/af40741))
+- **[repo]** chore: tighten biome lint rules + adjust global identifiers ([fb6223c](https://github.com/houjallen/agent-skills/commit/fb6223c))
+- **[repo]** chore: ignore skills-lock.json ([a63c5d2](https://github.com/houjallen/agent-skills/commit/a63c5d2))
+- **[repo]** chore: add tsconfig and refresh pnpm-workspace allowlist ([421da75](https://github.com/houjallen/agent-skills/commit/421da75))
+
+
+
 ## 0.3.10
 
 _2026-07-26_
