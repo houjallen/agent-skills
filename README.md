@@ -71,6 +71,10 @@ agent-skills/
 | 技能 | 说明 |
 | --- | --- |
 | `eas-chinese-writer` | 中文写作与本地化辅助，含 i18n / JSDoc / 术语指南 |
+| `eas-docx` | Word 文档（.docx）处理：CREATE（用 docx-js 从零生成）/ EDIT（XML unpack/edit/pack）/ ACCEPT-CHANGES（接受所有修订） |
+| `eas-pdf` | 设计驱动的 PDF 处理：CREATE（从零生成成品）/ FILL（向既有 PDF 填表）/ REFORMAT（既有文档套设计） |
+| `eas-pptx` | PowerPoint 演示处理：CREATE（用 PptxGenJS 生成）/ EDIT（基于模板的 XML 编辑）/ READ（markitdown 抽取） |
+| `eas-xlsx` | Excel/电子表格处理：READ（分析）/ CREATE（XML 模板从零生成）/ EDIT（XML 直编）/ FIX（修公式）/ VALIDATE（公式校验） |
 
 ## 快速开始
 

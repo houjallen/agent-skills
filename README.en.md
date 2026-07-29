@@ -38,7 +38,11 @@ agent-skills/
     │   ├── eas-skill-find/          # Search and discover skills in the ecosystem
     │   └── eas-skill-using/         # Central navigation for the skill ecosystem
     └── tools/           # General-purpose utility skills
-        └── eas-chinese-writer/      # Chinese writing and i18n assistance
+        ├── eas-chinese-writer/      # Chinese writing and i18n assistance
+        ├── eas-docx/                # Word document generation / editing / accept-changes
+        ├── eas-pdf/                 # Design-driven PDF generation / form fill / restyle
+        ├── eas-pptx/                # PowerPoint generation / editing / design system
+        └── eas-xlsx/                # Excel/spreadsheet read / create / edit / validate
 ```
 
 ## Project Maintenance Scripts (root `scripts/`)
@@ -71,6 +75,10 @@ Engineering scripts invoked locally or by CI by repository maintainers. See [AGE
 | Skill | Description |
 | --- | --- |
 | `eas-chinese-writer` | Chinese writing and i18n assistance, including i18n / JSDoc / terminology guides |
+| `eas-docx` | Word (.docx) processing: CREATE (docx-js from-scratch) / EDIT (XML unpack/edit/pack) / ACCEPT-CHANGES |
+| `eas-pdf` | Design-driven PDF processing: CREATE (from-scratch) / FILL (form fields) / REFORMAT (restyle existing docs) |
+| `eas-pptx` | PowerPoint (.pptx) processing: CREATE (PptxGenJS) / EDIT (XML-based on template) / READ (markitdown) |
+| `eas-xlsx` | Excel/spreadsheet processing: READ (analyze) / CREATE (XML template) / EDIT (XML direct) / FIX (formulas) / VALIDATE |
 
 ## Getting Started
 

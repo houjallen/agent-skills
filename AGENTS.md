@@ -43,8 +43,12 @@ agent-skills/
     │   ├── eas-skill-creator/
     │   ├── eas-skill-find/
     │   └── eas-skill-using/
-    └── tools/           # 通用工具类技能（1 个）
-        └── eas-chinese-writer/
+    └── tools/           # 通用工具类技能（5 个）
+        ├── eas-chinese-writer/
+        ├── eas-docx/      # Word 文档（CREATE / EDIT / ACCEPT-CHANGES）
+        ├── eas-pdf/       # 设计驱动 PDF（CREATE / FILL / REFORMAT）
+        ├── eas-pptx/      # PPT 演示（CREATE / EDIT / READ）
+        └── eas-xlsx/      # Excel/电子表格（READ / CREATE / EDIT / FIX / VALIDATE）
 ```
 
 每个技能的标准目录模板：
@@ -134,7 +138,7 @@ done
 | 1 | `AGENTS.md` §3 | 目录树追加新技能 |
 | 2 | `README.md` + `README.en.md` | "目录结构"块新增一行；"内置技能一览"或"工具类技能"表新增一行 |
 | 3 | `.claude-plugin/marketplace.json` | `plugins[]` 追加 `{name, description, source, category, author}` |
-| 4 | `skills/builtin/eas-skill-using/SKILL.md` | 能力索引 + 决策辅助流程图 + 场景映射 各加一节；必要时 bump `version` |
+| 4 | `skills/builtin/eas-skill-using/SKILL.md` | **仅 `builtin` 类别**：能力索引 + 决策辅助流程图 + 场景映射 各加一节；必要时 bump `version`。（`tools` 类技能不进入能力索引，由 Agent 按 frontmatter description 自行匹配） |
 | 5 | `package.json` | **仅元信息**：仅当新技能引入新第三方依赖时调整 `devDependencies`；用户明确要求"不动 `package.json`"时跳过 |
 
 > `CHANGELOG.md` 由 `scripts/generate-changelog.ts` 在发布时自动生成，**不要手动编辑**。
@@ -145,13 +149,14 @@ done
 
 - 流程：`Use Skill: eas-skill-creator` → 走其"实现"节步骤 → 在该技能目录内完成。
 - **项目级同步**：
-  - frontmatter `description` 改了 → 同步激活 `Use Skill: eas-skill-using` 更新其能力索引条目 + `README*.md` 表格描述。
+  - frontmatter `description` 改了 → 同步 `README*.md` 表格描述。
+  - 若是 `builtin` 技能：额外同步 `eas-skill-using` 的能力索引 + 决策辅助流程图 + 场景映射（`tools` 类技能不进入 eas-skill-using 索引）。
   - 新增 `scripts/*.ts` → §5.2 表格追加一行；引入新外部依赖 → §12.7 末尾追加说明。
 
 ### 6.3 废弃（Deprecate）
 
 - 流程：frontmatter `description` 开头加"**【已废弃】**"前缀 → 保留目录 1 个 minor 周期 → 下次 minor 时彻底删除。
-- **项目级同步**（与 §6.1 反向）：§3 目录树 / `README*.md` / `marketplace.json` / `Use Skill: eas-skill-using` 内的能力索引 一并删除该技能条目。
+- **项目级同步**（与 §6.1 反向）：§3 目录树 / `README*.md` / `marketplace.json` 一并删除；**若是 builtin 技能**，额外删除 `Use Skill: eas-skill-using` 内的能力索引条目（`tools` 技能无此条目）。
 
 ## 7. 提交与变更约定 (Commit Conventions)
 

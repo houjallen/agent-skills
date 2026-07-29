@@ -41,8 +41,8 @@ export class SkillValidator {
         return { valid: false, message: 'No YAML frontmatter found' };
       }
 
-      // 提取 frontmatter
-      const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
+      // 提取 frontmatter（兼容 LF 与 CRLF 行尾）
+      const frontmatterMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
       if (!frontmatterMatch) {
         return { valid: false, message: 'Invalid frontmatter format' };
       }
@@ -69,6 +69,11 @@ export class SkillValidator {
       // 检查不允许的属性
       // 五大模式必填字段：mode / composition / behavior / reviewer / secondaryModes / compositionConnections / deliveryChecklist
       // 仅作为提示，不阻断校验（skill-spec.md 中允许扩展）
+      //
+      // 设计：
+      // - 顶层 keys 必须在白名单内
+      // - `metadata` 是"自由扩展容器"：其内部嵌套的 keys 任意扩展，不校验
+      //   这样顶层保持精简，业务元数据放在 metadata 下不会触发误报
       const allowedProperties = new Set([
         'name',
         'description',
@@ -86,6 +91,11 @@ export class SkillValidator {
         'reviewer',
         'deliveryChecklist',
       ]);
+
+      // 白名单内的、但实际属于 metadata 内部 keys 误被 yaml 解析器展开到顶层的：
+      // js-yaml 默认会把嵌套字典的子 keys 复制到外层。这里我们跳过这些——它们实际属于 metadata。
+      // 注：yaml.load 的实现是直接保留嵌套，不会自动展平；展平只发生在自定义 YAMLConstructor。
+      // 因此这里只需校验顶层。
       const unexpectedKeys = Object.keys(frontmatter).filter((key) => !allowedProperties.has(key));
 
       if (unexpectedKeys.length > 0) {
@@ -93,7 +103,15 @@ export class SkillValidator {
         const unexpected = unexpectedKeys.sort().join(', ');
         return {
           valid: false,
-          message: `Unexpected key(s) in SKILL.md frontmatter: ${unexpected}. Allowed properties are: ${allowed}`,
+          message: `Unexpected top-level key(s) in SKILL.md frontmatter: ${unexpected}. Allowed top-level properties are: ${allowed}. (Hint: put custom metadata under \`metadata:\` block instead of top-level.)`,
+        };
+      }
+
+      // 校验 metadata 嵌套必须是 object（如果有的话）
+      if (Object.hasOwn(frontmatter, 'metadata') && (typeof frontmatter.metadata !== 'object' || frontmatter.metadata === null || Array.isArray(frontmatter.metadata))) {
+        return {
+          valid: false,
+          message: `\`metadata\` must be a YAML map (object), got ${Array.isArray(frontmatter.metadata) ? 'array' : typeof frontmatter.metadata}`,
         };
       }
 

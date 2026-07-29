@@ -93,6 +93,50 @@
         "name": "houjallen",
         "email": "houjallen@gmail.com"
       }
+    },
+    {
+      "name": "eas-xlsx",
+      "description": "该技能应在 Agent 需要读取、创建、编辑或校验 Excel/电子表格文件（.xlsx / .xlsm / .csv / .tsv）时使用，涵盖：分析既有数据、按 XML 模板从零生成新文件、在不破坏原始格式的前提下修改既有文件、修复损坏的公式、以及按财务配色规范做静态 / 动态校验。",
+      "source": "./skills/tools/eas-xlsx",
+      "category": "tools",
+      "version": "1.1.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-pdf",
+      "description": "该技能应在视觉品质与设计识别度成为 PDF 输出的关键诉求时使用，覆盖三条路径：CREATE（从零生成报告 / 提案 / 简历等成品 PDF）、FILL（向既有 PDF 填写表单字段而不改动版式）、REFORMAT（将已有 Markdown / 文本 / PDF 解析后套用设计 token 重新排版）。",
+      "source": "./skills/tools/eas-pdf",
+      "category": "tools",
+      "version": "1.1.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-docx",
+      "description": "该技能应在 Agent 需要生成、修改或分析 Word 文档（.docx）时使用，覆盖三条路径：A-CREATE（用 docx-js 从零生成新文档）、B-EDIT（XML unpack/edit/pack 修改既有文档）、C-ACCEPT-CHANGES（接受所有修订并产出干净版）。",
+      "source": "./skills/tools/eas-docx",
+      "category": "tools",
+      "version": "1.2.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-pptx",
+      "description": "该技能应在 Agent 需要生成、编辑或分析 PowerPoint 演示文稿（.pptx）时使用，覆盖三条路径：CREATE（用 PptxGenJS 从零生成含封面 / TOC / 内容 / 分节 / 收尾页的演示）、EDIT（基于既有模板的 XML 修改与结构操作）、READ（用 markitdown 抽取文本做内容分析）。",
+      "source": "./skills/tools/eas-pptx",
+      "category": "tools",
+      "version": "1.1.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
     }
   ]
 }
