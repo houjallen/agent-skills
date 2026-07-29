@@ -10,6 +10,11 @@ metadata:
     - windows
     - macos
     - linux
+  dependencies:
+    - markitdown[pptx] (pip)    # READ + Content QA
+    - pillow (pip)              # 缩略图
+    - pptxgenjs (npm)           # CREATE
+    - lxml (pip)                # XML 编辑
   sources:
     - https://gitbrent.github.io/PptxGenJS/
     - https://github.com/microsoft/markitdown
@@ -69,8 +74,8 @@ metadata:
 | 任务 | 路径 | 必读参考 | 脚本调用链 |
 | --- | --- | --- | --- |
 | **READ** —— 分析既有内容 | READ | — | `python -m markitdown file.pptx` |
-| **CREATE** —— 从零生成 | CREATE | [slide-types.md](references/slide-types.md) + [design-system.md](references/design-system.md) + [pptxgenjs.md](pptxgenjs.md) | PptxGenJS 脚本 → `fix_pptx.py` → `validate_layout.py` → `markitdown` |
-| **EDIT** —— 修改既有模板 | EDIT | [editing.md](editing.md) | `unpack.py` → 改 XML / `add_slide.py` → `clean.py` → `pack.py` → `validate_layout.py` |
+| **CREATE** —— 从零生成 | CREATE | [slide-types.md](references/slide-types.md) + [design-system.md](references/design-system.md) + [pptxgenjs.md](references/pptxgenjs.md) | PptxGenJS 脚本 → `fix_pptx.py` → `validate_layout.py` → `markitdown` |
+| **EDIT** —— 修改既有模板 | EDIT | [editing.md](references/editing.md) | `unpack.py` → 改 XML / `add_slide.py` → `clean.py` → `pack.py` → `validate_layout.py` |
 
 **CREATE vs EDIT 决策口诀**：用户给了 .pptx 模板吗？给了 → EDIT；没给 → CREATE。
 
@@ -86,7 +91,7 @@ python3 <skillPath>/scripts/unpack.py presentation.pptx unpacked/
 
 ## 路径 B：CREATE —— 从零生成 (Create from Scratch)
 
-阅读 [slide-types.md](references/slide-types.md) + [design-system.md](references/design-system.md) + [pptxgenjs.md](pptxgenjs.md)。
+阅读 [slide-types.md](references/slide-types.md) + [design-system.md](references/design-system.md) + [pptxgenjs.md](references/pptxgenjs.md)。
 
 **完整工作流**：
 
@@ -158,7 +163,7 @@ n. Thank You —— 收尾语 + 联系方式
 
 **首选：原生 shapes / charts (REQUIRED Default)**
 
-所有架构图 / 流程图 / 过程图 / 组织结构图 / 关系图 MUST 用 PptxGenJS 原生 shapes（RECTANGLE / OVAL / LINE / 连接器 + addText）。见 [pptxgenjs.md](pptxgenjs.md) 的 "Building Diagrams with Native Shapes" 节。
+所有架构图 / 流程图 / 过程图 / 组织结构图 / 关系图 MUST 用 PptxGenJS 原生 shapes（RECTANGLE / OVAL / LINE / 连接器 + addText）。见 [pptxgenjs.md](references/pptxgenjs.md) 的 "Building Diagrams with Native Shapes" 节。
 
 - 优先用强模板幻灯片（流程 / 对比 / 双列 / 图标网格）。
 - 用 PptxGenJS 原生 shapes（方块 / 箭头 / 直线 + 文本）做流程 / 架构 / 层级图。
@@ -295,7 +300,7 @@ const CENTER_Y = SLIDE_H / 2;               // 2.8125
 2. **嵌套容器** —— 在 shape 内用相对坐标加元素
 3. **自动 z-order** —— 子元素渲染于父元素之上
 
-完整实现见 [pptxgenjs.md](pptxgenjs.md) 的 "CRITICAL: Container System" 节。
+完整实现见 [pptxgenjs.md](references/pptxgenjs.md) 的 "CRITICAL: Container System" 节。
 
 **用法**：
 
@@ -353,7 +358,7 @@ slide.addText("03", { x: 9.1, y: 5.15, w: 0.6, h: 0.35, fontSize: 11, fontFace: 
 
 ## 路径 C：EDIT —— 修改既有模板 (Edit Existing)
 
-阅读 [editing.md](editing.md) 完整工作流。
+阅读 [editing.md](references/editing.md) 完整工作流。
 
 **模板工作流**：
 
@@ -615,8 +620,8 @@ npm install pptxgenjs              # 从零生成（项目依赖）
 | --- | --- |
 | [slide-types.md](references/slide-types.md) | 5 页面类型的版式 / 字号 / 工作流 |
 | [design-system.md](references/design-system.md) | 18 配色 / 4 风格 / 字体配对 / 字号 / 间距 / matplotlib 模板 |
-| [pptxgenjs.md](pptxgenjs.md) | PptxGenJS 完整 API + 容器系统 + 布局安全 + 字号表 |
-| [editing.md](editing.md) | 模板编辑工作流 / 结构 / 内容 / 格式规则 / 常见坑 |
+| [pptxgenjs.md](references/pptxgenjs.md) | PptxGenJS 完整 API + 容器系统 + 布局安全 + 字号表 |
+| [editing.md](references/editing.md) | 模板编辑工作流 / 结构 / 内容 / 格式规则 / 常见坑 |
 | [colors.csv](references/design-data/colors.csv) | 按域查配色 |
 | [styles.csv](references/design-data/styles.csv) | 按域查样式 |
 | [charts.csv](references/design-data/charts.csv) | 按域查图表 |
