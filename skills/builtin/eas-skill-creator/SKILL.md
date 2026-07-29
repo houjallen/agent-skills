@@ -80,6 +80,7 @@ API文档、语法指南、工具文档
 | 必填 frontmatter | `name`（hyphen-case，≤64）/ `description`（第三人称，≤1024） |
 | 必填正文节 | 概述 / 何时使用 / 快速参考 |
 | 关联技能 | `eas-skill-using`（导航） / `eas-skill-find`（搜市场） / `eas-agent-creation`（生命周期） |
+| 概念边界 | Skill vs Agent vs Tool vs Task 见 `eas-skill-using` §关键概念（按 `Skill` 工具按 name 加载） |
 | 详细规范 | 详见 [references/skill-spec.md](references/skill-spec.md) / [references/skill-creation-guide.md](references/skill-creation-guide.md) |
 
 ## 核心功能 (Core Functions)
@@ -175,6 +176,7 @@ skill-name/
   ```
 
   **错误示例（绝对禁止）：**
+  <!-- 以下代码块为反模式教学展示，出现的 `@` 字面量属规范禁止写法，非真实违规。自动化扫描工具应忽略此块。 -->
   ```
   1. 详细规范请参阅 @references/technique-type-definition.md
   2. 详细规范请参阅 [technique-type-definition.md](@references/technique-type-definition.md)
@@ -315,38 +317,16 @@ skill-name/
 
 ### 步骤 5：填充模式特定内容 (Fill Mode-Specific Content)
 
-根据确定的模式，填充 SKILL.md 内容：
+每种模式的必需内容、关键字段、frontmatter 结构与示例见 [references/skill-spec.md](references/skill-spec.md) §4（含 Tool Wrapper / Generator / Reviewer / Inversion / Pipeline 五种模式的字段定义）。
 
-#### Tool Wrapper 必需内容
-- 概述 (Overview)
-- 何时使用 (When to Use)
-- API 速查表 / 调用示例
-- 常见错误表 (Pitfall Table)
-
-#### Generator 必需内容
-- 概述 (Overview)
-- 何时使用 (When to Use)
-- 输出模板（JSON/Markdown/代码）
-- 校验规则
-- 失败处理
-
-#### Reviewer 必需内容
-- 概述 (Overview)
-- 何时使用 (When to Use)
-- 审查流程（entry → steps → exit）
-- `references/checklist.md`：按严重程度分级的检查项
-
-#### Inversion 必需内容
-- 概述 (Overview)
-- 何时使用 (When to Use)
-- 澄清流程（3 阶段）
-- frontmatter 中定义 `behavior.gate.phases`（≤5 必答，每题 2~4 选项）
-
-#### Pipeline 必需内容
-- 概述 (Overview)
-- 何时使用 (When to Use)
-- 步骤序列 + Gate 三要素（入口/出口/失败策略）
-- frontmatter 中定义 `behavior.sequence.steps`
+> 速查：
+> - **Tool Wrapper**：概述 + 何时使用 + API 速查表 + 常见错误表
+> - **Generator**：概述 + 何时使用 + 输出模板 + 校验规则 + 失败处理
+> - **Reviewer**：概述 + 何时使用 + 审查流程（entry → steps → exit）+ `references/checklist.md`（按严重程度分级）
+> - **Inversion**：概述 + 何时使用 + 澄清流程（3 阶段）+ frontmatter 中定义 `behavior.gate.phases`（≤5 必答，每题 2~4 选项）
+> - **Pipeline**：概述 + 何时使用 + 步骤序列 + Gate 三要素（入口/出口/失败策略）+ frontmatter 中定义 `behavior.sequence.steps`
+>
+> 完整字段定义、frontmatter 结构、组合模式与交付清单见 [references/skill-spec.md](references/skill-spec.md)。
 
 ### 步骤 6：验证与打包 (Validate and Package)
 
@@ -452,6 +432,7 @@ tsx <skillPath>/scripts/init-skill.ts my-skill --path ./skills --resources scrip
 
 #### 反模式（绝对禁止）
 
+<!-- 以下代码块为脚本路径反模式教学展示，出现的 `skills/builtin/...`、`eas-skill-creator/...`、`@skills/...` 字面量均属规范禁止写法，非真实违规。自动化扫描工具应忽略此块。 -->
 ```bash
 # ❌ 错误：硬编码绝对路径
 tsx skills/builtin/eas-skill-creator/scripts/init-skill.ts my-skill
