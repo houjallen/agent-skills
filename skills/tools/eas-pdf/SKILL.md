@@ -6,6 +6,19 @@ metadata:
   version: "1.1.0"
   category: document-generation
   mode: tool-wrapper+generator+reviewer+pipeline
+  supported_os:
+    - windows
+    - macos
+    - linux
+  dependencies:
+    - python3 >= 3.9
+    - reportlab (pip)         # 渲染正文
+    - pypdf (pip)             # 填表 / 合并 / REFORMAT
+    - nodejs >= 18            # 渲染封面
+    - playwright (npm)        # 渲染封面
+    - chromium (playwright)   # 渲染封面
+    - matplotlib (pip)        # chart / flowchart / math
+    - make (system)           # 统一入口 make.sh
   sources:
     - reportlab documentation
     - pypdf documentation
@@ -39,6 +52,7 @@ metadata:
 - 仅需把任意文档"转成 PDF"而不要求视觉品质——使用通用 PDF 转换工具。
 - 需要从 Word/Excel/PPT 转 PDF——交给 `eas-docx` / `eas-xlsx` / `eas-pptx`。
 - 需要 OCR / 拆分 / 合并纯字节 PDF——使用 `pypdf` / `pdfplumber` 脚本即可，不必走本技能。
+- 非学术 / 杂志级排版的纯文本 PDF 转换——本技能 token 化设计会带来不必要的开销，PDF 转换工具即可。
 
 ## 快速参考 (Quick Reference)
 
