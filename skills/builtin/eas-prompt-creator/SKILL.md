@@ -1,9 +1,35 @@
 ---
 name: eas-prompt-creator
-description: 该技能应在需要为 EASBot 创建、规范化或审核提示词时使用。技能提供完整的提示词分类体系、规范化模板和质量控制流程，确保提示词遵循 EASBot 设计规范和最佳实践。
+description: 该技能应在需要为 EASBot 创建、规范化或审核提示词时使用。技能提供完整的提示词分类体系（Agent / Tool / Task / Command / Mode / Session / Feature / Context 八大类型）、规范化模板和质量控制流程，确保提示词遵循 EASBot 设计规范和最佳实践。
 category: builtin
 version: 1.0.0
 tags: [easbot, prompt, agent, tool, task]
+mode: inversion
+composition: single
+behavior:
+  gate:
+    phases:
+      - id: basic-info
+        title: 基础信息
+        question: 提示词类型、名称、所属场景、主要用途
+        required: true
+        options: 4
+      - id: type-specific
+        title: 类型特定信息
+        question: 根据类型查阅对应规范文件，收集完整字段
+        required: true
+        options: null
+      - id: output-template
+        title: 输出模板确认
+        question: 是否需要固定输出模板（JSON / Markdown）
+        required: false
+        options: 2
+      - id: quality-check
+        title: 质量确认
+        question: 边界控制完整性、示例充足性
+        required: true
+        options: 2
+    refuseActionWhenIncomplete: true
 ---
 
 # Eas Prompt Creator - EASBot 提示词创建器 (EASBot Prompt Creator)
@@ -121,7 +147,7 @@ optional: [comma-separated optional fields]
 ## 与其他技能的关系 (Relationships with Other Skills)
 
 - **eas-skill-creator**: 技能创建依赖此技能生成提示词
-- **eas-skill-using**: 使用提示词时参考此技能规范
+- **eas-skill-using**: 使用提示词时参考此技能规范；概念边界（Skill vs Agent vs Tool vs Task）见 `eas-skill-using` §关键概念（按 `Skill` 工具按 name 加载）
 - **eas-skill-find**: 搜索提示词时参考分类体系
 
 ## 参考资料 (References)
