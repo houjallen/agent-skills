@@ -150,7 +150,7 @@ tool.execute({ name: 'eas-skill-using' })
 
 | 需求 | 推荐路径 |
 |---|---|
-| 跨 session 推进、需要事后 Review 的复杂任务 | [`eas-planning-writer`](../eas-planning-writer/SKILL.md)（task_plan + findings + progress 三件套） |
+| 跨 session 推进、需要事后 Review 的复杂任务 | `eas-planning-writer`（task_plan + findings + progress 三件套） |
 | 仅当前 session 内拆分子任务 | 用 Agent 内部 `todo` 工具 |
 | 一次性 subagent | 用 `task` 工具 |
 | 定时/周期任务 | 用 `scheduler.*` 工具 |
@@ -169,7 +169,7 @@ tool.execute({ name: 'eas-skill-using' })
 > - 当前 session 内 Agent 自己拆解子任务 → 用 `todo` 工具（DB 持久化）
 > - 启动一次性 subagent → 用 `task` 工具
 > - 定时/周期任务 → 用 `scheduler.*` 工具
-> - 跨 session 的项目级长任务 → [`eas-planning-writer`](../eas-planning-writer/SKILL.md)（三件套落地到 `.easbot/knowledge/tasks/<task-name>/`）
+> - 跨 session 的项目级长任务 → `eas-planning-writer`（三件套落地到 `.easbot/knowledge/tasks/<task-name>/`）
 
 ## 决策辅助：应该加载哪个技能 (Decision Helper)
 
@@ -181,7 +181,7 @@ tool.execute({ name: 'eas-skill-using' })
 4. **是管理技能生命周期 / 组合 Bundle**？→ `eas-agent-creation`
 5. **是写 EASBot 系统提示词**？→ `eas-prompt-creator`
 6. **是搜市场找现成技能**？→ `eas-skill-find`
-7. **是启动多步骤 / 跨 session / 长任务 / 需要持久化进度**？→ [`eas-planning-writer`](../eas-planning-writer/SKILL.md)（三件套落地到 `.easbot/knowledge/tasks/<task-name>/`）
+7. **是启动多步骤 / 跨 session / 长任务 / 需要持久化进度**？→ `eas-planning-writer`（三件套落地到 `.easbot/knowledge/tasks/<task-name>/`）
 8. **都不确定 / 跨多个领域**？→ `eas-skill-using`（自身）
 
 ## 关键概念 (Key Concepts)
