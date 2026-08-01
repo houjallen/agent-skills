@@ -90,6 +90,8 @@ agent-skills/
 | 手动升级版本号 + tag | `npx tsx scripts/bump-version.ts <major\|minor\|patch>` | 零依赖 |
 | pre-commit 版本升级（默认禁用，`ENABLE_VERSION_BUMP=1` 启用） | `npx tsx scripts/pre-commit-version.ts` | 零依赖 |
 | 生成 `.claude-plugin/marketplace.json` | `npx tsx scripts/generate-plugin.ts [output-dir]` | 零依赖 |
+| 生成 `.well-known/agent-skills/index.json`（v1，清空 + 重建） | `npx tsx scripts/generate-well-known.ts [srcDir] [outDir] [--no-copy] [--no-clean] [--validate]` | 零依赖 |
+| 校验 `.well-known/agent-skills/index.json` 是否符合 v1 schema | `node docs/schemas/agent-skills/validate-v1.cjs` 或 `npm run well-known:validate` | 零依赖 |
 | 发布前全量技能校验 | `bash scripts/publish.sh` / `scripts/publish.ps1` | 零依赖 |
 
 > 根 `scripts/` 在 `package.json` 中以 `npm run` 别名暴露（如 `npm run plugin:generate`）。

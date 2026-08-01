@@ -56,6 +56,9 @@ Engineering scripts invoked locally or by CI by repository maintainers. See [AGE
 | `generate-changelog.ts` | Generate CHANGELOG from git commits |
 | `bump-version.ts` | Manually bump versions and create a tag |
 | `pre-commit-version.ts` | Pre-commit hook variant, disabled by default |
+| `generate-plugin.ts` | Generate `.claude-plugin/marketplace.json` |
+| `generate-well-known.ts` | Generate `.well-known/agent-skills/index.json` (v1 protocol; clean + rebuild by default), exposes skills to external agents via the well-known URL discovery / load flow. Pass `--validate` to auto-run schema validation. |
+| `docs/schemas/agent-skills/validate-v1.cjs` | Validate `.well-known/agent-skills/index.json` against the v1 schema. Manual run: `npm run well-known:validate`. |
 | `publish.sh` / `publish.ps1` | Run `quick-validate` against every skill before publishing to npm |
 
 ## Builtin Skills

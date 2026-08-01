@@ -52,6 +52,9 @@ agent-skills/
 | `generate-changelog.ts` | 根据 git commits 生成 CHANGELOG |
 | `bump-version.ts` | 手动升级版本号并打 tag |
 | `pre-commit-version.ts` | pre-commit hook 用，默认禁用 |
+| `generate-plugin.ts` | 生成 `.claude-plugin/marketplace.json` |
+| `generate-well-known.ts` | 生成 `.well-known/agent-skills/index.json`（v1 协议，默认清空 + 重建），用于外部 Agent 按 well-known URL 发现 / 加载技能；可加 `--validate` 自动跑 schema 校验 |
+| `docs/schemas/agent-skills/validate-v1.cjs` | 校验 `.well-known/agent-skills/index.json` 是否符合 v1 schema（按需手动跑：`npm run well-known:validate`） |
 | `publish.sh` / `publish.ps1` | 发布到 npm 前对全部技能跑一次 `quick-validate` 校验 |
 
 ## 内置技能一览（builtin）

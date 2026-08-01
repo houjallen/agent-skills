@@ -19,7 +19,9 @@
     "docs:add": "npx tsx ./scripts/docs_add_frontmatter.ts",
     "docs:sync": "npx tsx ./scripts/docs_sync_automation.ts",
     "docs:validate": "npx tsx ./scripts/docs_sync_automation.ts --validate",
-    "plugin:generate": "npx tsx ./scripts/generate-plugin.ts .claude-plugin"
+    "plugin:generate": "npx tsx ./scripts/generate-plugin.ts .claude-plugin",
+    "well-known:generate": "npx tsx ./scripts/generate-well-known.ts --validate",
+    "well-known:validate": "node ./docs/schemas/agent-skills/validate-v1.cjs"
   },
   "keywords": [
     "ai",

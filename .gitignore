@@ -46,3 +46,4 @@ temp/
 
 # Others files
 skills-lock.json
+.well-known/
