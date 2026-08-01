@@ -2,66 +2,16 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://easbot.cn/schemas/agent-skills/index.v1.json",
   "title": "Agent Skills Well-Known Index (v1)",
-  "description": "Manifest published at /.well-known/agent-skills/index.json so that external agents can discover and load skills via the well-known URL convention. Field shape and minimal contract are aligned with the @easbot/plugin WellKnownProvider.fetchAllSkills parser.",
+  "description": "Manifest published at /.well-known/agent-skills/index.json so that external agents can discover and load skills via the well-known URL convention. The shape MUST match the IndexSchema / IndexSkill types in scripts/generate-well-known.ts (the authoritative generator).",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "$schema",
-    "version",
-    "endpoint",
-    "generated_at",
-    "source",
-    "skills"
-  ],
+  "required": ["$schema", "skills"],
   "properties": {
     "$schema": {
       "description": "Absolute URL of this schema document. MUST match the value of `$id`.",
       "type": "string",
       "format": "uri",
       "const": "https://easbot.cn/schemas/agent-skills/index.v1.json"
-    },
-    "version": {
-      "description": "Protocol version of this index document. MUST be the literal string `1.0.0` for v1.",
-      "type": "string",
-      "const": "1.0.0"
-    },
-    "endpoint": {
-      "description": "Default well-known URL where this index is served. Convention value: `/.well-known/agent-skills/index.json`.",
-      "type": "string",
-      "const": "/.well-known/agent-skills/index.json"
-    },
-    "generated_at": {
-      "description": "ISO 8601 timestamp (with timezone) marking when the index was generated.",
-      "type": "string",
-      "format": "date-time"
-    },
-    "source": {
-      "description": "Provenance metadata for the underlying skill tree.",
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["type", "repo", "ref", "path"],
-      "properties": {
-        "type": {
-          "description": "Source transport type. v1 only supports `git`.",
-          "type": "string",
-          "const": "git"
-        },
-        "repo": {
-          "description": "Repository slug in `<owner>/<repo>` form (e.g. `houjallen/agent-skills`).",
-          "type": "string",
-          "pattern": "^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$"
-        },
-        "ref": {
-          "description": "Git ref (branch / tag / commit SHA) the index was generated from.",
-          "type": "string",
-          "minLength": 1
-        },
-        "path": {
-          "description": "Relative path (POSIX, starting with `./`) to the skill tree root inside the index bundle.",
-          "type": "string",
-          "pattern": "^\\./"
-        }
-      }
     },
     "skills": {
       "description": "Ordered list of skills exposed by this index. Order is not significant for discovery but should be stable for deterministic output.",
@@ -74,14 +24,7 @@
     "skill": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "name",
-        "category",
-        "description",
-        "version",
-        "sourceUrl",
-        "installName"
-      ],
+      "required": ["name", "description", "sourceUrl", "installName"],
       "properties": {
         "name": {
           "description": "hyphen-case skill name. MUST match the directory name and the SKILL.md frontmatter `name`.",
@@ -89,44 +32,28 @@
           "pattern": "^[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$",
           "maxLength": 64
         },
-        "category": {
-          "description": "Skill category. v1 vocabulary: `builtin` (core EASBot skills) or `tools` (general-purpose utilities).",
-          "type": "string",
-          "enum": ["builtin", "tools"]
-        },
         "description": {
           "description": "Third-person description starting with `该技能应在 …` (zh) / `Use this skill when …` (en). Maximum 1024 characters.",
           "type": "string",
           "minLength": 1,
           "maxLength": 1024
         },
-        "version": {
-          "description": "Skill version (semver recommended). Falls back to `0.1.0` if not declared in SKILL.md frontmatter.",
-          "type": "string",
-          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][A-Za-z0-9.-]+)?$"
-        },
         "sourceUrl": {
-          "description": "Relative path (POSIX, starting with `./`) to the skill's SKILL.md inside the well-known bundle, e.g. `./skills/builtin/eas-skill-using/SKILL.md`.",
+          "description": "Absolute URL of the skill's SKILL.md file, resolvable by external agents without further base URL knowledge. Format: `${endpointUrl}/skills/<category>/<skill-name>/SKILL.md`.",
           "type": "string",
-          "pattern": "^\\./.+/SKILL\\.md$"
+          "format": "uri",
+          "pattern": "^https?://.+/skills/[^/]+/[^/]+/SKILL\\.md$"
         },
         "installName": {
-          "description": "Install identifier in `<owner>/<repo>:<skill-name>` form, matching the @easbot/agent-skills package convention.",
+          "description": "Install identifier in `<owner>/<repo>@<skill-name>` form (using `@` separator, aligned with source-parser protocol).",
           "type": "string",
-          "pattern": "^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+:[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$"
+          "pattern": "^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+@[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$"
         },
-        "tags": {
-          "description": "Optional hyphen-case keywords carried over from SKILL.md frontmatter for search / filtering.",
-          "type": "array",
-          "items": {
-            "type": "string",
-            "pattern": "^[a-z0-9][a-z0-9-]*$"
-          },
-          "uniqueItems": true
-        },
-        "metadata": {
-          "description": "Optional free-form metadata for fields not covered by the top-level schema (e.g. `mode`, `composition`, `behavior`). Values are JSON-native.",
-          "type": "object"
+        "scope": {
+          "description": "Optional context scope, aligned with SkillMetadataSchema.scope. Defaults to `all` when the SKILL.md frontmatter does not declare it. One of: `general` / `coder` / `all`.",
+          "type": "string",
+          "enum": ["general", "coder", "all"],
+          "default": "all"
         }
       }
     }

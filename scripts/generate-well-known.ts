@@ -18,28 +18,34 @@
  *       ├── builtin/<skill>/SKILL.md + scripts/ + references/ + assets/
  *       └── tools/<skill>/...
  *
- * v1 index.json 字段（与 `@easbot/plugin` 的 `WellKnownProvider.fetchAllSkills`
- * 对齐，最小可用集）：
+ * v1 index.json 字段（**严格对齐 `@easbot/plugin` 的 `SkillMetadataSchema` 与
+ * `source-parser.ts` 的 `owner/repo@subpath` 协议**）：
+ *
  *   - $schema        字符串 schema URL（便于 IDE / validator 校验）
- *   - version        自身协议版本（仓库版本）
- *   - endpoint       默认发现路径
- *   - generated_at   ISO 8601 时间戳
- *   - source         source 元信息（type / repo / ref / path）
  *   - skills[]       每项 = 1 个技能
- *       - name         hyphen-case，与目录名一致
- *       - category     builtin / tools
- *       - description  frontmatter description
- *       - version      frontmatter version（缺省 0.1.0）
- *       - sourceUrl    相对路径，指向 .well-known/agent-skills/skills/<cat>/<skill>/SKILL.md
- *       - installName  `<owner>/<repo>:<skill-name>`，与 @easbot/agent-skills 一致
- *       - tags[]       （可选）frontmatter tags
- *       - metadata     （可选）其它 frontmatter 字段
+ *       - name         hyphen-case，与目录名一致（与 SkillMetadataSchema.name 对齐）
+ *       - description  frontmatter description（与 SkillMetadataSchema.description 对齐）
+ *       - sourceUrl    **绝对 URL**，指向 .well-known/agent-skills/skills/<cat>/<skill>/SKILL.md
+ *                       （绝对 URL 跨 host / 跨 entry 调用均不会断链；前端解析时直接 fetch）
+ *       - installName  `<owner>/<repo>@<skill-name>`（**用 `@` 隔**，与
+ *                       source-parser.ts 的 `owner/repo@subpath` 协议一致，
+ *                       喂给 store pluginId 时可直接走 parsePluginId）
+ *       - scope        （可选）general / coder / all（与 SkillMetadataSchema.scope 对齐；
+ *                       缺省 = 'all'，由 agent runtime 推断）
+ *
+ * **不**包含（与决策 0034 字段最小化一致）：
+ *   - version（前端从 SKILL.md frontmatter 读；写死会 stale）
+ *   - category / group（与 plugin.category 命名冲突；本 schema 用物理目录结构 builtin/tools 表达）
+ *   - endpoint / source / generated_at（项目解析器只看 `$schema` + `skills[]`）
+ *   - tags / metadata / owner / author（过度字段，决策 0014）
  *
  * 用法：
  *   npx tsx scripts/generate-well-known.ts                         # 默认：skills/ → .well-known/agent-skills/
  *   npx tsx scripts/generate-well-known.ts <srcDir> <outDir>       # 自定义输入输出
  *   npx tsx scripts/generate-well-known.ts --no-copy               # 只生成 index.json，不复制 skill 文件
  *   npx tsx scripts/generate-well-known.ts --no-clean              # 增量追加（不删除已有文件）
+ *   npx tsx scripts/generate-well-known.ts --endpoint-url <url>   # 显式指定 endpoint 绝对 URL
+ *                                                         （默认 = "https://easbot.cn/skills/.well-known/agent-skills"）
  *
  * 默认行为：先清空 outDir 再生成，确保每次重新生成得到完整重建结果。
  * 安全护栏：仅当 outDir 位于 cwd 内部时才允许删除，避免误删用户路径。
@@ -70,6 +76,16 @@ const SKILL_BUNDLE_DIR = 'skills'; // 输出目录内承载 skill 树的子目�
 const OWNER = 'easbot';
 const REPO = 'agent-skills';
 
+/**
+ * 脚本默认的 endpoint 绝对 URL（与发布路径对齐）。
+ *
+ * sourceUrl 字段 = endpointUrl + '/' + relPath（如 `${endpointUrl}/skills/builtin/eas-skill-using/SKILL.md`）。
+ * 用绝对 URL 让前端解析器无需关心 base URL；跨 host / 跨 entry 调用都不会断链。
+ *
+ * 通过 `--endpoint-url <url>` 覆盖（用于 staging / 内部测试）。
+ */
+const DEFAULT_ENDPOINT_URL = 'https://easbot.cn/skills/.well-known/agent-skills';
+
 // ============ 类型 ============
 
 interface PackageJson {
@@ -81,35 +97,25 @@ interface PackageJson {
 interface SkillFrontmatter {
   name?: string;
   description?: string;
-  category?: string;
-  version?: string;
-  tags?: string[];
+  /** 上下文模式（general / coder / all），与 SkillMetadataSchema.scope 对齐 */
+  scope?: string;
   [key: string]: unknown;
 }
 
 interface IndexSchema {
   $schema: string;
-  version: string;
-  endpoint: string;
-  generated_at: string;
-  source: {
-    type: string;
-    repo: string;
-    ref: string;
-    path: string;
-  };
   skills: IndexSkill[];
 }
 
 interface IndexSkill {
   name: string;
-  category: string;
   description: string;
-  version: string;
+  /** 绝对 URL（与 index.json endpoint 拼接），前端可直接 fetch */
   sourceUrl: string;
+  /** `<owner>/<repo>@<skill-name>`（用 `@` 隔，与 source-parser 协议一致） */
   installName: string;
-  tags?: string[];
-  metadata?: Record<string, unknown>;
+  /** 上下文模式：general / coder / all；缺省 = 'all' */
+  scope?: string;
 }
 
 // ============ 工具函数 ============
@@ -332,28 +338,29 @@ function countFiles(dir: string): number {
 
 /**
  * 构建 v1 index.json。
+ *
+ * 字段严格最小化（决策 0034）：
+ *   - 仅输出 `$schema` + `skills[]`，每个 skill 含 `name/description/sourceUrl/installName[/scope]`
+ *   - `sourceUrl` 走绝对 URL（基于 endpointUrl 拼接），前端 fetch 时无需关心 base
+ *   - `installName` 用 `@` 隔（与 source-parser 协议一致）
+ *   - 物理 builtin/tools 分类通过源目录结构表达，不入 schema
  */
 function buildIndex(args: {
   pkg: PackageJson;
   skills: ReturnType<typeof scanSkills>;
   outDir: string;
+  endpointUrl: string;
 }): IndexSchema {
-  const { pkg, skills, outDir } = args;
+  const { pkg, skills, endpointUrl } = args;
   const repo = deriveRepoSlug(
     typeof pkg.repository === 'string' ? pkg.repository : pkg.repository?.url,
   );
 
+  // endpointUrl 去掉尾斜杠（拼 sourceUrl 时保持一致）
+  const baseUrl = endpointUrl.replace(/\/+$/, '');
+
   return {
     $schema: SCHEMA_URL,
-    version: '1.0.0',
-    endpoint: '/.well-known/agent-skills/index.json',
-    generated_at: new Date().toISOString(),
-    source: {
-      type: 'git',
-      repo,
-      ref: process.env.GITHUB_REF_NAME ?? 'main',
-      path: `./${SKILL_BUNDLE_DIR}`,
-    },
     skills: skills.map((s) => {
       const fm = s.frontmatter;
       const relPath = posix.join(
@@ -364,22 +371,15 @@ function buildIndex(args: {
       );
       const skill: IndexSkill = {
         name: fm.name!,
-        category: fm.category ?? s.category,
         description: fm.description!,
-        version: fm.version ?? '0.1.0',
-        sourceUrl: `./${relPath}`,
-        installName: `${repo}:${s.skillName}`,
+        sourceUrl: `${baseUrl}/${relPath}`,
+        installName: `${repo}@${s.skillName}`,
       };
-      if (fm.tags && Array.isArray(fm.tags) && fm.tags.length > 0) {
-        skill.tags = fm.tags as string[];
+      // scope 仅在 frontmatter 显式声明且合法值时写入；否则省略（运行时按 'all' 处理）
+      const scope = fm.scope;
+      if (scope === 'general' || scope === 'coder' || scope === 'all') {
+        skill.scope = scope;
       }
-      // 把 frontmatter 其它顶层字段塞到 metadata（便于消费方读取自定义信息）
-      const reserved = new Set(['name', 'description', 'category', 'version', 'tags']);
-      const extra: Record<string, unknown> = {};
-      for (const [k, v] of Object.entries(fm)) {
-        if (!reserved.has(k)) extra[k] = v;
-      }
-      if (Object.keys(extra).length > 0) skill.metadata = extra;
       return skill;
     }),
   };
@@ -404,6 +404,7 @@ interface CliOptions {
   noCopy: boolean;
   clean: boolean;
   validate: boolean;
+  endpointUrl: string;
 }
 
 function parseArgs(argv: string[]): CliOptions {
@@ -411,13 +412,24 @@ function parseArgs(argv: string[]): CliOptions {
   let noCopy = false;
   let clean = true; // 默认每次重新生成都先清空 outDir
   let validate = false; // 默认不自校验；显式 --validate / --no-validate 启用
+  let endpointUrl = DEFAULT_ENDPOINT_URL;
 
-  for (const arg of argv) {
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i];
+    if (arg === undefined) continue;
     if (arg === '--no-copy') noCopy = true;
     else if (arg === '--no-clean') clean = false;
     else if (arg === '--validate') validate = true;
     else if (arg === '--no-validate') validate = false;
-    else if (arg === '-h' || arg === '--help') {
+    else if (arg === '--endpoint-url' && i + 1 < argv.length) {
+      const next = argv[i + 1];
+      if (next && !next.startsWith('--')) {
+        endpointUrl = next;
+        i++;
+      }
+    } else if (arg.startsWith('--endpoint-url=')) {
+      endpointUrl = arg.slice('--endpoint-url='.length);
+    } else if (arg === '-h' || arg === '--help') {
       printHelp();
       process.exit(0);
     } else if (arg.startsWith('--')) {
@@ -431,17 +443,18 @@ function parseArgs(argv: string[]): CliOptions {
   const srcDir = resolve(cwd, positional[0] ?? 'skills');
   const outDir = resolve(cwd, positional[1] ?? '.well-known/agent-skills');
 
-  return { srcDir, outDir, noCopy, clean, validate };
+  return { srcDir, outDir, noCopy, clean, validate, endpointUrl };
 }
 
 function printHelp(): void {
-  console.log(`用法: npx tsx scripts/generate-well-known.ts [srcDir] [outDir] [--no-copy] [--no-clean] [--validate]
+  console.log(`用法: npx tsx scripts/generate-well-known.ts [srcDir] [outDir] [--no-copy] [--no-clean] [--validate] [--endpoint-url <url>]
 
   srcDir    源目录（默认: skills/）
   outDir    输出目录（默认: .well-known/agent-skills/）
-  --no-copy     只生成 index.json，不复制 skill 文件
-  --no-clean    增量追加（不删除已有文件；默认会先清空 outDir）
-  --validate    生成后自动运行 docs/schemas/agent-skills/validate-v1.cjs 校验契约
+  --no-copy        只生成 index.json，不复制 skill 文件
+  --no-clean       增量追加（不删除已有文件；默认会先清空 outDir）
+  --validate       生成后自动运行 docs/schemas/agent-skills/validate-v1.cjs 校验契约
+  --endpoint-url   显式指定 endpoint 绝对 URL（用于 sourceUrl 拼接；默认: ${DEFAULT_ENDPOINT_URL}）
 
   默认行为：先清空 outDir 再生成，确保每次重新生成得到完整重建结果。
   安全护栏：仅当 outDir 位于 cwd 内部时才允许删除，避免误删用户路径。
@@ -452,6 +465,7 @@ function printHelp(): void {
     npx tsx scripts/generate-well-known.ts --no-copy
     npx tsx scripts/generate-well-known.ts --no-clean
     npx tsx scripts/generate-well-known.ts --validate
+    npx tsx scripts/generate-well-known.ts --endpoint-url https://staging.easbot.cn/skills/.well-known/agent-skills
 `);
 }
 
@@ -467,6 +481,7 @@ function main(): void {
   console.log(`   copy:     ${opts.noCopy ? '❌' : '✅'}`);
   console.log(`   clean:    ${opts.clean ? '✅' : '❌'}`);
   console.log(`   validate: ${opts.validate ? '✅' : '❌'}`);
+  console.log(`   endpoint: ${opts.endpointUrl}`);
 
   // 1. 清理 outDir（默认开启；--no-clean 关闭）
   //    安全护栏：outDir 必须位于 cwd 内部，否则拒绝删除，避免误删用户路径。
@@ -506,7 +521,7 @@ function main(): void {
 
   // 5. 构建 index.json
   const pkg = readPackageJson(cwd);
-  const index = buildIndex({ pkg, skills, outDir: opts.outDir });
+  const index = buildIndex({ pkg, skills, outDir: opts.outDir, endpointUrl: opts.endpointUrl });
 
   // 6. 写入 index.json
   const indexPath = join(opts.outDir, INDEX_FILENAME);
@@ -515,9 +530,6 @@ function main(): void {
   console.log(`\n✅ 已生成: ${toPosixRel(cwd, indexPath)}`);
   console.log(`   skills: ${index.skills.length} 项`);
   console.log(`   schema: ${index.$schema}`);
-  if (process.env.GITHUB_REF_NAME) {
-    console.log(`   ref:    ${index.source.ref}`);
-  }
 
   // 7. 自校验（生成完毕后立即用 docs/schemas/agent-skills/validate-v1.cjs 验证）
   if (opts.validate) {
