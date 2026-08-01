@@ -18,7 +18,7 @@
       "description": "Absolute URL of this schema document. MUST match the value of `$id`.",
       "type": "string",
       "format": "uri",
-      "const": "https://easbot.dev/schemas/agent-skills/index.v1.json"
+      "const": "https://easbot.cn/schemas/agent-skills/index.v1.json"
     },
     "version": {
       "description": "Protocol version of this index document. MUST be the literal string `1.0.0` for v1.",

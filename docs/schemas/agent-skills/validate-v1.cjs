@@ -21,7 +21,7 @@ const DEFAULT_TARGET = '.well-known/agent-skills/index.json';
 
 const SCHEMA_VERSION = '1.0.0';
 const SCHEMA_ENDPOINT = '/.well-known/agent-skills/index.json';
-const SCHEMA_URL = 'https://easbot.dev/schemas/agent-skills/index.v1.json';
+const SCHEMA_URL = 'https://easbot.cn/schemas/agent-skills/index.v1.json';
 
 const RE = {
   skillName: /^[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/,
