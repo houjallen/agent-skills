@@ -227,6 +227,37 @@ git log -1                                            # 验证
 - ❌ commit 后不删 msg 文件（`tmp/` 虽在 `.gitignore`，但工作区残留会污染后续 PR 列表 / IDE 状态）
 - ❌ msg 文件放在仓库根或 `skills/` 下（即便 `.gitignore` 收录，命名空间污染也不允许）
 
+#### 决策文档关联声明 (Decision Sediment Reference)
+
+**[MUST] 创建或更新技能时，若本次 commit 涉及决策文档（评审报告 / 需求决策 / 跨技能 ADR），commit msg MUST 在末尾或单行 summary 内显式说明关联路径**，便于 reviewer 与 git history 反查。最小化格式：
+
+```
+[skill: eas-skill-creator] docs: remove SKILL.md reverse-reference
+评审依据: docs/decisions/0003-review-eas-skill-creator.md
+```
+
+**触发条件**（任一即触发 MUST）：
+
+- 本次 commit 创建新技能（§6.1 触发需求决策）
+- 本次 commit 修复评审发现项（P0/P1/P2）
+- 本次 commit 改变跨技能接口 / 引入新约定（§11 跨技能决策）
+- 本次 commit 涉及文档结构调整（§13.5 节模板调整等）
+
+**最小化声明模板**：
+
+| commit 类型 | msg 必含字段 |
+|---|---|
+| `[skill: <name>] docs:` 评审修复 | `评审依据: docs/decisions/00NN-review-<topic>.md` |
+| `[skill: <name>] feat:` 新建技能 | `决策文档: docs/decisions/00NN-<topic>.md` |
+| `[skill: <name>] docs:` 跨技能协议变更 | `关联 ADR: docs/decisions/00NN-<topic>.md` |
+| `[repo] docs:` 评审规范修订 | `触发评审: docs/decisions/00NN-review-<topic>.md` |
+
+**反模式（绝对禁止）**：
+
+- ❌ commit 涉及决策文档但 msg 不声明（reviewer 无法反查依据）
+- ❌ 用「参考 / 详见 / 见」等模糊指针替代完整路径
+- ❌ 把决策文档路径写在 commit body 之外（如 PR 描述、Slack 消息）—— 历史追溯只信 git
+
 ### 7.4 Hooks
 
 | Hook | 行为 |
