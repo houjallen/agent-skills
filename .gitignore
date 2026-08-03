@@ -28,6 +28,9 @@ tmp/
 temp/
 *.tmp
 *.temp
+# Commit message drafts (§7.3)
+*.commit-msg.txt
+.commit-msg.txt
 
 # Editor-specific working directories (local-only, never part of skills/)
 .agents/

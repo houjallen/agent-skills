@@ -184,11 +184,48 @@ done
 ### 7.3 标准工作流
 
 ```bash
-git status && git diff && git log --oneline -10     # 检查现状
-git add <精确文件>                                   # 暂存（避免误带 .env）
+# 1. 检查现状
+git status && git diff && git log --oneline -10
+
+# 2. 暂存（精确文件，避免误带 .env）
+git add <精确文件>
+
+# 3. 提交
 git commit -m "[skill: eas-skill-creator] docs: clarify naming convention"
 git status && git log -1                              # 验证
 ```
+
+#### 提交消息写法 (Commit Message Style)
+
+- **单行 commit message（默认）**：首行格式 `<prefix> <type>(<scope>)?: <summary>`，summary ≤ 72 字符；适用简单变更。
+- **多行 commit message（内容较多时优先使用文件）**：当变更需要说明「修复明细 / 触发背景 / 关联评审报告 / 跨节影响」时，SHOULD 使用 msg 文件 + `git commit -F <msg-file>`，**禁止在 `-m` 上塞多行**（PowerShell / Windows 下多 `-m` 参数会被解析为 pathspec）。
+- **msg 文件管理三原则**：
+  1. **落地位置**：在仓库根 `tmp/` 下，命名 `<YYYY-MM-DD>-<scope>.commit-msg.txt`（`tmp/` 已在 `.gitignore`，不会污染提交）
+  2. **首行**：必须符合 §7.1 三种合法前缀 + `<type>`（commit-msg hook 强制）
+  3. **清理**：commit 成功后 MUST 删除该 msg 文件（不留临时垃圾）；commit 失败同样清理（重新审视后再写）
+
+```bash
+# 推荐工作流（PowerShell / Windows / 内容较多的 commit）
+$msg = "tmp/2026-08-03-eas-skill-creator.commit-msg.txt"
+@"
+[skill: eas-skill-creator] docs: remove SKILL.md reverse-reference requirement
+
+评审发现 1 项 P0 + 3 项 P1 全部修复（评审报告: docs/decisions/0003-...）：
+- P0: scripts/skill-template.txt 删除自动注入的「决策记录」节
+- P1: SKILL.md / references/*.md / templates/*.md 4 处规范改为可选
+"@ | Out-File -FilePath $msg -Encoding utf8
+
+git add <精确文件>
+git commit -F $msg                                    # 用文件提交
+Remove-Item $msg                                      # MUST 清理（无论 commit 成败）
+git log -1                                            # 验证
+```
+
+**反模式（绝对禁止）**：
+
+- ❌ `git commit -m "msg1" -m "msg2" -m "msg3"` 多 `-m`（PowerShell 解析陷阱）
+- ❌ commit 后不删 msg 文件（`tmp/` 虽在 `.gitignore`，但工作区残留会污染后续 PR 列表 / IDE 状态）
+- ❌ msg 文件放在仓库根或 `skills/` 下（即便 `.gitignore` 收录，命名空间污染也不允许）
 
 ### 7.4 Hooks
 
