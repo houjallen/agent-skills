@@ -75,6 +75,7 @@ agent-skills/
 2. **禁止附带 README/INSTALL/QUICK_REFERENCE 等独立文档**；说明全部内联在 `SKILL.md` + `references/`。
 3. 正文 MUST 包含「何时使用 (When to Use)」+「快速参考 (Quick Reference)」。
 4. 详细说明拆到 `references/`，避免 `SKILL.md` 过长（参考样例：`skills/builtin/eas-skill-using/SKILL.md`）。
+5. **禁止在 `SKILL.md` 末尾追加「决策记录 (Decision Sediment)」节反向引用评审报告 / 决策文档** —— `SKILL.md` 仅承载技能本体内容；评审报告与决策文档按 §11 / §14.7 独立落档（`docs/decisions/00NN-*.md`），反向引用会污染 Agent 加载技能时的上下文（违反 §4.2 "禁止附带冗余文档"）。
 
 ## 5. 可用命令（脚本）
 
@@ -248,6 +249,7 @@ git status && git log -1                              # 验证
 
 - **单技能决策** → `<skill-name>/0001-<topic>.md`（数字递增），与该技能同生命周期。
 - **跨技能决策** → `docs/decisions/00NN-<topic>.md`（`docs/` 不存在则新建），由相关技能共同引用。
+- **评审报告** → `docs/decisions/00NN-review-{topic}.md`（项目级惯例，沿用既有 `0001-review-*.md` 命名；详见 §14.7「落档路径决策」）。**禁止在被评审 `SKILL.md` 末尾追加反向引用节**（污染技能内容，违反 §4.2）。
 - **长任务 / 多步骤实施规划** → `<cwd>/.easbot/knowledge/tasks/<task-name>/`（`.gitignore` 忽略，**不**入仓）。
 - **初始化协议模板**：`skills/builtin/eas-agent-evolution/assets/BOOTSTRAP.md` 是 Agent 自初始化协议来源，**勿**手动编辑。
 
@@ -315,6 +317,8 @@ git status && git log -1                              # 验证
 ```
 
 **可选**：`## 核心模式 (Core Pattern)` / `## 实现 (Implementation)` / `## 常见错误 (Common Mistakes)` / `## 进阶参考 (Advanced References)` / `## 决策沉淀 (Decision Sediment)`。
+
+> **注意**：上述可选节标题是**提示词层通用模板**（§13.5 适用于本项目所有提示词）；但具体到 builtin 技能，**禁止使用「决策沉淀 / Decision Sediment」节反向引用评审报告**（按 §4.5 / §11 / §14.7 评审报告应独立落档到 `docs/decisions/`，反向引用会污染技能上下文）。
 
 > 「如何使用本技能」不要放首屏（§4）。
 
@@ -509,9 +513,28 @@ git status && git log -1                              # 验证
 
 | 评审类型 | 落地位置 | 模板 |
 |---|---|---|
-| 技能评审（单技能内） | `<skill-name>/0001-review-{topic}.md` | `<skill-name>/0001-review-{topic}.md` 自由结构，但 MUST 含下方 5 节 |
+| 技能评审（单技能内） | `<skill-name>/0001-review-{topic}.md` **或** `docs/decisions/00NN-review-{topic}.md`（项目级惯例优先；详见下方"落档路径决策"） | `<skill-name>/0001-review-{topic}.md` 自由结构，但 MUST 含下方 5 节 |
 | 跨技能评审 | `docs/decisions/00NN-review-{topic}.md` | 复用 `eas-planning-writer` 决策模板 |
 | PR 评审 | PR 描述 / 评论 | 下方 Markdown 模板 |
+
+#### 落档路径决策 (Sediment Path Decision)
+
+> **[MUST] 单技能评审的落档路径由项目级惯例决定**：若仓库 `docs/decisions/` 下已存在评审报告（`0001-review-*.md` 系列），单技能评审 MUST 沿用 `docs/decisions/00NN-review-{topic}.md` 命名（数字递增 + frontmatter `type: review`）；否则按 §11 / 上表第二行第一列落在 `<skill-name>/0001-review-{topic}.md`。
+
+**反模式（绝对禁止）**：
+
+- ❌ 在被评审的 `SKILL.md` 末尾追加「决策记录 (Decision Sediment)」节反向引用评审报告 —— 污染技能内容（§4.2 禁止附带冗余文档；§13.5 「决策沉淀」是 `eas-skill-creator` 推荐的可选节标题，**不是 builtin 通用约定**，评审引用属于噪音）
+- ❌ 单技能评审报告同时落到 `<skill-name>/` 和 `docs/decisions/` 两处（重复落档）
+- ❌ 评审报告路径与 §11 既有 `docs/decisions/00NN-*.md`（`00NN` 数字递增）冲突
+
+**示例**（2026-08-03 时点 `docs/decisions/` 已有文件）：
+
+```
+docs/decisions/
+├── 0001-review-builtin-tools-skills.md       # 跨技能批量评审（评 8 个技能）
+├── 0001-review-tools-doc-pdf-pptx-xlsx.md    # 跨技能批量评审（评 4 个 skills）
+└── 0002-review-eas-skill-find.md             # 单技能评审（评 1 个技能，沿用 docs/decisions/）
+```
 
 #### 评审报告最小结构
 
