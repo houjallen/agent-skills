@@ -272,7 +272,7 @@ skill-name/
 - 复制 [`references/templates/00NN-requirement.md`](references/templates/00NN-requirement.md) 到落地路径
 - 填写 frontmatter + 9 章节（背景/需求画像/关键判断/备选方案/决策/依据/具体动作/影响/回溯链接）
 - 「需求画像」章节 MUST 100% 复制 `requirement_profile` 内容
-- 在新技能 SKILL.md 末尾追加「决策记录」小节链接到本决策文档
+- **反向引用约定（按宿主项目决定）**：是否在 SKILL.md 末尾追加「决策记录」节反向引用本决策文档，由宿主项目规范决定；通用建议是依赖宿主项目级 ADR 索引（`docs/decisions/` 等）统一管理决策文档，**避免**在每个 SKILL.md 内重复反向引用
 
 **模板与规范文件**（自包含于本技能目录）：
 - 使用指南：[`references/templates/requirement-decision-guide.md`](references/requirement-decision-guide.md)

@@ -96,7 +96,7 @@ cp <eas-skill-creator>/references/templates/00NN-requirement.md \
 # 2. 填写 frontmatter（自动从 requirement_profile 复制 name/date/keywords）
 # 3. 把 requirement_profile 粘贴到「需求画像」章节
 # 4. 补充「关键判断」「备选方案」「决策」「依据」「具体动作」「影响」「回溯链接」
-# 5. 在新技能的 SKILL.md 末尾追加"决策记录"小节，链接到本决策文档
+# 5. （可选）由宿主项目决定是否在 SKILL.md 末尾追加"决策记录"小节链接到本决策文档；通用建议是依赖宿主项目级 ADR 索引统一管理，**不强制**在每个 SKILL.md 末尾反向引用
 ```
 
 ### 4.2 决策编号规则
@@ -142,7 +142,7 @@ cp <eas-skill-creator>/references/templates/00NN-requirement.md \
 
 **互相升级**：
 - 技能级决策后续影响跨技能 → 沉淀为宿主项目级 ADR，加 `supersedes` 链接
-- 宿主项目级 ADR 反过来约束新技能 → 新技能决策 MUST 引用相关 ADR 编号
+- 宿主项目级 ADR 反过来约束新技能 → 新技能决策 SHOULD 在需求文档的「关键判断」章节记录相关 ADR 编号（不强制在 SKILL.md 反向引用，由宿主项目 ADR 索引统一管理）
 
 ---
 
@@ -152,7 +152,7 @@ cp <eas-skill-creator>/references/templates/00NN-requirement.md \
 |---|---|
 | 步骤 1 完成后直接进步骤 2，无决策文档 | 必产决策文档，再进步骤 2 |
 | `requirement_profile` 与决策文档内容不一致 | 决策文档的「需求画像」 MUST 100% 复制 requirement_profile |
-| 决策文档写完就丢，不在 SKILL.md 引用 | SKILL.md 末尾加"决策记录"小节链接 |
+| 决策文档写完就丢，无任何索引 | 由宿主项目级 ADR 索引（`docs/decisions/` 等）统一登记引用 |
 | 决策文档不写备选方案 | 至少 2 个并列候选 |
 | 决策文档无"具体动作"清单 | 每条 MUST 含可勾选落地动作 |
 | 跨技能决策放本目录 | 影响 ≥ 2 个技能必须升级到宿主项目级 ADR |
@@ -189,7 +189,7 @@ cp <eas-skill-creator>/references/templates/00NN-requirement.md \
 1. 路径：<cwd>/skills/{skill-name}/00NN-{topic}.md
 2. 编号：00NN 单调递增（每个技能目录独立计数）
 3. 必含：requirement_profile 复制 + 关键判断 + 备选 + 决策 + 动作 + 影响 + 回溯
-4. 新技能 SKILL.md 末尾加"决策记录"小节，链向决策文档
+4. （可选）由宿主项目决定是否在 SKILL.md 末尾加"决策记录"小节；通用建议是不强制，ADR 由宿主项目级 `docs/decisions/` 索引统一管理
 5. 跨技能影响 → 升级到宿主项目级 ADR（路径与模板由宿主项目决定）
 6. 修订不另起文件，追加"修订记录"章节
 7. 模板见 ./templates/00NN-requirement.md（9 章节）

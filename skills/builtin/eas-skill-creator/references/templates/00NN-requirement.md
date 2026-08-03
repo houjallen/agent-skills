@@ -143,7 +143,7 @@ requirement_profile:
 - [ ] 创建 `<cwd>/skills/builtin/{skill-name}/assets/` 目录（如需要）
 - [ ] 运行 `tsx <skillPath>/scripts/init-skill.ts {skill-name} --path <cwd>/skills/builtin --resources scripts,references,assets --examples`（**`<skillPath>`** 为 `eas-skill-creator` 技能的实际安装路径，例如 `{cwd}/skills/builtin/eas-skill-creator` 或 `~/.local/share/easbot/skills/builtin/eas-skill-creator`）
 - [ ] 验证：`tsx <skillPath>/scripts/quick-validate.ts <cwd>/skills/builtin/{skill-name}`（同上，`<skillPath>` 替换为实际路径）
-- [ ] 在 SKILL.md 末尾追加"决策记录"小节，链向本决策文档
+- [ ] （可选）由宿主项目决定是否在 SKILL.md 末尾追加"决策记录"小节；通用建议是不强制，ADR 由宿主项目级 `docs/decisions/` 索引统一管理
 
 ---
 

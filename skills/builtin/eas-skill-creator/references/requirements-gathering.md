@@ -204,7 +204,7 @@ D6+：是否需要版本化、可复现、追溯？
 
 | 框架 / 平台 | 工具名 | 备注 |
 |---|---|---|
-| Trae IDE / Claude Code / Cursor | `AskUserQuestion` | 本仓库当前主流 |
+| Trae IDE / Claude Code / Cursor | `AskUserQuestion` | 主流交互 IDE |
 | OpenAI Agents SDK | `AskUserChoice` / `input_required` | 参数命名略不同 |
 | 自研 Agent 框架 | `request_user_input` / `user_confirm` | 视框架而定 |
 | LangGraph / CrewAI | 通常以 `Tool` 形式暴露，名称 `ask_user` 或类似 | 视实现而定 |
