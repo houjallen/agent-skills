@@ -114,6 +114,17 @@ interface IndexSkill {
   sourceUrl: string;
   /** `<owner>/<repo>@<skill-name>`（用 `@` 隔，与 source-parser 协议一致） */
   installName: string;
+  /**
+   * 源端 skill 的完整 subpath（POSIX 风格，`/` 分隔，含 skillName）。
+   *
+   * 决策 0048-yyy（老侯设计）：
+   * - 写 `${category}/${skillName}`（如 `skills/builtin/eas-skill-find`）
+   * - 与 git clone 后 `<repo>/<subpath>/<skillName>` 结构**完全同构**
+   * - store 物化时按 subpath 物理布局（`cacheDir/<pluginSlug>/<subpath>/<name>/`），
+   *   与 github 源一致 —— 多源同 skill name 不再错位
+   * - 没定义 / 老 index 没字段时，前端按平铺 fallback（向后兼容）
+   */
+  skillPath: string;
   /** 上下文模式：general / coder / all；缺省 = 'all' */
   scope?: string;
 }
@@ -374,6 +385,12 @@ function buildIndex(args: {
         description: fm.description!,
         sourceUrl: `${baseUrl}/${relPath}`,
         installName: `${repo}@${s.skillName}`,
+        // **决策 0048-yyy（老侯设计）**：写 `skillPath` = `skills/<category>/<skillName>` 完整 subpath，
+        // 跟 `sourceUrl` 路径（含 `skills/` bundle 根）**完全对齐**：
+        // - github 源 `skills/builtin/<skill>` subpath ↔ well-known `skillPath: skills/builtin/<skill>`（一致）
+        // - 物化时 `cacheDir/<pluginSlug>/<skillPath>/SKILL.md` 与 git clone 后结构同构
+        // - cp 到 store 后 store def.skillPath = `skills/builtin/<skill>` 与 lock skillPath 字段语义一致
+        skillPath: posix.join(SKILL_BUNDLE_DIR, s.category, s.skillName),
       };
       // scope 仅在 frontmatter 显式声明且合法值时写入；否则省略（运行时按 'all' 处理）
       const scope = fm.scope;

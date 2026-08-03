@@ -24,7 +24,7 @@
     "skill": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "description", "sourceUrl", "installName"],
+      "required": ["name", "description", "sourceUrl", "installName", "skillPath"],
       "properties": {
         "name": {
           "description": "hyphen-case skill name. MUST match the directory name and the SKILL.md frontmatter `name`.",
@@ -48,6 +48,11 @@
           "description": "Install identifier in `<owner>/<repo>@<skill-name>` form (using `@` separator, aligned with source-parser protocol).",
           "type": "string",
           "pattern": "^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+@[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$"
+        },
+        "skillPath": {
+          "description": "源端 skill 的完整 POSIX subpath（`/` 分隔，含 skillName）。与 sourceUrl 的 `/skills/...` 段完全对齐（决策 0048）。Format: `skills/<category>/<skill-name>`, where `<category>` MUST be one of `builtin` / `tools`. 物化时 store 按 `cacheDir/<pluginSlug>/<skillPath>/` 物理布局，与 git clone 后结构同构。",
+          "type": "string",
+          "pattern": "^skills/(?:builtin|tools)/[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$"
         },
         "scope": {
           "description": "Optional context scope, aligned with SkillMetadataSchema.scope. Defaults to `all` when the SKILL.md frontmatter does not declare it. One of: `general` / `coder` / `all`.",

@@ -18,6 +18,7 @@
  *         "description": "...",
  *         "sourceUrl": "https://.../skills/<cat>/<skill>/SKILL.md",
  *         "installName": "<owner>/<repo>@<skill>",
+ *         "skillPath": "skills/<cat>/<skill>",   // 完整 POSIX subpath，含 skillName
  *         "scope": "general" | "coder" | "all"  // optional
  *       }
  *     ]
@@ -40,6 +41,7 @@ const RE = {
   ownerRepo: /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/,
   sourceUrl: /^https?:\/\/.+\/skills\/[^/]+\/[^/]+\/SKILL\.md$/,
   installName: /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+@[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/,
+  skillPath: /^skills\/(?:builtin|tools)\/[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/,
   scope: ['general', 'coder', 'all'],
 };
 
@@ -87,7 +89,7 @@ function validate(doc) {
         return;
       }
       // 必填字段（与 IndexSkill 对齐）
-      const req = ['name', 'description', 'sourceUrl', 'installName'];
+      const req = ['name', 'description', 'sourceUrl', 'installName', 'skillPath'];
       for (const k of req) {
         if (!(k in sk)) err(`${base}/${k}`, 'missing required field');
       }
@@ -110,6 +112,26 @@ function validate(doc) {
       }
       if (isString(sk.installName) && !RE.installName.test(sk.installName)) {
         err(`${base}/installName`, `must match ${RE.installName}`, { got: sk.installName });
+      }
+      if (isString(sk.skillPath)) {
+        if (!RE.skillPath.test(sk.skillPath)) {
+          err(`${base}/skillPath`, `must match ${RE.skillPath}`, { got: sk.skillPath });
+        } else {
+          // skillPath 必须以 skills/<category>/<skillName> 形式与 name 对齐，
+          // 确保 store 物化时 subpath 与 lock / def.skillPath 语义一致
+          const expectedSuffix = '/' + sk.name;
+          const expectedPrefix = 'skills/';
+          const hasExpectedShape =
+            sk.skillPath.startsWith(expectedPrefix) &&
+            sk.skillPath.endsWith(expectedSuffix) &&
+            !sk.skillPath.slice(expectedPrefix.length, -expectedSuffix.length).includes('/');
+          if (!hasExpectedShape) {
+            err(`${base}/skillPath`, 'must be skills/<category>/<name> with name matching', {
+              got: sk.skillPath,
+              expectedName: sk.name,
+            });
+          }
+        }
       }
       if ('scope' in sk) {
         if (!isString(sk.scope) || !RE.scope.includes(sk.scope)) {
