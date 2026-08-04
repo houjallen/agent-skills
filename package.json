@@ -53,7 +53,8 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@easbot/skills": "^0.3.12"
+    "@easbot/skills": "^0.3.12",
+    "@easbot/utils": "^0.3.12"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.5",

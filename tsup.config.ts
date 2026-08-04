@@ -14,11 +14,10 @@ export default defineConfig((options: Options): any => {
   const external: string[] = [
     // 本仓库运行时依赖（程序化调用，不打进 bundle）
     '@easbot/skills',
-    // 透传依赖
+    // 透传依赖（库内部运行时可能 require）
     '@easbot/mcp',
     '@easbot/types',
-    '@easbot/utils',
-    '@easbot/agent',
+    '@easbot/utils', // 本 wrapper 内部两步初始化用，不打包
     'zod',
     'commander',
     // 添加使用 Node.js 内置模块的包
