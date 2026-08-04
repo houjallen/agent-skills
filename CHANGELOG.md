@@ -1,5 +1,38 @@
 # EASBot Agent Skills 更新日志
 
+## 0.3.12
+
+_2026-08-04_
+
+**影响技能 (2)**：`eas-skill-creator`、`eas-skill-find`
+
+### ✨ 新功能
+
+- **[repo]** feat(schemas): add skillPath field to well-known v1 schema + validator ([37f116c](https://github.com/houjallen/agent-skills/commit/37f116c))
+- **[repo]** feat(scripts): add well-known v1 schema + validator + generate --validate ([27dbff6](https://github.com/houjallen/agent-skills/commit/27dbff6))
+
+### 🐛 修复
+
+- **[repo]** fix(schemas): align v1 schema + validator to real generate-well-known.ts shape ([44e027b](https://github.com/houjallen/agent-skills/commit/44e027b))
+- **[repo]** fix(schemas): align well-known v1 schema URL to easbot.cn ([941078f](https://github.com/houjallen/agent-skills/commit/941078f))
+
+### 📝 文档
+
+- **[repo]** docs: commit ADR 0048 (skillPath) referenced by 37f116c ([fa767df](https://github.com/houjallen/agent-skills/commit/fa767df))
+- **[skill:eas-skill-find]** docs: rewrite data-layout.md to XDG + store/cache multi-tier architecture 评审依据: docs/decisions/0002-review-eas-skill-find.md ([7a88f52](https://github.com/houjallen/agent-skills/commit/7a88f52))
+- **[repo]** docs: commit review sediment docs (0002 / 0003) with explicit scope reference 评审依据: docs/decisions/0002-review-eas-skill-find.md 关联 ADR: docs/decisions/0003-review-eas-skill-creator.md ([a036582](https://github.com/houjallen/agent-skills/commit/a036582))
+- **[repo]** docs: require commit msg to reference decision sediment docs 评审依据: docs/decisions/0002-review-eas-skill-find.md / 0003-review-eas-skill-creator.md ([73aed38](https://github.com/houjallen/agent-skills/commit/73aed38))
+- **[repo]** docs: add §7.3 commit message style (msg file workflow + cleanup) ([e398d15](https://github.com/houjallen/agent-skills/commit/e398d15))
+- **[repo]** docs: clarify review sediment path decision + forbid SKILL.md reverse-reference ([f4f2ec5](https://github.com/houjallen/agent-skills/commit/f4f2ec5))
+- **[skill:eas-skill-creator]** docs: remove SKILL.md reverse-reference requirement + use generic phrasing ([b9e6183](https://github.com/houjallen/agent-skills/commit/b9e6183))
+- **[skill:eas-skill-find]** docs: refine remote search workflow (MUST/SHOULD + failure gate) + track local-search ref ([de7298a](https://github.com/houjallen/agent-skills/commit/de7298a))
+
+### 🔧 构建/工具
+
+- **[repo]** chore(gitignore): add local IDE / agent tool config dirs ([ea541b2](https://github.com/houjallen/agent-skills/commit/ea541b2))
+
+
+
 ## 0.3.11
 
 _2026-07-30_
