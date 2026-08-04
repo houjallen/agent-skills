@@ -3,7 +3,11 @@
   "version": "0.3.12",
   "description": "EASBot Agent Skills — the EASBot agent-skills management repository.",
   "type": "module",
+  "bin": {
+    "easbot-agent-skills": "./dist/cli.mjs"
+  },
   "scripts": {
+    "build": "tsup --env.NODE_ENV production",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "lint:report": "biome check --reporter=summary .",
@@ -41,13 +45,16 @@
   },
   "files": [
     "skills",
-    "scripts",
+    "dist",
     "CHANGELOG.md",
     "AGENTS.md",
     "README.md",
     "README.en.md",
     "LICENSE"
   ],
+  "dependencies": {
+    "@easbot/skills": "^0.3.12"
+  },
   "devDependencies": {
     "@biomejs/biome": "2.5.5",
     "@types/node": "^25.9.5",
@@ -55,6 +62,7 @@
     "node-pty": "1.1.0",
     "dotenv": "^17.4.2",
     "esbuild": "^0.28.0",
+    "tsup": "^8.5.1",
     "typescript": "^6.0.3",
     "vitest": "^4.1.6",
     "husky": "^9.1.7",
@@ -63,7 +71,7 @@
     "tsx": "^4.22.2"
   },
   "peerDependencies": {
-    "@easbot/agent": "^0.3.10"
+    "@easbot/agent": "^0.3.12"
   },
   "peerDependenciesMeta": {
     "@easbot/agent": {
