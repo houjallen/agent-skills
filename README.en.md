@@ -18,6 +18,89 @@ easbot skills add houjallen/agent-skills
 npm install @easbot/agent-skills
 ```
 
+## `easbot-agent-skills` CLI (bundled with this repo)
+
+The `@easbot/agent-skills` package ships an executable command, `easbot-agent-skills`, which is a lightweight host process wrapper around `@easbot/skills`. Every skill-management operation (add / remove / list / find / update / store / doctor / use / init, etc.) is dispatched through it, and it is equivalent to `easbot-skills` and `easbot skills ...`.
+
+### Install & Enable
+
+```bash
+# Global install (recommended)
+npm install -g @easbot/agent-skills
+
+# Or local to your project
+npm install @easbot/agent-skills
+```
+
+Once installed, `easbot-agent-skills` is available immediately; the build artifact lives at `dist/cli.mjs` (produced by `pnpm build`, registered via the `bin` field in `package.json`).
+
+### Global Flags
+
+| Flag | Description |
+| --- | --- |
+| `--help` / `-h` | Print full help (recognized at both top level and subcommand level) |
+| `--version` / `-v` | Print the current package version |
+| `--log-level <DEBUG\|INFO\|WARN\|ERROR>` | Log level (default `INFO`) |
+| `--print-logs` | Mirror logs to stdout |
+| `--debug` | Enable debug mode (verbose dev logs) |
+
+### Common Commands
+
+```bash
+# Add skills
+easbot-agent-skills add houjallen/agent-skills
+easbot-agent-skills add https://github.com/houjallen/agent-skills -g
+
+# List installed skills
+easbot-agent-skills list -p          # project scope only
+easbot-agent-skills list -g          # global scope only
+easbot-agent-skills list --json      # JSON output
+
+# Search (interactive)
+easbot-agent-skills find typescript --owner houjallen
+
+# Remove
+easbot-agent-skills remove my-skill -y
+easbot-agent-skills rm --agent claude-code my-skill
+
+# Update
+easbot-agent-skills update -g
+easbot-agent-skills update my-skill --all
+
+# One-shot use (no lock file written)
+easbot-agent-skills use houjallen/agent-skills@eas-skill-creator
+
+# Store operations
+easbot-agent-skills store list [keyword]
+easbot-agent-skills store clean --force
+easbot-agent-skills store remove <sourceKey>
+
+# Doctor (health check)
+easbot-agent-skills doctor
+easbot-agent-skills dr -g -y
+
+# Initialize a new skill skeleton
+easbot-agent-skills init my-skill
+```
+
+### Relation to Other Entry Points
+
+| Entry point | Purpose |
+| --- | --- |
+| `easbot-agent-skills ...` | Bundled with this repo (host wrapper; imports `@easbot/skills` at runtime) |
+| `easbot-skills ...` | Standalone CLI shipped by `@easbot/skills` (also calls `handleSkillsCli`) |
+| `easbot skills ...` | Delegated from `@easbot/agent` main CLI via Commander.js — equivalent to the two above |
+
+All three entry points are equivalent; the difference is only the host (agent / agent-skills package / this repo's wrapper) — **the underlying implementation is identical**.
+
+### Troubleshooting
+
+- `easbot-agent-skills: unknown command: ...` → typo or unsupported in this version; run `easbot-agent-skills --help` for the full command list
+- Command hangs on an interactive prompt → pass `-y / --yes` to skip confirmation
+- Need to see low-level logs → pass `--log-level DEBUG --print-logs`
+
+For the full command / flag reference, see the output of `easbot-agent-skills --help`.
+
 ## Repository Layout
 
 ```

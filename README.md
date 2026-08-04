@@ -18,6 +18,89 @@ easbot skills add houjallen/agent-skills
 npm install @easbot/agent-skills
 ```
 
+## `easbot-agent-skills` CLI（本仓库内置命令）
+
+`@easbot/agent-skills` 包自带 `easbot-agent-skills` 可执行命令，是对 `@easbot/skills` 包的轻量宿主封装（host process wrapper）。所有技能管理（add / remove / list / find / update / store / doctor / use / init 等）都通过它调度，等价于 `easbot-skills` 与 `easbot skills ...`。
+
+### 安装与启用
+
+```bash
+# 全局安装（推荐）
+npm install -g @easbot/agent-skills
+
+# 或在项目内局部安装
+npm install @easbot/agent-skills
+```
+
+安装后 `easbot-agent-skills` 即可用；构建产物在 `dist/cli.mjs`（由 `pnpm build` 生成，`package.json` 的 `bin` 字段已注册）。
+
+### 全局参数
+
+| 参数 | 说明 |
+| --- | --- |
+| `--help` / `-h` | 打印完整帮助（顶层 / 子命令级别均识别） |
+| `--version` / `-v` | 打印当前包版本号 |
+| `--log-level <DEBUG\|INFO\|WARN\|ERROR>` | 日志级别（默认 `INFO`） |
+| `--print-logs` | 把日志同步输出到 stdout |
+| `--debug` | 启用调试模式（dev 模式日志） |
+
+### 常用命令
+
+```bash
+# 添加技能
+easbot-agent-skills add houjallen/agent-skills
+easbot-agent-skills add https://github.com/houjallen/agent-skills -g
+
+# 列出已安装
+easbot-agent-skills list -p          # 仅项目级
+easbot-agent-skills list -g          # 仅全局
+easbot-agent-skills list --json      # JSON 输出
+
+# 搜索（交互式）
+easbot-agent-skills find typescript --owner houjallen
+
+# 移除
+easbot-agent-skills remove my-skill -y
+easbot-agent-skills rm --agent claude-code my-skill
+
+# 更新
+easbot-agent-skills update -g
+easbot-agent-skills update my-skill --all
+
+# 一次性使用（不写锁定文件）
+easbot-agent-skills use houjallen/agent-skills@eas-skill-creator
+
+# store 视角运维
+easbot-agent-skills store list [keyword]
+easbot-agent-skills store clean --force
+easbot-agent-skills store remove <sourceKey>
+
+# 健康检查
+easbot-agent-skills doctor
+easbot-agent-skills dr -g -y
+
+# 初始化新技能骨架
+easbot-agent-skills init my-skill
+```
+
+### 与其他入口的关系
+
+| 入口 | 用途 |
+| --- | --- |
+| `easbot-agent-skills ...` | 本仓库内置命令（host wrapper，运行时直接 import `@easbot/skills`） |
+| `easbot-skills ...` | `@easbot/skills` 包自带命令（独立 CLI，同样调 `handleSkillsCli`） |
+| `easbot skills ...` | `@easbot/agent` 主 CLI 通过 Commander.js 委派，等价于上面两个 |
+
+三种入口等价；区别在于宿主（agent / agent-skills 包 / 本仓库 wrapper）不同，**底层实现完全一致**。
+
+### 故障排查
+
+- `easbot-agent-skills: 未知命令: ...` → 拼写错误或当前版本不支持该子命令；跑 `easbot-agent-skills --help` 看完整命令清单
+- 命令卡在交互式多选 → 加 `-y / --yes` 跳过确认
+- 需要看底层调用日志 → 加 `--log-level DEBUG --print-logs`
+
+完整命令 / 参数见 `easbot-agent-skills --help` 输出。
+
 ## 目录结构
 
 ```
