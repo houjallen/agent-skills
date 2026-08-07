@@ -426,8 +426,7 @@ Q9 [维度5 后果 · 模式取舍]
 
 | 文件 | 何时阅读 |
 |---|---|
-| [skill-spec.md](skill-spec.md) | 步骤 2：模式决策树 |
-| [skill-creation-guide.md](skill-creation-guide.md) | 步骤 5：模式特定内容填充 |
+| [skill-spec.md](skill-spec.md) | 步骤 2：模式决策树 + §4 模式字段定义 |
 | [design-decisions.md](design-decisions.md) | 自由度级别选择 |
 | [workflows.md](workflows.md) | 完整 7 步流程概览 |
 

@@ -1,9 +1,14 @@
 ---
 name: eas-skill-creator
-description: 该技能应用于创建、构建和验证EASBot技能。当Agent需要为其他Agent设计、构建、验证或打包包含脚本、参考资料和资产的技能时使用。
-category: builtin
-version: 1.0.0
-tags: [easbot, skill, creation, development, builder]
+description: 该技能应用于创建、构建、验证或更新EASBot技能。当Agent需要为其他Agent设计、构建、验证、打包或重构包含脚本、参考资料和资产的技能时使用。
+license: MIT
+metadata:
+  category: builtin
+  version: 1.0.0
+  author: EASBot
+  compatibility: "Requires Node.js >= 18, tsx (npx tsx). Zero external runtime deps; jszip bundled in package-skill.ts."
+  tags: [easbot, skill, creation, development, builder]
+allowed-tools: Bash(npx:*) Bash(tsx:*) Read Write Edit Glob Grep
 ---
 
 # eas-skill-creator - EASBot技能创建构建器 (EASBot Skill Creator Builder)
@@ -12,35 +17,21 @@ tags: [easbot, skill, creation, development, builder]
 
 eas-skill-creator 是EASBot项目的官方技能创建和构建工具，为Agent提供创建、结构化、验证和打包技能的完整指导。该技能确保所有EASBot技能都遵循一致的结构和最佳实践。
 
-### 关于技能（About Skills）
-
-使用此技能当需要：
-- 创建新的 EASBot 技能
-- 构建专业的 Agent 技能包
-- 为 Agent 设计包含脚本、参考资料和资产的技能包
-- 遵循 EASBot 最佳实践创建技能
-- EASBot Agent 主动创造技能
-
-不适用于：
-- 临时解决方案的记录
-- 针对单一场景的特殊处理
-
 ### 技能类型 (Skill Type)
 
 > **与五大模式的关系**：技能类型（Technique / Pattern / Reference）与五大模式（Tool Wrapper / Generator / Reviewer / Inversion / Pipeline）正交。**类型决定内容形态（怎么写）**——Technique 写步骤、Pattern 写思维框架、Reference 写静态信息；**模式决定行为结构（怎么触发和执行）**——例如同样是"内容侧"类型，可选 Tool Wrapper（补知识）或 Generator（固定模板）。两类分类独立选择，可任意叠加。
 
-#### 技术（Technique）
+#### 技术型 (Technique)
 有明确步骤可遵循的具体方法
 
-#### 模式（Pattern）
+#### 模式型 (Pattern)
 思考问题的方式
 
-#### 参考（Reference）
+#### 参考型 (Reference)
 API文档、语法指南、工具文档
 
 #### 详细定义参考 (Detailed Definitions Reference)
 - **Skill Spec 规范**：请参阅 [skill-spec.md](references/skill-spec.md) 获取五大模式的类型定义、字段约束与结构化输出模板
-- **技能创建指南**：请参阅 [skill-creation-guide.md](references/skill-creation-guide.md) 获取详细的实践指南和写作规范
 - **使用示例**：请参阅 [usage-example.md](references/usage-example.md) 获取五大模式的完整示例
 - **工作流程**：请参阅 [workflows.md](references/workflows.md) 获取创建、验证、迭代的工作流程
 - **设计决策**：请参阅 [design-decisions.md](references/design-decisions.md) 获取核心设计原则和架构说明
@@ -54,18 +45,32 @@ API文档、语法指南、工具文档
 
 ## 何时使用 (When to Use)
 
-使用此技能当需要：
+### 触发决策树
+
+```
+用户提出"创建 / 重构 / 验证 / 打包一个技能"？
+├─ 是 → 是新建还是修改？
+│   ├─ 新建 → 加载本技能，按 7 步流程走
+│   └─ 修改现有技能 → 加载本技能走"步骤 7 迭代"或局部修改
+├─ 仅需"补知识"（如 API 用法） → 不加载本技能，直接用 Tool Wrapper 类技能
+└─ 一次性提示词 / 临时方案 → 不加载本技能
+```
+
+**触发条件**：
+
 - 创建新的 EASBot 技能
-- 更新现有技能的结构和内容
+- 更新或重构现有技能的结构和内容
 - 为 Agent 设计包含脚本、参考资料和资产的技能包
 - 遵循 EASBot 最佳实践创建技能
 - EASBot Agent 主动创造技能
 
-不适用于：
-- 临时解决方案的记录
-- 针对单一场景的特殊处理
+**不适用场景**：
 
-> **说明**：本节与上方「关于技能」内容一致，保留以符合 SKILL.md 模板的「何时使用 (When to Use)」章节约定。
+- 临时解决方案的记录（一次性 prompt 模板即可）
+- 仅补 API/库知识（用 Tool Wrapper 类技能而非创建技能）
+- 单次场景的特殊处理
+
+> 完整触发短语集、反场景清单与典型使用案例见 [usage-example.md](references/usage-example.md)。
 
 ## 快速参考 (Quick Reference)
 
@@ -74,14 +79,14 @@ API文档、语法指南、工具文档
 | 核心职责 | 创建、构建、验证、打包 EASBot 技能 |
 | 核心脚本 | `scripts/init-skill.ts`（初始化） / `scripts/quick-validate.ts`（校验） / `scripts/package-skill.ts`（打包） |
 | 技能目录模板 | `<skill-name>/` 下含 `SKILL.md` + 可选 `scripts/`、`references/`、`assets/` |
-| **脚本调用路径规范** | 默认 `scripts/xxx.ts` 相对路径；模板/跨技能场景用 `<skillPath>/scripts/xxx.ts` 占位符；**禁止** `skills/builtin/.../scripts/...` 硬编码绝对路径（详见 [脚本调用路径规范](#脚本调用路径规范-script-invocation-path-specification)） |
+| **脚本调用路径规范** | 默认 `scripts/xxx.ts` 相对路径（技能内部脚本）；模板/跨技能场景用 `<skillPath>/scripts/xxx.ts` 占位符；**禁止**硬编码绝对路径（详见 [脚本调用路径规范](#脚本调用路径规范-script-invocation-path-specification)） |
 | 五大模式 | Tool Wrapper / Generator / Reviewer / Inversion / Pipeline |
 | 三类技能类型 | Technique / Pattern / Reference（与模式正交，可叠加） |
 | 必填 frontmatter | `name`（hyphen-case，≤64）/ `description`（第三人称，≤1024） |
 | 必填正文节 | 概述 / 何时使用 / 快速参考 |
 | 关联技能 | `eas-skill-using`（导航） / `eas-skill-find`（搜市场） / `eas-agent-creation`（生命周期） |
 | 概念边界 | Skill vs Agent vs Tool vs Task 见 `eas-skill-using` §关键概念（按 `Skill` 工具按 name 加载） |
-| 详细规范 | 详见 [references/skill-spec.md](references/skill-spec.md) / [references/skill-creation-guide.md](references/skill-creation-guide.md) |
+| 详细规范 | 详见 [references/skill-spec.md](references/skill-spec.md) |
 
 ## 核心功能 (Core Functions)
 
@@ -95,12 +100,12 @@ skill-name/
 │   ├── YAML frontmatter元数据 (必需)
 │   │   ├── name: (必需)
 │   │   ├── description: (必需)
-│   │   └── category: (扩展，推荐)
+│   │   └── metadata: (可选，category/version/tags 等放入此块)
 │   └── Markdown主体 (必需)
 └── 捆绑资源 (可选)
     ├── scripts/          - 可执行代码 (TypeScript/Python/Bash等)
     ├── references/       - 计划按需加载到上下文中的文档
-    └── assets/           - 在输出中使用的文件 (模板、图标、字体等)
+    └── assets/           - 在Agent生成的输出中使用的文件 (模板、图标、字体等)
 ```
 
 #### SKILL.md（必需）(SKILL.md (Required))
@@ -109,14 +114,9 @@ skill-name/
 *此处省略具体模板，因为它是说明性的示例，而非实际内容*
 
 ##### YAML前置信息（必需）(YAML Frontmatter (Required))
-**元数据质量：** YAML frontmatter 中的 `name`、`description` 决定了 Agent 何时使用该技能。`description` 推荐控制在 500 个字符以内（硬上限 1024 个字符），具体说明技能的作用和使用时机。使用第三人称（例如"该技能应在...时使用"而不是"使用该技能当..."）。
+**元数据质量：** YAML frontmatter 中的 `name`、`description` 决定了 Agent 何时使用该技能。`description` 字符控制 + 第三人称 + 触发条件三要素详见 [skill-spec.md §9 frontmatter 字段全集](references/skill-spec.md)。
 
-- **name**: 必需字段，使用 hyphen-case 格式，仅使用字母、数字和连字符（无括号、特殊字符）
-- **description**: 必需字段， 第三人称，仅描述何时使用（不是做什么）
-  - 以"该技能应在..."开头，专注于触发条件
-  - **永远不要总结技能的过程或工作流程**
-  - **推荐 ≤ 500 字符，硬上限 1024 字符**
-- **category**: 扩展字段（推荐），用于分类管理，便于技能组织和发现
+> 本技能 frontmatter 字段全集与说明详见 `skill-spec.md` §9。SKILL.md 仅作引用入口，避免重复。
 
 ##### Markdown主体（必需）(Markdown Body (Required))
 使用技能的说明和指导，仅在技能触发后加载。
@@ -234,7 +234,9 @@ skill-name/
 #### 1.2 强制规范
 
 - **[MUST] 使用结构化提问工具**：MUST 调用宿主 Agent 提供的「结构化提问工具」（structured-question tool）一次性抛出多个选项让用户选择；MUST NOT 仅靠自由文本对话提开放问题。
-  - 不同 Agent 框架下该工具的名称不同，常见别名：`AskUserQuestion`（Trae/Cursor/Claude Code）、`AskUserChoice`（OpenAI Agents）、`request_user_input`（某些自研框架）等。Agent MUST 按本机环境识别其别名后调用，调用参数 SHOULD 包含：问题文本、2-4 个互斥选项（其中 1 个 SHOULD 标记「（推荐）」）、是否允许多选。
+  - 不同 Agent 框架下该工具的名称不同，常见别名：
+  `question`（EASbot）
+  `AskUserQuestion`（Trae/Cursor/Claude Code）、`AskUserChoice`（OpenAI Agents）、`request_user_input`（某些自研框架）等。Agent MUST 按本机环境识别其别名后调用，调用参数 SHOULD 包含：问题文本、2-4 个互斥选项（其中 1 个 SHOULD 标记「（推荐）」）、是否允许多选。
   - 若宿主环境未提供此类工具，退化为"分段对话 + 主动声明每段答案"，但仍 MUST 遵守下方选项设计与轮次策略。
 - **[MUST] 选项设计**：每题 MUST 提供 2-4 个互斥选项；SHOULD 在 label 后加「（推荐）」标识推荐项；MUST NOT 出现「以上都对 / 以上都不对」类安全选项。
 - **[SHOULD] 领域分支**：先识别领域（code/design/writing/business/data/hybrid），按需加载对应问句模板。
@@ -272,7 +274,7 @@ skill-name/
 - 复制 [`references/templates/00NN-requirement.md`](references/templates/00NN-requirement.md) 到落地路径
 - 填写 frontmatter + 9 章节（背景/需求画像/关键判断/备选方案/决策/依据/具体动作/影响/回溯链接）
 - 「需求画像」章节 MUST 100% 复制 `requirement_profile` 内容
-- **反向引用约定（按宿主项目决定）**：是否在 SKILL.md 末尾追加「决策记录」节反向引用本决策文档，由宿主项目规范决定；通用建议是依赖宿主项目级 ADR 索引（`docs/decisions/` 等）统一管理决策文档，**避免**在每个 SKILL.md 内重复反向引用
+- **反向引用约定（按宿主项目决定）**：通用建议 = 依赖 `docs/decisions/` ADR 索引统一管理决策文档；本项目（EASBot agent-skills）按 §14.7 评审报告独立落档，**禁止**在 SKILL.md 末尾追加反向引用节。
 
 **模板与规范文件**（自包含于本技能目录）：
 - 使用指南：[`references/templates/requirement-decision-guide.md`](references/requirement-decision-guide.md)
@@ -319,16 +321,18 @@ skill-name/
 
 每种模式的必需内容、关键字段、frontmatter 结构与示例见 [references/skill-spec.md](references/skill-spec.md) §4（含 Tool Wrapper / Generator / Reviewer / Inversion / Pipeline 五种模式的字段定义）。
 
-> 速查：
+> 速查（MUST 包含项）：
 > - **Tool Wrapper**：概述 + 何时使用 + API 速查表 + 常见错误表
 > - **Generator**：概述 + 何时使用 + 输出模板 + 校验规则 + 失败处理
-> - **Reviewer**：概述 + 何时使用 + 审查流程（entry → steps → exit）+ `references/checklist.md`（按严重程度分级）
-> - **Inversion**：概述 + 何时使用 + 澄清流程（3 阶段）+ frontmatter 中定义 `behavior.gate.phases`（≤5 必答，每题 2~4 选项）
-> - **Pipeline**：概述 + 何时使用 + 步骤序列 + Gate 三要素（入口/出口/失败策略）+ frontmatter 中定义 `behavior.sequence.steps`
+> - **Reviewer**：概述 + 何时使用 + 审查流程（**MUST 包含 entry → steps → exit**）+ `references/checklist.md`（按严重程度分级）
+> - **Inversion**：概述 + 何时使用 + 澄清流程（**MUST ≤ 3 阶段**）+ frontmatter 中定义 `behavior.gate.phases`（**MUST ≤ 5 必答，每题 2~4 选项**）
+> - **Pipeline**：概述 + 何时使用 + 步骤序列 + Gate 三要素（**MUST 入口/出口/失败策略**）+ frontmatter 中定义 `behavior.sequence.steps`
 >
 > 完整字段定义、frontmatter 结构、组合模式与交付清单见 [references/skill-spec.md](references/skill-spec.md)。
 
 ### 步骤 6：验证与打包 (Validate and Package)
+
+验证脚本与打包脚本的 CLI 用法、依赖策略、零外部依赖原则详见 [workflows.md](references/workflows.md) §验证流程 / §打包流程 / §核心脚本实现 节。SKILL.md 仅保留速查入口。
 
 ```bash
 # 验证技能结构
@@ -340,62 +344,14 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 
 ### 步骤 7：根据实际使用迭代 (Iterate Based on Usage)
 
-测试技能后，用户可能会要求改进。迭代工作流程：
+迭代动作清单与具体工作流详见 [workflows.md](references/workflows.md) §迭代流程 节。SKILL.md 仅保留速查入口：
 
 1. 在实际任务中使用技能
-2. 注意困难或低效之处
-3. 确定如何更新 SKILL.md 或资源
-4. 实施更改并再次测试
+2. 记录低效或困难之处
+3. 更新 SKILL.md 或资源文件
+4. 重新验证（步骤 6）和重新打包
 
-### 核心脚本实现 (Core Scripts Implementation)
-
-> **统一 TypeScript**：本技能仅维护 TypeScript 实现（`.ts`），不提供 Python 平行版本。这样可以避免双语言实现漂移、减少维护负担、保持行为一致。
-
-#### 零外部依赖原则 (Zero External Dependencies)
-
-**核心脚本（`scripts/init-skill.ts`、`scripts/quick-validate.ts`、`scripts/package-skill.ts`）仅依赖 Node.js 内置模块**：
-- `fs` / `fs/promises` — 文件系统操作
-- `path` — 路径处理
-- `url` — URL 解析（用于 ESM `import.meta.url`）
-- `node:fs/promises`、`node:path` 等 — Node 内置命名空间
-
-> **关于 `package-skill.ts` 中的 `jszip`**：`jszip` 是当前实现的依赖项，未来计划替换为 Node 内置的 `node:zlib` + `node:stream` 实现（ZIP 格式可纯 Node 实现）。在替换完成前，新创建技能的 `scripts/` 不应再引入 `jszip` 等第三方依赖。
-
-新技能创建脚本时，**SHOULD 优先使用 Node 内置模块**，仅在确实无法满足需求时引入第三方依赖，且 MUST 在 SKILL.md 的「实现」章节明确标注依赖原因。
-
-#### init-skill.ts (技能初始化脚本)
-此脚本用于创建新的技能目录结构，包含：
-- 技能目录的创建
-- SKILL.md 模板文件的生成
-- 可选的 scripts、references、assets 目录及示例文件的创建
-
-使用示例：
-```bash
-tsx scripts/init-skill.ts my-skill --path ./skills --resources scripts,references,assets --examples
-```
-
-#### quick-validate.ts (技能验证脚本)
-此脚本用于验证技能是否符合 EASBot 规范，包含：
-- 检查 SKILL.md 文件是否存在
-- 验证 YAML frontmatter 格式和内容
-- 检查 name 和 description 字段是否符合要求
-- 验证命名约定和长度限制
-
-使用示例：
-```bash
-tsx scripts/quick-validate.ts ./skills/my-skill
-```
-
-#### package-skill.ts (技能打包脚本)
-此脚本用于将技能打包成可分发的 `.skill` 文件（ZIP 格式），包含：
-- 验证技能格式是否正确
-- 使用 ZIP 格式创建 `.skill` 文件
-- 将技能目录中的所有文件添加到包中
-
-使用示例：
-```bash
-tsx scripts/package-skill.ts ./skills/my-skill
-```
+> 详细依赖策略、CLI 参数、零外部依赖原则见 [workflows.md](references/workflows.md)。
 
 ## 核心原则 (Core Principles)
 
@@ -484,79 +440,19 @@ tsx @skills/builtin/eas-skill-creator/scripts/init-skill.ts
 
 **关键原则：** 当技能支持多个变体、框架或选项时，仅在SKILL.md中保留核心工作流程和选择指导。将特定变体的详细信息（模式、示例、配置）移动到单独的参考文件中。
 
-**模式1：带参考的高级指南**
+**三种模式速查**（详细示例见 [progressive-disclosure-patterns.md](references/progressive-disclosure-patterns.md)）：
 
-```markdown
-# PDF处理
-
-## 快速开始 (Quick Start)
-
-使用pdfplumber提取文本：
-[代码示例]
-
-## 高级功能 (Advanced Features)
-
-- **表单填写**: 请参阅[FORMS.md](reference/FORMS.md)获取完整指南
-- **API参考**: 请参阅[REFERENCE.md](reference/REFERENCE.md)获取所有方法
-- **示例**: 请参阅[EXAMPLES.md](reference/EXAMPLES.md)获取常见模式
-```
-
-Agent仅在需要时加载FORMS.md、REFERENCE.md或EXAMPLES.md。
-
-**模式2：领域特定组织**
-
-对于具有多个领域的技能，按领域组织内容以避免加载不相关的上下文：
-
-```
-bigquery-skill/
-├── SKILL.md (概述和导航)
-└── reference/
-    ├── finance.md (收入、计费指标)
-    ├── sales.md (机会、管道)
-    ├── product.md (API使用、功能)
-    └── marketing.md (活动、归因)
-```
-
-当用户询问销售指标时，Agent仅读取sales.md。
-
-同样，对于支持多个框架或变体的技能，按变体组织：
-
-```
-cloud-deploy/
-├── SKILL.md (工作流程 + 提供商选择)
-└── references/
-    ├── aws.md (AWS部署模式)
-    ├── gcp.md (GCP部署模式)
-    └── azure.md (Azure部署模式)
-```
-
-当用户选择AWS时，Agent仅读取aws.md。
-
-**模式3：条件细节**
-
-显示基本内容，链接到高级内容：
-
-```markdown
-# DOCX处理
-
-## 创建文档 (Create Document)
-
-对新文档使用docx-js。请参阅[DOCX-JS.md](reference/DOCX-JS.md)。
-
-## 编辑文档 (Edit Document)
-
-对于简单编辑，直接修改XML。
-
-**对于跟踪更改**: 请参阅[REDLINING.md](reference/REDLINING.md)
-**对于OOXML详细信息**: 请参阅[OOXML.md](reference/OOXML.md)
-```
-
-Agent仅在用户需要这些功能时读取REDLINING.md或OOXML.md。
+| 模式 | 适用场景 | 拆分策略 |
+|---|---|---|
+| **带参考的高级指南** | 技能有"快速开始 + 高级功能"分层 | SKILL.md 留 Quick Start；高级功能 → `reference/*.md` |
+| **领域特定组织** | 多领域 / 多框架 / 多变体 | SKILL.md 留导航；按领域/框架拆 `reference/{domain}.md` |
+| **条件细节** | 默认路径简单，部分用户场景需深入 | SKILL.md 留主路径；条件触发链接到 `reference/*.md` |
 
 **重要指南：**
 
 - **避免深度嵌套引用** - 保持引用从SKILL.md一层深。所有参考文件应直接从SKILL.md链接。
 - **结构化较长的参考文件** - 对于超过100行的文件，在顶部包含目录，以便Agent在预览时可以看到完整范围。
+- **避免重复** - 信息在SKILL.md或references中只出现一次；按需加载 or 避免超500行 时才拆。
 
 ### 说服原则应用 (Persuasion Principles Application)
 
