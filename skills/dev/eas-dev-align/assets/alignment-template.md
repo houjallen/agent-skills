@@ -1,7 +1,7 @@
 ---
 topic: <一句话主题>
 created_at: <YYYY-MM-DD>
-phase: 1-align
+phase: alignment
 skill: eas-dev-align
 status: draft | confirmed
 ---
