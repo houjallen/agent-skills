@@ -1,6 +1,9 @@
 ---
 name: eas-pptx
-description: "该技能应在 Agent 需要生成、编辑或分析 PowerPoint 演示文稿（.pptx）时使用，覆盖三条路径：CREATE（用 PptxGenJS 从零生成含封面 / TOC / 内容 / 分节 / 收尾页的演示）、EDIT（基于既有模板的 XML 修改与结构操作）、READ（用 markitdown 抽取文本做内容分析）。包含完整设计系统（18 配色方案、4 种风格配方、5 种页面类型）、Layout QA 与 Content QA 双层校验、文本溢出防护容器系统、布局安全规则。触发短语包括 PPT、PPTX、PowerPoint、presentation、slide、deck、slides、演示文稿、幻灯片。"
+description: 该技能应在 Agent 需要生成、编辑或分析 PowerPoint 演示文稿（.pptx）时使用，覆盖三条路径：CREATE（用 PptxGenJS + 18 配色 × 4 风格 × 5 页面类型设计资产生成）、EDIT（XML unpack/edit/pack 修改既有模板）、READ（markitdown 抽取文本分析）；含 Layout QA + Content QA 双层校验与布局安全规则。触发短语：PPT、PPTX、PowerPoint、presentation、slide、deck、slides、演示文稿、幻灯片。不适用：纯数据可视化（走 eas-xlsx + chart）/ 静态设计稿（走 eas-pdf）/ Word 文档（走 eas-docx）。
+version: 1.1.0
+category: tools
+tags: [easbot, pptx, powerpoint, presentation, slides, deck, generator, editor]
 license: MIT
 metadata:
   version: "1.1.0"
@@ -21,7 +24,7 @@ metadata:
     - ECMA-376 Office Open XML File Formats
 ---
 
-# eas-pptx
+# eas-pptx (PPTX 演示文稿生成与编辑)
 
 ## 概述 (Overview)
 
@@ -475,7 +478,7 @@ grep 有结果 → 修干净再宣布成功。
 
 1. 外层圆角 ≥ 内层圆角
 2. 信息密度驱动间距（数据区紧凑 / 浏览区放松）
-3. 圆角 vs 元素高度：小元素 0" / 中元素 0.05" / 大元素 0.08~0.2" / 超大 0.12~0.25"；完美 pill = `rectRadius = height / 2`
+3. 圆角 vs 元素高度：小元素 0" / 中元素 0.05" / 大元素 0.08~0.2" / 超大 0.12~0.25"；标准 pill = `rectRadius = height / 2`
 
 **速选指引**：
 
@@ -628,10 +631,4 @@ npm install pptxgenjs              # 从零生成（项目依赖）
 | [icons.csv](references/design-data/icons.csv) | 按域查图标 |
 | [stacks/](references/design-data/stacks/) | 各类技术栈的设计基线 |
 
-## 决策沉淀 (Decision Sediment)
-
-- **以 PptxGenJS 为主、XML 直编为辅**：CREATE 走 JS 模板生成（声明式 + 易排版），EDIT 走 XML unpack/edit/pack（保留全部原始格式）。
-- **Theme Object 固定 5 keys**：避免 Agent 自创命名（如 `background` / `text` / `darkest`），让所有 slide 共享同一调色板契约。
-- **18 配色 × 4 风格 × 5 页面类型 × 3 layout**：三维组合设计资产，Agent 按场景取而非从零想。
-- **Layout QA + Content QA 双层 Reviewer**：先物理（不溢出 / 不空白）+ 后语义（内容不缺失 / 无占位符）。
-- **模式组合固定 Tool Wrapper+Pipeline+Generator+Reviewer**：本技能是"读改写验"全链路，多模式叠加是必然；统一结构后与 eas-docx / eas-pdf / eas-xlsx 对齐，便于 Agent 跨技能切换。
+> **设计选择归档**：本技能的设计取舍（PptxGenJS 为主、Theme 5 keys、三维组合设计资产、Layout QA + Content QA 双层 Reviewer、模式组合等）已迁出至 [docs/decisions/0008-decision-sediment-tools-office.md § 3](file:///e:/work/apps/eas/agent-skills/docs/decisions/0008-decision-sediment-tools-office.md)，不在 SKILL.md 末尾重复。
