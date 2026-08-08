@@ -257,10 +257,21 @@ regression_test:
 
 ## 输出契约 (Output Contract)
 
-**必须产出 `diagnose.md`**，路径建议：
+**必须产出 `diagnose.md`**，落地路径规范（dev 技能通用默认；宿主项目可在自有 `.easbot/AGENTS.md` 中声明覆盖）：
 
-- 项目级：`<cwd>/diagnoses/<topic>-diagnose.md`
-- 临时：`<cwd>/diagnose.md`
+| 场景 | 路径 |
+|---|---|
+| **项目级（推荐）** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/diagnose.md` |
+| **临时 / 探索性** | `<cwd>/.easbot/state/dev-scratch-<topic>-diagnose.md` |
+
+**禁止路径**（会污染版本控制）：
+
+- ❌ `<cwd>/diagnose.md`（仓库根，会入仓）
+- ❌ `<cwd>/diagnoses/...`（仓库根平级，会入仓）
+
+**`<topic>` 命名**：kebab-case，≤ 64 字符；bug 类推荐用 `fix-<topic>` 前缀（如 `fix-cache-stampede`）。
+
+**frontmatter 必含字段**：`topic` / `phase: diagnose` / `status: investigating|fixed|closed` / `severity: P0|P1|P2` / `reproduction_mrc`（最小复现用例引用） / `created_at` / `updated_at`。
 
 **必含 4 章节**：
 
