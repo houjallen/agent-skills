@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "eas-agent-creation",
-      "description": "该技能应在 EASBot Agent 需要按应用场景创建新技能、演化现有技能、或管理技能组合（Bundle）时使用。覆盖技能从创建到废弃的完整生命周期。",
+      "description": "该技能应在 EASBot Agent 需要按应用场景创建新技能、演化现有技能、或管理技能组合（Bundle）时使用。覆盖技能从创建到废弃的完整生命周期（Create / Evolve / Deprecate）。触发短语：创建技能、演化技能、技能组合、Bundle 管理、技能废弃。不适用：临时单文件脚本 / 一次性 prompt / 不涉及技能生命周期的纯业务任务。",
       "source": "./skills/builtin/eas-agent-creation",
       "category": "builtin",
       "version": "1.0.0",
@@ -19,7 +19,7 @@
     },
     {
       "name": "eas-agent-evolution",
-      "description": "该技能应在 Agent 需要进行自我初始化、身份认知建立、配置文件生成、备份恢复或持续进化时使用。覆盖 Agent 从 bootstrap 到持续完善的完整生命周期。",
+      "description": "该技能应在 Agent 需要进行自我初始化、身份认知建立、配置文件生成、备份恢复或持续进化时使用。覆盖 Agent 从 bootstrap 到持续完善的完整生命周期（init / identity / backup / evolve）。触发短语：初始化 Agent、Agent bootstrap、身份认知、备份配置、恢复配置、持续进化。不适用：纯业务任务 / 不涉及 Agent 配置的代码编写 / 第三方 Agent 框架。",
       "source": "./skills/builtin/eas-agent-evolution",
       "category": "builtin",
       "version": "1.0.0",
@@ -30,10 +30,10 @@
     },
     {
       "name": "eas-planning-writer",
-      "description": "该技能应在 Agent 处理跨 session、需要持久化进度的复杂任务时使用——任务通过 Markdown 三件套（task_plan / findings / progress）落地到 `.easbot/knowledge/tasks/{task-name}/`，支持跨 session 状态恢复与事后 Review。",
+      "description": "该技能应在 Agent 处理跨 session、需要持久化进度、需要事后 Review 或文档化的复杂长任务时使用。覆盖 task_plan / findings / progress 三件套落地到 .easbot/knowledge/tasks/、决策文档沉淀到 docs/decisions/、完成度检查。触发短语：长任务、跨 session、持久化进度、任务规划、事后 Review、多日任务、多阶段实施、决策追溯。不适用：单次工具调用可完成 / Agent 内部 todo 即可管理 / 已有 task / scheduler 工具更适合的场景。",
       "source": "./skills/builtin/eas-planning-writer",
       "category": "builtin",
-      "version": "0.1.0",
+      "version": "1.0.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -41,7 +41,7 @@
     },
     {
       "name": "eas-prompt-creator",
-      "description": "该技能应在需要为 EASBot 创建、规范化或审核提示词时使用。技能提供完整的提示词分类体系、规范化模板和质量控制流程，确保提示词遵循 EASBot 设计规范和最佳实践。",
+      "description": "该技能应在需要为 EASBot 创建、规范化或审核提示词时使用。覆盖完整的提示词分类体系（Agent / Tool / Task / Command / Mode / Session / Feature / Context 八大类型）、规范化模板与质量控制流程。触发短语：创建提示词、写 prompt、提示词审核、提示词规范化、Agent prompt、Tool prompt、Task prompt、prompt 模板。不适用：业务需求文档 / 用户对话话术 / SKILL.md（SKILL.md 走 eas-skill-creator）。",
       "source": "./skills/builtin/eas-prompt-creator",
       "category": "builtin",
       "version": "1.0.0",
@@ -52,10 +52,10 @@
     },
     {
       "name": "eas-skill-creator",
-      "description": "该技能应用于创建、构建和验证EASBot技能。当Agent需要为其他Agent设计、构建、验证或打包包含脚本、参考资料和资产的技能时使用。",
+      "description": "该技能应在 Agent 需要创建、验证、打包或迭代 Skill 时使用。覆盖 SKILL.md 结构规范、scripts/references/assets 资源组织、Tool Wrapper / Generator / Reviewer / Inversion / Pipeline 五大模式选择、init-skill 初始化。触发短语：创建技能、写技能、Skill Spec、frontmatter、5 大模式、init-skill、验证技能、打包技能、迭代技能。不适用：一次性 prompt / 临时记录 / 仅补 API 知识。",
       "source": "./skills/builtin/eas-skill-creator",
       "category": "builtin",
-      "version": "1.0.0",
+      "version": "0.1.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -63,10 +63,10 @@
     },
     {
       "name": "eas-skill-find",
-      "description": "该技能应在 Agent 需要在 EASBot 技能生态中搜索候选技能、或在执行任务前确认是否有更合适的现成 skill 可加载时使用。覆盖 skills.sh 市场搜索、过滤、验证、安装的完整链路。",
+      "description": "该技能应在 Agent 需要在 EASBot 技能生态中搜索候选技能、或在执行任务前确认是否有更合适的现成 skill 可加载时使用。覆盖 skills.sh 远程市场搜索、过滤、验证、安装的完整链路；本地已装 / store 内技能检索见 references/local-search.md。触发短语：找技能、搜技能、skill 发现、skills.sh、技能市场、技能安装、本地技能检索、候选技能。不适用：创建新技能（走 eas-skill-creator）/ 已确定技能名直接调用。",
       "source": "./skills/builtin/eas-skill-find",
       "category": "builtin",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -74,7 +74,7 @@
     },
     {
       "name": "eas-skill-using",
-      "description": "该技能应在 Agent 不确定该加载哪个 EASBot builtin 技能、需要查看能力清单或场景映射时使用。作为 builtin 技能生态的中央导航和上下文提供者，给出\"我应该用哪个技能\"的判断与典型场景下的推荐组合。",
+      "description": "该技能应在 Agent 不确定该加载哪个 EASBot builtin 技能、需要查看能力清单或场景映射时使用。作为 builtin 技能生态的中央导航与上下文提供者，覆盖能力索引、场景映射、决策辅助、Skill vs Agent vs Tool 概念区分。触发短语：加载哪个技能、能力清单、场景映射、技能导航、生态全景、Skill vs Tool。不适用：已指定技能名直接调用 / tools 类技能（由 description 自行匹配）/ 业务任务执行。",
       "source": "./skills/builtin/eas-skill-using",
       "category": "builtin",
       "version": "1.0.0",
@@ -85,7 +85,7 @@
     },
     {
       "name": "eas-chinese-writer",
-      "description": "该技能应在需要编写中文文档、翻译英文内容到中文、或在代码中添加规范的中文注释（JSDoc）时使用。该技能提供专业技术名词保留英文、文档与代码中文使用规范、i18n 输出规范等指导，确保中文文档和代码注释的准确性与一致性。",
+      "description": "该技能应在需要编写中文文档、翻译英文内容到中文、或在代码中添加规范的中文注释（JSDoc）时使用。覆盖文档中文化、技术术语保留英文、JSDoc 中文注释、i18n 输出规范（中英双 key + 统一日志器）。触发短语：中文文档、中文化、翻译、JSDoc 注释、i18n、术语规范、中英混排。不适用：纯英文文档 / 用户对话话术 / 营销文案。",
       "source": "./skills/tools/eas-chinese-writer",
       "category": "tools",
       "version": "0.1.0",
@@ -95,30 +95,8 @@
       }
     },
     {
-      "name": "eas-xlsx",
-      "description": "该技能应在 Agent 需要读取、创建、编辑或校验 Excel/电子表格文件（.xlsx / .xlsm / .csv / .tsv）时使用，涵盖：分析既有数据、按 XML 模板从零生成新文件、在不破坏原始格式的前提下修改既有文件、修复损坏的公式、以及按财务配色规范做静态 / 动态校验。",
-      "source": "./skills/tools/eas-xlsx",
-      "category": "tools",
-      "version": "1.1.0",
-      "author": {
-        "name": "houjallen",
-        "email": "houjallen@gmail.com"
-      }
-    },
-    {
-      "name": "eas-pdf",
-      "description": "该技能应在视觉品质与设计识别度成为 PDF 输出的关键诉求时使用，覆盖三条路径：CREATE（从零生成报告 / 提案 / 简历等成品 PDF）、FILL（向既有 PDF 填写表单字段而不改动版式）、REFORMAT（将已有 Markdown / 文本 / PDF 解析后套用设计 token 重新排版）。",
-      "source": "./skills/tools/eas-pdf",
-      "category": "tools",
-      "version": "1.1.0",
-      "author": {
-        "name": "houjallen",
-        "email": "houjallen@gmail.com"
-      }
-    },
-    {
       "name": "eas-docx",
-      "description": "该技能应在 Agent 需要生成、修改或分析 Word 文档（.docx）时使用，覆盖三条路径：A-CREATE（用 docx-js 从零生成新文档）、B-EDIT（XML unpack/edit/pack 修改既有文档）、C-ACCEPT-CHANGES（接受所有修订并产出干净版）。",
+      "description": "该技能应在 Agent 需要生成、修改或分析 Word 文档（.docx）时使用，覆盖三条路径：A-CREATE（docx-js 从零生成）/ B-EDIT（XML unpack/edit/pack 修改既有文档）/ C-ACCEPT-CHANGES（接受所有修订产出干净版）；底层栈为 docx-js + Python 助手脚本（unpack/pack/sanitize/comment/accept_changes）。触发短语：Word、docx、Word 文档、报告、合同、公文、提案、备忘录、tracked changes、review comments。不适用：PDF 输出（走 eas-pdf）/ PPT 演示（走 eas-pptx）/ Excel 表格（走 eas-xlsx）。",
       "source": "./skills/tools/eas-docx",
       "category": "tools",
       "version": "1.2.0",
@@ -128,9 +106,31 @@
       }
     },
     {
+      "name": "eas-pdf",
+      "description": "该技能应在视觉品质与设计识别度成为 PDF 输出的关键诉求时使用，覆盖三条路径：CREATE（从零生成报告 / 提案 / 简历等成品 PDF）、FILL（向既有 PDF 填写表单字段而不改动版式）、REFORMAT（将已有 Markdown / 文本 / PDF 解析后套用设计 token 重新排版）。触发短语：PDF、PDF 生成、设计驱动、报告、提案、简历、作品集、学术文档、模板、make a PDF、beautiful PDF。不适用：纯数据 PDF（走 eas-xlsx 转 CSV）/ Word 文档（走 eas-docx）/ PPT 演示（走 eas-pptx）。",
+      "source": "./skills/tools/eas-pdf",
+      "category": "tools",
+      "version": "1.1.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
       "name": "eas-pptx",
-      "description": "该技能应在 Agent 需要生成、编辑或分析 PowerPoint 演示文稿（.pptx）时使用，覆盖三条路径：CREATE（用 PptxGenJS 从零生成含封面 / TOC / 内容 / 分节 / 收尾页的演示）、EDIT（基于既有模板的 XML 修改与结构操作）、READ（用 markitdown 抽取文本做内容分析）。",
+      "description": "该技能应在 Agent 需要生成、编辑或分析 PowerPoint 演示文稿（.pptx）时使用，覆盖三条路径：CREATE（用 PptxGenJS + 18 配色 × 4 风格 × 5 页面类型设计资产生成）、EDIT（XML unpack/edit/pack 修改既有模板）、READ（markitdown 抽取文本分析）；含 Layout QA + Content QA 双层校验与布局安全规则。触发短语：PPT、PPTX、PowerPoint、presentation、slide、deck、slides、演示文稿、幻灯片。不适用：纯数据可视化（走 eas-xlsx + chart）/ 静态设计稿（走 eas-pdf）/ Word 文档（走 eas-docx）。",
       "source": "./skills/tools/eas-pptx",
+      "category": "tools",
+      "version": "1.1.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-xlsx",
+      "description": "该技能应在 Agent 需要读取、创建、编辑或校验 Excel/电子表格文件（.xlsx / .xlsm / .csv / .tsv）时使用，覆盖五条路径：READ（分析数据）/ CREATE（XML 模板从零生成）/ EDIT（保留格式修改）/ FIX（修复损坏公式）/ VALIDATE（财务配色静态 + 动态校验）。触发短语：spreadsheet、Excel、.xlsx、.xlsm、.csv、.tsv、pivot table、financial model、formula、表格、电子表格。不适用：纯文本数据（走 CSV 工具）/ 数据库导出（走 SQL 工具）/ Word 报告（走 eas-docx）。",
+      "source": "./skills/tools/eas-xlsx",
       "category": "tools",
       "version": "1.1.0",
       "author": {
