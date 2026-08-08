@@ -164,10 +164,22 @@ metadata:
 
 ## 输出契约 (Output Contract)
 
-**必须产出 `spec.md`**，路径建议：
+**必须产出 `spec.md`**，落地路径规范（dev 技能通用默认；宿主项目可在自有 `.easbot/AGENTS.md` 中声明覆盖）：
 
-- 项目级：`<cwd>/specs/<topic>-spec.md`
-- 临时：`<cwd>/spec.md`
+| 场景 | 路径 |
+|---|---|
+| **项目级（推荐）** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/spec.md` |
+| **临时 / 探索性** | `<cwd>/.easbot/state/dev-scratch-<topic>-spec.md` |
+
+**禁止路径**（会污染版本控制）：
+
+- ❌ `<cwd>/spec.md`（仓库根，会入仓）
+- ❌ `<cwd>/specs/...`（仓库根平级，会入仓）
+- ❌ `<cwd>/docs/specs/...`（`docs/` 是发布文档目录，禁止写入 dev 中间产物）
+
+**`<topic>` 命名**：kebab-case，≤ 64 字符。
+
+**frontmatter 必含字段**：`topic` / `phase: spec` / `status: draft|confirmed` / `created_at` / `updated_at`。
 
 **5 条校验规则**（来自 `behavior.output.validation_rules`）：
 
