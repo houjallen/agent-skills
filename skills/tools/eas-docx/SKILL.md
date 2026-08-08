@@ -1,13 +1,12 @@
 ---
 name: eas-docx
 description: 该技能应在 Agent 需要生成、修改或分析 Word 文档（.docx）时使用，覆盖三条路径：A-CREATE（docx-js 从零生成）/ B-EDIT（XML unpack/edit/pack 修改既有文档）/ C-ACCEPT-CHANGES（接受所有修订产出干净版）；底层栈为 docx-js + Python 助手脚本（unpack/pack/sanitize/comment/accept_changes）。触发短语：Word、docx、Word 文档、报告、合同、公文、提案、备忘录、tracked changes、review comments。不适用：PDF 输出（走 eas-pdf）/ PPT 演示（走 eas-pptx）/ Excel 表格（走 eas-xlsx）。
-version: 1.2.0
-category: tools
-tags: [easbot, docx, word, document, generator, editor]
 license: MIT
 metadata:
-  version: "1.2.0"
-  category: document-processing
+  category: tools
+  version: 1.2.0
+  author: EASBot
+  tags: [easbot, docx, word, document, generator, editor]
   mode: tool-wrapper+generator+reviewer+pipeline
   supported_os:
     - windows
