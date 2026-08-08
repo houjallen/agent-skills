@@ -1,9 +1,12 @@
 ---
 name: eas-skill-find
 description: 该技能应在 Agent 需要在 EASBot 技能生态中搜索候选技能、或在执行任务前确认是否有更合适的现成 skill 可加载时使用。覆盖 skills.sh 远程市场搜索、过滤、验证、安装的完整链路；本地已装 / store 内技能检索见 references/local-search.md。触发短语：找技能、搜技能、skill 发现、skills.sh、技能市场、技能安装、本地技能检索、候选技能。不适用：创建新技能（走 eas-skill-creator）/ 已确定技能名直接调用。
-category: builtin
-version: 1.1.0
-tags: [easbot, skill, discovery, search, market, skills.sh]
+license: MIT
+metadata:
+  category: builtin
+  version: 1.1.0
+  author: EASBot
+  tags: [easbot, skill, discovery, search, market, skills.sh]
 ---
 
 # eas-skill-find (EASBot 技能查找器)
