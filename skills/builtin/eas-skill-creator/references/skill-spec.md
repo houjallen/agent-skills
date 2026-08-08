@@ -418,7 +418,117 @@ Generator 模式可使用**轻量 checklist**（不强制落地独立文件，bo
   - 字符控制：**SHOULD ≤ 500** / **MUST ≤ 1024**
   - 第三人称（"该技能应在...时使用"）
 
-### 9.3 字段分层策略
+### 9.3 description 字段写法规范 (Writing Effective Descriptions)
+
+> 本节是 §9.2 第 2 项 description 字段的完整写法规范，参照 [AgentSkills Writing Effective Descriptions](https://agentskills.io/specification) 最佳实践，落地为本项目的强约束。Agent 创建或修订任何技能 SKILL.md 的 `description` 字段 MUST 满足本节全部 P0 项。
+
+#### 9.3.1 三要素 (Three Mandatory Elements)
+
+一份合格的 `description` MUST 同时含 **WHAT** + **WHEN** + **第三人称** 三要素，缺一项视为 P0 缺陷：
+
+| 要素 | 含义 | 落地要求 |
+|---|---|---|
+| **WHAT** | 技能做什么（具体能力清单） | 动词引导的能力列表；避免泛词（"处理文档"） |
+| **WHEN** | Agent 何时应触发（触发场景 + 触发短语） | 含 5+ 触发短语 + 1+ 反场景 |
+| **第三人称** | 描述注入 Agent 系统提示，必须第三人称 | "该技能应在…时使用"，**禁止**"我" / "你可以" |
+
+#### 9.3.2 字符控制 (Length Control)
+
+| 阈值 | 性质 | 处置 |
+|---|---|---|
+| **≤ 500 字符** | SHOULD（推荐值） | 满足时优先采用，便于 Agent 上下文预算 |
+| **≤ 1024 字符** | MUST（硬上限） | `quick-validate.ts` 强制；超过直接拒绝 |
+| **> 1024 字符** | 校验失败 | 提交会被 CI 拦截（§7.5 CI 契约） |
+
+#### 9.3.3 句式模板 (Sentence Templates)
+
+**MUST 用以下两种句式之一**：
+
+```yaml
+# 句式 A：触发场景优先（推荐）
+description: 该技能应在 Agent 需要 <触发场景 1> / <触发场景 2> 时使用。<能力简述>。触发短语包括 <短语 1>、<短语 2>、…。不适用：<反场景 1> / <反场景 2>。
+
+# 句式 B：能力优先（适用于工具类技能）
+description: 该技能应在 <能力领域> 时使用，覆盖 <路径 1> / <路径 2> / <路径 3>。触发短语包括 <短语 1>、<短语 2>、…。不适用：<反场景 1> / <反场景 2>。
+```
+
+**反模式（绝对禁止）**：
+
+- ❌ "我能够帮你…" —— 第一人称（违反 §13.1）
+- ❌ "你可以使用本技能…" —— 第二人称（违反 §13.1）
+- ❌ "这个工具非常好用" —— 主观评价（违反 §13.6）
+- ❌ "处理文档" —— 泛词，无 WHAT/WHEN
+- ❌ 在 description 里复述 7 步工作流 —— 违反 §13.6「不在 description 中总结过程」
+- ❌ 缺反场景 —— Agent 无法判断何时不触发
+
+#### 9.3.4 正反示例 (Good vs Bad Examples)
+
+**✅ 优秀 description**（[eas-skill-creator](file:///e:/work/apps/eas/agent-skills/skills/builtin/eas-skill-creator/SKILL.md) 当前 frontmatter）：
+
+```yaml
+description: 该技能应在 Agent 需要创建、验证、打包或迭代 Skill 时使用。覆盖 SKILL.md 结构规范、scripts/references/assets 资源组织、Tool Wrapper / Generator / Reviewer / Inversion / Pipeline 五大模式选择、init-skill 初始化。触发短语：创建技能、写技能、Skill Spec、frontmatter、5 大模式、init-skill、验证技能、打包技能、迭代技能。不适用：一次性 prompt / 临时记录 / 仅补 API 知识。
+```
+
+**❌ 反面示例 1**（违反「不总结过程」）：
+
+```yaml
+# ❌ 错误：在 description 里复述工作流
+description: 该技能通过 7 步流程（需求收集 → 模式选型 → 初始化 → 填充 → 校验 → 打包 → 迭代）帮助 Agent 创建技能。
+```
+
+**❌ 反面示例 2**（违反「第一人称」）：
+
+```yaml
+# ❌ 错误：第一人称
+description: 我能帮你创建技能，你可以用我来做 SKILL.md 模板和打包。
+```
+
+**❌ 反面示例 3**（违反「无 WHAT/WHEN」）：
+
+```yaml
+# ❌ 错误：泛词
+description: 处理技能相关的事情。
+```
+
+**❌ 反面示例 4**（缺反场景）：
+
+```yaml
+# ❌ 错误：Agent 无法判断何时不触发
+description: 该技能应在 Agent 需要处理文档、生成报告、分析数据、管理项目时使用。
+```
+
+#### 9.3.5 与 AGENTS.md / eas-skill-using 的同步 (Cross-Section Sync)
+
+按 AGENTS.md §6.2 演化规则，`description` 字段修订 MUST 同步更新：
+
+| # | 同步目标 | 字段 |
+|---|---|---|
+| 1 | `.claude-plugin/marketplace.json` | `plugins[].description` |
+| 2 | `README.md` + `README.en.md` | 内置技能一览 / 工具类技能表的描述列 |
+| 3 | `skills/builtin/eas-skill-using/SKILL.md` | 仅 `builtin` 类别：能力索引 + 决策辅助 + 场景映射 |
+| 4 | `metadata.version` | frontmatter `version` bump（patch） |
+
+> 失同步会被本评审（`docs/decisions/0006-review-all-skills.md`）判为 P0。
+
+#### 9.3.6 自检清单 (Self-Check Before Commit)
+
+提交前 Agent MUST 逐项打勾：
+
+- [ ] **WHAT** 含具体能力清单（≥ 3 项）
+- [ ] **WHEN** 含 5+ 触发短语（中英文混排可）
+- [ ] 含 1+ 反场景（"不适用"或"不触发"段）
+- [ ] 第三人称（"该技能应在…时使用"）
+- [ ] 总长度 ≤ 500 字符（推荐）/ ≤ 1024 字符（硬上限）
+- [ ] 未复述工作流 / 步骤 / 模式细节
+- [ ] 未含主观评价词（"非常好" / "极其强大" / "完美"）
+- [ ] 未使用第一人称 / 第二人称（"我" / "你可以"）
+- [ ] 未含尖括号（`quick-validate.ts` 拒收）
+- [ ] `metadata.version` 已 bump patch
+- [ ] `marketplace.json` 已同步
+- [ ] `README*.md` 已同步
+- [ ] 跑 `npx tsx skills/builtin/eas-skill-creator/scripts/quick-validate.ts <skill-dir>` 通过
+
+### 9.4 字段分层策略
 
 | 层 | 字段 | 推荐用法 |
 |---|---|---|
