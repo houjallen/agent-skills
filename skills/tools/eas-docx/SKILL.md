@@ -1,6 +1,9 @@
 ---
 name: eas-docx
-description: "该技能应在 Agent 需要生成、修改或分析 Word 文档（.docx）时使用，覆盖三条路径：A-CREATE（用 docx-js 从零生成新文档）、B-EDIT（XML unpack/edit/pack 修改既有文档）、C-ACCEPT-CHANGES（接受所有修订并产出干净版）。底层走 docx-js（Node.js）+ Python 助手脚本栈（unpack/pack/sanitize/comment/accept_changes），全部依赖轻量、跨平台。触发短语包括 Word、docx、文档、Word 文档、报告、合同、公文、提案、备忘录。"
+description: 该技能应在 Agent 需要生成、修改或分析 Word 文档（.docx）时使用，覆盖三条路径：A-CREATE（docx-js 从零生成）/ B-EDIT（XML unpack/edit/pack 修改既有文档）/ C-ACCEPT-CHANGES（接受所有修订产出干净版）；底层栈为 docx-js + Python 助手脚本（unpack/pack/sanitize/comment/accept_changes）。触发短语：Word、docx、Word 文档、报告、合同、公文、提案、备忘录、tracked changes、review comments。不适用：PDF 输出（走 eas-pdf）/ PPT 演示（走 eas-pptx）/ Excel 表格（走 eas-xlsx）。
+version: 1.2.0
+category: tools
+tags: [easbot, docx, word, document, generator, editor]
 license: MIT
 metadata:
   version: "1.2.0"
@@ -21,7 +24,7 @@ metadata:
     - docx-js API reference
 ---
 
-# eas-docx
+# eas-docx (Word 文档生成与编辑)
 
 ## 概述 (Overview)
 
@@ -255,11 +258,4 @@ python3 <skillPath>/scripts/accept_changes.py in.docx out.docx         # 接受�
 | [comments.md](references/comments.md) | 路径 B 子话题：评论的 4 文件系统 + 范围标记 + 回复 |
 | [dependencies.md](references/dependencies.md) | 外部依赖列表（pandoc / docx / LibreOffice / Poppler） |
 
-## 决策沉淀 (Decision Sediment)
-
-- **以 docx-js + Python 助手脚本为主，弃用 .NET OpenXML SDK 重型栈**：原 .NET 工程（EasbotAIDocx）虽然功能强但部署成本高（需 .NET 8 SDK + NuGet 还原 + 编译），不利于 Agent 在临时环境快速启用。docx-js + Python 助手脚本栈零编译、即装即用，覆盖 90% 常规场景。
-- **CREATE 走声明式 JS、EDIT 走 XML unpack/edit/pack**：两种工作流覆盖互补场景。CREATE 用 docx-js 写一遍 JS 即可生成结构化文档；EDIT 在保版式的前提下用 Edit 工具直接改 XML。
-- **`sanitize.py` 作为 CREATE 路径的 Reviewer 兜底**：docx-js 偶发生成文本型 TOC 块或多余空白页，`sanitize.py` 自动检测并清理。
-- **CJK 字体三槽（ascii / hAnsi / eastAsia）不可省**：中文文档缺 `eastAsia` 槽会导致字符显示为方框——这是中文文档最常见的隐性 bug。
-- **`pack.py` 含 schema 校验 + 自动修复**：对照 `ooxml.scripts.validation.DOCXSchemaValidator` 与 `RedliningValidator`；编辑路径的 Reviewer。
-- **模式组合固定 Tool Wrapper+Pipeline+Generator+Reviewer**：本技能是"读改写验"全链路，多模式叠加是必然；统一结构后与 eas-pptx / eas-pdf / eas-xlsx 对齐，便于 Agent 跨技能切换。
+> **设计选择归档**：本技能的设计取舍（CREATE/EDIT 路径拆分、sanitize.py 兜底、模式组合等）已迁出至 [docs/decisions/0008-decision-sediment-tools-office.md § 1](file:///e:/work/apps/eas/agent-skills/docs/decisions/0008-decision-sediment-tools-office.md)，不在 SKILL.md 末尾重复。
