@@ -1,13 +1,12 @@
 ---
 name: eas-xlsx
 description: 该技能应在 Agent 需要读取、创建、编辑或校验 Excel/电子表格文件（.xlsx / .xlsm / .csv / .tsv）时使用，覆盖五条路径：READ（分析数据）/ CREATE（XML 模板从零生成）/ EDIT（保留格式修改）/ FIX（修复损坏公式）/ VALIDATE（财务配色静态 + 动态校验）。触发短语：spreadsheet、Excel、.xlsx、.xlsm、.csv、.tsv、pivot table、financial model、formula、表格、电子表格。不适用：纯文本数据（走 CSV 工具）/ 数据库导出（走 SQL 工具）/ Word 报告（走 eas-docx）。
-version: 1.1.0
-category: tools
-tags: [easbot, xlsx, excel, spreadsheet, formula, csv, financial]
 license: MIT
 metadata:
-  version: "1.1.0"
-  category: document-processing
+  category: tools
+  version: 1.1.0
+  author: EASBot
+  tags: [easbot, xlsx, excel, spreadsheet, formula, csv, financial]
   mode: tool-wrapper+generator+reviewer+pipeline
   supported_os:
     - windows
