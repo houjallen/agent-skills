@@ -67,22 +67,19 @@ export class SkillValidator {
       }
 
       // 检查不允许的属性
-      // 五大模式必填字段：mode / composition / behavior / reviewer / secondaryModes / compositionConnections / deliveryChecklist
-      // 仅作为提示，不阻断校验（skill-spec.md 中允许扩展）
-      //
-      // 设计：
-      // - 顶层 keys 必须在白名单内
-      // - `metadata` 是"自由扩展容器"：其内部嵌套的 keys 任意扩展，不校验
-      //   这样顶层保持精简，业务元数据放在 metadata 下不会触发误报
+      // 顶层 keys 必须在白名单内（详见 references/skill-spec.md §9.4 字段分层策略）：
+      //   - AgentSkills 标准顶层字段: name / description / license / metadata / allowed-tools
+      //   - 五大模式与组合模式字段（保留顶层）: mode / composition / secondaryModes /
+      //     compositionConnections / behavior / reviewer / deliveryChecklist
+      // 项目扩展字段（category / version / author / compatibility / tags 等）
+      //   MUST 放入 `metadata:` 子键，不允许出现在顶层（与 skill-spec.md §9.4 一致）
+      // `metadata` 是"自由扩展容器"，其内部嵌套的 keys 不校验。
       const allowedProperties = new Set([
         'name',
         'description',
         'license',
         'allowed-tools',
         'metadata',
-        'category',
-        'version',
-        'tags',
         'mode',
         'composition',
         'secondaryModes',
@@ -213,8 +210,13 @@ export class SkillValidator {
       const skillMdPath = path.join(skillPath, 'SKILL.md');
       const content = await fs.readFile(skillMdPath, 'utf8');
 
-      // 检查是否包含 TODO 或占位符内容
-      const hasPlaceholders = content.includes('[TODO:') || content.includes('TODO') || content.includes('placeholder');
+      // 检查是否包含结构性占位符或未填写的 TODO 标记
+      // 仅匹配「约定的待办标记」字面量，避免误判正文里作为示例的 `placeholder` / `TODO` 关键词：
+      //   - `[TODO:...]` / `<TODO:...>`  —— 占位符语法
+      //   - `<!-- TODO: ... -->` / `<!-- TODO -->`  —— HTML 注释式待办
+      // 注意：正文中作为 shell 命令关键字出现的 `placeholder`（如 grep/select-string 示例）**不**应触发。
+      const placeholderRegex = /\[TODO:|\<TODO:|<!--\s*TODO\b/;
+      const hasPlaceholders = placeholderRegex.test(content);
 
       const details = {
         directories: dirStatus,
