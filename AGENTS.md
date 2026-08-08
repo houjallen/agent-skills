@@ -330,6 +330,7 @@ git log -1                                            # 验证
 - **代码注释**：中文；`console.log` 等**用户可见输出**保持英文。
 - **文档语言**：正文中文，技术术语（Agent / Skill / Script / Pipeline / Reviewer / Generator / Inversion / MCP / KV-cache / ADR 等）保持英文。
 - **标题**：双语形式 `## 中文 (English)`。
+- **提示词主体语言**（`eas-prompt-creator` 生成的所有 prompt 文件）：**MUST 全部使用英文**。仅 frontmatter `title` 可用中英双语；正文 / 边界控制 / 示例全部英文。代码注释可中文。来源：[`eas-prompt-creator/SKILL.md §语言要求`](file:///e:/work/apps/eas/agent-skills/skills/builtin/eas-prompt-creator/SKILL.md)。
 - **二进制白名单**（`.gitattributes`）：`*.jpg` / `*.png` / `*.gif` / `*.pdf` / `*.docx` / 字体文件。
 - **scripts/ 依赖白名单**（与 §5 表格保持一致）：
   - `js-yaml` — 仅 `quick-validate.ts` / `package-skill.ts`。
@@ -357,14 +358,44 @@ git log -1                                            # 验证
 
 ### 13.3 指令强度词
 
-| 关键词 | 含义 | 适用 |
-| --- | --- | --- |
-| `MUST` / `MUST NOT` | 强制：违反 = 失败 | 校验、契约、安全 |
-| `REQUIRED` | 强制（同 MUST） | 协议字段 |
-| `SHOULD` / `SHOULD NOT` | 推荐：有理由可违反 + 需说明 | 最佳实践 |
-| `MAY` | 可选：实现者自决 | 扩展点、可选参数 |
+> **本节以 [`eas-prompt-creator` 边界控制规范](file:///e:/work/apps/eas/agent-skills/skills/builtin/eas-prompt-creator/references/boundary-control.md) 为权威源**，AGENTS.md 提供项目级映射。
+
+#### 13.3.1 关键词体系（5 级）
+
+| 关键词 | 含义 | 适用 | 强度 |
+| --- | --- | --- | --- |
+| `CRITICAL` | 关键约束：覆盖所有其它指令 | 不可逆操作 / 安全红线 / 模式切换 | 最高 |
+| `NEVER` / `MUST NOT` | 绝对禁止：违反 = 失败 | 安全、不可逆操作、硬约束 | 高 |
+| `MUST` / `REQUIRED` | 强制：违反 = 契约失败 | 校验、契约、协议字段 | 高 |
+| `ALWAYS` | 必须执行的动作 | 核心工作流规则、必做操作 | 中高 |
+| `SHOULD` / `SHOULD NOT` | 推荐：有理由可违反 + 需说明 | 最佳实践 | 中 |
+| `DO NOT` | 不推荐但不绝对禁止 | 反模式、可调整项 | 中 |
+| `MAY` | 可选：实现者自决 | 扩展点、可选参数 | 低 |
+
+#### 13.3.2 优先级排序（从高到低）
+
+1. **CRITICAL** — 覆盖所有其它指令
+2. **NEVER** — 绝对禁止
+3. **MUST** — 强制要求
+4. **ALWAYS** — 必做操作
+5. **DO NOT** — 不推荐（允许例外）
 
 > 同一段中 `MUST` 与 `SHOULD` 不能并列表述——必选与推荐分开段落。
+
+#### 13.3.3 措辞选用决策树
+
+```
+安全 / 不可逆操作？
+├── Yes → CRITICAL 或 NEVER / MUST NOT
+└── No → 核心工作流必做？
+         ├── Yes → MUST / ALWAYS
+         └── No → 反模式 / 不推荐？
+                  ├── Yes → DO NOT
+                  └── No → 最佳实践（可调整）→ SHOULD
+                           └── 否则 → MAY
+```
+
+> **来源参考**：[`boundary-control.md`](file:///e:/work/apps/eas/agent-skills/skills/builtin/eas-prompt-creator/references/boundary-control.md) Hierarchy 节 / [`prompt-validation.md` §2.2](file:///e:/work/apps/eas/agent-skills/skills/builtin/eas-prompt-creator/references/prompt-validation.md)。
 
 ### 13.4 链接与代码引用
 
@@ -390,9 +421,57 @@ git log -1                                            # 验证
 
 > 「如何使用本技能」不要放首屏（§4）。
 
+### 13.5.5 Token 预算与上下文衰减 (Token Budget & Context Decay)
+
+> **本节以 [`eas-prompt-creator/references/prompt-validation.md` §Context Decay Curve](file:///e:/work/apps/eas/agent-skills/skills/builtin/eas-prompt-creator/references/prompt-validation.md) 为权威源**。
+
+#### Token 上限
+
+| 范围 | 上限 | 来源 |
+| --- | --- | --- |
+| 系统提示词（自定义部分，不含工具定义） | **< 6,000 tokens** | prompt-validation §2.3 |
+| Skill SKILL.md 主体 | **< 500 行** | §13.6 / §4.3 |
+| description | **≤ 500 字符**（SHOULD）/ **≤ 1024 字符**（MUST） | skill-spec §9.3.2 |
+
+#### 上下文衰减曲线（必须知晓）
+
+| Token 累计 | 遵循度 |
+| --- | --- |
+| < 80K | 稳定 |
+| 80K – 120K | 开始衰减 |
+| > 120K | 显著衰减 |
+| > 180K | 严重衰减 |
+
+> **推论**：不要把"超出 6K tokens 的领域知识"塞进系统提示；改用按需加载（references/ 或工具调用）。
+
+#### U 型注意力曲线
+
+LLM 注意力呈 U 型分布——开头最高、中间最低、结尾次高（primacy + recency 效应）。
+
+- **MUST 把身份 + 安全约束放在最顶部**（首次注意力峰值）
+- **MUST 把关键提醒放在末尾**（末次注意力峰值）
+- **SHOULD 让核心工作流位于上半部**（避开中间衰减区）
+
+> **反模式**：在系统提示中间段放置硬约束 → 大概率被忽略。
+
+### 13.5.6 双向约束原则 (Bidirectional Constraints)
+
+每条工具使用规则 MUST 同时指定「做什么」+「不做什么」：
+
+| ❌ 单向 | ✅ 双向 |
+| --- | --- |
+| `Use the Read tool for reading files.` | `Use the Read tool for reading files instead of cat/head/tail.` |
+| | `Do NOT use bash commands (cat, head, tail, sed, awk) for file operations.` |
+
+**适用场景**：所有工具使用规则、所有"建议性"实践。**反模式**：只写"用 X"不写"不用 Y"——给 Agent 留了规避空间。
+
 ### 13.6 反模式（提示词层）
 
-| ❌ 不要 | ✅ 应该 |
+> 本节包含两类反模式：(a) **项目级规范反模式**（AGENTS.md 原 §13.6）；(b) **提示词生成反模式**（来自 [`eas-prompt-creator/references/prompt-validation.md` §Anti-Patterns](file:///e:/work/apps/eas/agent-skills/skills/builtin/eas-prompt-creator/references/prompt-validation.md)）。
+
+#### 13.6.1 项目级规范反模式（Skill / SKILL.md）
+
+| � 不要 | ✅ 应该 |
 | --- | --- |
 | 「使用本技能当…」 | 「该技能应在…时使用」 |
 | 「这个工具很好用」 | 删掉 / 替换为具体能力 |
@@ -402,15 +481,35 @@ git log -1                                            # 验证
 | 中文段落夹杂大段英文 | 中文为主，英文仅保留专有名词 + 代码 / 命令 |
 | `SKILL.md` 堆 500+ 行 | 拆到 `references/`，主入口保持 < 500 行 |
 
+#### 13.6.2 提示词生成反模式（System Prompt 编写）
+
+> 编写 `eas-prompt-creator` 输出的 Agent / Tool / Task / Command / Mode / Session / Feature / Context 八大类型 prompt 时 MUST 规避以下 6 类反模式：
+
+| 反模式 | 问题 | 解决方案 |
+| --- | --- | --- |
+| **Prompt Chains 伪装成 Agent**（`Step 1... Step 2...` 机械步骤） | 模型机械执行而非自主决策 | 告知目标与约束，让模型决定步骤 |
+| **Flattery Engineering**（"你是一位极其优秀、经验丰富的高级工程师..."） | 浪费 tokens；不提升输出质量 | 删除奉承语言，用 tokens 写实际规则 |
+| **Knowledge Dumps**（塞入 5000 tokens API 文档） | 消耗上下文窗口，加速 context rot | 按需加载（`get_api_docs` 工具调用） |
+| **Repeating Tool Descriptions**（重复工具定义中已有的说明） | 冗余信息 | 只写战略引导（何时用 / 为何优先 / 优先级） |
+| **Missing Failure Handling**（无工具失败兜底） | 模型无限重试失败的工具调用 | 必须含：「工具调用被拒时，不重试同一调用；分析原因后调整策略」 |
+| **Ignoring Context Window Decay**（超长 prompt 无摘要策略） | 200K context ≠ 200K 有效 context | 保持 prompt 精简 + 摘要策略 + 首尾放置关键规则 |
+
+> **来源**：[`prompt-validation.md` §Anti-Patterns](file:///e:/work/apps/eas/agent-skills/skills/builtin/eas-prompt-creator/references/prompt-validation.md)。
+
 ### 13.7 自检清单（写完提示词后）
 
 - [ ] 标题全部为双语 `中文 (English)` 形式
 - [ ] 必填三节（概述 / 何时使用 / 快速参考）齐全
-- [ ] `MUST` / `SHOULD` 含义明确、未在同一段混用
+- [ ] 指令强度词按 §13.3 体系选用（CRITICAL / NEVER / MUST / ALWAYS / DO NOT / SHOULD / MAY），同一段不混用 MUST 与 SHOULD
+- [ ] 系统提示词（如为 Agent 提示词）自定义部分 < 6,000 tokens
+- [ ] 关键内容（身份 + 安全）放最顶部；关键提醒放末尾（U 型曲线，§13.5.5）
+- [ ] 工具使用规则遵循双向约束（做什么 + 不做什么，§13.5.6）
 - [ ] 所有链接用相对路径、**无 `@` 路径引用**
 - [ ] 代码块全部带语言标记
 - [ ] 专有名词（Agent / Skill / Script 等）保留英文
 - [ ] 无主观评价词（"非常好" / "极其强大"）
+- [ ] 无 6 类提示词生成反模式（§13.6.2）
+- [ ] `eas-prompt-creator` 生成的所有 prompt 主体内容**全部英文**（§12.5）
 - [ ] 通过 §10 验证清单
 
 ## 14. 评审规范 (Review Specification)
@@ -529,7 +628,10 @@ git log -1                                            # 验证
 
 | 检查项 | 通过条件 | 严重度 |
 |---|---|---|
-| 指令强度词规范 | MUST / SHOULD / MAY 按 §13.3 使用，不混用 | P0 |
+| 指令强度词规范 | 按 §13.3.1 7 级体系（CRITICAL / NEVER / MUST / ALWAYS / DO NOT / SHOULD / MAY）选用，优先级按 §13.3.2 排序，同一段不混用 MUST 与 SHOULD | P0 |
+| 安全/不可逆操作措辞 | 安全 / 不可逆操作 MUST 用 CRITICAL 或 NEVER / MUST NOT（§13.3.3 决策树） | P0 |
+| 双向约束 | 工具使用规则 MUST 同时含"做什么"+"不做什么"（§13.5.6） | P1 |
+| 关键内容位置 | 身份 + 安全 MUST 放顶部，关键提醒 MUST 放末尾（U 型曲线，§13.5.5） | P1 |
 | 无歧义指令 | 不出现"可能 / 大概 / 建议试试"做关键结论；推测标注"推测 / 假设" | P1 |
 | 无主观评价 | 不出现"非常好 / 极其强大 / 完美" | P2 |
 | 人称规范 | `description` 第三人称；正文用第二人称（"你应当…" / "MUST…"） | P1 |
@@ -560,6 +662,8 @@ git log -1                                            # 验证
 | Inversion Gate 完整 | `behavior.gate.phases` ≤ 5 必答、每题 2-4 选项 | P1 |
 | 失败处理可执行 | Reviewer / Pipeline / Inversion 三类必须包含失败兜底（不依赖 Agent 自决） | P0 |
 | 上下文预算 | name+description ≤ 1024 字符；SKILL.md < 500 行；references 单文件 < 10k 字 | P2 |
+| Token 预算（如为 Agent 提示词） | 自定义部分 < 6,000 tokens；超出 MUST 拆 references/ 或工具调用按需加载（§13.5.5） | P1 |
+| 提示词主体语言 | `eas-prompt-creator` 输出的 prompt 正文 MUST 全部英文（§12.5） | P0 |
 | 项目级同步 | 新增 / 演化 / 废弃技能按 §6.1 / §6.2 / §6.3 同步 README / marketplace / `eas-skill-using` 索引 | P0 |
 | 决策落档 | 跨技能决策已写入 `docs/decisions/00NN-*.md`（§11） | P0 |
 
