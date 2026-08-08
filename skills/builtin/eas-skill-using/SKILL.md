@@ -1,6 +1,6 @@
 ---
 name: eas-skill-using
-description: 该技能应在 Agent 不确定该加载哪个 EASBot builtin 技能、需要查看能力清单或场景映射时使用。作为 builtin 技能生态的中央导航和上下文提供者，给出"我应该用哪个技能"的判断与典型场景下的推荐组合。
+description: 该技能应在 Agent 不确定该加载哪个 EASBot builtin 技能、需要查看能力清单或场景映射时使用。作为 builtin 技能生态的中央导航与上下文提供者，覆盖能力索引、场景映射、决策辅助、Skill vs Agent vs Tool 概念区分。触发短语：加载哪个技能、能力清单、场景映射、技能导航、生态全景、Skill vs Tool。不适用：已指定技能名直接调用 / tools 类技能（由 description 自行匹配）/ 业务任务执行。
 category: builtin
 version: 1.0.0
 tags: [easbot, guidance, navigation, ecosystem, overview, entry-point, builtin]
@@ -58,7 +58,7 @@ tool.execute({ name: 'eas-skill-using' })
 
 **不适用**直接 `Read` 技能文件路径的原因：
 
-- 技能可能位于多个目录（`~/.agents/skills/`、`.easbot/skills/`、`.agents/skills/`、配置 `config.skills.paths`、远程 `config.skills.urls`）
+- 技能位于多个目录（`~/.agents/skills/`、`.easbot/skills/`、`.agents/skills/`、配置 `config.skills.paths`、远程 `config.skills.urls`）
 - `Skill` 命名空间以 `name` 索引，与物理位置解耦
 - Agent 用 `name` 查找，避免因路径变动失败
 
@@ -254,7 +254,7 @@ EASBot 技能遵循三级加载，最大限度节省上下文：
 - **不要手改 eas-agent-evolution 模板**：所有改动走引导流程
 - **不要混淆 skill 提示词与系统提示词**：前者是给 Agent 加载的（SKILL.md），后者是 Agent 自身的（用 `eas-prompt-creator`）
 - **不要用 `todo` 工具跟踪跨 session 长任务**：`todo` 仅限单 session；跨 session 的项目级长任务当前 builtin 生态暂未提供专用技能，需走 `task` 工具 + 外部文件 / `scheduler.*` 协同
-- **不要让 Agent 直接 `Read` SKILL.md 路径**：通过 `skill` 工具以 `name` 加载（技能可能在多个目录中，物理路径不固定）
+- **不要让 Agent 直接 `Read` SKILL.md 路径**：通过 `skill` 工具以 `name` 加载（技能在多个目录中，物理路径不固定）
 
 ### 上下文窗口预算 (Context Window Budget)
 
