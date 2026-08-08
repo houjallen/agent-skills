@@ -1,6 +1,14 @@
 ---
 topic: <评审主题 / PR 编号>
+phase: review
+scope: <overall | task>
+task_id: <T-XXX>              # 仅 scope: task 时必填
+p0_count: <N>
+p1_count: <N>                 # 已豁免 <M>
+p2_count: <N>
+status: <pass | fail>
 created_at: <YYYY-MM-DD>
+updated_at: <YYYY-MM-DD>
 reviewer: <评审者>
 spec_ref: <path-to-spec.md>
 design_ref: <path-to-design.md> (optional)
