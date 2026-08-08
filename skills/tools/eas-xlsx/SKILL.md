@@ -1,6 +1,9 @@
 ---
 name: eas-xlsx
-description: "该技能应在 Agent 需要读取、创建、编辑或校验 Excel/电子表格文件（.xlsx / .xlsm / .csv / .tsv）时使用，涵盖：分析既有数据、按 XML 模板从零生成新文件、在不破坏原始格式的前提下修改既有文件、修复损坏的公式、以及按财务配色规范做静态 / 动态校验。触发短语包括 spreadsheet、Excel、.xlsx、.xlsm、.csv、.tsv、pivot table、financial model、formula、表格、电子表格。"
+description: 该技能应在 Agent 需要读取、创建、编辑或校验 Excel/电子表格文件（.xlsx / .xlsm / .csv / .tsv）时使用，覆盖五条路径：READ（分析数据）/ CREATE（XML 模板从零生成）/ EDIT（保留格式修改）/ FIX（修复损坏公式）/ VALIDATE（财务配色静态 + 动态校验）。触发短语：spreadsheet、Excel、.xlsx、.xlsm、.csv、.tsv、pivot table、financial model、formula、表格、电子表格。不适用：纯文本数据（走 CSV 工具）/ 数据库导出（走 SQL 工具）/ Word 报告（走 eas-docx）。
+version: 1.1.0
+category: tools
+tags: [easbot, xlsx, excel, spreadsheet, formula, csv, financial]
 license: MIT
 metadata:
   version: "1.1.0"
@@ -21,7 +24,7 @@ metadata:
     - Microsoft Open XML SDK documentation
 ---
 
-# eas-xlsx
+# eas-xlsx (Excel 电子表格读取与编辑)
 
 ## 概述 (Overview)
 
@@ -190,9 +193,4 @@ python3 <skillPath>/scripts/libreoffice_recalc.py file.xlsx           # 动态�
 - [validate.md](references/validate.md) —— VALIDATE 路径的静态 + 动态校验流程
 - [ooxml-cheatsheet.md](references/ooxml-cheatsheet.md) —— OOXML 节点速查（仅按需查阅）
 
-## 决策沉淀 (Decision Sediment)
-
-- **走 Python 脚本而非 TypeScript**：与项目 `package.json` 不引入运行依赖的策略一致（§12.7 依赖白名单）；脚本仅依赖 Python 标准库，部署成本最低。
-- **写入路径固定 unpack/edit/pack**：openpyxl round-trip 会损坏 VBA / PivotTable / Sparkline 等高级特性，故强制 XML 直编。
-- **模板用最小 OOXML 骨架**：避免 LibreOffice / Excel 版本兼容差异；体积小、便于审查。
-- **模式组合固定 Tool Wrapper+Pipeline+Generator+Reviewer**：本技能是"读改写验"全链路，多模式叠加是必然；统一结构后与 eas-docx / eas-pptx / eas-pdf 对齐，便于 Agent 跨技能切换。
+> **设计选择归档**：本技能的设计取舍（Python 脚本优先、unpack/edit/pack 写入路径、最小 OOXML 骨架、模式组合等）已迁出至 [docs/decisions/0008-decision-sediment-tools-office.md § 4](file:///e:/work/apps/eas/agent-skills/docs/decisions/0008-decision-sediment-tools-office.md)，不在 SKILL.md 末尾重复。
