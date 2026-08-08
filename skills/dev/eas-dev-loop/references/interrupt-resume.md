@@ -63,7 +63,7 @@ Loop 启动时 MUST 检查：
 
 ```typescript
 async function checkResume(): Promise<LoopState | null> {
-  const stateFile = ".easbot/dev-loop-state.json";
+  const stateFile = ".easbot/state/dev-loop-<topic>.json";
   if (await fileExists(stateFile)) {
     const state = await readJson(stateFile);
     if (state.status === "in_progress" || state.status === "paused") {
@@ -134,8 +134,8 @@ if (resumeState.status === "failed") {
 ## 状态文件清理
 
 - **自动**：完成 / 中止 N 天后（建议 N = 7）
-- **手动**：`rm .easbot/dev-loop-state.json`
-- **归档**：`.easbot/dev-loop-archive/<loop_id>.json`
+- **手动**：`rm .easbot/state/dev-loop-<topic>.json`
+- **归档**：`.easbot/state/dev-loop-archive/<loop_id>.json`
 
 ## 与其他工具的协作
 
@@ -149,8 +149,8 @@ if (resumeState.status === "failed") {
 
 ```gitignore
 # Dev Loop 状态（不进版本控制）
-.easbot/dev-loop-state.json
-.easbot/dev-loop-archive/
+.easbot/state/dev-loop-*.json
+.easbot/state/dev-loop-archive/
 ```
 
 ---
