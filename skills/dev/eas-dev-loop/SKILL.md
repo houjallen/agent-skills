@@ -58,7 +58,7 @@ behavior:
       severity: must
   interrupt_resume:
     enabled: true
-    state_storage: ".easbot/dev-loop-state.json"
+    state_storage: "<cwd>/.easbot/state/dev-loop-<topic>.json"
     recoverable_steps: all
 metadata:
   category: dev
@@ -205,12 +205,17 @@ metadata:
 
 ## 输出契约 (Output Contract)
 
-- **完整交付物**：
-  - `alignment.md` + `spec.md` + `design.md`（可选）+ `tasks.md`
-  - 代码 + 测试
-  - `review.md`（每个 + 整体）
-  - PR + 部署 + 通知
-- **状态文件**：`.easbot/dev-loop-state.json`（中断恢复）
+**本技能是编排器，不直接产出文档**；通过委托 1-9 独立技能产生产物（每个产物的路径遵循对应技能的 §输出契约）：
+
+| 产物 | 路径（由下游技能产出） |
+|---|---|
+| **完整交付物** | `alignment.md` + `spec.md` + `design.md`（可选）+ `tasks.md` + 代码 + 测试 + `review.md` + PR / merge / deploy —— 全部位于 `<cwd>/.easbot/knowledge/docs/dev/<topic>/` |
+| **调度状态文件** | `<cwd>/.easbot/state/dev-loop-<topic>.json`（中断恢复；用于跨 session 恢复） |
+
+**禁止路径**：
+
+- ❌ `<cwd>/.easbot/dev-loop-state.json`（无 `<topic>` 维度，多 loop 会冲突）
+- ❌ 任何下游产物写入仓库根平级目录（`<cwd>/specs/` / `tasks/` / `designs/` / `reviews/` / `diagnoses/`）
 
 ## 中断恢复 (Interrupt & Resume)
 
@@ -218,7 +223,7 @@ metadata:
 
 **核心能力**：
 
-- 每步完成后保存状态到 `.easbot/dev-loop-state.json`
+- 每步完成后保存状态到 `<cwd>/.easbot/state/dev-loop-<topic>.json`
 - 中断后下次启动读取状态恢复
 - 失败状态可重新启动
 

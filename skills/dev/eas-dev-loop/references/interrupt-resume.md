@@ -11,7 +11,7 @@
 
 ## 状态文件
 
-**路径**：`<cwd>/.easbot/dev-loop-state.json`
+**路径**：`<cwd>/.easbot/state/dev-loop-<topic>.json`
 
 **Schema**：
 
