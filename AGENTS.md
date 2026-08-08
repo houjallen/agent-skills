@@ -335,11 +335,21 @@ git log -1                                            # 验证
 
 ## 11. 决策文档与规划持久化
 
+> **本节范围**：仅覆盖**项目级知识沉淀目录**（决策文档 / 评审报告 / 长任务规划 / 初始化协议模板）。**不**覆盖各技能产物的运行时路径；运行时产物路径遵循**"内联优先"原则** —— 由各技能 SKILL.md §输出契约 节内联维护（详见 [`docs/decisions/0016-review-dev-skills-pack-round2.md §6`](file:///e:/work/apps/eas/agent-skills/docs/decisions/0016-review-dev-skills-pack-round2.md)）。
+>
+> **扩展机制**：未来若新增项目级目录规范（如 `docs/dev/` 等），按 §7 / §11 落档到 `<cwd>/docs/decisions/00NN-<topic>.md` 决策文档；§11 仅收录已稳定的项目级目录，**不收录未规范目录**。
+
 - **单技能决策** → `<skill-name>/0001-<topic>.md`（数字递增），与该技能同生命周期。
 - **跨技能决策** → `docs/decisions/00NN-<topic>.md`（`docs/` 不存在则新建），由相关技能共同引用。
 - **评审报告** → `docs/decisions/00NN-review-{topic}.md`（项目级惯例，沿用既有 `0001-review-*.md` 命名；详见 §14.7「落档路径决策」）。**禁止在被评审 `SKILL.md` 末尾追加反向引用节**（污染技能内容，违反 §4.2）。
 - **长任务 / 多步骤实施规划** → `<cwd>/.easbot/knowledge/tasks/<task-name>/`（`.gitignore` 忽略，**不**入仓）。
 - **初始化协议模板**：`skills/builtin/eas-agent-evolution/assets/BOOTSTRAP.md` 是 Agent 自初始化协议来源，**勿**手动编辑。
+
+> **不在 §11 范围**（避免"未规范目录"被错误引用）：
+>
+> - ❌ 各技能产物的运行时路径（如 dev 技能 spec / design / tasks 等） → 见各 SKILL.md §输出契约
+> - ❌ 仓库根平级临时目录（如 `specs/` / `designs/` / `tasks/` / `reviews/` / `diagnoses/` / `alignments/`） → **未规范，禁止使用**（见 0016 §6.5 禁止路径表）
+> - ❌ 调度状态文件路径（如 `dev-loop-state.json` / `dev-context.json`） → 见对应技能 SKILL.md frontmatter（如 `eas-dev-loop` `interrupt_resume.state_storage`）
 
 ## 12. 编码与格式基线
 
