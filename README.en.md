@@ -117,6 +117,7 @@ agent-skills/
     │   ├── eas-agent-evolution/     # Agent self-init and identity bootstrapping
     │   ├── eas-planning-writer/     # Authoring of plans and decision docs
     │   ├── eas-prompt-creator/      # Designing and generating prompts of various kinds
+    │   ├── eas-research/             # General research / analysis / comparison (v3.0.0 upgrade; former eas-dev-research)
     │   ├── eas-skill-creator/       # Official skill builder, validator, and packager
     │   ├── eas-skill-find/          # Search and discover skills in the ecosystem
     │   └── eas-skill-using/         # Central navigation for the skill ecosystem
@@ -152,6 +153,7 @@ Engineering scripts invoked locally or by CI by repository maintainers. See [AGE
 | `eas-agent-evolution` | Self-initialization, identity bootstrapping, config generation, and continuous evolution of an agent |
 | `eas-planning-writer` | Authoring of planning and decision documents (`task_plan` / `progress` / `decisions` / `findings`) |
 | `eas-prompt-creator` | Design and generation of prompts for Agent / Command / Context / Task / Feature / Mode and more |
+| `eas-research` | General research / analysis / comparison (business / technical / academic / policy / trend / competitive / root-cause); routes to 2 sub-references (research-report / comparison-analysis) |
 | `eas-skill-creator` | Official skill builder with full guidance on creating, structuring, validating, and packaging skills |
 | `eas-skill-find` | Search, discover, and explore available skills inside the EASBot ecosystem |
 | `eas-skill-using` | Central navigation of the skill ecosystem — answers "which skill should I use?" and gives typical combinations |

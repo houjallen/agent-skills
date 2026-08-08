@@ -35,11 +35,12 @@ agent-skills/
 ├── .github/                # CI / Issue 模板
 ├── .husky/                 # git hooks（commit-msg / pre-commit）
 └── skills/
-    ├── builtin/         # 内置核心技能（7 个）
+    ├── builtin/         # 内置核心技能（8 个）
     │   ├── eas-agent-creation/
     │   ├── eas-agent-evolution/
     │   ├── eas-planning-writer/
     │   ├── eas-prompt-creator/
+    │   ├── eas-research/  # 通用研究 / 分析（v3.0.0 升级；原 eas-dev-research）
     │   ├── eas-skill-creator/
     │   ├── eas-skill-find/
     │   └── eas-skill-using/

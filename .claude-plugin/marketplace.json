@@ -51,6 +51,17 @@
       }
     },
     {
+      "name": "eas-research",
+      "description": "该技能应在用户需要做调研 / 分析 / 对比时（\"调研 X\" / \"对比 A 和 B\" / \"为什么 Y\" / \"2025 年 Z 趋势\" / \"查一下 W 的资料\" / \"技术选型\" / \"竞品分析\"）使用。通用研究技能，覆盖商业调研 / 技术调研 / 学术文献 / 政策分析 / 趋势预测 / 竞品对比 / 根因调研等多类场景；通过路由到 2 个子 reference（research-report / comparison-analysis）产出研究报告。不限于软件开发场景；与 dev 包技能无依赖关系。",
+      "source": "./skills/builtin/eas-research",
+      "category": "builtin",
+      "version": "3.0.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
       "name": "eas-skill-creator",
       "description": "该技能应在 Agent 需要创建、验证、打包或迭代 Skill 时使用。覆盖 SKILL.md 结构规范、scripts/references/assets 资源组织、Tool Wrapper / Generator / Reviewer / Inversion / Pipeline 五大模式选择、init-skill 初始化。触发短语：创建技能、写技能、Skill Spec、frontmatter、5 大模式、init-skill、验证技能、打包技能、迭代技能。不适用：一次性 prompt / 临时记录 / 仅补 API 知识。",
       "source": "./skills/builtin/eas-skill-creator",

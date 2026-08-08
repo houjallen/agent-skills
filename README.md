@@ -117,6 +117,7 @@ agent-skills/
     │   ├── eas-agent-evolution/     # Agent 自我初始化与身份认知
     │   ├── eas-planning-writer/     # 计划与决策文档撰写
     │   ├── eas-prompt-creator/      # 各类 Prompt 模板的设计与生成
+    │   ├── eas-research/             # 通用调研 / 分析 / 对比（v3.0.0 升级；原 eas-dev-research）
     │   ├── eas-skill-creator/       # 技能创建、构建与打包
     │   ├── eas-skill-find/          # 技能搜索与发现
     │   └── eas-skill-using/         # 技能生态中央导航
@@ -159,6 +160,7 @@ agent-skills/
 | `eas-agent-evolution` | Agent 自我初始化、身份认知建立、配置文件生成与持续进化 |
 | `eas-planning-writer` | 计划与决策文档的撰写（task_plan / progress / decisions / findings） |
 | `eas-prompt-creator` | Agent / Command / Context / Task / Feature / Mode 等 Prompt 的设计与生成 |
+| `eas-research` | 通用调研 / 分析 / 对比（商业 / 技术 / 学术 / 政策 / 趋势 / 竞品 / 根因）；调度 2 个子 reference（research-report / comparison-analysis） |
 | `eas-skill-creator` | 官方技能创建与构建工具，提供创建、结构化、验证、打包技能的完整指导 |
 | `eas-skill-find` | 在 EASBot 技能生态系统中查找、搜索与探索可用技能 |
 | `eas-skill-using` | 技能生态中央导航，给出"我应该用哪个技能"的判断与典型场景下的推荐组合 |

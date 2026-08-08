@@ -113,6 +113,15 @@ tool.execute({ name: 'eas-skill-using' })
 - **不做什么**：不替代单 session 内的 `todo` 工具、不替代一次性的 `task` 工具、不替代 `scheduler.*` 定时任务
 - **核心脚本**：`scripts/init-planning-session.ts`、`scripts/check-complete.ts`
 
+### 7. eas-research —— 通用调研分析
+
+- **何时用**：用户说"调研 / 研究 / 对比 / 查资料 / 写报告 / 分析趋势 / 竞品分析 / 技术选型 / 文献综述"
+- **做什么**：通用研究 / 分析能力（Pattern 模式 + orchestrator）；按"源层级 → 证据收集 → 路由到子 reference → 冲突解决"四步产出带引用、有置信度的研究报告；调度 2 个子 reference：`research-report`（默认单交付物研究）/ `comparison-analysis`（多实体对比）
+- **不做什么**：不写代码 / 不做架构设计 / 不写软件 spec / 不调试软件 bug / 不做软件 PR 评审 / 不替代领域专家意见；软件代码层内部调研由 dev 包覆盖（`eas-dev-spec` / `eas-dev-design` / `eas-dev-diagnose` / `eas-dev-review`）
+- **覆盖场景**：商业调研 / 技术调研（含代码外部：库对比 / 框架选型 / 趋势）/ 学术文献 / 政策分析 / 趋势预测 / 竞品对比 / 根因调研
+- **落地路径**：研究报告 / 对比分析 落地到 `<cwd>/.easbot/knowledge/docs/research/<topic>/...`
+- **适用阶段**：作为通用分析能力，可被任何 builtin / dev / tools 技能或用户任务引用（如"先调研再开发"）
+
 ## 使用场景与技能匹配 (Use Cases and Skill Matching)
 
 下表把典型任务映射到"先加载哪个 / 还需要哪个"。
@@ -162,7 +171,8 @@ tool.execute({ name: 'eas-skill-using' })
 
 - **新 Agent 上线**：先用 `eas-agent-evolution` 初始化身份 → 用 `eas-prompt-creator` 写系统提示词 → 用 `eas-skill-using` 选 builtin 技能集合 → 用 `eas-skill-creator` 写业务专属技能 → 用 `eas-skill-find` 按需补充市场技能
 - **现有 Agent 进化**：用 `eas-agent-evolution` 增量更新配置 → 用 `eas-agent-creation` 评估技能表现 → 用 `eas-skill-creator` 改写质量差的技能
-- **研究新能力方向**：用 `eas-skill-using` 看生态全景 → 用 `eas-skill-find` 搜市场 → 用 `eas-skill-creator` 落地新技能
+- **研究新能力方向**：用 `eas-skill-using` 看生态全景 → 用 `eas-skill-find` 搜市场 → 用 `eas-research` 做能力调研 → 用 `eas-skill-creator` 落地新技能
+- **先调研再开发**：用 `eas-research` 做技术 / 竞品 / 趋势调研 → 用 `eas-dev-spec` 写规格 → 用 `eas-dev-design` 画架构 → 用 `eas-dev-plan` 拆任务
 
 ### 任务管理通用指引 (General Task Management Guidance)
 
@@ -185,7 +195,8 @@ tool.execute({ name: 'eas-skill-using' })
 5. **是写 EASBot 系统提示词**？→ `eas-prompt-creator`
 6. **是搜市场找现成技能**？→ `eas-skill-find`
 7. **是启动多步骤 / 跨 session / 长任务 / 需要持久化进度**？→ `eas-planning-writer`（三件套落地到 `.easbot/knowledge/tasks/<task-name>/`）
-8. **都不确定 / 跨多个领域**？→ `eas-skill-using`（自身）
+8. **是做调研 / 对比 / 分析 / 写报告**？→ `eas-research`（通用研究技能；2 个子 reference：单交付物 / 多实体对比）
+9. **都不确定 / 跨多个领域**？→ `eas-skill-using`（自身）
 
 ## 关键概念 (Key Concepts)
 
