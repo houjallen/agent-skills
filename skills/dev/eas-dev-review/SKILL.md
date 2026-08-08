@@ -179,10 +179,22 @@ metadata:
 
 ## 输出契约 (Output Contract)
 
-**必须产出 `review.md`**，路径建议：
+**必须产出 `review.md`**，落地路径规范（dev 技能通用默认；宿主项目可在自有 `.easbot/AGENTS.md` 中声明覆盖）：
 
-- 项目级：`<cwd>/reviews/<topic>-review.md`
-- 临时：`<cwd>/review.md`
+| 场景 | 路径 |
+|---|---|
+| **整体评审（推荐）** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/review.md` |
+| **单任务评审** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/<task-id>-review.md` |
+| **临时 / 探索性** | `<cwd>/.easbot/state/dev-scratch-<topic>-review.md` |
+
+**禁止路径**（会污染版本控制）：
+
+- ❌ `<cwd>/review.md`（仓库根，会入仓）
+- ❌ `<cwd>/reviews/...`（仓库根平级，会入仓）
+
+**`<topic>` 命名**：kebab-case，≤ 64 字符。
+
+**frontmatter 必含字段**：`topic` / `phase: review` / `scope: overall|task` / `task_id`（单任务时） / `p0_count` / `p1_count` / `p2_count` / `status: pass|fail` / `created_at`。
 
 **必含 5 章节**：
 
