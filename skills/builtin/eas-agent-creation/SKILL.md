@@ -1,6 +1,6 @@
 ---
 name: eas-agent-creation
-description: 该技能应在 EASBot Agent 需要按应用场景创建新技能、演化现有技能、或管理技能组合（Bundle）时使用。覆盖技能从创建到废弃的完整生命周期。
+description: 该技能应在 EASBot Agent 需要按应用场景创建新技能、演化现有技能、或管理技能组合（Bundle）时使用。覆盖技能从创建到废弃的完整生命周期（Create / Evolve / Deprecate）。触发短语：创建技能、演化技能、技能组合、Bundle 管理、技能废弃。不适用：临时单文件脚本 / 一次性 prompt / 不涉及技能生命周期的纯业务任务。
 category: builtin
 version: 1.0.0
 tags: [easbot, skill, lifecycle, bundle]
