@@ -71,7 +71,10 @@ agent-skills/
 1. **首段必须是 YAML frontmatter**（`---` 包围），至少包含：
    - `name`：hyphen-case，正则 `[a-z0-9-]+`，**≤ 64 字符**；推荐 `eas-` 前缀。
    - `description`：以"该技能应在…"开头，**≤ 1024 字符**（推荐 ≤ 500），覆盖触发 / 不触发。
-   - 可选：`category` / `version` / `tags` / `mode` / `composition` / `allowed-tools` 等白名单键；其它键被 `quick-validate.ts` 拒收。
+   - **顶层白名单**（与 [quick-validate.ts](file:///e:/work/apps/eas/agent-skills/skills/builtin/eas-skill-creator/scripts/quick-validate.ts) 同步）：
+     - **AgentSkills 标准顶层**：`name` / `description` / `license` / `metadata` / `allowed-tools`
+     - **5 大模式规范字段**：`mode` / `composition` / `secondaryModes` / `compositionConnections` / `behavior` / `reviewer` / `deliveryChecklist`
+   - **项目扩展字段 MUST 进 `metadata:` 子键**：`category` / `version` / `author` / `compatibility` / `tags` 等一律**禁止**出现在顶层（与 [`skill-spec.md §9.4`](file:///e:/work/apps/eas/agent-skills/skills/builtin/eas-skill-creator/references/skill-spec.md) 字段分层策略一致）。其它键被 `quick-validate.ts` 拒收。
 2. **禁止附带 README/INSTALL/QUICK_REFERENCE 等独立文档**；说明全部内联在 `SKILL.md` + `references/`。
 3. 正文 MUST 包含「何时使用 (When to Use)」+「快速参考 (Quick Reference)」。
 4. 详细说明拆到 `references/`，避免 `SKILL.md` 过长（参考样例：`skills/builtin/eas-skill-using/SKILL.md`）。
@@ -606,7 +609,7 @@ LLM 注意力呈 U 型分布——开头最高、中间最低、结尾次高（p
 |---|---|---|
 | **入口技能加载** | 评审者 MUST 已按 §14.3.1 完成 `eas-skill-using` + `eas-skill-creator`（提示词评审加 `eas-prompt-creator`、跨技能决策加 `eas-planning-writer`）加载；§14.3.2 全部勾选 | **P0** |
 | 技能目录结构正确 | 含 `SKILL.md`；可选 `scripts/` / `references/` / `assets/` 不混入根目录 | P0 |
-| frontmatter 完整 | `name`（hyphen-case、≤64）/ `description`（第三人称、≤1024） | P0 |
+| frontmatter 完整 | `name`（hyphen-case、≤64）/ `description`（第三人称、≤1024）；**顶层仅含白名单字段**（AgentSkills 标准 + 5 大模式）；**项目扩展字段**（`category` / `version` / `author` / `compatibility` / `tags`）MUST 进 `metadata:` 子键，**禁止**平铺到顶层（与 `quick-validate.ts` 同步） | P0 |
 | 必填节齐全 | 概述 / 何时使用 / 快速参考 齐全（§13.5） | P0 |
 | 无冗余文档 | 技能目录下无 `README.md` / `INSTALLATION_GUIDE.md` / `QUICK_REFERENCE.md`（§4.2） | P0 |
 | `SKILL.md` 体量 | < 500 行；超过则拆 `references/`（§13.6） | P1 |

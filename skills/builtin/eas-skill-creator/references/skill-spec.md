@@ -533,6 +533,9 @@ description: 该技能应在 Agent 需要处理文档、生成报告、分析数
 | 层 | 字段 | 推荐用法 |
 |---|---|---|
 | **AgentSkills 标准**（顶层） | `name` / `description` / `license` / `metadata` / `allowed-tools` | 通用；跨 Agent 互操作 |
-| **本项目扩展**（metadata 块内） | `category` / `version` / `author` / `compatibility` / `tags` | EASBot 内部组织；不影响外部 Agent |
+| **5 大模式规范字段**（顶层） | `mode` / `composition` / `secondaryModes` / `compositionConnections` / `behavior` / `reviewer` / `deliveryChecklist` | 行为类技能的规范字段；保留顶层 |
+| **本项目扩展**（metadata 块内，**强制**） | `category` / `version` / `author` / `compatibility` / `tags` | EASBot 内部组织；不影响外部 Agent；**禁止出现在顶层**（quick-validate.ts 白名单已移除） |
+
+> **规范生效**: 本分层策略已通过 [0012 跨技能决策](file:///e:/work/apps/eas/agent-skills/docs/decisions/0012-cross-skill-decision-frontmatter-metadata-normalize.md) 确立；任何 `category` / `version` / `tags` / `author` / `compatibility` 出现在顶层视为 P0 违规，quick-validate 直接拒绝。
 
 > **关于 `compatibility`**：**本项目实践**（`[实现细节]` quick-validate 白名单当前未收录 `compatibility` 顶层字段）—— `compatibility` 暂放入 `metadata` 块；AgentSkills 规范允许作为顶层字段，待 quick-validate 扩展白名单后可上提。
