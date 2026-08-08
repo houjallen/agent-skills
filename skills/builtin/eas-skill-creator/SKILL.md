@@ -1,14 +1,13 @@
 ---
 name: eas-skill-creator
-description: 该技能应用于创建、构建、验证或更新EASBot技能。当Agent需要为其他Agent设计、构建、验证、打包或重构包含脚本、参考资料和资产的技能时使用。
+description: 该技能应在 Agent 需要创建、验证、打包或迭代 Skill 时使用。覆盖 SKILL.md 结构规范、scripts/references/assets 资源组织、Tool Wrapper / Generator / Reviewer / Inversion / Pipeline 五大模式选择、init-skill 初始化。触发短语：创建技能、写技能、Skill Spec、frontmatter、5 大模式、init-skill、验证技能、打包技能、迭代技能。不适用：一次性 prompt / 临时记录 / 仅补 API 知识。
 license: MIT
 metadata:
   category: builtin
-  version: 1.0.0
+  version: 1.0.4
   author: EASBot
   compatibility: "Requires Node.js >= 18, tsx (npx tsx). Zero external runtime deps; jszip bundled in package-skill.ts."
   tags: [easbot, skill, creation, development, builder]
-allowed-tools: Bash(npx:*) Bash(tsx:*) Read Write Edit Glob Grep
 ---
 
 # eas-skill-creator - EASBot技能创建构建器 (EASBot Skill Creator Builder)
@@ -153,8 +152,8 @@ skill-name/
   - 使用 `.ts` 后缀的 TypeScript 文件
   - 使用 ESM 模块语法 (import/export)
   - Shebang 行使用 `#!/usr/bin/env node` 以支持直接执行
-- **优点：** 令牌高效、确定性强、可能无需加载到上下文即可执行
-- **注意：** 脚本仍可能需要被Agent读取以进行修补或环境特定调整
+- **优点：** 令牌高效、确定性强、无需加载到上下文即可执行
+- **注意：** 脚本仍需要被 Agent 读取以进行修补或环境特定调整
 - **注释要求：** 编写脚本文件时，使用中文进行完整的代码注释符合Jsdoc的规范，一些专有名词保持英文，比如 Agent 等保持英文，其中console、log等输出保持英文（详见 [translation-guidelines.md](references/translation-guidelines.md)）
 
 ##### 参考资料 (References)

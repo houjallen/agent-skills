@@ -1,6 +1,6 @@
 ---
 name: eas-prompt-creator
-description: 该技能应在需要为 EASBot 创建、规范化或审核提示词时使用。技能提供完整的提示词分类体系（Agent / Tool / Task / Command / Mode / Session / Feature / Context 八大类型）、规范化模板和质量控制流程，确保提示词遵循 EASBot 设计规范和最佳实践。
+description: 该技能应在需要为 EASBot 创建、规范化或审核提示词时使用。覆盖完整的提示词分类体系（Agent / Tool / Task / Command / Mode / Session / Feature / Context 八大类型）、规范化模板与质量控制流程。触发短语：创建提示词、写 prompt、提示词审核、提示词规范化、Agent prompt、Tool prompt、Task prompt、prompt 模板。不适用：业务需求文档 / 用户对话话术 / SKILL.md（SKILL.md 走 eas-skill-creator）。
 category: builtin
 version: 1.0.0
 tags: [easbot, prompt, agent, tool, task]
