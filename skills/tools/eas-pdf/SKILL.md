@@ -1,6 +1,9 @@
 ---
 name: eas-pdf
-description: "该技能应在视觉品质与设计识别度成为 PDF 输出的关键诉求时使用，覆盖三条路径：CREATE（从零生成报告 / 提案 / 简历等成品 PDF）、FILL（向既有 PDF 填写表单字段而不改动版式）、REFORMAT（将已有 Markdown / 文本 / PDF 解析后套用设计 token 重新排版）。触发短语包括 PDF、PDF 生成、设计驱动、报告、提案、简历、作品集、学术文档、模板、make a PDF、beautiful PDF。"
+description: 该技能应在视觉品质与设计识别度成为 PDF 输出的关键诉求时使用，覆盖三条路径：CREATE（从零生成报告 / 提案 / 简历等成品 PDF）、FILL（向既有 PDF 填写表单字段而不改动版式）、REFORMAT（将已有 Markdown / 文本 / PDF 解析后套用设计 token 重新排版）。触发短语：PDF、PDF 生成、设计驱动、报告、提案、简历、作品集、学术文档、模板、make a PDF、beautiful PDF。不适用：纯数据 PDF（走 eas-xlsx 转 CSV）/ Word 文档（走 eas-docx）/ PPT 演示（走 eas-pptx）。
+version: 1.1.0
+category: tools
+tags: [easbot, pdf, generator, design, template, fill, reformat]
 license: MIT
 metadata:
   version: "1.1.0"
@@ -25,7 +28,7 @@ metadata:
     - Playwright Chromium docs
 ---
 
-# eas-pdf
+# eas-pdf (设计驱动 PDF 生成与处理)
 
 ## 概述 (Overview)
 
@@ -242,9 +245,4 @@ bash <skillPath>/scripts/make.sh demo    # 生成示例 PDF
 - [overview.md](references/overview.md) —— 文档类型清单、架构、依赖、content.json schema 速查
 - 脚本 README（如有）—— `scripts/` 目录内各脚本的细节参数
 
-## 决策沉淀 (Decision Sediment)
-
-- **采用 token-based 设计系统**：颜色 / 字体 / 间距从文档类型派生，使封面与正文风格天然统一，避免逐页重复设计决策。
-- **Playwright 渲染封面 + reportlab 渲染正文 + pypdf 合并**：三件套各取所长——封面用浏览器级 SVG/CSS 排版，正文用 Python 数据流，合并稳定可靠。
-- **三类 doc type 而非单一类型**：report / proposal / resume / portfolio 等明确视觉识别度，让"类型"本身成为可复用的设计资产。
-- **模式组合固定 Tool Wrapper+Pipeline+Generator+Reviewer**：本技能是"读改写验"全链路，多模式叠加是必然；统一结构后与 eas-docx / eas-pptx / eas-xlsx 对齐，便于 Agent 跨技能切换。
+> **设计选择归档**：本技能的设计取舍（token-based 设计系统、Playwright + reportlab + pypdf 三件套、模式组合等）已迁出至 [docs/decisions/0008-decision-sediment-tools-office.md § 2](file:///e:/work/apps/eas/agent-skills/docs/decisions/0008-decision-sediment-tools-office.md)，不在 SKILL.md 末尾重复。

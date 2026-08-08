@@ -39,7 +39,7 @@ User task
 
 ## 架构 (Architecture)
 
-```
+```text
 SKILL.md                         ← EASBot 入口，路由表
 references/
 ├── aesthetic-system.md          ← 设计 token、调色板、字体（CREATE/REFORMAT 前必读）
