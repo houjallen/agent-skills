@@ -1,9 +1,12 @@
 ---
 name: eas-planning-writer
 description: 该技能应在 Agent 处理跨 session、需要持久化进度、需要事后 Review 或文档化的复杂长任务时使用。覆盖 task_plan / findings / progress 三件套落地到 .easbot/knowledge/tasks/、决策文档沉淀到 docs/decisions/、完成度检查。触发短语：长任务、跨 session、持久化进度、任务规划、事后 Review、多日任务、多阶段实施、决策追溯。不适用：单次工具调用可完成 / Agent 内部 todo 即可管理 / 已有 task / scheduler 工具更适合的场景。
-category: builtin
-version: 1.0.0
-tags: [easbot, planning, long-task, persistence, review, decision]
+license: MIT
+metadata:
+  category: builtin
+  version: 1.0.0
+  author: EASBot
+  tags: [easbot, planning, long-task, persistence, review, decision]
 ---
 
 # eas-planning-writer (基于文件的规划)
