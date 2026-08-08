@@ -257,10 +257,27 @@ gate:
 
 ## 输出契约 (Output Contract)
 
-- **PR URL**：PR 链接
-- **merge commit**：commit hash
-- **部署记录**：deploy log + 时间
-- **通知消息**：已发送消息列表
+**收尾产物分组 `finish/`**（dev 技能通用默认；宿主项目可在自有 `.easbot/AGENTS.md` 中声明覆盖）：
+
+| 产物 | 路径 |
+|---|---|
+| **PR 描述 / URL** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/finish/pr.md` |
+| **merge 决策 / commit** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/finish/merge.md` |
+| **部署记录 / smoke test** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/finish/deploy.md` |
+| **通知消息**（按需） | `<cwd>/.easbot/knowledge/docs/dev/<topic>/finish/notify.md` |
+
+**禁止路径**（会污染版本控制）：
+
+- ❌ `<cwd>/pr.md` / `<cwd>/deploy.md` 等仓库根平级位置
+- ❌ 任何 `<cwd>/docs/` 子目录（`docs/` 是发布文档目录，禁止 dev 中间产物落地）
+
+**`<topic>` 命名**：kebab-case，≤ 64 字符。
+
+**frontmatter 必含字段**：
+
+- `pr.md`：`topic` / `phase: finish` / `pr_url` / `merged_at` / `merge_strategy`
+- `merge.md`：`topic` / `phase: finish` / `merge_commit` / `decision_made_by`
+- `deploy.md`：`topic` / `phase: finish` / `deploy_env` / `deploy_at` / `smoke_test_status`
 
 ## 失败处理 (Failure Handling)
 
