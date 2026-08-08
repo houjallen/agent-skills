@@ -1,13 +1,12 @@
 ---
 name: eas-pdf
 description: 该技能应在视觉品质与设计识别度成为 PDF 输出的关键诉求时使用，覆盖三条路径：CREATE（从零生成报告 / 提案 / 简历等成品 PDF）、FILL（向既有 PDF 填写表单字段而不改动版式）、REFORMAT（将已有 Markdown / 文本 / PDF 解析后套用设计 token 重新排版）。触发短语：PDF、PDF 生成、设计驱动、报告、提案、简历、作品集、学术文档、模板、make a PDF、beautiful PDF。不适用：纯数据 PDF（走 eas-xlsx 转 CSV）/ Word 文档（走 eas-docx）/ PPT 演示（走 eas-pptx）。
-version: 1.1.0
-category: tools
-tags: [easbot, pdf, generator, design, template, fill, reformat]
 license: MIT
 metadata:
-  version: "1.1.0"
-  category: document-generation
+  category: tools
+  version: 1.1.0
+  author: EASBot
+  tags: [easbot, pdf, generator, design, template, fill, reformat]
   mode: tool-wrapper+generator+reviewer+pipeline
   supported_os:
     - windows
