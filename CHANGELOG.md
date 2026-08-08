@@ -1,5 +1,61 @@
 # EASBot Agent Skills 更新日志
 
+## 0.3.14
+
+_2026-08-08_
+
+**影响技能 (22)**：`eas-agent-creation`、`eas-agent-evolution`、`eas-chinese-writer`、`eas-dev`、`eas-dev-align`、`eas-dev-design`、`eas-dev-diagnose`、`eas-dev-finish`、`eas-dev-implement`、`eas-dev-loop`、`eas-dev-plan`、`eas-dev-review`、`eas-dev-spec`、`eas-docx`、`eas-pdf`、`eas-planning-writer`、`eas-pptx`、`eas-prompt-creator`、`eas-skill-creator`、`eas-skill-find`、`eas-skill-using`、`eas-xlsx`
+
+### ✨ 新功能
+
+- **[skill:eas-dev]** feat: add 10 dev skills for full development loop ([40c092a](https://github.com/houjallen/agent-skills/commit/40c092a))
+
+### 🐛 修复
+
+- **[skill:eas-skill-creator]** fix(validator): align top-level whitelist + placeholder detection ([1335299](https://github.com/houjallen/agent-skills/commit/1335299))
+
+### 📝 文档
+
+- **[repo]** docs: add 0017 review report for dev skills pack round 3 ([4b0af99](https://github.com/houjallen/agent-skills/commit/4b0af99))
+- **[skill:eas-dev-plan]** docs: normalize tasks-template phase to spec value ([0cd9a15](https://github.com/houjallen/agent-skills/commit/0cd9a15))
+- **[skill:eas-dev-design]** docs: normalize design-template phase to spec value ([45897f4](https://github.com/houjallen/agent-skills/commit/45897f4))
+- **[skill:eas-dev-spec]** docs: normalize spec-template phase to spec value ([6086a7b](https://github.com/houjallen/agent-skills/commit/6086a7b))
+- **[skill:eas-dev-align]** docs: normalize alignment-template phase to spec value ([2a3e8b8](https://github.com/houjallen/agent-skills/commit/2a3e8b8))
+- **[skill:eas-dev-review]** docs: complete review-template.md frontmatter to match output contract ([eb2bf13](https://github.com/houjallen/agent-skills/commit/eb2bf13))
+- **[skill:eas-dev-loop]** docs: sync interrupt-resume.md paths to .easbot/state/dev-loop-<topic>.json ([6640645](https://github.com/houjallen/agent-skills/commit/6640645))
+- **[repo]** docs: add 0016 review report for dev skills pack round 2 ([3aebe35](https://github.com/houjallen/agent-skills/commit/3aebe35))
+- **[skill:eas-dev-loop]** docs: migrate interrupt_resume.state_storage to .easbot/state/dev-loop-<topic>.json ([d5ee670](https://github.com/houjallen/agent-skills/commit/d5ee670))
+- **[skill:eas-dev-implement]** docs: declare scheduler role + delegate downstream paths ([0f6e3dd](https://github.com/houjallen/agent-skills/commit/0f6e3dd))
+- **[skill:eas-dev-finish]** docs: inline output contract finish/ sub-group ([cd6636b](https://github.com/houjallen/agent-skills/commit/cd6636b))
+- **[skill:eas-dev-diagnose]** docs: inline output contract path convention ([88eb817](https://github.com/houjallen/agent-skills/commit/88eb817))
+- **[skill:eas-dev-review]** docs: inline output contract path convention ([7c29249](https://github.com/houjallen/agent-skills/commit/7c29249))
+- **[skill:eas-dev-plan]** docs: inline output contract path convention ([354d41e](https://github.com/houjallen/agent-skills/commit/354d41e))
+- **[skill:eas-dev-design]** docs: inline output contract path convention ([6adb327](https://github.com/houjallen/agent-skills/commit/6adb327))
+- **[skill:eas-dev-spec]** docs: inline output contract path convention ([b1d09ce](https://github.com/houjallen/agent-skills/commit/b1d09ce))
+- **[skill:eas-dev-align]** docs: inline output contract path convention ([c1e37db](https://github.com/houjallen/agent-skills/commit/c1e37db))
+- **[repo]** docs: clarify §11 scope - only knowledge sediment dirs, runtime paths follow skill inline convention ([529647d](https://github.com/houjallen/agent-skills/commit/529647d))
+- **[repo]** docs: sync project-level files for dev-skills-pack (dev category) ([d409883](https://github.com/houjallen/agent-skills/commit/d409883))
+- **[repo]** docs: add 0015 review report for dev-skills-pack ([9fa9d7a](https://github.com/houjallen/agent-skills/commit/9fa9d7a))
+- **[repo]** docs: add 0014 architecture decision for dev-skills-pack ([39e4c2b](https://github.com/houjallen/agent-skills/commit/39e4c2b))
+- **[repo]** docs: sediment 0012 decision + 0013 review for frontmatter normalize ([b24172f](https://github.com/houjallen/agent-skills/commit/b24172f))
+- **[repo]** docs: align frontmatter spec with metadata-block policy ([6a05198](https://github.com/houjallen/agent-skills/commit/6a05198))
+
+### 🔧 构建/工具
+
+- **[skill:eas-xlsx]** chore(refactor): remove duplicated frontmatter fields, normalize metadata block ([ae2a98a](https://github.com/houjallen/agent-skills/commit/ae2a98a))
+- **[skill:eas-pptx]** chore(refactor): remove duplicated frontmatter fields, normalize metadata block ([77f86aa](https://github.com/houjallen/agent-skills/commit/77f86aa))
+- **[skill:eas-pdf]** chore(refactor): remove duplicated frontmatter fields, normalize metadata block ([8e41809](https://github.com/houjallen/agent-skills/commit/8e41809))
+- **[skill:eas-docx]** chore(refactor): remove duplicated frontmatter fields, normalize metadata block ([5d97513](https://github.com/houjallen/agent-skills/commit/5d97513))
+- **[skill:eas-chinese-writer]** chore(refactor): move frontmatter fields into metadata block ([1dcd666](https://github.com/houjallen/agent-skills/commit/1dcd666))
+- **[skill:eas-skill-using]** chore(refactor): move frontmatter fields into metadata block ([63175bd](https://github.com/houjallen/agent-skills/commit/63175bd))
+- **[skill:eas-skill-find]** chore(refactor): move frontmatter fields into metadata block ([d2ec3b8](https://github.com/houjallen/agent-skills/commit/d2ec3b8))
+- **[skill:eas-prompt-creator]** chore(refactor): move frontmatter fields into metadata block ([b593048](https://github.com/houjallen/agent-skills/commit/b593048))
+- **[skill:eas-planning-writer]** chore(refactor): move frontmatter fields into metadata block ([21c14c5](https://github.com/houjallen/agent-skills/commit/21c14c5))
+- **[skill:eas-agent-evolution]** chore(refactor): move frontmatter fields into metadata block ([7855df4](https://github.com/houjallen/agent-skills/commit/7855df4))
+- **[skill:eas-agent-creation]** chore(refactor): move frontmatter fields into metadata block ([900a102](https://github.com/houjallen/agent-skills/commit/900a102))
+
+
+
 ## 0.3.13
 
 _2026-08-08_
