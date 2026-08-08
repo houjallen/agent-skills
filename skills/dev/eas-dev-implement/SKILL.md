@@ -229,10 +229,20 @@ gate:
 
 ## 输出契约 (Output Contract)
 
-- **代码变更**：每任务 1 个 commit（或合并为合规 commit）
-- **测试**：每个任务的测试随 commit 落地
-- **review.md**：每个任务的评审报告
-- **tasks.md 更新**：frontmatter `status: complete` + `completed_at`
+**本技能是调度器，不直接产出文档**；通过委托 `eas-dev-tdd` / `eas-dev-review` / `eas-dev-plan` 落地产物：
+
+| 产物 | 路径（由下游技能产出，路径遵循各自 §输出契约） |
+|---|---|
+| **代码变更** | 代码入仓；每任务 1 个 commit（或合并为合规 commit） |
+| **测试** | 每个任务的测试随 commit 落地 |
+| **单任务评审** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/<task-id>-review.md`（由 `eas-dev-review` 产出） |
+| **tasks.md 状态更新** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/tasks.md`（frontmatter `status: complete` + `completed_at`） |
+| **调度状态文件**（可选） | `<cwd>/.easbot/state/dev-implement-<topic>.json` |
+
+**禁止路径**：
+
+- ❌ `<cwd>/reviews/...` 等仓库根平级位置（与 `eas-dev-review` §输出契约 一致）
+- ❌ `<cwd>/tasks/...` 等仓库根平级位置（与 `eas-dev-plan` §输出契约 一致）
 
 ## 失败处理 (Failure Handling)
 
