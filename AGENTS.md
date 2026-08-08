@@ -43,12 +43,23 @@ agent-skills/
     │   ├── eas-skill-creator/
     │   ├── eas-skill-find/
     │   └── eas-skill-using/
-    └── tools/           # 通用工具类技能（5 个）
-        ├── eas-chinese-writer/
-        ├── eas-docx/      # Word 文档（CREATE / EDIT / ACCEPT-CHANGES）
-        ├── eas-pdf/       # 设计驱动 PDF（CREATE / FILL / REFORMAT）
-        ├── eas-pptx/      # PPT 演示（CREATE / EDIT / READ）
-        └── eas-xlsx/      # Excel/电子表格（READ / CREATE / EDIT / FIX / VALIDATE）
+    ├── tools/           # 通用工具类技能（5 个）
+    │   ├── eas-chinese-writer/
+    │   ├── eas-docx/      # Word 文档（CREATE / EDIT / ACCEPT-CHANGES）
+    │   ├── eas-pdf/       # 设计驱动 PDF（CREATE / FILL / REFORMAT）
+    │   ├── eas-pptx/      # PPT 演示（CREATE / EDIT / READ）
+    │   └── eas-xlsx/      # Excel/电子表格（READ / CREATE / EDIT / FIX / VALIDATE）
+    └── dev/             # 开发流程技能（10 个）—— 不进 eas-skill-using 索引
+        ├── eas-dev-align/        # 对齐 / 头脑风暴（Inversion）
+        ├── eas-dev-spec/         # 规格化（Generator）
+        ├── eas-dev-design/       # 架构设计（Pattern）
+        ├── eas-dev-plan/         # 任务拆解（Generator）
+        ├── eas-dev-tdd/          # TDD 实现（Technique）
+        ├── eas-dev-implement/    # 实现驱动（Pipeline）
+        ├── eas-dev-review/       # 代码评审（Reviewer）
+        ├── eas-dev-diagnose/     # 诊断调试（Technique）
+        ├── eas-dev-finish/       # 收尾发布（Technique）
+        └── eas-dev-loop/         # 全流程编排（Pipeline orchestrator；默认不加载）
 ```
 
 每个技能的标准目录模板：
@@ -64,7 +75,13 @@ agent-skills/
 **改动边界**：
 
 - 改一个技能时，**只动该技能目录**与 `skills/<cat>/` 下的同级文件。
-- 不要把技能文件散落到仓库根目录；不要自创 `builtin` / `tools` 之外的分类。
+- 不要把技能文件散落到仓库根目录；不要自创 `builtin` / `tools` / `dev` 之外的分类。
+
+**`dev/` 分类的特殊性**：
+
+- 与 `builtin/` / `tools/` **并列**，是独立分类（不是 builtin 子类）。
+- **不**进 `eas-skill-using` 索引；开发者按 description 自行匹配。
+- 落地决策：[`docs/decisions/0014-dev-skills-pack-architecture.md`](file:///e:/work/apps/eas/agent-skills/docs/decisions/0014-dev-skills-pack-architecture.md)。
 
 ## 4. SKILL.md 规约（最高优先级）
 

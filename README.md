@@ -120,8 +120,19 @@ agent-skills/
     │   ├── eas-skill-creator/       # 技能创建、构建与打包
     │   ├── eas-skill-find/          # 技能搜索与发现
     │   └── eas-skill-using/         # 技能生态中央导航
-    └── tools/           # 通用工具类技能
-        └── eas-chinese-writer/      # 中文写作与本地化辅助
+    ├── tools/           # 通用工具类技能
+    │   └── eas-chinese-writer/      # 中文写作与本地化辅助
+    └── dev/             # 开发流程技能（独立分类，不进 eas-skill-using 索引）
+        ├── eas-dev-align/           # 对齐 / 头脑风暴（Inversion）
+        ├── eas-dev-spec/            # 规格化（Generator）
+        ├── eas-dev-design/          # 架构设计（Pattern）
+        ├── eas-dev-plan/            # 任务拆解（Generator）
+        ├── eas-dev-tdd/             # TDD 实现（Technique）
+        ├── eas-dev-implement/       # 实现驱动（Pipeline）
+        ├── eas-dev-review/          # 代码评审（Reviewer）
+        ├── eas-dev-diagnose/        # 诊断调试（Technique）
+        ├── eas-dev-finish/          # 收尾发布（Technique）
+        └── eas-dev-loop/            # 全流程编排（Pipeline；默认不加载）
 ```
 
 ## 项目维护脚本（根 `scripts/`）
@@ -162,6 +173,24 @@ agent-skills/
 | `eas-pptx` | PowerPoint 演示处理：CREATE（用 PptxGenJS 生成）/ EDIT（基于模板的 XML 编辑）/ READ（markitdown 抽取） |
 | `eas-xlsx` | Excel/电子表格处理：READ（分析）/ CREATE（XML 模板从零生成）/ EDIT（XML 直编）/ FIX（修公式）/ VALIDATE（公式校验） |
 
+## 开发流程技能（dev）
+
+> **独立分类**：与 builtin / tools 并列，**不**进 `eas-skill-using` 索引；开发者按 description 自行匹配。
+> 每个技能可独立执行，也可连贯组合跑完整开发闭环（align → spec → design → plan → tdd → implement → review → finish）。
+
+| 技能 | 模式 | 用途 |
+| --- | --- | --- |
+| `eas-dev-align` | Inversion | 写代码 / spec 之前的 3 阶段访谈对齐（背景 / 范围 / 验收） |
+| `eas-dev-spec` | Generator | 把对齐笔记转为可执行 spec.md（5 章节 + 5 条校验规则） |
+| `eas-dev-design` | Pattern | 基于 spec 设计模块架构（Deep Modules 哲学 + 4 核心问题） |
+| `eas-dev-plan` | Generator | 把 spec/design 拆为 2-5 分钟颗粒度任务（7 字段模板） |
+| `eas-dev-tdd` | Technique | 强制红-绿-重构循环 + 测试反模式库 |
+| `eas-dev-implement` | Pipeline | 调度 plan → tdd → review 单任务级闭环 |
+| `eas-dev-review` | Reviewer | 两轴评审（标准 + spec）+ P0/P1/P2 分级 |
+| `eas-dev-diagnose` | Technique | 4 阶段根因分析（复现 / 定位 / 修复 / 回归） |
+| `eas-dev-finish` | Technique | 7 步收尾发布（test → review → docs → PR → merge → deploy → notify） |
+| `eas-dev-loop` | Pipeline（编排） | 一站式全流程编排；**默认不加载**（避免反 mattpocock "全流程托管" 警告） |
+
 ## 快速开始
 
 每个技能都是独立可加载的单元。最简单的使用方式是让 Agent 在对话上下文中加载目标技能的 `SKILL.md`，并按照其中的"何时使用"和"快速参考"部分进行调用。
@@ -179,7 +208,7 @@ agent-skills/
 修改 / 新增技能后，跑一遍全量校验：
 
 ```bash
-for s in skills/builtin/*/ skills/tools/*/; do
+for s in skills/builtin/*/ skills/tools/*/ skills/dev/*/; do
   [ -f "$s/SKILL.md" ] && npx tsx skills/builtin/eas-skill-creator/scripts/quick-validate.ts "$s"
 done
 ```
