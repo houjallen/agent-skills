@@ -1,9 +1,12 @@
 ---
 name: eas-skill-using
 description: 该技能应在 Agent 不确定该加载哪个 EASBot builtin 技能、需要查看能力清单或场景映射时使用。作为 builtin 技能生态的中央导航与上下文提供者，覆盖能力索引、场景映射、决策辅助、Skill vs Agent vs Tool 概念区分。触发短语：加载哪个技能、能力清单、场景映射、技能导航、生态全景、Skill vs Tool。不适用：已指定技能名直接调用 / tools 类技能（由 description 自行匹配）/ 业务任务执行。
-category: builtin
-version: 1.0.0
-tags: [easbot, guidance, navigation, ecosystem, overview, entry-point, builtin]
+license: MIT
+metadata:
+  category: builtin
+  version: 1.0.0
+  author: EASBot
+  tags: [easbot, guidance, navigation, ecosystem, overview, entry-point, builtin]
 ---
 
 # eas-skill-using (EASBot 技能生态导航)
