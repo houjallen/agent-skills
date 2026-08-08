@@ -1,9 +1,12 @@
 ---
 name: eas-agent-evolution
 description: 该技能应在 Agent 需要进行自我初始化、身份认知建立、配置文件生成、备份恢复或持续进化时使用。覆盖 Agent 从 bootstrap 到持续完善的完整生命周期（init / identity / backup / evolve）。触发短语：初始化 Agent、Agent bootstrap、身份认知、备份配置、恢复配置、持续进化。不适用：纯业务任务 / 不涉及 Agent 配置的代码编写 / 第三方 Agent 框架。
-category: builtin
-version: 1.0.0
-tags: [easbot, agent, bootstrap, identity, backup]
+license: MIT
+metadata:
+  category: builtin
+  version: 1.0.0
+  author: EASBot
+  tags: [easbot, agent, bootstrap, identity, backup]
 ---
 
 # eas-agent-evolution (EASBot Agent 自我进化技能)
