@@ -1,11 +1,12 @@
 ---
 name: eas-planning-writer
-description: 该技能应在 Agent 处理跨 session、需要持久化进度、需要事后 Review 或文档化的复杂长任务时使用——典型场景包括多日推进、多阶段实施、需要决策追溯的项目级任务。
+description: 该技能应在 Agent 处理跨 session、需要持久化进度、需要事后 Review 或文档化的复杂长任务时使用。覆盖 task_plan / findings / progress 三件套落地到 .easbot/knowledge/tasks/、决策文档沉淀到 docs/decisions/、完成度检查。触发短语：长任务、跨 session、持久化进度、任务规划、事后 Review、多日任务、多阶段实施、决策追溯。不适用：单次工具调用可完成 / Agent 内部 todo 即可管理 / 已有 task / scheduler 工具更适合的场景。
 category: builtin
 version: 1.0.0
+tags: [easbot, planning, long-task, persistence, review, decision]
 ---
 
-# 基于文件的规划 (Planning with Files)
+# eas-planning-writer (基于文件的规划)
 
 使用持久化的 Markdown 文件作为 Agent 的"磁盘上的工作记忆"，防止上下文窗口过载导致目标遗忘。
 
@@ -37,6 +38,20 @@ version: 1.0.0
 - 已有 `task` 工具 / `scheduler.*` 工具更适合的场景
 
 > **与其他任务工具的边界**：该技能是"项目级长任务"分类的物理实现层。与一次性 subagent 工具、定时调度工具、Agent 内部 todo 工具平行存在，不替代。选择标准：跨 session / 需要 Review / 文档化时用本技能；仅当前 session 内的步骤拆解用 Agent 内部 todo。
+
+## 快速参考 (Quick Reference)
+
+| 项目 | 取值 / 说明 |
+| --- | --- |
+| 核心职责 | 项目级长任务的物理实现：跨 session 持久化 + 事后 Review + 文档化 |
+| 三件套落地路径 | `<cwd>/.easbot/knowledge/tasks/{task-name}/`（`{task-name}` 用 kebab-case） |
+| 三件套文件 | `task_plan.md`（任务计划）/ `findings.md`（调研发现）/ `progress.md`（进度记录） |
+| 核心脚本 | `scripts/init-planning-session.ts`（初始化） / `scripts/check-complete.ts`（完成度检查） |
+| 触发场景 | 跨 session + 需 Review / 文档化的复杂任务；多日推进 / 多阶段实施 / 决策追溯 |
+| 不适用场景 | 单次工具调用可完成的简单任务；Agent 内部 `todo` 工具即可管理的子任务 |
+| 决策文档落档 | 跨技能决策 → `docs/decisions/00NN-{topic}.md`（按 §11） |
+| 路径放置禁忌 | 严禁放入 `docs/`（避免污染项目级发布文档） |
+| 与其它工具边界 | 不替代 `task` / `scheduler.*` / Agent 内部 `todo` 工具；仅当满足"跨 session + Review + 文档化"三要素时使用本技能 |
 
 ## 快速开始 (Quick Start)
 
