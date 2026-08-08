@@ -1,5 +1,51 @@
 # EASBot Agent Skills 更新日志
 
+## 0.3.13
+
+_2026-08-08_
+
+**影响技能 (11)**：`eas-agent-creation`、`eas-agent-evolution`、`eas-chinese-writer`、`eas-pdf`、`eas-planning-writer`、`eas-pptx`、`eas-prompt-creator`、`eas-skill-creator`、`eas-skill-find`、`eas-skill-using`、`eas-xlsx`
+
+### ✨ 新功能
+
+- **[skill:eas-skill-creator]** feat(spec): 新增 §8 步骤规范 vs Checklist 规范及五大模式映射 ([a8bfffc](https://github.com/houjallen/agent-skills/commit/a8bfffc))
+- **[repo]** feat(cli): add src/cli.ts host wrapper that delegates to @easbot/skills.handleSkillsCli ([777a27a](https://github.com/houjallen/agent-skills/commit/777a27a))
+
+### 🐛 修复
+
+- **[repo]** fix(cli): align wrapper to @easbot/skills two-step init pattern; intercept subcommand --help ([3d5b283](https://github.com/houjallen/agent-skills/commit/3d5b283))
+
+### ♻️ 重构
+
+- **[skill:eas-skill-creator]** refactor: 废弃 references/skill-creation-guide.md（决策见 0005） ([4f6d6ad](https://github.com/houjallen/agent-skills/commit/4f6d6ad))
+- **[skill:eas-skill-creator]** refactor: frontmatter 补齐 6 字段 + 下沉模式示例到 references ([fcf9f9a](https://github.com/houjallen/agent-skills/commit/fcf9f9a))
+- **[repo]** refactor(scripts): switch publish to monorepo flow (pnpm --filter) ([5b74f8e](https://github.com/houjallen/agent-skills/commit/5b74f8e))
+
+### 📝 文档
+
+- **[repo]** docs: 落档 6 个评审报告与决策文档 ([a3f4a94](https://github.com/houjallen/agent-skills/commit/a3f4a94))
+- **[repo]** docs: align AGENTS.md §13/§14 with eas-prompt-creator ([297f40b](https://github.com/houjallen/agent-skills/commit/297f40b))
+- **[repo]** docs: sync marketplace.json with all 12 skills frontmatter ([cbfa1a3](https://github.com/houjallen/agent-skills/commit/cbfa1a3))
+- **[skill:eas-xlsx]** docs: align description with §9.3 three-element spec ([2514826](https://github.com/houjallen/agent-skills/commit/2514826))
+- **[skill:eas-pptx]** docs: align description with §9.3 three-element spec ([989d6e0](https://github.com/houjallen/agent-skills/commit/989d6e0))
+- **[skill:eas-pdf]** docs: align description with §9.3 three-element spec ([6f8229d](https://github.com/houjallen/agent-skills/commit/6f8229d))
+- **[skill:eas-chinese-writer]** docs: align description with §9.3 three-element spec ([beb0eb6](https://github.com/houjallen/agent-skills/commit/beb0eb6))
+- **[skill:eas-skill-using]** docs: align description with §9.3 three-element spec ([8559d51](https://github.com/houjallen/agent-skills/commit/8559d51))
+- **[skill:eas-skill-find]** docs: align description with §9.3 three-element spec ([f6cd5ee](https://github.com/houjallen/agent-skills/commit/f6cd5ee))
+- **[skill:eas-prompt-creator]** docs: align description with §9.3 three-element spec ([5e231e7](https://github.com/houjallen/agent-skills/commit/5e231e7))
+- **[skill:eas-planning-writer]** docs: align description with §9.3 three-element spec ([2a62a7c](https://github.com/houjallen/agent-skills/commit/2a62a7c))
+- **[skill:eas-agent-evolution]** docs: align description with §9.3 three-element spec ([240dc8b](https://github.com/houjallen/agent-skills/commit/240dc8b))
+- **[skill:eas-agent-creation]** docs: align description with §9.3 three-element spec ([da9a92c](https://github.com/houjallen/agent-skills/commit/da9a92c))
+- **[skill:eas-skill-creator]** docs(spec): add §9.3 description three-element spec ([f2560b1](https://github.com/houjallen/agent-skills/commit/f2560b1))
+- **[repo]** docs: 落档 0004 / 0005 评审与废弃决策 ([5399731](https://github.com/houjallen/agent-skills/commit/5399731))
+- **[repo]** docs(readme): document easbot-agent-skills CLI (install, flags, common commands, relation to other entry points) ([13e81b9](https://github.com/houjallen/agent-skills/commit/13e81b9))
+
+### 🔧 构建/工具
+
+- **[repo]** chore(deps): lock @easbot/utils@^0.3.12 added in 3d5b283 ([142ad8f](https://github.com/houjallen/agent-skills/commit/142ad8f))
+
+
+
 ## 0.3.12
 
 _2026-08-04_
