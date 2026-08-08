@@ -127,10 +127,21 @@ metadata:
 
 ## 输出契约 (Output Contract)
 
-**必须产出 `tasks.md`**，路径建议：
+**必须产出 `tasks.md`**，落地路径规范（dev 技能通用默认；宿主项目可在自有 `.easbot/AGENTS.md` 中声明覆盖）：
 
-- 项目级：`<cwd>/tasks/<topic>-tasks.md`
-- 临时：`<cwd>/tasks.md`
+| 场景 | 路径 |
+|---|---|
+| **项目级（推荐）** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/tasks.md` |
+| **临时 / 探索性** | `<cwd>/.easbot/state/dev-scratch-<topic>-tasks.md` |
+
+**禁止路径**（会污染版本控制或与既有 §11 冲突）：
+
+- ❌ `<cwd>/tasks.md`（仓库根，会入仓）
+- ❌ `<cwd>/tasks/...`（仓库根平级，会入仓；**且**与 AGENTS.md §11 `<cwd>/.easbot/knowledge/tasks/<task-name>/` 冲突）
+
+**`<topic>` 命名**：kebab-case，≤ 64 字符。
+
+**frontmatter 必含字段**：`topic` / `phase: tasks` / `granularity: 2-5min` / `status: draft|confirmed` / `created_at` / `updated_at`。
 
 **校验规则**：
 
