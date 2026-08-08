@@ -2,7 +2,7 @@
 topic: <一句话主题>
 created_at: <YYYY-MM-DD>
 updated_at: <YYYY-MM-DD>
-phase: 2-spec
+phase: spec
 skill: eas-dev-spec
 status: draft | confirmed
 upstream: <path-to-alignment.md>
