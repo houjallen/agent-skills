@@ -1,13 +1,12 @@
 ---
 name: eas-pptx
 description: 该技能应在 Agent 需要生成、编辑或分析 PowerPoint 演示文稿（.pptx）时使用，覆盖三条路径：CREATE（用 PptxGenJS + 18 配色 × 4 风格 × 5 页面类型设计资产生成）、EDIT（XML unpack/edit/pack 修改既有模板）、READ（markitdown 抽取文本分析）；含 Layout QA + Content QA 双层校验与布局安全规则。触发短语：PPT、PPTX、PowerPoint、presentation、slide、deck、slides、演示文稿、幻灯片。不适用：纯数据可视化（走 eas-xlsx + chart）/ 静态设计稿（走 eas-pdf）/ Word 文档（走 eas-docx）。
-version: 1.1.0
-category: tools
-tags: [easbot, pptx, powerpoint, presentation, slides, deck, generator, editor]
 license: MIT
 metadata:
-  version: "1.1.0"
-  category: document-generation
+  category: tools
+  version: 1.1.0
+  author: EASBot
+  tags: [easbot, pptx, powerpoint, presentation, slides, deck, generator, editor]
   mode: tool-wrapper+generator+reviewer+pipeline
   supported_os:
     - windows
