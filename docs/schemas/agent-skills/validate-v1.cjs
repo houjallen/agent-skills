@@ -18,7 +18,7 @@
  *         "description": "...",
  *         "sourceUrl": "https://.../skills/<cat>/<skill>/SKILL.md",
  *         "installName": "<owner>/<repo>@<skill>",
- *         "skillPath": "skills/<cat>/<skill>",   // 完整 POSIX subpath，含 skillName
+ *         "skillPath": "skills/<cat>/<skill>",   // 完整 POSIX subpath，含 skillName；<cat> 不限 builtin/tools/dev
  *         "scope": "general" | "coder" | "all"  // optional
  *       }
  *     ]
@@ -41,7 +41,7 @@ const RE = {
   ownerRepo: /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/,
   sourceUrl: /^https?:\/\/.+\/skills\/[^/]+\/[^/]+\/SKILL\.md$/,
   installName: /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+@[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/,
-  skillPath: /^skills\/(?:builtin|tools)\/[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/,
+  skillPath: /^skills\/[a-z0-9][a-z0-9-]{0,62}[a-z0-9]?\/[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/,
   scope: ['general', 'coder', 'all'],
 };
 
