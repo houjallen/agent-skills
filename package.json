@@ -79,15 +79,6 @@
       "optional": true
     }
   },
-  "pnpm": {
-    "overrides": {
-      "@modelcontextprotocol/sdk": "$@modelcontextprotocol/sdk",
-      "@agentclientprotocol/sdk": "$@agentclientprotocol/sdk",
-      "@biomejs/biome": "$@biomejs/biome",
-      "@types/node": "$@types/node",
-      "esbuild": "$esbuild"
-    }
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
