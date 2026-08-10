@@ -94,7 +94,7 @@ status: proposed
 |---|---|---|---|
 | F1 | 6 个技能 §输出契约 内联路径规范 | ✅ 已修复 | ✅ **仍生效**（SKILL.md 内容复核无回归） |
 | F2 | `eas-dev-implement` §输出契约 调度器角色 | ✅ 已修复 | ✅ **仍生效** |
-| F3 | `eas-dev-loop` 状态文件迁移 | ✅ 部分修复 | �️ **部分回归**：SKILL.md 已改，但 `references/interrupt-resume.md` **仍引用旧路径**（详见 §6 F3.1） |
+| F3 | `eas-dev-loop` 状态文件迁移 | ✅ 部分修复 |❌️ **部分回归**：SKILL.md 已改，但 `references/interrupt-resume.md` **仍引用旧路径**（详见 §6 F3.1） |
 | F4 | `spec.md` §4.1 迁移 | ⏸ 跨范围保留 | ⏸ **仍保留**（与本评审同主题但跨范围） |
 | F4.1 | AGENTS.md §11 加范围声明 | ✅ 已修复 | ✅ **仍生效** |
 | F5 | 10 个技能 frontmatter 不引用项目级规范文档 | ✅ 已修复（内联） | ✅ **仍生效** |

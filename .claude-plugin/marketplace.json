@@ -11,7 +11,7 @@
       "description": "该技能应在 EASBot Agent 需要按应用场景创建新技能、演化现有技能、或管理技能组合（Bundle）时使用。覆盖技能从创建到废弃的完整生命周期（Create / Evolve / Deprecate）。触发短语：创建技能、演化技能、技能组合、Bundle 管理、技能废弃。不适用：临时单文件脚本 / 一次性 prompt / 不涉及技能生命周期的纯业务任务。",
       "source": "./skills/builtin/eas-agent-creation",
       "category": "builtin",
-      "version": "1.0.0",
+      "version": "0.1.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -22,7 +22,7 @@
       "description": "该技能应在 Agent 需要进行自我初始化、身份认知建立、配置文件生成、备份恢复或持续进化时使用。覆盖 Agent 从 bootstrap 到持续完善的完整生命周期（init / identity / backup / evolve）。触发短语：初始化 Agent、Agent bootstrap、身份认知、备份配置、恢复配置、持续进化。不适用：纯业务任务 / 不涉及 Agent 配置的代码编写 / 第三方 Agent 框架。",
       "source": "./skills/builtin/eas-agent-evolution",
       "category": "builtin",
-      "version": "1.0.0",
+      "version": "0.1.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -33,7 +33,7 @@
       "description": "该技能应在 Agent 处理跨 session、需要持久化进度、需要事后 Review 或文档化的复杂长任务时使用。覆盖 task_plan / findings / progress 三件套落地到 .easbot/knowledge/tasks/、决策文档沉淀到 docs/decisions/、完成度检查。触发短语：长任务、跨 session、持久化进度、任务规划、事后 Review、多日任务、多阶段实施、决策追溯。不适用：单次工具调用可完成 / Agent 内部 todo 即可管理 / 已有 task / scheduler 工具更适合的场景。",
       "source": "./skills/builtin/eas-planning-writer",
       "category": "builtin",
-      "version": "1.0.0",
+      "version": "0.1.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -44,7 +44,7 @@
       "description": "该技能应在需要为 EASBot 创建、规范化或审核提示词时使用。覆盖完整的提示词分类体系（Agent / Tool / Task / Command / Mode / Session / Feature / Context 八大类型）、规范化模板与质量控制流程。触发短语：创建提示词、写 prompt、提示词审核、提示词规范化、Agent prompt、Tool prompt、Task prompt、prompt 模板。不适用：业务需求文档 / 用户对话话术 / SKILL.md（SKILL.md 走 eas-skill-creator）。",
       "source": "./skills/builtin/eas-prompt-creator",
       "category": "builtin",
-      "version": "1.0.0",
+      "version": "0.1.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -52,10 +52,10 @@
     },
     {
       "name": "eas-research",
-      "description": "该技能应在用户需要做调研 / 分析 / 对比时（\"调研 X\" / \"对比 A 和 B\" / \"为什么 Y\" / \"2025 年 Z 趋势\" / \"查一下 W 的资料\" / \"技术选型\" / \"竞品分析\"）使用。通用研究技能，覆盖商业调研 / 技术调研 / 学术文献 / 政策分析 / 趋势预测 / 竞品对比 / 根因调研等多类场景；通过路由到 2 个子 reference（research-report / comparison-analysis）产出研究报告。不限于软件开发场景；与 dev 包技能无依赖关系。",
+      "description": "",
       "source": "./skills/builtin/eas-research",
       "category": "builtin",
-      "version": "3.0.0",
+      "version": "0.1.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -77,7 +77,7 @@
       "description": "该技能应在 Agent 需要在 EASBot 技能生态中搜索候选技能、或在执行任务前确认是否有更合适的现成 skill 可加载时使用。覆盖 skills.sh 远程市场搜索、过滤、验证、安装的完整链路；本地已装 / store 内技能检索见 references/local-search.md。触发短语：找技能、搜技能、skill 发现、skills.sh、技能市场、技能安装、本地技能检索、候选技能。不适用：创建新技能（走 eas-skill-creator）/ 已确定技能名直接调用。",
       "source": "./skills/builtin/eas-skill-find",
       "category": "builtin",
-      "version": "1.1.0",
+      "version": "0.1.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -88,7 +88,117 @@
       "description": "该技能应在 Agent 不确定该加载哪个 EASBot builtin 技能、需要查看能力清单或场景映射时使用。作为 builtin 技能生态的中央导航与上下文提供者，覆盖能力索引、场景映射、决策辅助、Skill vs Agent vs Tool 概念区分。触发短语：加载哪个技能、能力清单、场景映射、技能导航、生态全景、Skill vs Tool。不适用：已指定技能名直接调用 / tools 类技能（由 description 自行匹配）/ 业务任务执行。",
       "source": "./skills/builtin/eas-skill-using",
       "category": "builtin",
-      "version": "1.0.0",
+      "version": "0.1.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-dev-align",
+      "description": "该技能应在用户提出新需求、新想法或新功能（\"我想做一个 X\" / \"我有个想法\" / \"先对齐\" / \"我要加个功能\"）时使用。在写代码或 spec 之前，以 3 阶段访谈对齐意图与术语，产出\"对齐笔记\"，避免下游技能基于误解的假设工作。",
+      "source": "./skills/dev/eas-dev-align",
+      "category": "dev",
+      "version": "0.1.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-dev-design",
+      "description": "该技能应在用户要求基于 spec 设计模块架构（\"设计架构\" / \"deep modules\" / \"怎么组织\" / \"接口怎么定\" / \"模块边界\"）时使用。基于 `eas-dev-spec` 产出，按 John Ousterhout \"Deep Modules\" 哲学 + 4 个核心问题，产出包含模块图 / 接口契约 / 数据流 / 测试策略的 `design.md`。",
+      "source": "./skills/dev/eas-dev-design",
+      "category": "dev",
+      "version": "0.1.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-dev-diagnose",
+      "description": "该技能应在用户报告 bug / 需要诊断时（\"有 bug\" / \"调试\" / \"诊断\" / \"复现\" / \"debug\" / \"investigate\" / \"线上问题\"）使用。Technique 模式：4 阶段根因分析（复现 → 定位 → 修复 → 回归）。NEVER 跳过复现；NEVER 直接给方案；根因未明不许动手。",
+      "source": "./skills/dev/eas-dev-diagnose",
+      "category": "dev",
+      "version": "0.1.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-dev-finish",
+      "description": "该技能应在代码完成后进入收尾发布（\"合并\" / \"merge\" / \"发 PR\" / \"发布\" / \"finish\" / \"deploy\" / \"ship\"）时使用。Technique 模式：7 步收尾 checklist（测试全绿 → 评审通过 → 文档同步 → PR 创建 → merge → 部署 → 通知）。MUST 按顺序执行；任一步未完成 MUST 报错。",
+      "source": "./skills/dev/eas-dev-finish",
+      "category": "dev",
+      "version": "0.1.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-dev-implement",
+      "description": "该技能应在用户要求基于 tasks.md 自动调度执行（\"按计划实现\" / \"execute\" / \"开始干\" / \"implement\" / \"自动跑任务\"）时使用。Pipeline 模式：调度单任务级 plan → tdd → review 闭环。内部委托 `eas-dev-plan` / `eas-dev-tdd` / `eas-dev-review` 完成执行，自身仅做调度与失败处理。",
+      "source": "./skills/dev/eas-dev-implement",
+      "category": "dev",
+      "version": "0.1.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-dev-loop",
+      "description": "该技能应在用户明确要求\"一站式全流程\"时（\"一站式开发\" / \"全自动流程\" / \"loop\" / \"从头到尾跑一遍\"）使用。Pipeline 编排器：按顺序调用 align → spec → design → plan → implement → review → finish 全套技能，跑完整开发闭环。**默认不加载**；仅在用户**明确**要求时启用（避免 mattpocock 反模式警告\"全流程托管\"）。",
+      "source": "./skills/dev/eas-dev-loop",
+      "category": "dev",
+      "version": "0.1.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-dev-plan",
+      "description": "该技能应在用户要求基于 spec / design 拆任务（\"拆任务\" / \"写计划\" / \"排期\" / \"怎么分步\" / \"2-5 分钟颗粒度\"）时使用。基于 `eas-dev-spec` / `eas-dev-design` 产出，把工作拆为 2-5 分钟颗粒度的可执行任务列表 `tasks.md`，每个任务含 id / 标题 / 前置 / 验收步骤 / 代码路径 / 估计时间 / 风险 7 字段。",
+      "source": "./skills/dev/eas-dev-plan",
+      "category": "dev",
+      "version": "0.1.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-dev-review",
+      "description": "该技能应在代码完成后、提交 PR 前调用（\"评审\" / \"code review\" / \"审查\" / \"review\" / \"PR 检查\"）时使用。基于 spec / design 产出两轴评审（标准轴 / spec 轴），按 P0/P1/P2 分级输出 `review.md`。P0 阻止提交；P1 必须修复或显式豁免；P2 后续处理。",
+      "source": "./skills/dev/eas-dev-review",
+      "category": "dev",
+      "version": "0.1.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-dev-spec",
+      "description": "该技能应在用户要求把对齐笔记 / 草稿想法转化为可执行规格（\"基于 alignment 写 spec\" / \"把这个想法写成可执行规格\" / \"需求文档\" / \"写个 spec\"）时使用。基于 `eas-dev-align` 产出，生成包含背景 / 目标 / 接口 / 验收 / 范围外 5 章节的 `spec.md`，作为下游 `eas-dev-design` / `eas-dev-plan` / `eas-dev-review` 的契约基线。",
+      "source": "./skills/dev/eas-dev-spec",
+      "category": "dev",
+      "version": "0.1.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
+    },
+    {
+      "name": "eas-dev-tdd",
+      "description": "该技能应在用户按 TDD 方式实现单个任务（\"TDD\" / \"红-绿-重构\" / \"写测试先行\" / \"tdd\"）时使用。基于 `eas-dev-plan` 的单个任务，严格执行红-绿-重构循环：1) 写失败测试（MUST 失败）；2) 写最小实现代码（MUST 让测试通过）；3) 重构（MUST 不破坏测试）。含测试反模式库（私有状态 / 过度 mock / 不测实现 / 测试替身等）。",
+      "source": "./skills/dev/eas-dev-tdd",
+      "category": "dev",
+      "version": "0.1.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -110,7 +220,7 @@
       "description": "该技能应在 Agent 需要生成、修改或分析 Word 文档（.docx）时使用，覆盖三条路径：A-CREATE（docx-js 从零生成）/ B-EDIT（XML unpack/edit/pack 修改既有文档）/ C-ACCEPT-CHANGES（接受所有修订产出干净版）；底层栈为 docx-js + Python 助手脚本（unpack/pack/sanitize/comment/accept_changes）。触发短语：Word、docx、Word 文档、报告、合同、公文、提案、备忘录、tracked changes、review comments。不适用：PDF 输出（走 eas-pdf）/ PPT 演示（走 eas-pptx）/ Excel 表格（走 eas-xlsx）。",
       "source": "./skills/tools/eas-docx",
       "category": "tools",
-      "version": "1.2.0",
+      "version": "0.1.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -121,7 +231,7 @@
       "description": "该技能应在视觉品质与设计识别度成为 PDF 输出的关键诉求时使用，覆盖三条路径：CREATE（从零生成报告 / 提案 / 简历等成品 PDF）、FILL（向既有 PDF 填写表单字段而不改动版式）、REFORMAT（将已有 Markdown / 文本 / PDF 解析后套用设计 token 重新排版）。触发短语：PDF、PDF 生成、设计驱动、报告、提案、简历、作品集、学术文档、模板、make a PDF、beautiful PDF。不适用：纯数据 PDF（走 eas-xlsx 转 CSV）/ Word 文档（走 eas-docx）/ PPT 演示（走 eas-pptx）。",
       "source": "./skills/tools/eas-pdf",
       "category": "tools",
-      "version": "1.1.0",
+      "version": "0.1.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -132,7 +242,7 @@
       "description": "该技能应在 Agent 需要生成、编辑或分析 PowerPoint 演示文稿（.pptx）时使用，覆盖三条路径：CREATE（用 PptxGenJS + 18 配色 × 4 风格 × 5 页面类型设计资产生成）、EDIT（XML unpack/edit/pack 修改既有模板）、READ（markitdown 抽取文本分析）；含 Layout QA + Content QA 双层校验与布局安全规则。触发短语：PPT、PPTX、PowerPoint、presentation、slide、deck、slides、演示文稿、幻灯片。不适用：纯数据可视化（走 eas-xlsx + chart）/ 静态设计稿（走 eas-pdf）/ Word 文档（走 eas-docx）。",
       "source": "./skills/tools/eas-pptx",
       "category": "tools",
-      "version": "1.1.0",
+      "version": "0.1.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
@@ -143,117 +253,7 @@
       "description": "该技能应在 Agent 需要读取、创建、编辑或校验 Excel/电子表格文件（.xlsx / .xlsm / .csv / .tsv）时使用，覆盖五条路径：READ（分析数据）/ CREATE（XML 模板从零生成）/ EDIT（保留格式修改）/ FIX（修复损坏公式）/ VALIDATE（财务配色静态 + 动态校验）。触发短语：spreadsheet、Excel、.xlsx、.xlsm、.csv、.tsv、pivot table、financial model、formula、表格、电子表格。不适用：纯文本数据（走 CSV 工具）/ 数据库导出（走 SQL 工具）/ Word 报告（走 eas-docx）。",
       "source": "./skills/tools/eas-xlsx",
       "category": "tools",
-      "version": "1.1.0",
-      "author": {
-        "name": "houjallen",
-        "email": "houjallen@gmail.com"
-      }
-    },
-    {
-      "name": "eas-dev-align",
-      "description": "该技能应在用户提出新需求、新想法或新功能时使用。在写代码或 spec 之前，以 3 阶段访谈对齐意图与术语，产出对齐笔记，避免下游技能基于误解的假设工作。Inversion 模式 + 3 必答 gate（背景 / 范围 / 验收）。触发短语：我想做一个 X、我有个想法、先对齐、先别急、我要加个功能。不适用：已有完整 spec / 紧急 bug 修复 / 一次性小改动。",
-      "source": "./skills/dev/eas-dev-align",
-      "category": "dev",
-      "version": "1.0.0",
-      "author": {
-        "name": "houjallen",
-        "email": "houjallen@gmail.com"
-      }
-    },
-    {
-      "name": "eas-dev-spec",
-      "description": "该技能应在用户要求把对齐笔记或草稿想法转化为可执行规格时使用。基于 eas-dev-align 产出，生成包含背景 / 目标 / 接口 / 验收 / 范围外 5 章节的 spec.md，作为下游设计 / 计划 / 评审的契约基线。Generator 模式 + 5 条 must 校验规则。触发短语：基于 alignment 写 spec、把想法写成规格、需求文档、写个 spec。不适用：意图未对齐 / 架构设计阶段 / 任务拆解。",
-      "source": "./skills/dev/eas-dev-spec",
-      "category": "dev",
-      "version": "1.0.0",
-      "author": {
-        "name": "houjallen",
-        "email": "houjallen@gmail.com"
-      }
-    },
-    {
-      "name": "eas-dev-design",
-      "description": "该技能应在用户要求基于 spec 设计模块架构时使用。按 John Ousterhout Deep Modules 哲学（多行为 + 小接口 + 干净接缝）+ 4 个核心问题（共享行为 / 独立变化 / 接缝位置 / 测试接口），产出 design.md 含模块图 / 接口契约 / 数据流 / 测试策略。Pattern 模式。触发短语：设计架构、deep modules、怎么组织、接口怎么定、模块边界。不适用：spec 还未确认 / 单一文件改动 / 选型类问题。",
-      "source": "./skills/dev/eas-dev-design",
-      "category": "dev",
-      "version": "1.0.0",
-      "author": {
-        "name": "houjallen",
-        "email": "houjallen@gmail.com"
-      }
-    },
-    {
-      "name": "eas-dev-plan",
-      "description": "该技能应在用户要求基于 spec / design 拆任务时使用。把工作拆为 2-5 分钟颗粒度的可执行任务列表 tasks.md，每个任务含 id / 标题 / 前置 / 验收步骤 / 代码路径 / 估计时间 / 风险 7 字段。Generator 模式 + 颗粒度约束。触发短语：拆任务、写计划、排期、怎么分步、2-5 分钟颗粒度。不适用：spec / design 未确认 / 单一文件改动 / 排期管理。",
-      "source": "./skills/dev/eas-dev-plan",
-      "category": "dev",
-      "version": "1.0.0",
-      "author": {
-        "name": "houjallen",
-        "email": "houjallen@gmail.com"
-      }
-    },
-    {
-      "name": "eas-dev-tdd",
-      "description": "该技能应在用户按 TDD 方式实现单个任务时使用。基于 eas-dev-plan 的单个任务，严格执行红-绿-重构循环：写失败测试 MUST 失败、写最小实现 MUST 让测试通过、重构 MUST 不破坏测试；含测试反模式库（私有状态 / 过度 mock / 不测实现等 5 大反模式）。Technique 模式 + 3 步必答 gate。触发短语：TDD、红-绿-重构、写测试先行、tdd。不适用：已有代码功能修改 / 一次性脚本 / UI 原型。",
-      "source": "./skills/dev/eas-dev-tdd",
-      "category": "dev",
-      "version": "1.0.0",
-      "author": {
-        "name": "houjallen",
-        "email": "houjallen@gmail.com"
-      }
-    },
-    {
-      "name": "eas-dev-implement",
-      "description": "该技能应在用户要求基于 tasks.md 自动调度执行时使用。Pipeline 模式调度单任务级 plan 加载 → tdd 实现 → review 评审闭环；内部委托 eas-dev-plan / eas-dev-tdd / eas-dev-review，自身仅做调度与失败处理；含 entry / exit / failure 三类 pipeline gates 与中断恢复机制。触发短语：按计划实现、execute、开始干、implement、自动跑任务。不适用：tasks.md 未确认 / 单个任务手动调试 / 紧急 hotfix。",
-      "source": "./skills/dev/eas-dev-implement",
-      "category": "dev",
-      "version": "1.0.0",
-      "author": {
-        "name": "houjallen",
-        "email": "houjallen@gmail.com"
-      }
-    },
-    {
-      "name": "eas-dev-review",
-      "description": "该技能应在代码完成后、提交 PR 前调用。基于 spec / design 产出两轴评审（标准轴 + spec 轴），按 P0/P1/P2 分级输出 review.md。P0 阻止合入；P1 必须修复或显式豁免；P2 后续处理。Reviewer 模式 + blocking rule。触发短语：评审、code review、审查、review、PR 检查。不适用：一次性脚本 / typo 修复 / 紧急 hotfix。",
-      "source": "./skills/dev/eas-dev-review",
-      "category": "dev",
-      "version": "1.0.0",
-      "author": {
-        "name": "houjallen",
-        "email": "houjallen@gmail.com"
-      }
-    },
-    {
-      "name": "eas-dev-diagnose",
-      "description": "该技能应在用户报告 bug / 需要诊断时使用。Technique 模式 4 阶段根因分析（复现 → 定位 → 修复 → 回归）。NEVER 跳过复现；NEVER 未定位根因直接给方案；根因未明不许动手。触发短语：有 bug、调试、诊断、复现、debug、investigate、线上问题。不适用：功能添加 / 已知原因简单修复 / 性能优化。",
-      "source": "./skills/dev/eas-dev-diagnose",
-      "category": "dev",
-      "version": "1.0.0",
-      "author": {
-        "name": "houjallen",
-        "email": "houjallen@gmail.com"
-      }
-    },
-    {
-      "name": "eas-dev-finish",
-      "description": "该技能应在代码完成后进入收尾发布时使用。Technique 模式 7 步收尾 checklist（测试全绿 → 评审通过 → 文档同步 → PR 创建 → merge 决策 → 部署 → 通知）。MUST 按顺序执行；任一步未完成 MUST 报错。触发短语：合并、merge、发 PR、发布、finish、deploy、ship。不适用：代码未完成 / review 未 PASS / hotfix。",
-      "source": "./skills/dev/eas-dev-finish",
-      "category": "dev",
-      "version": "1.0.0",
-      "author": {
-        "name": "houjallen",
-        "email": "houjallen@gmail.com"
-      }
-    },
-    {
-      "name": "eas-dev-loop",
-      "description": "该技能应在用户明确要求一站式全流程时使用。Pipeline 编排器按顺序调用 align → spec → design → plan → implement → review → finish 跑完整开发闭环；默认不加载（避免 mattpocock 全流程托管反模式警告）；含中断恢复机制 .easbot/dev-loop-state.json。触发短语：一站式开发、全自动流程、loop、跑完整流程。不适用：仅想用部分技能（应优先用独立技能）。",
-      "source": "./skills/dev/eas-dev-loop",
-      "category": "dev",
-      "version": "1.0.0",
+      "version": "0.1.0",
       "author": {
         "name": "houjallen",
         "email": "houjallen@gmail.com"
