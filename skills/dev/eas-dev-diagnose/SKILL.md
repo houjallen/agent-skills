@@ -3,6 +3,7 @@ name: eas-dev-diagnose
 description: 该技能应在用户报告 bug / 需要诊断时（"有 bug" / "调试" / "诊断" / "复现" / "debug" / "investigate" / "线上问题"）使用。Technique 模式：4 阶段根因分析（复现 → 定位 → 修复 → 回归）。NEVER 跳过复现；NEVER 直接给方案；根因未明不许动手。
 mode: Technique
 composition: standalone
+scope: coder
 behavior:
   sequence:
     steps:

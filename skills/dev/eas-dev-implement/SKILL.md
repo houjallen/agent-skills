@@ -3,6 +3,7 @@ name: eas-dev-implement
 description: 该技能应在用户要求基于 tasks.md 自动调度执行（"按计划实现" / "execute" / "开始干" / "implement" / "自动跑任务"）时使用。Pipeline 模式：调度单任务级 plan → tdd → review 闭环。内部委托 `eas-dev-plan` / `eas-dev-tdd` / `eas-dev-review` 完成执行，自身仅做调度与失败处理。
 mode: Pipeline
 composition: standalone
+scope: coder
 behavior:
   sequence:
     steps:

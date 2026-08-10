@@ -3,6 +3,7 @@ name: eas-dev-tdd
 description: 该技能应在用户按 TDD 方式实现单个任务（"TDD" / "红-绿-重构" / "写测试先行" / "tdd"）时使用。基于 `eas-dev-plan` 的单个任务，严格执行红-绿-重构循环：1) 写失败测试（MUST 失败）；2) 写最小实现代码（MUST 让测试通过）；3) 重构（MUST 不破坏测试）。含测试反模式库（私有状态 / 过度 mock / 不测实现 / 测试替身等）。
 mode: Technique
 composition: standalone
+scope: coder
 behavior:
   sequence:
     steps:

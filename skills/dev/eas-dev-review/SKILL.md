@@ -3,6 +3,7 @@ name: eas-dev-review
 description: 该技能应在代码完成后、提交 PR 前调用（"评审" / "code review" / "审查" / "review" / "PR 检查"）时使用。基于 spec / design 产出两轴评审（标准轴 / spec 轴），按 P0/P1/P2 分级输出 `review.md`。P0 阻止提交；P1 必须修复或显式豁免；P2 后续处理。
 mode: Reviewer
 composition: standalone
+scope: coder
 behavior:
   review_axes:
     - id: standards

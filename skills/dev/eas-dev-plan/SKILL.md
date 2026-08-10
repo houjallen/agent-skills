@@ -3,6 +3,7 @@ name: eas-dev-plan
 description: 该技能应在用户要求基于 spec / design 拆任务（"拆任务" / "写计划" / "排期" / "怎么分步" / "2-5 分钟颗粒度"）时使用。基于 `eas-dev-spec` / `eas-dev-design` 产出，把工作拆为 2-5 分钟颗粒度的可执行任务列表 `tasks.md`，每个任务含 id / 标题 / 前置 / 验收步骤 / 代码路径 / 估计时间 / 风险 7 字段。
 mode: Generator
 composition: standalone
+scope: coder
 behavior:
   granularity:
     rule: "每个任务 MUST 在 2-5 分钟内可完成；超过 MUST 拆分为多个子任务"

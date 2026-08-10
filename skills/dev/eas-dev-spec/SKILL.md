@@ -3,6 +3,7 @@ name: eas-dev-spec
 description: 该技能应在用户要求把对齐笔记 / 草稿想法转化为可执行规格（"基于 alignment 写 spec" / "把这个想法写成可执行规格" / "需求文档" / "写个 spec"）时使用。基于 `eas-dev-align` 产出，生成包含背景 / 目标 / 接口 / 验收 / 范围外 5 章节的 `spec.md`，作为下游 `eas-dev-design` / `eas-dev-plan` / `eas-dev-review` 的契约基线。
 mode: Generator
 composition: standalone
+scope: coder
 behavior:
   output:
     format: markdown

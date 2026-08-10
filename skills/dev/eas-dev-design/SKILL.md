@@ -3,6 +3,7 @@ name: eas-dev-design
 description: 该技能应在用户要求基于 spec 设计模块架构（"设计架构" / "deep modules" / "怎么组织" / "接口怎么定" / "模块边界"）时使用。基于 `eas-dev-spec` 产出，按 John Ousterhout "Deep Modules" 哲学 + 4 个核心问题，产出包含模块图 / 接口契约 / 数据流 / 测试策略的 `design.md`。
 mode: Pattern
 composition: standalone
+scope: coder
 behavior:
   thinking_framework:
     name: "Deep Modules (John Ousterhout)"

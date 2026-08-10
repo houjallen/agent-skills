@@ -3,6 +3,7 @@ name: eas-dev-align
 description: 该技能应在用户提出新需求、新想法或新功能（"我想做一个 X" / "我有个想法" / "先对齐" / "我要加个功能"）时使用。在写代码或 spec 之前，以 3 阶段访谈对齐意图与术语，产出"对齐笔记"，避免下游技能基于误解的假设工作。
 mode: Inversion
 composition: standalone
+scope: coder
 behavior:
   gate:
     phases:

@@ -3,6 +3,7 @@ name: eas-dev-finish
 description: 该技能应在代码完成后进入收尾发布（"合并" / "merge" / "发 PR" / "发布" / "finish" / "deploy" / "ship"）时使用。Technique 模式：7 步收尾 checklist（测试全绿 → 评审通过 → 文档同步 → PR 创建 → merge → 部署 → 通知）。MUST 按顺序执行；任一步未完成 MUST 报错。
 mode: Technique
 composition: standalone
+scope: coder
 behavior:
   sequence:
     steps:

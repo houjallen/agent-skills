@@ -3,6 +3,7 @@ name: eas-dev-loop
 description: 该技能应在用户明确要求"一站式全流程"时（"一站式开发" / "全自动流程" / "loop" / "从头到尾跑一遍"）使用。Pipeline 编排器：按顺序调用 align → spec → design → plan → implement → review → finish 全套技能，跑完整开发闭环。**默认不加载**；仅在用户**明确**要求时启用（避免 mattpocock 反模式警告"全流程托管"）。
 mode: Pipeline
 composition: orchestrator
+scope: coder
 behavior:
   default_load: false
   sequence:
