@@ -71,7 +71,9 @@ export class SkillValidator {
       //   - AgentSkills 标准顶层字段: name / description / license / metadata / allowed-tools
       //   - 五大模式与组合模式字段（保留顶层）: mode / composition / secondaryModes /
       //     compositionConnections / behavior / reviewer / deliveryChecklist
-      // 项目扩展字段（category / version / author / compatibility / tags 等）
+      //   - EASBot plugin 项目级元数据: scope（与 plugin command/hook 顶层保持统一，
+      //     表示上下文模式 general / coder / all 等，是 EASBot 产品 plugin 管理属性）
+      // 其它项目扩展字段（category / version / author / compatibility / tags 等）
       //   MUST 放入 `metadata:` 子键，不允许出现在顶层（与 skill-spec.md §9.4 一致）
       // `metadata` 是"自由扩展容器"，其内部嵌套的 keys 不校验。
       const allowedProperties = new Set([
@@ -87,6 +89,7 @@ export class SkillValidator {
         'behavior',
         'reviewer',
         'deliveryChecklist',
+        'scope',
       ]);
 
       // 白名单内的、但实际属于 metadata 内部 keys 误被 yaml 解析器展开到顶层的：

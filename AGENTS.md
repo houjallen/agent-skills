@@ -92,6 +92,7 @@ agent-skills/
    - **顶层白名单**（与 [quick-validate.ts](file:///e:/work/apps/eas/agent-skills/skills/builtin/eas-skill-creator/scripts/quick-validate.ts) 同步）：
      - **AgentSkills 标准顶层**：`name` / `description` / `license` / `metadata` / `allowed-tools`
      - **5 大模式规范字段**：`mode` / `composition` / `secondaryModes` / `compositionConnections` / `behavior` / `reviewer` / `deliveryChecklist`
+     - **EASBot plugin 项目级元数据**：`scope`（顶层平铺，与 plugin 的 command/hook 顶层保持统一；表示上下文模式 `general` / `coder` / `all` 等，是 EASBot 产品的 plugin 管理属性，**不是通用 skill 属性**）
    - **项目扩展字段 MUST 进 `metadata:` 子键**：`category` / `version` / `author` / `compatibility` / `tags` 等一律**禁止**出现在顶层（与 [`skill-spec.md §9.4`](file:///e:/work/apps/eas/agent-skills/skills/builtin/eas-skill-creator/references/skill-spec.md) 字段分层策略一致）。其它键被 `quick-validate.ts` 拒收。
 2. **禁止附带 README/INSTALL/QUICK_REFERENCE 等独立文档**；说明全部内联在 `SKILL.md` + `references/`。
 3. 正文 MUST 包含「何时使用 (When to Use)」+「快速参考 (Quick Reference)」。
@@ -502,7 +503,7 @@ LLM 注意力呈 U 型分布——开头最高、中间最低、结尾次高（p
 
 #### 13.6.1 项目级规范反模式（Skill / SKILL.md）
 
-| � 不要 | ✅ 应该 |
+|❌ 不要 | ✅ 应该 |
 | --- | --- |
 | 「使用本技能当…」 | 「该技能应在…时使用」 |
 | 「这个工具很好用」 | 删掉 / 替换为具体能力 |
@@ -637,7 +638,7 @@ LLM 注意力呈 U 型分布——开头最高、中间最低、结尾次高（p
 |---|---|---|
 | **入口技能加载** | 评审者 MUST 已按 §14.3.1 完成 `eas-skill-using` + `eas-skill-creator`（提示词评审加 `eas-prompt-creator`、跨技能决策加 `eas-planning-writer`）加载；§14.3.2 全部勾选 | **P0** |
 | 技能目录结构正确 | 含 `SKILL.md`；可选 `scripts/` / `references/` / `assets/` 不混入根目录 | P0 |
-| frontmatter 完整 | `name`（hyphen-case、≤64）/ `description`（第三人称、≤1024）；**顶层仅含白名单字段**（AgentSkills 标准 + 5 大模式）；**项目扩展字段**（`category` / `version` / `author` / `compatibility` / `tags`）MUST 进 `metadata:` 子键，**禁止**平铺到顶层（与 `quick-validate.ts` 同步） | P0 |
+| frontmatter 完整 | `name`（hyphen-case、≤64）/ `description`（第三人称、≤1024）；**顶层仅含白名单字段**（AgentSkills 标准 + 5 大模式 + `scope`）；**项目扩展字段**（`category` / `version` / `author` / `compatibility` / `tags`）MUST 进 `metadata:` 子键，**禁止**平铺到顶层（与 `quick-validate.ts` 同步） | P0 |
 | 必填节齐全 | 概述 / 何时使用 / 快速参考 齐全（§13.5） | P0 |
 | 无冗余文档 | 技能目录下无 `README.md` / `INSTALLATION_GUIDE.md` / `QUICK_REFERENCE.md`（§4.2） | P0 |
 | `SKILL.md` 体量 | < 500 行；超过则拆 `references/`（§13.6） | P1 |

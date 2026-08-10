@@ -534,6 +534,7 @@ description: 该技能应在 Agent 需要处理文档、生成报告、分析数
 |---|---|---|
 | **AgentSkills 标准**（顶层） | `name` / `description` / `license` / `metadata` / `allowed-tools` | 通用；跨 Agent 互操作 |
 | **5 大模式规范字段**（顶层） | `mode` / `composition` / `secondaryModes` / `compositionConnections` / `behavior` / `reviewer` / `deliveryChecklist` | 行为类技能的规范字段；保留顶层 |
+| **EASBot plugin 项目级元数据**（顶层） | `scope` | 上下文模式 `general` / `coder` / `all`；与 plugin command/hook 顶层保持统一；**EASBot 产品 plugin 管理属性**，非通用 skill 属性 |
 | **本项目扩展**（metadata 块内，**强制**） | `category` / `version` / `author` / `compatibility` / `tags` | EASBot 内部组织；不影响外部 Agent；**禁止出现在顶层**（quick-validate.ts 白名单已移除） |
 
 > **规范生效**: 本分层策略已通过 [0012 跨技能决策](file:///e:/work/apps/eas/agent-skills/docs/decisions/0012-cross-skill-decision-frontmatter-metadata-normalize.md) 确立；任何 `category` / `version` / `tags` / `author` / `compatibility` 出现在顶层视为 P0 违规，quick-validate 直接拒绝。
