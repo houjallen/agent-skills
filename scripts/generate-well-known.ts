@@ -30,6 +30,10 @@
  *       - installName  `<owner>/<repo>@<skill-name>`（**用 `@` 隔**，与
  *                       source-parser.ts 的 `owner/repo@subpath` 协议一致，
  *                       喂给 store pluginId 时可直接走 parsePluginId）
+ *       - skillPath    源端 subpath（`skills/<cat>/<skill>`），与 store 物化路径对齐（决策 0048）
+ *       - files        **该 skill 包含的文件清单**（POSIX 相对路径，`SKILL.md` 固定为首项；
+ *                       其余字典序扫描 references/ scripts/ assets/ 等）—— 前端加载器据此
+ *                       预下载完整 skill 包，避免 references / scripts / assets 缺失
  *       - scope        （可选）general / coder / all（与 SkillMetadataSchema.scope 对齐；
  *                       缺省 = 'all'，由 agent runtime 推断）
  *
@@ -125,6 +129,17 @@ interface IndexSkill {
    * - 没定义 / 老 index 没字段时，前端按平铺 fallback（向后兼容）
    */
   skillPath: string;
+  /**
+   * 该 skill 包含的所有文件清单（相对 skill 目录的 POSIX 路径）。
+   *
+   * - `SKILL.md` 固定为 `files[0]`（必有）
+   * - 其它条目按字典序扫描 `references/` / `scripts/` / `assets/` 等目录
+   * - 跳过 macOS/Windows 噪声文件（.DS_Store / Thumbs.db）
+   *
+   * 用途：前端 Agent 加载器看到 `files` 后可一次性预下载完整 skill 包，
+   *       避免 `sourceUrl` 只指向 SKILL.md 导致 references/scripts/assets 缺失。
+   */
+  files: string[];
   /** 上下文模式：general / coder / all；缺省 = 'all' */
   scope?: string;
 }
@@ -312,6 +327,51 @@ function scanSkills(srcDir: string): Array<{
 }
 
 /**
+ * 扫描 skill 目录下所有非元数据文件（递归），返回相对 skill 目录的 POSIX 路径数组。
+ *
+ * 规则：
+ * - 跳过 SKILL.md（由调用方手工放到 files[0]）
+ * - 跳过 macOS/Windows 噪声（.DS_Store / Thumbs.db）
+ * - 跳过隐藏目录（以 `.` 开头，避免误带 `.git/` 等）
+ * - 字典序排序，输出确定性
+ * - 文件名允许包含方括号 `[` `]`（OOXML 模板如 `[Content_Types].xml` 是合法文件）
+ * - 但禁止包含 `/` `..` 越界字符（POSIX 相对路径安全护栏）
+ *
+ * 注意：与 `copySkillsTree` 的 filter 保持一致；如未来扩展（如忽略 `__pycache__/`）
+ *       应同时更新两处。
+ */
+function scanSkillFiles(skillDir: string): string[] {
+  const SKILL_MD = 'SKILL.md';
+  const SKIP_BASENAMES = new Set(['.DS_Store', 'Thumbs.db']);
+  const result: string[] = [];
+
+  const walk = (dir: string) => {
+    const entries = readdirSync(dir, { withFileTypes: true }).sort((a, b) =>
+      a.name.localeCompare(b.name),
+    );
+    for (const entry of entries) {
+      const full = join(dir, entry.name);
+      if (entry.isDirectory()) {
+        // 跳过隐藏目录（.git / .vscode / __pycache__ / node_modules 等）
+        if (entry.name.startsWith('.')) continue;
+        walk(full);
+        continue;
+      }
+      if (!entry.isFile()) continue;
+      if (SKIP_BASENAMES.has(entry.name)) continue;
+      // 安全护栏：文件名禁止包含 / 或 ..（POSIX 相对路径合法性）
+      if (entry.name.includes('/') || entry.name.includes('..')) continue;
+      const rel = toPosixRel(skillDir, full);
+      if (rel === SKILL_MD) continue; // 由调用方手工放第一位
+      result.push(rel);
+    }
+  };
+
+  walk(skillDir);
+  return result;
+}
+
+/**
  * 把 srcDir 整棵树复制到 outDir/skills/ 下（保留目录结构）。
  */
 function copySkillsTree(srcDir: string, outDir: string): void {
@@ -391,6 +451,8 @@ function buildIndex(args: {
         // - 物化时 `cacheDir/<pluginSlug>/<skillPath>/SKILL.md` 与 git clone 后结构同构
         // - cp 到 store 后 store def.skillPath = `skills/builtin/<skill>` 与 lock skillPath 字段语义一致
         skillPath: posix.join(SKILL_BUNDLE_DIR, s.category, s.skillName),
+        // files[0] 固定为 SKILL.md；其余按字典序扫描 references/ scripts/ assets/ 等
+        files: ['SKILL.md', ...scanSkillFiles(s.skillDir)],
       };
       // scope 仅在 frontmatter 显式声明且合法值时写入；否则省略（运行时按 'all' 处理）
       const scope = fm.scope;
@@ -582,6 +644,7 @@ if (isMain) {
 export {
   parseFrontmatter,
   scanSkills,
+  scanSkillFiles,
   buildIndex,
   copySkillsTree,
   SCHEMA_URL,

@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://easbot.cn/schemas/agent-skills/index.v1.json",
   "title": "Agent Skills Well-Known Index (v1)",
-  "description": "Manifest published at /.well-known/agent-skills/index.json so that external agents can discover and load skills via the well-known URL convention. The shape MUST match the IndexSchema / IndexSkill types in scripts/generate-well-known.ts (the authoritative generator).",
+  "description": "Manifest published at /.well-known/agent-skills/index.json so that external agents can discover and load skills via the well-known URL convention. The shape MUST match the IndexSchema / IndexSkill types in scripts/generate-well-known.ts (the authoritative generator). Each `skills[]` entry exposes a `files[]` array listing every file shipped with the skill (relative POSIX paths; `SKILL.md` first) so that loaders can prefetch the full skill bundle instead of only the SKILL.md pointed to by `sourceUrl`.",
   "type": "object",
   "additionalProperties": false,
   "required": ["$schema", "skills"],
@@ -24,7 +24,7 @@
     "skill": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "description", "sourceUrl", "installName", "skillPath"],
+      "required": ["name", "description", "sourceUrl", "installName", "skillPath", "files"],
       "properties": {
         "name": {
           "description": "hyphen-case skill name. MUST match the directory name and the SKILL.md frontmatter `name`.",
@@ -33,7 +33,7 @@
           "maxLength": 64
         },
         "description": {
-          "description": "Third-person description starting with `该技能应在 …` (zh) / `Use this skill when …` (en). Maximum 1024 characters.",
+          "description": "Third-person skill description. Recommended starting phrase: `Use this skill when …`. Maximum 1024 characters.",
           "type": "string",
           "minLength": 1,
           "maxLength": 1024
@@ -50,9 +50,20 @@
           "pattern": "^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+@[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$"
         },
         "skillPath": {
-          "description": "源端 skill 的完整 POSIX subpath（`/` 分隔，含 skillName）。与 sourceUrl 的 `/skills/...` 段完全对齐（决策 0048）。Format: `skills/<category>/<skill-name>`，其中 `<category>` 不在 schema 强约束白名单内——允许当前仓库既有的 `builtin` / `tools` / `dev` 三类以及未来新增分类（与 AGENTS.md §3 目录结构约定对齐；避免每次新增分类都改 schema）。物化时 store 按 `cacheDir/<pluginSlug>/<skillPath>/` 物理布局，与 git clone 后结构同构。",
+          "description": "Full POSIX subpath of the source skill (`/` separator, includes the skillName). Aligned with the `/skills/...` segment of `sourceUrl` (decision 0048). Format: `skills/<category>/<skill-name>`. `<category>` is intentionally NOT restricted to a hard-coded whitelist so future categories can be added without schema changes; current repo uses `builtin` / `tools` / `dev` (see AGENTS.md §3). The store materializes the skill as `cacheDir/<pluginSlug>/<skillPath>/`, mirroring the layout after `git clone`.",
           "type": "string",
           "pattern": "^skills/[a-z0-9][a-z0-9-]{0,62}[a-z0-9]?/[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$"
+        },
+        "files": {
+          "description": "List of files shipped with the skill, as POSIX-relative paths from the skill directory. `files[0]` is always `SKILL.md`; remaining entries are obtained by recursively scanning `references/`, `scripts/`, `assets/` and any other subdirectories in lexicographic order (macOS/Windows noise files `.DS_Store` / `Thumbs.db` and hidden directories are skipped). Agent loaders can prefetch the entire skill bundle from this field instead of only fetching the SKILL.md pointed to by `sourceUrl`. Each path is relative to the skill directory and uses POSIX separators; absolute URLs are reconstructed by combining `sourceUrl` + `skillPath` and MUST NOT appear here. File-name segments MAY contain `[` and `]` (OOXML templates such as `[Content_Types].xml` are legitimate files) but MUST NOT start with `/` and MUST NOT contain `..`.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(?:[A-Za-z0-9._\\-\\[\\]]+/)*[A-Za-z0-9._\\-\\[\\]]+$",
+            "description": "POSIX-relative path from the skill directory. MUST NOT start with `/`; MUST NOT contain `..`. File-name segments MAY contain `[]` for OOXML compatibility."
+          }
         },
         "scope": {
           "description": "Optional context scope, aligned with SkillMetadataSchema.scope. Defaults to `all` when the SKILL.md frontmatter does not declare it. One of: `general` / `coder` / `all`.",

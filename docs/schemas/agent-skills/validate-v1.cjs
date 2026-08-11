@@ -19,6 +19,11 @@
  *         "sourceUrl": "https://.../skills/<cat>/<skill>/SKILL.md",
  *         "installName": "<owner>/<repo>@<skill>",
  *         "skillPath": "skills/<cat>/<skill>",   // 完整 POSIX subpath，含 skillName；<cat> 不限 builtin/tools/dev
+ *         "files": [                              // skill 文件清单（POSIX 相对路径；SKILL.md 固定为首项）
+ *           "SKILL.md",
+ *           "references/xxx.md",
+ *           "scripts/xxx.ts"
+ *         ],
  *         "scope": "general" | "coder" | "all"  // optional
  *       }
  *     ]
@@ -42,6 +47,9 @@ const RE = {
   sourceUrl: /^https?:\/\/.+\/skills\/[^/]+\/[^/]+\/SKILL\.md$/,
   installName: /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+@[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/,
   skillPath: /^skills\/[a-z0-9][a-z0-9-]{0,62}[a-z0-9]?\/[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/,
+  // files[i]: 相对 skill 目录的 POSIX 路径，不含前导 /，不含 ..，可包含子目录（如 references/xxx.md）
+  // 文件名段允许 []（OOXML 模板如 [Content_Types].xml 合法）
+  filePath: /^(?:[A-Za-z0-9._\-\[\]]+\/)*[A-Za-z0-9._\-\[\]]+$/,
   scope: ['general', 'coder', 'all'],
 };
 
@@ -89,7 +97,7 @@ function validate(doc) {
         return;
       }
       // 必填字段（与 IndexSkill 对齐）
-      const req = ['name', 'description', 'sourceUrl', 'installName', 'skillPath'];
+      const req = ['name', 'description', 'sourceUrl', 'installName', 'skillPath', 'files'];
       for (const k of req) {
         if (!(k in sk)) err(`${base}/${k}`, 'missing required field');
       }
@@ -131,6 +139,52 @@ function validate(doc) {
               expectedName: sk.name,
             });
           }
+        }
+      }
+      // files: 必须为非空字符串数组；files[0] 必须为 'SKILL.md'；每条 POSIX 相对路径
+      if (!Array.isArray(sk.files)) {
+        err(`${base}/files`, 'must be an array');
+      } else if (sk.files.length === 0) {
+        err(`${base}/files`, 'must contain at least one entry (SKILL.md is required)');
+      } else {
+        if (sk.files[0] !== 'SKILL.md') {
+          err(`${base}/files[0]`, "must equal 'SKILL.md'", { got: sk.files[0] });
+        }
+        const seenFiles = new Set();
+        let filesOk = true;
+        sk.files.forEach((f, j) => {
+          const fpath = `${base}/files[${j}]`;
+          if (!isString(f)) {
+            err(fpath, 'must be a string', { got: typeof f });
+            filesOk = false;
+            return;
+          }
+          if (!RE.filePath.test(f)) {
+            err(fpath, `must match ${RE.filePath}`, { got: f });
+            filesOk = false;
+            return;
+          }
+          // 安全护栏：禁止 ..
+          if (f.split('/').includes('..')) {
+            err(fpath, 'must not contain ".."', { got: f });
+            filesOk = false;
+            return;
+          }
+          // 不允许前导 /
+          if (f.startsWith('/')) {
+            err(fpath, 'must not start with "/"', { got: f });
+            filesOk = false;
+            return;
+          }
+          if (seenFiles.has(f)) {
+            err(fpath, 'duplicate entry', { got: f });
+            filesOk = false;
+            return;
+          }
+          seenFiles.add(f);
+        });
+        if (filesOk && sk.files.length > 0) {
+          ok(`${base}/files`, `${sk.files.length} entry(s), first=SKILL.md`);
         }
       }
       if ('scope' in sk) {
