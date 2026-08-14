@@ -3,6 +3,7 @@
 # 统一版本管理（默认禁用）
 # 使用 ENABLE_VERSION_BUMP=1 启用自动版本升级
 #
+pnpm exec lint-staged
 # 启用后行为：
 #   - 升级 package.json 版本号
 #   - 重新生成 CHANGELOG.md（基于 git commits + [skill: <name>] / [repo] 格式）
