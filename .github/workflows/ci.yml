@@ -22,10 +22,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
 
-      - name: 安装依赖 (使用根 package.json 全量依赖)
-        run: npm ci --no-audit --no-fund
+      - name: 设置 pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: 安装依赖 (使用 pnpm 按 lockfile 锁定安装)
+        run: pnpm install --frozen-lockfile
 
       - name: 循环校验全部技能
         run: |
