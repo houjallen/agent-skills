@@ -258,6 +258,17 @@
         "name": "houjallen",
         "email": "houjallen@gmail.com"
       }
+    },
+    {
+      "name": "eas-knowledge-using",
+      "description": "该技能应在 Agent 需要执行或解释知识库 CLI 操作（init / doctor / status / sync / index / search / forget / reset / consolidate 等）时使用，覆盖 codebase / note / memory 三个共享知识库的命令空间。触发短语：跑 codebase status / 跑 note doctor / 跑 memory sync / 知识库健康诊断 / 重建索引 / 初始化知识库 / CLI 操作知识库 / knowledge base CLI / 知识库重建。不适用：tool 已暴露的 search / ingest / recall / remember 等 op（走 tool 本体）/ 一次性脚本（用 bash）/ 单文件文档检索（走 note tool）。",
+      "source": "./skills/tools/eas-knowledge-using",
+      "category": "tools",
+      "version": "0.2.0",
+      "author": {
+        "name": "houjallen",
+        "email": "houjallen@gmail.com"
+      }
     }
   ]
 }

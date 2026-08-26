@@ -124,6 +124,7 @@ agent-skills/
     └── tools/           # General-purpose utility skills
         ├── eas-chinese-writer/      # Chinese writing and i18n assistance
         ├── eas-docx/                # Word document generation / editing / accept-changes
+        ├── eas-knowledge-using/     # CLI guide for the three knowledge bases (codebase / note / memory)
         ├── eas-pdf/                 # Design-driven PDF generation / form fill / restyle
         ├── eas-pptx/                # PowerPoint generation / editing / design system
         └── eas-xlsx/                # Excel/spreadsheet read / create / edit / validate
@@ -164,6 +165,7 @@ Engineering scripts invoked locally or by CI by repository maintainers. See [AGE
 | --- | --- |
 | `eas-chinese-writer` | Chinese writing and i18n assistance, including i18n / JSDoc / terminology guides |
 | `eas-docx` | Word (.docx) processing: CREATE (docx-js from-scratch) / EDIT (XML unpack/edit/pack) / ACCEPT-CHANGES |
+| `eas-knowledge-using` | CLI guide for the three knowledge bases (codebase / note / memory); covers init / doctor / status / sync / index / consolidate / reset and other CLI-only operations |
 | `eas-pdf` | Design-driven PDF processing: CREATE (from-scratch) / FILL (form fields) / REFORMAT (restyle existing docs) |
 | `eas-pptx` | PowerPoint (.pptx) processing: CREATE (PptxGenJS) / EDIT (XML-based on template) / READ (markitdown) |
 | `eas-xlsx` | Excel/spreadsheet processing: READ (analyze) / CREATE (XML template) / EDIT (XML direct) / FIX (formulas) / VALIDATE |

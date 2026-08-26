@@ -44,9 +44,10 @@ agent-skills/
     │   ├── eas-skill-creator/
     │   ├── eas-skill-find/
     │   └── eas-skill-using/
-    ├── tools/           # 通用工具类技能（5 个）
+    ├── tools/           # 通用工具类技能（6 个）
     │   ├── eas-chinese-writer/
     │   ├── eas-docx/      # Word 文档（CREATE / EDIT / ACCEPT-CHANGES）
+    │   ├── eas-knowledge-using/  # 三大知识库（codebase / note / memory）CLI 引导
     │   ├── eas-pdf/       # 设计驱动 PDF（CREATE / FILL / REFORMAT）
     │   ├── eas-pptx/      # PPT 演示（CREATE / EDIT / READ）
     │   └── eas-xlsx/      # Excel/电子表格（READ / CREATE / EDIT / FIX / VALIDATE）

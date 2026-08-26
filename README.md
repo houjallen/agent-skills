@@ -122,7 +122,12 @@ agent-skills/
     │   ├── eas-skill-find/          # 技能搜索与发现
     │   └── eas-skill-using/         # 技能生态中央导航
     ├── tools/           # 通用工具类技能
-    │   └── eas-chinese-writer/      # 中文写作与本地化辅助
+    │   ├── eas-chinese-writer/      # 中文写作与本地化辅助
+    │   ├── eas-docx/                # Word 文档（CREATE / EDIT / ACCEPT-CHANGES）
+    │   ├── eas-knowledge-using/     # 三大知识库（codebase / note / memory）CLI 引导
+    │   ├── eas-pdf/                 # 设计驱动 PDF（CREATE / FILL / REFORMAT）
+    │   ├── eas-pptx/                # PPT 演示（CREATE / EDIT / READ）
+    │   └── eas-xlsx/                # Excel/电子表格（READ / CREATE / EDIT / FIX / VALIDATE）
     └── dev/             # 开发流程技能（独立分类，不进 eas-skill-using 索引）
         ├── eas-dev-align/           # 对齐 / 头脑风暴（Inversion）
         ├── eas-dev-spec/            # 规格化（Generator）
@@ -171,6 +176,7 @@ agent-skills/
 | --- | --- |
 | `eas-chinese-writer` | 中文写作与本地化辅助，含 i18n / JSDoc / 术语指南 |
 | `eas-docx` | Word 文档（.docx）处理：CREATE（用 docx-js 从零生成）/ EDIT（XML unpack/edit/pack）/ ACCEPT-CHANGES（接受所有修订） |
+| `eas-knowledge-using` | 三大知识库（codebase / note / memory）的 CLI 操作引导；覆盖 init / doctor / status / sync / index / consolidate / reset 等 CLI-only op |
 | `eas-pdf` | 设计驱动的 PDF 处理：CREATE（从零生成成品）/ FILL（向既有 PDF 填表）/ REFORMAT（既有文档套设计） |
 | `eas-pptx` | PowerPoint 演示处理：CREATE（用 PptxGenJS 生成）/ EDIT（基于模板的 XML 编辑）/ READ（markitdown 抽取） |
 | `eas-xlsx` | Excel/电子表格处理：READ（分析）/ CREATE（XML 模板从零生成）/ EDIT（XML 直编）/ FIX（修公式）/ VALIDATE（公式校验） |
