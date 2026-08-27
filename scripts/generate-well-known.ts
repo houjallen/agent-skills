@@ -57,16 +57,7 @@
  * 依赖：零外部依赖（仅 node:fs / node:path / node:url）。
  */
 
-import {
-  existsSync,
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  rmSync,
-  statSync,
-  writeFileSync,
-  cpSync,
-} from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync, cpSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { join, relative, resolve, sep, posix } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -346,9 +337,7 @@ function scanSkillFiles(skillDir: string): string[] {
   const result: string[] = [];
 
   const walk = (dir: string) => {
-    const entries = readdirSync(dir, { withFileTypes: true }).sort((a, b) =>
-      a.name.localeCompare(b.name),
-    );
+    const entries = readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name));
     for (const entry of entries) {
       const full = join(dir, entry.name);
       if (entry.isDirectory()) {
@@ -416,16 +405,9 @@ function countFiles(dir: string): number {
  *   - `installName` 用 `@` 隔（与 source-parser 协议一致）
  *   - 物理 builtin/tools 分类通过源目录结构表达，不入 schema
  */
-function buildIndex(args: {
-  pkg: PackageJson;
-  skills: ReturnType<typeof scanSkills>;
-  outDir: string;
-  endpointUrl: string;
-}): IndexSchema {
+function buildIndex(args: { pkg: PackageJson; skills: ReturnType<typeof scanSkills>; outDir: string; endpointUrl: string }): IndexSchema {
   const { pkg, skills, endpointUrl } = args;
-  const repo = deriveRepoSlug(
-    typeof pkg.repository === 'string' ? pkg.repository : pkg.repository?.url,
-  );
+  const repo = deriveRepoSlug(typeof pkg.repository === 'string' ? pkg.repository : pkg.repository?.url);
 
   // endpointUrl 去掉尾斜杠（拼 sourceUrl 时保持一致）
   const baseUrl = endpointUrl.replace(/\/+$/, '');
@@ -434,12 +416,7 @@ function buildIndex(args: {
     $schema: SCHEMA_URL,
     skills: skills.map((s) => {
       const fm = s.frontmatter;
-      const relPath = posix.join(
-        SKILL_BUNDLE_DIR,
-        s.category,
-        s.skillName,
-        'SKILL.md',
-      );
+      const relPath = posix.join(SKILL_BUNDLE_DIR, s.category, s.skillName, 'SKILL.md');
       const skill: IndexSkill = {
         name: fm.name!,
         description: fm.description!,
@@ -567,13 +544,9 @@ function main(): void {
   if (opts.clean) {
     const outResolved = resolve(opts.outDir);
     const cwdResolved = resolve(cwd);
-    const insideCwd =
-      outResolved === cwdResolved || outResolved.startsWith(cwdResolved + sep);
+    const insideCwd = outResolved === cwdResolved || outResolved.startsWith(cwdResolved + sep);
     if (!insideCwd) {
-      throw new Error(
-        `outDir 不在 cwd 内，拒绝清理: ${outResolved} (cwd=${cwdResolved})。` +
-          `如确实需要，请改用 --no-clean 手动管理。`,
-      );
+      throw new Error(`outDir 不在 cwd 内，拒绝清理: ${outResolved} (cwd=${cwdResolved})。` + `如确实需要，请改用 --no-clean 手动管理。`);
     }
     if (existsSync(outResolved)) {
       rmSync(outResolved, { recursive: true, force: true });
@@ -618,11 +591,7 @@ function main(): void {
       return;
     }
     console.log(`\n[validate] ${toPosixRel(cwd, validatorPath)}`);
-    const result = spawnSync(
-      process.execPath,
-      [validatorPath, indexPath],
-      { stdio: 'inherit', cwd },
-    );
+    const result = spawnSync(process.execPath, [validatorPath, indexPath], { stdio: 'inherit', cwd });
     if (result.status !== 0) {
       throw new Error(`validate-v1.cjs 校验失败（exit ${result.status}）`);
     }
@@ -630,8 +599,7 @@ function main(): void {
 }
 
 // 仅在作为主入口执行时调用 main
-const isMain =
-  process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1]);
+const isMain = process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1]);
 if (isMain) {
   try {
     main();
@@ -641,12 +609,5 @@ if (isMain) {
   }
 }
 
-export {
-  parseFrontmatter,
-  scanSkills,
-  scanSkillFiles,
-  buildIndex,
-  copySkillsTree,
-  SCHEMA_URL,
-};
+export { parseFrontmatter, scanSkills, scanSkillFiles, buildIndex, copySkillsTree, SCHEMA_URL };
 export type { IndexSchema, IndexSkill, SkillFrontmatter };

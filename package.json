@@ -1,6 +1,6 @@
 {
   "name": "@easbot/agent-skills",
-  "version": "0.3.14",
+  "version": "0.3.17",
   "description": "EASBot Agent Skills — the EASBot agent-skills management repository.",
   "type": "module",
   "bin": {
@@ -53,8 +53,8 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@easbot/skills": "^0.3.14",
-    "@easbot/utils": "^0.3.14"
+    "@easbot/skills": "^0.3.17",
+    "@easbot/utils": "^0.3.17"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.5",
@@ -73,7 +73,7 @@
     "tsx": "4.23.12"
   },
   "peerDependencies": {
-    "@easbot/agent": "^0.3.14"
+    "@easbot/agent": "^0.3.17"
   },
   "peerDependenciesMeta": {
     "@easbot/agent": {
@@ -83,6 +83,10 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
+  },
+  "engines": {
+    "node": ">=22.22.2",
+    "pnpm": ">=10.0.0"
   },
   "lint-staged": {
     "*.{mjs,ts,tsx}": [

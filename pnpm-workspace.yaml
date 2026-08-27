@@ -1,10 +1,50 @@
+# pnpm 8.10+ 在 deps drift 时会要求 TTY 确认以 purge modules dir；
+# CI / 自动化环境无 TTY 时会 abort commit hook。
+# 设为 false 跳过确认（CI 默认行为）。
+# 本地命令行可在 user-level config (~/Library/pnpm/config.yaml 或
+# %APPDATA%\pnpm\config.yaml) 设 confirmModulesPurge: true 提示确认。
+confirmModulesPurge: false
+
+# pnpm 11 在 Windows 默认 hardlink，常因防病毒/OneDrive 触发
+# 误判为 deps drift 导致自动 purge。改用 copy 模式更稳。
+packageImportMethod: copy
+
+# 显式声明 nodeLinker，避免不同 pnpm 11.x 行为漂移
+nodeLinker: isolated
+
+# 不强制 24h 冷静期（开发效率优先）
+minimumReleaseAgeStrict: false
+
+# lockfile 与 package.json 不一致时拒绝 install 并要求 --no-frozen-lockfile
+# 防止 pnpm 静默重算 lockfile（monorepo 协作必开）
+preferFrozenLockfile: true
+
+# engines.node/pnpm 不匹配立即报错（24 个 workspace 包的 engines 才生效）
+engineStrict: true
+
+# 团队统一 pnpm 版本（不自动切到 lockfile 里的旧 pnpm）
+managePackageManagerVersions: false
+
+# lockfile 稳定性：直接依赖取最低版本，间接依赖取最高
+# 避免 pnpm 自行选择更高 minor 引起 lockfile 漂移
+resolutionMode: lowest-direct
+
+# 跑脚本（pnpm dev/test/build）前自动 verify node_modules 完整性
+# 默认 false：与"非手动不 install"诉求一致（手动 pnpm install 重建）
+# 遇到 node_modules 莫名丢失时临时开启：
+#   1) pnpm config set verify-deps-before-run true
+#   2) 跑 pnpm dev
+#   3) 解决后 pnpm config set verify-deps-before-run false
+verifyDepsBeforeRun: false
+
+# workspace 包互引走符号链接：packages/* 互相 import 时命中源码，
+# 改动立即生效，无需重装（dist 产物由 tsup/Vite 在 build 阶段产出）。
+# 注意：pnpm 没有 `injectWorkspacePackages` 字段，别误配；如需"非符号链接"行为，
+# 改为 `linkWorkspacePackages: false` 会回退到普通安装，跨包 import 需 build。
+linkWorkspacePackages: true
+
 onlyBuiltDependencies:
   - esbuild
-
-# pnpm 8.10+ 在 deps drift 时会要求 TTY 确认以 purge modules dir；
-# 在 CI / 自动化环境下没有 TTY 会 abort commit hook。
-# 设 false 允许自动 purge（CI 默认行为）。
-confirmModulesPurge: false
 
 allowBuilds:
   '@parcel/watcher': false
@@ -32,20 +72,11 @@ allowBuilds:
   tree-sitter-scala: false
   tree-sitter-typescript: false
 
-minimumReleaseAgeExclude:
-  - '@easbot/mcp@0.3.14'
-  - '@easbot/sdk@0.3.14'
-  - '@easbot/skills@0.3.14'
-  - '@easbot/terminal@0.3.14'
-  - '@easbot/types@0.3.14'
-  - '@easbot/utils@0.3.14'
-  - js-yaml@5.3.0
-
 # 自 pnpm v10 起，overrides 必须放在 pnpm-workspace.yaml，package.json 里的 pnpm.overrides 会被忽略并触发 reinstall。
 # 用 catalogs 统一管理依赖版本（替代过时的 $xxx 占位符），overrides 引用 'catalog:default'。
 catalogs:
   default:
-    '@modelcontextprotocol/sdk': ^1.29.0
+    '@modelcontextprotocol/sdk': ^1.30.0
     '@agentclientprotocol/sdk': ^1.3.0
     '@biomejs/biome': 2.5.5
     '@types/node': ^25.9.5
@@ -57,3 +88,7 @@ overrides:
   '@biomejs/biome': 'catalog:default'
   '@types/node': 'catalog:default'
   esbuild: 'catalog:default'
+
+# 注：已通过 minimumReleaseAgeStrict: false 关闭 24h 冷静期
+# 此白名单保留仅为紧急绕过特定版本发布审核（按需取消注释）
+minimumReleaseAgeExclude: [ '@easbot/agent@0.3.17', '@easbot/codebase@0.3.17', '@easbot/database@0.3.17', '@easbot/gateway@0.3.17', '@easbot/local-model-sdk@0.3.17', '@easbot/mcp@0.3.17', '@easbot/memory@0.3.17', '@easbot/note@0.3.17', '@easbot/ollama-sdk@0.3.17', '@easbot/plugin@0.3.17', '@easbot/sdk@0.3.17', '@easbot/skills@0.3.17', '@easbot/terminal@0.3.17', '@easbot/tui@0.3.17', '@easbot/types@0.3.17', '@easbot/utils@0.3.17' ]
