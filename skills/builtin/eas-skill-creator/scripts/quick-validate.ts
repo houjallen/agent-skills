@@ -218,7 +218,7 @@ export class SkillValidator {
       //   - `[TODO:...]` / `<TODO:...>`  —— 占位符语法
       //   - `<!-- TODO: ... -->` / `<!-- TODO -->`  —— HTML 注释式待办
       // 注意：正文中作为 shell 命令关键字出现的 `placeholder`（如 grep/select-string 示例）**不**应触发。
-      const placeholderRegex = /\[TODO:|\<TODO:|<!--\s*TODO\b/;
+      const placeholderRegex = /\[TODO:|<TODO:|<!--\s*TODO\b/;
       const hasPlaceholders = placeholderRegex.test(content);
 
       const details = {
