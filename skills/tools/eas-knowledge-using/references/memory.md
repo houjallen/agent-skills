@@ -2,11 +2,7 @@
 
 > 本文档是 `easbot memory *`（agent 主 CLI）和 `easbot-memory *`（独立 CLI）命令的**使用手册**。
 >
-> **版本对齐**（2026-09-25 同步）：
->
-> - `@easbot/memory`：**v0.3.25**（独立 npm 包；`package.json` 的 `version`）
-> - `easbot`（主包）：**v0.3.25**（workspace 24 包统一版本）
-> - `node` 要求：`>=22.22.2`（`@easbot/memory` 的 `engines.node`）
+> **版本对齐**：见 [SKILL.md §版本对齐](../SKILL.md)（`@easbot/memory` / `@easbot/note` / `@easbot/codebase` / `easbot` 主包统一 v0.3.26；`node >=22.22.2`）。
 >
 > **重要**：memory 是 **per-agent 存储**（每个 Agent 一份独立 db），区别于 workspace 共享资源。`agentId` 通过 ctx 自动注入（agent CLI 走 bridge 从 `protocol.json` 注入；独立 CLI 读 `.easbot/protocol.json` → `metadata.agentId`）。
 >
@@ -18,7 +14,7 @@
 >
 > **关键差异**：agent CLI 与独立 CLI 子命令**数量相同**（各 12 个），但 **flags 形态 / 是否暴露有差异**。`--agent` / `--workspace-dir` 在**两端都不暴露**（workspaceDir 走 ctx，agentId 走 ctx；CLI parse 函数无这两个 flag 解析）。
 >
-> 本文档与代码同步（2026-09-25）。
+> 本文档与代码同步。
 
 ---
 
@@ -266,7 +262,7 @@ easbot memory forget -c test
 easbot-memory forget --category error_pattern --max-delete 50
 
 # 独立 CLI：按时间窗口删除
-easbot-memory forget --from 2026-01-01 --to 2026-06-30 --max-delete 100
+easbot-memory forget --from <YYYY-MM-DD> --to <YYYY-MM-DD> --max-delete 100
 ```
 
 ---
@@ -390,7 +386,7 @@ easbot memory graph [-q|--query <text>] [--node-id <id>] [--max-depth <n>] [--ma
 easbot-memory graph [--query <q>] [--node-id <id>] [--max-depth <n>|--depth <n>] [--max-nodes <n>] [--max-edges-per-node <n>] [--json]
 ```
 
-> ⚠️ **历史 flags 已删除**（2026-09-25）：
+> ⚠️ **历史 flags 已删除**（参见 ADR 0096/0097）：
 >
 > - `--kind` / `--start-node` / `--scope` / `--type` / `--relation` 全部移除（ADR 0096/0097）
 > - `--agent` flag 移除（agentId 走 ctx）
@@ -589,8 +585,8 @@ easbot memory mcp
 
 - ❌ `easbot memory reset` —— **不存在**；memory 没有 reset 子命令。要清空走 `forget --category=test --max-delete=N`（dry-run 先预览）+ 谨慎操作，或在 agent tool 内调 `memory.reset()` service
 - ❌ `easbot memory format-text` —— 不存在；`format-text` 是包内 helper
-- ❌ `easbot memory recall --query`（漏 query） —— CLI 报错（**注意：Agent CLI 不传 --query 时不会强制报错，但 service 层会要求；独立 CLI 强制必填**）
-- ❌ `easbot memory remember`（漏 `--content` / `--category` / `--importance`） —— CLI 报错
+- ❌ `easbot memory recall --query`（漏 `--query`） —— **agent CLI**：不传 `--query` 时**不强制报错**，但 service 层会要求（agent 暴露的 recall 接口会自动注入）；用户主动跑会拿到空结果。**独立 CLI**：`--query` **强制必填**，不传直接报错退出
+- ❌ `easbot memory remember`（漏 `--content` / `--category` / `--importance`） —— 两端 CLI 都报错
 - ❌ `easbot memory extract`（漏 `--session`） —— CLI 报错
 - ❌ `easbot memory forget`（没传 `--fact-id` / `--category` / `--from` / `--to` 任何一个） —— CLI 报错
 - ❌ `easbot memory forget --query <text>` —— CLI `forget` **不支持 `--query` 文本查询**；只支持 `--fact-id` / `--category` / `--from` / `--to`

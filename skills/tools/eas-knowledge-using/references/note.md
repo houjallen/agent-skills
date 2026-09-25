@@ -2,11 +2,7 @@
 
 > 本文档是 `easbot note *`（agent 主 CLI）和 `easbot-note *`（独立 CLI）命令的**使用手册**。
 >
-> **版本对齐**（2026-09-25 同步）：
->
-> - `@easbot/note`：**v0.3.25**（独立 npm 包；`package.json` 的 `version`）
-> - `easbot`（主包）：**v0.3.25**（workspace 24 包统一版本）
-> - `node` 要求：`>=22.22.2`（`@easbot/note` 的 `engines.node`）
+> **版本对齐**：见 [SKILL.md §版本对齐](../SKILL.md)（`@easbot/note` / `@easbot/codebase` / `@easbot/memory` / `easbot` 主包统一 v0.3.26；`node >=22.22.2`）。
 >
 > **真值源**：
 >
@@ -14,9 +10,9 @@
 > - 独立 CLI：`packages/note/src/cli-handler.ts` + `packages/note/src/commands/*.ts`（`parseXxxOptions`）
 > - 共用底层 handler：`handleNoteCli`（两者入口统一委派到此）
 >
-> **关键差异**：agent CLI 与独立 CLI 子命令**数量相同**（各 11 个），但 **flags / positional 形态有差异**（agent CLI 用 commander space-form `[]`，独立 CLI 用 `=`-form；agent CLI `search` / `graph` / `sync` 等选项集与独立 CLI 不同）。
+> **关键差异**：agent CLI 与独立 CLI 子命令**数量不同**（agent 11 vs 独立 12），但 **flags / positional 形态有差异**（agent CLI 用 commander space-form `[]`，独立 CLI 用 `=`-form；agent CLI `search` / `graph` / `sync` 等选项集与独立 CLI 不同）。
 >
-> 本文档与代码同步（2026-09-25）。
+> 本文档与代码同步（`watch` 子命令已落地，仅独立 CLI）。
 
 ---
 
@@ -39,23 +35,24 @@ note 独立 CLI 的 `cli.ts` 有 `stripGlobalOptions()` 自动剥离 `--cwd` / `
 
 ## 1. 子命令清单：Agent CLI vs 独立 CLI
 
-### 1.1 子命令对照（11 vs 11，子命令集合相同）
+### 1.1 子命令对照（agent 11 vs 独立 12）
 
-| 子命令    | Agent CLI (`easbot note *`) | 独立 CLI (`easbot-note *`) | 子命令数量 |
-| --------- | --------------------------- | -------------------------- | ---------- |
-| `init`    | ✅                          | ✅                         | 双端       |
-| `status`  | ✅                          | ✅                         | 双端       |
-| `doctor`  | ✅                          | ✅                         | 双端       |
-| `search`  | ✅                          | ✅                         | 双端       |
-| `ingest`  | ✅                          | ✅                         | 双端       |
-| `extract` | ✅                          | ✅                         | 双端       |
-| `remove`  | ✅                          | ✅                         | 双端       |
-| `sync`    | ✅                          | ✅                         | 双端       |
-| `graph`   | ✅                          | ✅                         | 双端       |
-| `config`  | ✅                          | ✅                         | 双端       |
-| `mcp`     | ✅                          | ✅                         | 双端       |
+| 子命令    | Agent CLI (`easbot note *`)  | 独立 CLI (`easbot-note *`) | 子命令数量        |
+| --------- | ---------------------------- | -------------------------- | ----------------- |
+| `init`    | ✅                           | ✅                         | 双端              |
+| `status`  | ✅                           | ✅                         | 双端              |
+| `doctor`  | ✅                           | ✅                         | 双端              |
+| `search`  | ✅                           | ✅                         | 双端              |
+| `ingest`  | ✅                           | ✅                         | 双端              |
+| `extract` | ✅                           | ✅                         | 双端              |
+| `remove`  | ✅                           | ✅                         | 双端              |
+| `sync`    | ✅                           | ✅                         | 双端              |
+| `graph`   | ✅                           | ✅                         | 双端              |
+| `config`  | ✅                           | ✅                         | 双端              |
+| `mcp`     | ✅                           | ✅                         | 双端              |
+| `watch`   | ❌（长驻进程不上 agent CLI） | ✅                         | **独立 cli only** |
 
-**统计**：两端都是 **11 个子命令**，**完全覆盖**；但每个子命令的 flags / positional 形态不同。
+**统计**：agent CLI **11 个**，独立 CLI **12 个**；`watch` 是唯一仅独立 CLI 暴露的命令（长驻进程 + 暂未桥接到 agent CLI）。其余 11 个子命令双端覆盖，但 flags / positional 形态不同。
 
 ### 1.2 flags 形态差异（note 特有）
 
@@ -70,7 +67,7 @@ note 特有约束：
 
 ## 2. 各命令详解（Agent CLI vs 独立 CLI flags 对照）
 
-> 本节对 **11 个子命令**逐一对比两端 flags。**关键差异**在每节"flags"表的 "Agent CLI" / "独立 CLI" 列明确标注。
+> 本节对 **12 个子命令**逐一对比两端 flags。**关键差异**在每节"flags"表的 "Agent CLI" / "独立 CLI" 列明确标注。
 
 ### 2.1 `init` — Bootstrap（一次性）
 
@@ -479,22 +476,109 @@ easbot-note mcp [dir]
 
 ---
 
-## 3. 反模式 (Anti-patterns)
+### 2.12 `watch` — 监听 note knowledge 目录 + 自动触发 sync（独立 CLI only）
+
+```bash
+# Agent CLI：不暴露
+❌ easbot note watch                  # unknown command（agent CLI 不桥接）
+
+# 独立 CLI
+easbot-note watch [dir] [--debounce=N] [--interval=N] [--backend=<type>] [--ignore=<pattern>] [--on-load-failure=<throw|warn>] [--help|-h] [--json]
+```
+
+> ⚠️ **仅独立 CLI**（agent CLI 不暴露 watch —— 长驻进程 + 暂未桥接）。
+
+**监听范围**（与 `note sync` 实际扫描的目录严格对齐 —— 不监听整个工作区）：
+
+1. `note.json` 的 `sources`（默认 `['docs']`），每个元素 join workspaceDir
+2. `note.json` 的 `extraPaths`（绝对路径直接用；相对路径 join workspaceDir）
+3. dotdir `<workspaceDir>/.easbot/knowledge`（sync 末尾兜底扫描路径）
+
+每个变化的文件触发一次 debounced `note sync --async`（fire-and-forget），**不在终端执行 sync 的输出**（避免长驻进程被 sync 输出污染）。
+
+**flags**：
+
+| flag                              | Agent CLI | 独立 CLI      | 说明                                                                      |
+| --------------------------------- | --------- | ------------- | ------------------------------------------------------------------------- |
+| `[dir]`                           | ❌        | ✅ positional | 目标工作区（独立 CLI only）                                               |
+| `--debounce=N`                    | ❌        | ✅            | per-path debounce 间隔 ms（默认 200）                                     |
+| `--interval=N`                    | ❌        | ✅            | 保留给 polling 兜底（默认 500）                                           |
+| `--backend=<type>`                | ❌        | ✅            | `fs-events` / `inotify` / `windows` / `brute-force` / `watchman` / `auto` |
+| `--ignore=<pattern>`              | ❌        | ✅（可重复）  | gitignore-style 追加 ignore                                               |
+| `--on-load-failure=<throw\|warn>` | ❌        | ✅            | binding 缺失行为（默认 `warn`）                                           |
+| `--json`                          | ❌        | ✅            | JSON 输出（保留位，未来可能扩展）                                         |
+| `--help` / `-h`                   | ❌        | ✅            | 帮助                                                                      |
+
+**终端实时输出**（阻塞命令，监听期间持续打印）：
+
+```
+[YYYY-MM-DDTHH:MM:SS.sssZ] + ADD    docs/spec.md
+[YYYY-MM-DDTHH:MM:SS.sssZ] ~ CHANGE docs/old.md
+[YYYY-MM-DDTHH:MM:SS.sssZ] → SYNC (debounced by docs/spec.md)
+[YYYY-MM-DDTHH:MM:SS.sssZ] ✓ SYNC done (1889ms)
+[YYYY-MM-DDTHH:MM:SS.sssZ] - UNLINK docs/deleted.md
+```
+
+- `+ ADD` / `~ CHANGE` / `- UNLINK` 着色（绿/黄/红）+ ISO 时间戳
+- `→ SYNC (debounced by <path>)` —— debounce 窗口结束，触发 async sync
+- `✓ SYNC done (<N>ms)` / `✗ SYNC failed: <reason>` —— sync 完成 / 失败
+
+**停止方式**：`Ctrl+C`（SIGINT）或 `kill <pid>`（pid 在 `.easbot/.watcher.pid`）；note 当前**没有** `note stop` 子命令（codebase 有 `codebase stop`），停服需手动读 pid。
+
+**预置条件**：
+
+- 必须先跑 `easbot-note init`（watch **不自动 init**；首次启动若 note.json 缺失 → 友好报错并退出码 1）
+- 至少存在一个 knowledge 目录（默认 `<workspaceDir>/docs` 或 `<workspaceDir>/.easbot/knowledge`）—— 否则抛 `no note knowledge directory found under <rootDir>` 错
+
+**典型用法**：
+
+```bash
+# 基本：默认监听 <cwd>/docs + <cwd>/.easbot/knowledge
+easbot-note watch
+
+# 自定义 debounce（IDE 大文件保存抖动场景推荐 500ms）
+easbot-note watch --debounce=500
+
+# 监听其它 workspace
+easbot-note watch /path/to/workspace
+
+# 显式平台 backend（默认 auto）
+easbot-note watch --backend=inotify
+
+# 追加 ignore（与 codebase watch 同款 gitignore-style）
+easbot-note watch --ignore='*.swp' --ignore='temp/**'
+```
+
+**典型排障**：
+
+| 现象                            | 原因与解决                                                                                            |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `⚠️ No watcher is running ...`  | `@parcel/watcher` binding 缺失且 auto-install 失败；手动 `pnpm install @parcel/watcher-<plat>-<arch>` |
+| `Only N/M watchers started ...` | 部分目录 binding 安装失败；日志查具体哪个；降级后该目录变更不触发 sync                                |
+| 启动后没有任何事件              | 监听目录无文件变化 / ignore 列表过宽 / 配置 sources/extraPaths 与实际目录不一致                       |
+| sync 一直不打印 `✓ SYNC done`   | service layer `note.sync` 抛错（async fire-and-forget）—— 看 `✗ SYNC failed: <reason>` 行             |
+
+---
 
 > 这些是 CLI parser **实际会忽略或报错**的写法，Agent 必须避免。
 
-- ❌ `easbot note doctor --repair` —— note doctor 没有修复选项；修复走 `init --force` 重建
-- ❌ `easbot note remove <id>`（不带 `--confirm` / `--force`） —— 默认 dry-run；要真删必须 `--confirm` / `--force`（agent CLI）/ `-y`（独立 CLI）
-- ❌ `easbot note init` 后不警告 embedding 下载 —— embedding 模型首次下载可能耗时数分钟
-- ❌ 让 Agent 自行执行 `init` —— 涉及 embedding 下载 + workspace 写盘，必须用户授权后手动跑
-- ❌ `easbot note search --kind=document` —— **agent CLI 已移除** `--kind`（commander 报 unknown option）；独立 CLI 静默忽略
-- ❌ `easbot note graph --direction=outgoing` —— **两端都已移除** `--direction`（ADR 0096/0097），agent CLI 报错，独立 CLI 静默忽略
-- ❌ `easbot note graph --depth 2`（agent CLI） —— **agent CLI 不接受 `--depth`**，要用 `--max-depth <n>`
-- ❌ `easbot-note graph --max-depth 2`（独立 CLI） —— **独立 CLI 不接受 `--max-depth`**，要用 `--depth <n>`
-- ❌ `easbot note reset` —— **不存在**；note 没有 reset；要清空走 `init --force` 重建
-- ❌ `easbot note format-text` —— 不存在；`format-text` 是包内 helper
-- ❌ 让 Agent 自己跑 `remove <path> --confirm` —— destructive，必须显式用户授权
-- ❌ `easbot-note remove --force` —— **独立 CLI 不暴露** `--force`（用 `--confirm` / `-y`）
+| 命令写法                                                   | 错误类型                                                      | 替代写法                                                                                       |
+| ---------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| ❌ `easbot note doctor --repair`                           | agent CLI 报 unknown；独立 CLI 无 `--repair`                  | `easbot-note init --force` 重建                                                                |
+| ❌ `easbot note remove <id>`（无 `--confirm` / `--force`） | 默认 dry-run，不真删                                          | agent CLI 加 `--confirm` / `--force`；独立 CLI 加 `--confirm` / `-y`                           |
+| ❌ `easbot note init` 后不警告 embedding 下载              | embedding 模型首次下载耗时数分钟                              | init 前明确告知用户耗时 + 需授权                                                               |
+| ❌ Agent 自行执行 `init`                                   | 涉及 embedding 下载 + workspace 写盘                          | 必须用户授权后手动跑                                                                           |
+| ❌ `easbot note search --kind=document`                    | agent CLI 报 unknown option；独立 CLI 静默忽略                | 移除 `--kind` flag（已废弃）                                                                   |
+| ❌ `easbot note graph --direction=outgoing`                | 两端都已移除（ADR 0096/0097）                                 | 移除 `--direction` flag                                                                        |
+| ❌ `easbot note graph --depth 2`（agent CLI）              | agent CLI 不接受 `--depth`                                    | 改用 `--max-depth <n>`                                                                         |
+| ❌ `easbot-note graph --max-depth 2`（独立 CLI）           | 独立 CLI 不接受 `--max-depth`                                 | 改用 `--depth <n>`                                                                             |
+| ❌ `easbot note reset`                                     | 不存在；note 无 reset                                         | `easbot-note init --force` 重建                                                                |
+| ❌ `easbot note format-text`                               | 不存在；`format-text` 是包内 helper                           | 不调用（无对应 CLI）                                                                           |
+| ❌ Agent 自己跑 `remove <path> --confirm`                  | destructive                                                   | 必须显式用户授权                                                                               |
+| ❌ `easbot-note remove --force`                            | 独立 CLI 不暴露 `--force`                                     | 改用 `--confirm` / `-y`                                                                        |
+| ❌ `easbot note watch`                                     | agent CLI 不暴露（长驻进程 + 暂未桥接）                       | `easbot-note watch`（独立 CLI）                                                                |
+| ❌ `easbot-note watch` 后未先 `easbot-note init`           | watch 不自动 init；首次启动若找不到 knowledge 目录 → 退出码 1 | 先跑 `easbot-note init`，确保 `<workspaceDir>/docs` 或 `<workspaceDir>/.easbot/knowledge` 存在 |
+| ❌ 期望 watch 跑 sync 时打印详细结果                       | watch 是 fire-and-forget async sync；结果在 service log       | 看 `✗ SYNC failed: <reason>` 行而非终端                                                        |
 
 ---
 
@@ -502,12 +586,12 @@ easbot-note mcp [dir]
 
 note CLI 支持 4 种典型调用场景：
 
-| 场景                       | 命令                                    | 适用                                                           |
-| -------------------------- | --------------------------------------- | -------------------------------------------------------------- |
-| **Agent 主 CLI（LLM）**    | `easbot note <op>`                      | LLM 编程场景；commander space-form flags（`--flag <value>`）   |
-| **独立 CLI（standalone）** | `easbot-note <op>`                      | 调试 / 一次性操作；独立 CLI 接受 `=`-form / positional `[dir]` |
-| **MCP 客户端**             | 通过 `easbot note mcp` 暴露的 8 个 tool | 其他 AI Agent 通过 MCP 协议消费                                |
-| **脚本 / CI**              | 直接调用任一 CLI                        | 定时任务 / 自动化流水线                                        |
+| 场景                       | 命令                                    | 适用                                                                                 |
+| -------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------ |
+| **Agent 主 CLI（LLM）**    | `easbot note <op>`                      | LLM 编程场景；commander space-form flags（`--flag <value>`）；**不含 `watch`**       |
+| **独立 CLI（standalone）** | `easbot-note <op>`                      | 调试 / 一次性操作 / 长驻进程（`watch`）；独立 CLI 接受 `=`-form / positional `[dir]` |
+| **MCP 客户端**             | 通过 `easbot note mcp` 暴露的 8 个 tool | 其他 AI Agent 通过 MCP 协议消费                                                      |
+| **脚本 / CI**              | 直接调用任一 CLI                        | 定时任务 / 自动化流水线                                                              |
 
 **核心约束**：
 
@@ -517,3 +601,4 @@ note CLI 支持 4 种典型调用场景：
 - **`--dir <path>` agent CLI only**：仅 `status` / `doctor` / `ingest` 三个子命令暴露（commander space-form）；独立 CLI **完全不接受** `--dir <path>` flag，workspaceDir 走 ctx / `--cwd` 全局选项 / positional `[dir]`
 - **`--kind` / `--direction` 已废弃**：agent CLI 报 unknown option；独立 CLI 静默忽略（保持向后兼容旧脚本）
 - **`graph` 命令 schema 完全重构**（ADR 0097）：agent CLI 是新版（`--max-depth` / `--mode` / `--relation-types`）；独立 CLI 是简化版（`--depth`）
+- **`watch` 仅独立 CLI**：长驻进程 + 暂未桥接到 agent CLI；阻塞命令，实时打印文件变化事件 + sync 触发/完成链路
