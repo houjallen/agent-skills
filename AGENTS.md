@@ -452,10 +452,98 @@ return ReactDOMServer.renderToStaticMarkup(
 - ❌ 列表项延续段落**不加空行**
 - ❌ 代码块内**单行超 100 字符的函数调用**（不主动断行）
 - ❌ 表格单元格超 100 字符
-- ❌ 用 `<!-- prettier-ignore -->` 回避格式问题（应改源文件结构）
 - ❌ 用 markdown 注释（`<!-- ... -->`）伪装语义（HTML 注释不属于 markdown 语义）
 
-#### 12.1.6 自检命令
+#### 12.1.6 模板语法表格（handlebars / 占位符）
+
+模板代码块内的**表格行**含 `{{...}}` 占位符时，prettier 会把单行硬拆成多行（每列 1 行 + 独立 `|` 行），破坏模板语义。
+
+> **错误示例**（prettier 处理后会变成下方"破坏后"形式）：
+
+<!-- prettier-ignore-start -->
+````markdown
+```handlebars
+{{#each items}}
+| {{name}} | {{priority}} | {{description}} | {{status}} |
+{{/each}}
+```
+````
+<!-- prettier-ignore-end -->
+
+> **破坏后**（prettier 实际输出）：
+>
+> ````text
+> ```handlebars
+> {{#each items}}
+>   |
+>   {{name}}
+>   |
+>   {{priority}}
+>   |
+>   {{description}}
+>   |
+>   {{status}}
+>   |
+> {{/each}}
+> ```
+> ````
+>
+> handlebars 解析时变成 8 个独立段落，模板逻辑丢失。
+
+**强制**：含 `{{...}}` / `<%...%>` / `#{...}` 等模板语法的代码块 MUST 用 `<!-- prettier-ignore-start -->` + `<!-- prettier-ignore-end -->` 包围：
+
+````markdown
+<!-- prettier-ignore-start -->
+```handlebars
+{{#each items}}
+| {{name}} | {{priority}} | {{description}} | {{status}} |
+{{/each}}
+```
+<!-- prettier-ignore-end -->
+````
+
+> 例：本次发现 `skills/builtin/eas-agent-evolution/references/file-modification-rules.md` §循环块使用规范 缺此保护已被破坏。
+
+#### 12.1.7 表格列宽强制 wrap
+
+当表格单元格**单行内容**超 `printWidth: 100` 字符（典型场景：长 URL / i18n key + 长翻译），prettier 会**硬 wrap 到下一行**变成无 `|` 前缀的孤儿文本，破坏表格 markdown 语法：
+
+```markdown
+| key                       | zh-CN    | en-US                                                                       |
+| ------------------------- | -------- | --------------------------------------------------------------------------- |
+| `agent.create.success`    | 创建成功 | Created successfully                                                        |
+| `key.with.very.long.name` | 短中文   | Very long English text that exceeds 100 chars and gets wrapped to next line |
+```
+
+> 上例最后一行原文是 1 行，但 prettier wrap 后第三列 `Very long English text that exceeds 100 chars and gets wrapped to next line` 变成无 `|` 前缀的孤儿行。
+
+**强制**：
+
+- 表格单元格内容 MUST ≤ 100 字符；超长内容**拆单元格**或**拆多列**。
+- 长 URL 用 `<url>` 引用语法或 `[描述](url)` 链接语法，避免作为表格裸内容。
+
+#### 12.1.8 嵌套代码块 / 反引号转义
+
+代码块内嵌套代码块时（Markdown 教程 / 示例文档），prettier 会把内层 ` ``` ` 误识别为外层代码块结束符。**强制**：
+
+- 外层用 4+ 反引号 ` ``` ` 包裹，内层用 3 反引号 ` ``` `。
+- 例：
+
+`````markdown
+````markdown
+外层语言标记
+
+```javascript
+内层代码;
+```
+````
+`````
+
+````
+
+> 4 反引号外层 + 3 反引号内层 = prettier 安全识别。
+
+#### 12.1.9 自检命令
 
 ```bash
 # 单文件
@@ -936,3 +1024,4 @@ docs/decisions/
 | §13 提示词规范     | 评审维度 3/4 的规则来源                                                       |
 
 > **一句话定位**：**§10 保证「能提交」，§14 保证「值得合入」。** 两者串联才能确保仓库质量。
+````
