@@ -15,7 +15,7 @@
 - **scripts 区分**：
   - 根 `scripts/` —— 项目维护脚本（changelog / version bump / docs 同步），由维护者或 CI 调用。
   - `skills/<cat>/<name>/scripts/` —— 技能包内部脚本，由加载该技能的 Agent 调用。
-  两者都遵循 §12 规范，只是归属层级不同。
+    两者都遵循 §12 规范，只是归属层级不同。
 
 ## 2. 不强制 CI 门禁的工具
 
@@ -106,31 +106,31 @@ agent-skills/
 
 ### 5.1 项目维护脚本（根 `scripts/`）
 
-| 用途 | 命令 | 依赖 |
-| --- | --- | --- |
-| 为 `docs/*.md` 补 frontmatter | `npx tsx scripts/docs_add_frontmatter.ts` | `js-yaml` |
-| 同步 docs 目录（生成索引、修正 name/category） | `npx tsx scripts/docs_sync_automation.ts [--validate]` | `js-yaml` |
-| 生成 CHANGELOG | `npx tsx scripts/generate-changelog.ts [version]` | 零依赖 |
-| 手动升级版本号 + tag | `npx tsx scripts/bump-version.ts <major\|minor\|patch>` | 零依赖 |
-| pre-commit 版本升级（默认禁用，`ENABLE_VERSION_BUMP=1` 启用） | `npx tsx scripts/pre-commit-version.ts` | 零依赖 |
-| 生成 `.claude-plugin/marketplace.json` | `npx tsx scripts/generate-plugin.ts [output-dir]` | 零依赖 |
-| 生成 `.well-known/agent-skills/index.json`（v1，清空 + 重建） | `npx tsx scripts/generate-well-known.ts [srcDir] [outDir] [--no-copy] [--no-clean] [--validate]` | 零依赖 |
-| 校验 `.well-known/agent-skills/index.json` 是否符合 v1 schema | `node docs/schemas/agent-skills/validate-v1.cjs` 或 `npm run well-known:validate` | 零依赖 |
-| 发布前全量技能校验 | `bash scripts/publish.sh` / `scripts/publish.ps1` | 零依赖 |
+| 用途                                                          | 命令                                                                                             | 依赖      |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | --------- |
+| 为 `docs/*.md` 补 frontmatter                                 | `npx tsx scripts/docs_add_frontmatter.ts`                                                        | `js-yaml` |
+| 同步 docs 目录（生成索引、修正 name/category）                | `npx tsx scripts/docs_sync_automation.ts [--validate]`                                           | `js-yaml` |
+| 生成 CHANGELOG                                                | `npx tsx scripts/generate-changelog.ts [version]`                                                | 零依赖    |
+| 手动升级版本号 + tag                                          | `npx tsx scripts/bump-version.ts <major\|minor\|patch>`                                          | 零依赖    |
+| pre-commit 版本升级（默认禁用，`ENABLE_VERSION_BUMP=1` 启用） | `npx tsx scripts/pre-commit-version.ts`                                                          | 零依赖    |
+| 生成 `.claude-plugin/marketplace.json`                        | `npx tsx scripts/generate-plugin.ts [output-dir]`                                                | 零依赖    |
+| 生成 `.well-known/agent-skills/index.json`（v1，清空 + 重建） | `npx tsx scripts/generate-well-known.ts [srcDir] [outDir] [--no-copy] [--no-clean] [--validate]` | 零依赖    |
+| 校验 `.well-known/agent-skills/index.json` 是否符合 v1 schema | `node docs/schemas/agent-skills/validate-v1.cjs` 或 `npm run well-known:validate`                | 零依赖    |
+| 发布前全量技能校验                                            | `bash scripts/publish.sh` / `scripts/publish.ps1`                                                | 零依赖    |
 
 > 根 `scripts/` 在 `package.json` 中以 `npm run` 别名暴露（如 `npm run plugin:generate`）。
 > **校验技能结构请用 `skills/builtin/eas-skill-creator/scripts/quick-validate.ts`（§5.2），不要用根 `scripts/` 同名/同义脚本。**
 
 ### 5.2 技能包内部脚本
 
-| 用途 | 命令 | 依赖 |
-| --- | --- | --- |
-| 校验单个技能 | `npx tsx skills/builtin/eas-skill-creator/scripts/quick-validate.ts <skill-dir>` | `js-yaml` |
-| 初始化技能骨架 | `npx tsx skills/builtin/eas-skill-creator/scripts/init-skill.ts <name> --path <dest> [--resources scripts,references,assets] [--examples]` | 零依赖 |
-| 打包为 `.skill`（ZIP） | `npx tsx skills/builtin/eas-skill-creator/scripts/package-skill.ts <skill-dir> [output-dir]` | `js-yaml` + `jszip` |
-| Agent 配置：初始化 / 备份 / 校验 / 增量更新 | `npx tsx skills/builtin/eas-agent-evolution/scripts/{init,backup-config,validate-config,update}-agent.ts ...` | 零依赖 |
-| 注册定时备份任务（唯一允许 `import @easbot/agent`） | `npx tsx skills/builtin/eas-agent-evolution/scripts/register-backup-task.ts <register\|list\|delete\|help> [--cron <expr>]` | `@easbot/agent` |
-| 初始化规划三件套 / 检查完成度 | `npx tsx skills/builtin/eas-planning-writer/scripts/{init-planning-session,check-complete}.ts ...` | 零依赖 |
+| 用途                                                | 命令                                                                                                                                       | 依赖                |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
+| 校验单个技能                                        | `npx tsx skills/builtin/eas-skill-creator/scripts/quick-validate.ts <skill-dir>`                                                           | `js-yaml`           |
+| 初始化技能骨架                                      | `npx tsx skills/builtin/eas-skill-creator/scripts/init-skill.ts <name> --path <dest> [--resources scripts,references,assets] [--examples]` | 零依赖              |
+| 打包为 `.skill`（ZIP）                              | `npx tsx skills/builtin/eas-skill-creator/scripts/package-skill.ts <skill-dir> [output-dir]`                                               | `js-yaml` + `jszip` |
+| Agent 配置：初始化 / 备份 / 校验 / 增量更新         | `npx tsx skills/builtin/eas-agent-evolution/scripts/{init,backup-config,validate-config,update}-agent.ts ...`                              | 零依赖              |
+| 注册定时备份任务（唯一允许 `import @easbot/agent`） | `npx tsx skills/builtin/eas-agent-evolution/scripts/register-backup-task.ts <register\|list\|delete\|help> [--cron <expr>]`                | `@easbot/agent`     |
+| 初始化规划三件套 / 检查完成度                       | `npx tsx skills/builtin/eas-planning-writer/scripts/{init-planning-session,check-complete}.ts ...`                                         | 零依赖              |
 
 **全量"事实上的 test suite"**（CI 跑、Agent 自检都可用）：
 
@@ -159,13 +159,13 @@ done
 
 **第二步：同步更新项目级文件**
 
-| # | 文件 | 必改 |
-| --- | --- | --- |
-| 1 | `AGENTS.md` §3 | 目录树追加新技能 |
-| 2 | `README.md` + `README.en.md` | "目录结构"块新增一行；"内置技能一览"或"工具类技能"表新增一行 |
-| 3 | `.claude-plugin/marketplace.json` | `plugins[]` 追加 `{name, description, source, category, author}` |
-| 4 | `skills/builtin/eas-skill-using/SKILL.md` | **仅 `builtin` 类别**：能力索引 + 决策辅助流程图 + 场景映射 各加一节；必要时 bump `version`。（`tools` 类技能不进入能力索引，由 Agent 按 frontmatter description 自行匹配） |
-| 5 | `package.json` | **仅元信息**：仅当新技能引入新第三方依赖时调整 `devDependencies`；用户明确要求"不动 `package.json`"时跳过 |
+| #   | 文件                                      | 必改                                                                                                                                                                        |
+| --- | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | `AGENTS.md` §3                            | 目录树追加新技能                                                                                                                                                            |
+| 2   | `README.md` + `README.en.md`              | "目录结构"块新增一行；"内置技能一览"或"工具类技能"表新增一行                                                                                                                |
+| 3   | `.claude-plugin/marketplace.json`         | `plugins[]` 追加 `{name, description, source, category, author}`                                                                                                            |
+| 4   | `skills/builtin/eas-skill-using/SKILL.md` | **仅 `builtin` 类别**：能力索引 + 决策辅助流程图 + 场景映射 各加一节；必要时 bump `version`。（`tools` 类技能不进入能力索引，由 Agent 按 frontmatter description 自行匹配） |
+| 5   | `package.json`                            | **仅元信息**：仅当新技能引入新第三方依赖时调整 `devDependencies`；用户明确要求"不动 `package.json`"时跳过                                                                   |
 
 > `CHANGELOG.md` 由 `scripts/generate-changelog.ts` 在发布时自动生成，**不要手动编辑**。
 
@@ -190,11 +190,11 @@ done
 
 ### 7.1 三种合法前缀（正则见 `.husky/commit-msg`）
 
-| 前缀 | 适用 |
-| --- | --- |
-| `[skill: <name>]` | 改一个技能（影响 `skills/<cat>/<name>/`） |
-| `[repo]` | 改仓库维护（根 `scripts/` / `AGENTS.md` / `README*` / `.github/` / `.husky/` / `package.json` / CI） |
-| `[auto]` | CI / release bot 写入（自动版本号、CHANGELOG 生成） |
+| 前缀              | 适用                                                                                                 |
+| ----------------- | ---------------------------------------------------------------------------------------------------- |
+| `[skill: <name>]` | 改一个技能（影响 `skills/<cat>/<name>/`）                                                            |
+| `[repo]`          | 改仓库维护（根 `scripts/` / `AGENTS.md` / `README*` / `.github/` / `.husky/` / `package.json` / CI） |
+| `[auto]`          | CI / release bot 写入（自动版本号、CHANGELOG 生成）                                                  |
 
 `<name>` 必须为 hyphen-case。`<type> ∈ {feat, fix, docs, test, chore, refactor, perf, ci}`，可附 `(scope)`。
 
@@ -268,12 +268,12 @@ git log -1                                            # 验证
 
 **最小化声明模板**：
 
-| commit 类型 | msg 必含字段 |
-|---|---|
-| `[skill: <name>] docs:` 评审修复 | `评审依据: docs/decisions/00NN-review-<topic>.md` |
-| `[skill: <name>] feat:` 新建技能 | `决策文档: docs/decisions/00NN-<topic>.md` |
-| `[skill: <name>] docs:` 跨技能协议变更 | `关联 ADR: docs/decisions/00NN-<topic>.md` |
-| `[repo] docs:` 评审规范修订 | `触发评审: docs/decisions/00NN-review-<topic>.md` |
+| commit 类型                            | msg 必含字段                                      |
+| -------------------------------------- | ------------------------------------------------- |
+| `[skill: <name>] docs:` 评审修复       | `评审依据: docs/decisions/00NN-review-<topic>.md` |
+| `[skill: <name>] feat:` 新建技能       | `决策文档: docs/decisions/00NN-<topic>.md`        |
+| `[skill: <name>] docs:` 跨技能协议变更 | `关联 ADR: docs/decisions/00NN-<topic>.md`        |
+| `[repo] docs:` 评审规范修订            | `触发评审: docs/decisions/00NN-review-<topic>.md` |
 
 **反模式（绝对禁止）**：
 
@@ -283,18 +283,18 @@ git log -1                                            # 验证
 
 ### 7.4 Hooks
 
-| Hook | 行为 |
-| --- | --- |
+| Hook         | 行为                                                                                       |
+| ------------ | ------------------------------------------------------------------------------------------ |
 | `pre-commit` | **默认禁用**（仅打印提示）；`ENABLE_VERSION_BUMP=1` 时升级版本 + 重生 CHANGELOG + 创建 tag |
-| `commit-msg` | **强制**：校验首行正则；不合规直接拒绝 |
-| `pre-push` | 未配置 |
+| `commit-msg` | **强制**：校验首行正则；不合规直接拒绝                                                     |
+| `pre-push`   | 未配置                                                                                     |
 
 ### 7.5 CI 契约
 
-| Workflow | 触发 | 动作 |
-| --- | --- | --- |
-| `ci.yml` | `push` / `pull_request` 到 `main` / `develop` | 跑 §5.2 顶部全量 `quick-validate`；任一失败 → workflow 失败 |
-| `release.yml` | `push` tag `easbot-skills@*` 或 `workflow_dispatch` | 创建 GitHub Release + 校验版本号格式（**不打 npm 包**） |
+| Workflow      | 触发                                                | 动作                                                        |
+| ------------- | --------------------------------------------------- | ----------------------------------------------------------- |
+| `ci.yml`      | `push` / `pull_request` 到 `main` / `develop`       | 跑 §5.2 顶部全量 `quick-validate`；任一失败 → workflow 失败 |
+| `release.yml` | `push` tag `easbot-skills@*` 或 `workflow_dispatch` | 创建 GitHub Release + 校验版本号格式（**不打 npm 包**）     |
 
 > Agent 修改技能后**本地先跑一次** §5.2 顶部循环；不依赖 CI 兜底。
 
@@ -369,7 +369,106 @@ git log -1                                            # 验证
   - `js-yaml` — 仅 `quick-validate.ts` / `package-skill.ts`。
   - `jszip` — 仅 `package-skill.ts`。
   - `@easbot/agent` — 仅 `eas-agent-evolution/scripts/register-backup-task.ts`。
+
   其它需求落地到调用方环境，不入仓。
+
+### 12.1 Markdown 书写强制规范 (Markdown Authoring Conventions)
+
+> **目的**：保证 `npm run format:fix` 跑 prettier 后**零语义破坏**。
+>
+> 配置：根目录 [`prettier.config.mjs`](file:///e:/work/apps/eas/agent-skills/prettier.config.mjs) 通过 `overrides` 把 `*.md` / `*.mdx` 设为 `printWidth: 100` + `proseWrap: 'preserve'`。
+>
+> **前置原则**：本仓库 markdown 文件 = **作者源码**（不是渲染产物）；**视觉分组 MUST 用空行或标题分隔**，不能用依赖软换行的"伪段落"。
+
+#### 12.1.1 列表项延续段落
+
+**正确**（prettier 不会破坏）：在列表项的延续段落前**显式空行 + 缩进**：
+
+```markdown
+- **scripts 区分**：
+  - 根 `scripts/` — 维护脚本。
+  - `skills/.../scripts/` — 技能脚本。
+
+  两者都遵循 §12 规范。
+```
+
+**错误**（会被 prettier 合并到上一子项）：无空行的延续段落会被 prettier 当成「子项的延续文字」吸到上一行末尾：
+
+```markdown
+- **scripts 区分**：
+  - 根 `scripts/` — 维护脚本。
+  - `skills/.../scripts/` — 技能脚本。
+    两者都遵循 §12 规范。 ← 被 prettier 合并到上一行
+```
+
+> **检测规则**：写完后跑 `npx prettier --check <file>.md`；若发现"独立段落被合并"——加空行。
+
+#### 12.1.2 Blockquote 多行提示
+
+**正确**（prettier preserve 保留）：每行独立 blockquote：
+
+```markdown
+> 本文件为 Agent 协作约定。
+> 本仓库是 EASBot agent-skills 管理项目。
+> 核心产物是 `skills/**/SKILL.md`。
+```
+
+**错误**：把多行提示合并成单行——prettier 不会再破坏，但**渲染上等价于单条提示**，失去独立条目的视觉分界。
+
+#### 12.1.3 代码块内多行调用
+
+**正确**：把长函数调用**主动断行**到 ≤ 100 字符：
+
+```javascript
+return ReactDOMServer.renderToStaticMarkup(
+  React.createElement(IconComponent, {
+    color,
+    size: String(size),
+  }),
+);
+```
+
+**错误**：单行超长调用（prettier 会按 `printWidth: 100` 自动 wrap，但 wrap 后的格式可能不符合作者意图）。示例原版在 `skills/tools/eas-pptx/references/pptxgenjs.md` §Render to SVG，作者意图 3 行被合并为 1 行：
+
+````markdown
+```javascript
+return ReactDOMServer.renderToStaticMarkup(
+  React.createElement(IconComponent, { color, size: String(size) }),
+);
+```
+````
+
+> **优先主动断行**——比交给 prettier 自动 wrap 更可控。
+
+#### 12.1.4 表格列宽
+
+- 表格列**最长内容** MUST ≤ 100 字符（markdown 文件 `printWidth`）。
+- 表格行 MUST 在前后留空行与上下文分隔。
+- 列分隔符 `|` 周围保留单空格（prettier 自动规范化）。
+
+#### 12.1.5 强制反模式 (Mandatory Anti-Patterns)
+
+- ❌ **依赖软换行的视觉分组**（prettier 视为可合并）
+- ❌ 列表项延续段落**不加空行**
+- ❌ 代码块内**单行超 100 字符的函数调用**（不主动断行）
+- ❌ 表格单元格超 100 字符
+- ❌ 用 `<!-- prettier-ignore -->` 回避格式问题（应改源文件结构）
+- ❌ 用 markdown 注释（`<!-- ... -->`）伪装语义（HTML 注释不属于 markdown 语义）
+
+#### 12.1.6 自检命令
+
+```bash
+# 单文件
+npx prettier --check skills/builtin/<name>/SKILL.md
+
+# 全量
+npx prettier --check '**/*.md' '**/*.mdx'
+
+# 发现合并破坏时定位（找出"删除空行"的真正合并点）
+git diff HEAD -- <file>.md | grep -E '^-[^-].*$' | head -50
+```
+
+> **改动后 MUST 跑自检**——若 `prettier --check` 通过但视觉上仍有"段落被合并"——回看 §12.1.1 加空行。
 
 ## 13. 提示词规范 (Prompt Conventions)
 
@@ -395,15 +494,15 @@ git log -1                                            # 验证
 
 #### 13.3.1 关键词体系（5 级）
 
-| 关键词 | 含义 | 适用 | 强度 |
-| --- | --- | --- | --- |
-| `CRITICAL` | 关键约束：覆盖所有其它指令 | 不可逆操作 / 安全红线 / 模式切换 | 最高 |
-| `NEVER` / `MUST NOT` | 绝对禁止：违反 = 失败 | 安全、不可逆操作、硬约束 | 高 |
-| `MUST` / `REQUIRED` | 强制：违反 = 契约失败 | 校验、契约、协议字段 | 高 |
-| `ALWAYS` | 必须执行的动作 | 核心工作流规则、必做操作 | 中高 |
-| `SHOULD` / `SHOULD NOT` | 推荐：有理由可违反 + 需说明 | 最佳实践 | 中 |
-| `DO NOT` | 不推荐但不绝对禁止 | 反模式、可调整项 | 中 |
-| `MAY` | 可选：实现者自决 | 扩展点、可选参数 | 低 |
+| 关键词                  | 含义                        | 适用                             | 强度 |
+| ----------------------- | --------------------------- | -------------------------------- | ---- |
+| `CRITICAL`              | 关键约束：覆盖所有其它指令  | 不可逆操作 / 安全红线 / 模式切换 | 最高 |
+| `NEVER` / `MUST NOT`    | 绝对禁止：违反 = 失败       | 安全、不可逆操作、硬约束         | 高   |
+| `MUST` / `REQUIRED`     | 强制：违反 = 契约失败       | 校验、契约、协议字段             | 高   |
+| `ALWAYS`                | 必须执行的动作              | 核心工作流规则、必做操作         | 中高 |
+| `SHOULD` / `SHOULD NOT` | 推荐：有理由可违反 + 需说明 | 最佳实践                         | 中   |
+| `DO NOT`                | 不推荐但不绝对禁止          | 反模式、可调整项                 | 中   |
+| `MAY`                   | 可选：实现者自决            | 扩展点、可选参数                 | 低   |
 
 #### 13.3.2 优先级排序（从高到低）
 
@@ -460,20 +559,20 @@ git log -1                                            # 验证
 
 #### Token 上限
 
-| 范围 | 上限 | 来源 |
-| --- | --- | --- |
-| 系统提示词（自定义部分，不含工具定义） | **< 6,000 tokens** | prompt-validation §2.3 |
-| Skill SKILL.md 主体 | **< 500 行** | §13.6 / §4.3 |
-| description | **≤ 500 字符**（SHOULD）/ **≤ 1024 字符**（MUST） | skill-spec §9.3.2 |
+| 范围                                   | 上限                                              | 来源                   |
+| -------------------------------------- | ------------------------------------------------- | ---------------------- |
+| 系统提示词（自定义部分，不含工具定义） | **< 6,000 tokens**                                | prompt-validation §2.3 |
+| Skill SKILL.md 主体                    | **< 500 行**                                      | §13.6 / §4.3           |
+| description                            | **≤ 500 字符**（SHOULD）/ **≤ 1024 字符**（MUST） | skill-spec §9.3.2      |
 
 #### 上下文衰减曲线（必须知晓）
 
-| Token 累计 | 遵循度 |
-| --- | --- |
-| < 80K | 稳定 |
+| Token 累计 | 遵循度   |
+| ---------- | -------- |
+| < 80K      | 稳定     |
 | 80K – 120K | 开始衰减 |
-| > 120K | 显著衰减 |
-| > 180K | 严重衰减 |
+| > 120K     | 显著衰减 |
+| > 180K     | 严重衰减 |
 
 > **推论**：不要把"超出 6K tokens 的领域知识"塞进系统提示；改用按需加载（references/ 或工具调用）。
 
@@ -491,10 +590,10 @@ LLM 注意力呈 U 型分布——开头最高、中间最低、结尾次高（p
 
 每条工具使用规则 MUST 同时指定「做什么」+「不做什么」：
 
-| ❌ 单向 | ✅ 双向 |
-| --- | --- |
-| `Use the Read tool for reading files.` | `Use the Read tool for reading files instead of cat/head/tail.` |
-| | `Do NOT use bash commands (cat, head, tail, sed, awk) for file operations.` |
+| ❌ 单向                                | ✅ 双向                                                                     |
+| -------------------------------------- | --------------------------------------------------------------------------- |
+| `Use the Read tool for reading files.` | `Use the Read tool for reading files instead of cat/head/tail.`             |
+|                                        | `Do NOT use bash commands (cat, head, tail, sed, awk) for file operations.` |
 
 **适用场景**：所有工具使用规则、所有"建议性"实践。**反模式**：只写"用 X"不写"不用 Y"——给 Agent 留了规避空间。
 
@@ -504,28 +603,28 @@ LLM 注意力呈 U 型分布——开头最高、中间最低、结尾次高（p
 
 #### 13.6.1 项目级规范反模式（Skill / SKILL.md）
 
-|❌ 不要 | ✅ 应该 |
-| --- | --- |
-| 「使用本技能当…」 | 「该技能应在…时使用」 |
-| 「这个工具很好用」 | 删掉 / 替换为具体能力 |
-| 「你可以…」模糊指令 | 「MUST …」「SHOULD …」明确指令 |
+| ❌ 不要                            | ✅ 应该                                       |
+| ---------------------------------- | --------------------------------------------- |
+| 「使用本技能当…」                  | 「该技能应在…时使用」                         |
+| 「这个工具很好用」                 | 删掉 / 替换为具体能力                         |
+| 「你可以…」模糊指令                | 「MUST …」「SHOULD …」明确指令                |
 | README 风格"项目介绍"塞进 SKILL.md | 仅描述触发条件 + 入口；详情下沉 `references/` |
-| 链接用 `@references/...` | 用标准相对路径 `[xxx.md](references/xxx.md)` |
-| 中文段落夹杂大段英文 | 中文为主，英文仅保留专有名词 + 代码 / 命令 |
-| `SKILL.md` 堆 500+ 行 | 拆到 `references/`，主入口保持 < 500 行 |
+| 链接用 `@references/...`           | 用标准相对路径 `[xxx.md](references/xxx.md)`  |
+| 中文段落夹杂大段英文               | 中文为主，英文仅保留专有名词 + 代码 / 命令    |
+| `SKILL.md` 堆 500+ 行              | 拆到 `references/`，主入口保持 < 500 行       |
 
 #### 13.6.2 提示词生成反模式（System Prompt 编写）
 
 > 编写 `eas-prompt-creator` 输出的 Agent / Tool / Task / Command / Mode / Session / Feature / Context 八大类型 prompt 时 MUST 规避以下 6 类反模式：
 
-| 反模式 | 问题 | 解决方案 |
-| --- | --- | --- |
-| **Prompt Chains 伪装成 Agent**（`Step 1... Step 2...` 机械步骤） | 模型机械执行而非自主决策 | 告知目标与约束，让模型决定步骤 |
-| **Flattery Engineering**（"你是一位极其优秀、经验丰富的高级工程师..."） | 浪费 tokens；不提升输出质量 | 删除奉承语言，用 tokens 写实际规则 |
-| **Knowledge Dumps**（塞入 5000 tokens API 文档） | 消耗上下文窗口，加速 context rot | 按需加载（`get_api_docs` 工具调用） |
-| **Repeating Tool Descriptions**（重复工具定义中已有的说明） | 冗余信息 | 只写战略引导（何时用 / 为何优先 / 优先级） |
-| **Missing Failure Handling**（无工具失败兜底） | 模型无限重试失败的工具调用 | 必须含：「工具调用被拒时，不重试同一调用；分析原因后调整策略」 |
-| **Ignoring Context Window Decay**（超长 prompt 无摘要策略） | 200K context ≠ 200K 有效 context | 保持 prompt 精简 + 摘要策略 + 首尾放置关键规则 |
+| 反模式                                                                  | 问题                             | 解决方案                                                       |
+| ----------------------------------------------------------------------- | -------------------------------- | -------------------------------------------------------------- |
+| **Prompt Chains 伪装成 Agent**（`Step 1... Step 2...` 机械步骤）        | 模型机械执行而非自主决策         | 告知目标与约束，让模型决定步骤                                 |
+| **Flattery Engineering**（"你是一位极其优秀、经验丰富的高级工程师..."） | 浪费 tokens；不提升输出质量      | 删除奉承语言，用 tokens 写实际规则                             |
+| **Knowledge Dumps**（塞入 5000 tokens API 文档）                        | 消耗上下文窗口，加速 context rot | 按需加载（`get_api_docs` 工具调用）                            |
+| **Repeating Tool Descriptions**（重复工具定义中已有的说明）             | 冗余信息                         | 只写战略引导（何时用 / 为何优先 / 优先级）                     |
+| **Missing Failure Handling**（无工具失败兜底）                          | 模型无限重试失败的工具调用       | 必须含：「工具调用被拒时，不重试同一调用；分析原因后调整策略」 |
+| **Ignoring Context Window Decay**（超长 prompt 无摘要策略）             | 200K context ≠ 200K 有效 context | 保持 prompt 精简 + 摘要策略 + 首尾放置关键规则                 |
 
 > **来源**：[`prompt-validation.md` §Anti-Patterns](file:///e:/work/apps/eas/agent-skills/skills/builtin/eas-prompt-creator/references/prompt-validation.md)。
 
@@ -551,26 +650,26 @@ LLM 注意力呈 U 型分布——开头最高、中间最低、结尾次高（p
 
 ### 14.1 评审目标 (Review Goals)
 
-| # | 目标 | 通过条件 |
-|---|---|---|
-| 1 | **符合最佳实践** | 命中 §4 SKILL.md 规约 + §5 命令约定 + §12 编码基线 + §13 提示词规范 |
-| 2 | **目标明确** | `description` 仅描述触发条件；正文首段能让 Agent 在 30 秒内判断「该不该加载」 |
-| 3 | **内容简洁** | `SKILL.md` < 500 行；`description` ≤ 500 字符（硬上限 1024）；无冗余、无套话 |
-| 4 | **不混淆** | 概念边界清晰：Skill vs Tool vs Task vs Agent；与其他技能职责无重叠 |
-| 5 | **不冲突** | 与 `AGENTS.md` 已有章节、CI 契约、`quick-validate` 规则三者无矛盾 |
-| 6 | **语义明确** | MUST / SHOULD / MAY 按 §13.3 使用；不存在「可能」「大概」做关键结论 |
-| 7 | **步骤清晰** | Pipeline 类技能步骤序列 + Gate 三要素齐全；Reviewer 类检查项按严重度分级 |
-| 8 | **能够落地** | 给出的指令可被 Agent 直接执行；脚本路径遵循 §5.2 规范；不依赖 CI 兜底 |
+| #   | 目标             | 通过条件                                                                      |
+| --- | ---------------- | ----------------------------------------------------------------------------- |
+| 1   | **符合最佳实践** | 命中 §4 SKILL.md 规约 + §5 命令约定 + §12 编码基线 + §13 提示词规范           |
+| 2   | **目标明确**     | `description` 仅描述触发条件；正文首段能让 Agent 在 30 秒内判断「该不该加载」 |
+| 3   | **内容简洁**     | `SKILL.md` < 500 行；`description` ≤ 500 字符（硬上限 1024）；无冗余、无套话  |
+| 4   | **不混淆**       | 概念边界清晰：Skill vs Tool vs Task vs Agent；与其他技能职责无重叠            |
+| 5   | **不冲突**       | 与 `AGENTS.md` 已有章节、CI 契约、`quick-validate` 规则三者无矛盾             |
+| 6   | **语义明确**     | MUST / SHOULD / MAY 按 §13.3 使用；不存在「可能」「大概」做关键结论           |
+| 7   | **步骤清晰**     | Pipeline 类技能步骤序列 + Gate 三要素齐全；Reviewer 类检查项按严重度分级      |
+| 8   | **能够落地**     | 给出的指令可被 Agent 直接执行；脚本路径遵循 §5.2 规范；不依赖 CI 兜底         |
 
 ### 14.2 评审范围 (Review Scope)
 
-| 范围 | 评审对象 | 评审者 |
-|---|---|---|
-| **新增技能** | `SKILL.md` + `scripts/` + `references/` + `assets/` 全量 | 走 `eas-skill-creator` + 加载对应领域技能 |
-| **演化现有技能** | `description` / frontmatter / 必填节 / `scripts/` 增量 | 走 `eas-skill-creator` |
-| **提示词变更** | Agent / Tool / Task / Command / Mode / Session / Feature / Context 八大类型 | 走 `eas-prompt-creator` |
-| **项目级变更** | `AGENTS.md` / `README*` / `marketplace.json` / `package.json` / `scripts/` | 走 `eas-skill-using` 选技能组合 |
-| **跨技能决策** | `docs/decisions/00NN-*.md` | 走 `eas-planning-writer` 决策沉淀 |
+| 范围             | 评审对象                                                                    | 评审者                                    |
+| ---------------- | --------------------------------------------------------------------------- | ----------------------------------------- |
+| **新增技能**     | `SKILL.md` + `scripts/` + `references/` + `assets/` 全量                    | 走 `eas-skill-creator` + 加载对应领域技能 |
+| **演化现有技能** | `description` / frontmatter / 必填节 / `scripts/` 增量                      | 走 `eas-skill-creator`                    |
+| **提示词变更**   | Agent / Tool / Task / Command / Mode / Session / Feature / Context 八大类型 | 走 `eas-prompt-creator`                   |
+| **项目级变更**   | `AGENTS.md` / `README*` / `marketplace.json` / `package.json` / `scripts/`  | 走 `eas-skill-using` 选技能组合           |
+| **跨技能决策**   | `docs/decisions/00NN-*.md`                                                  | 走 `eas-planning-writer` 决策沉淀         |
 
 ### 14.3 评审入口 (Review Entry)
 
@@ -581,14 +680,14 @@ LLM 注意力呈 U 型分布——开头最高、中间最低、结尾次高（p
 
 按**从广到专**的顺序依次加载，每次加载后等待技能主体进入上下文后再执行下一步：
 
-| 步骤 | 命令 | 目的 | 不可跳过理由 |
-|---|---|---|---|
-| **1** | `Use Skill: eas-skill-using` | 拿到 builtin 技能生态的能力索引与场景映射 | 评审者须确认被评审对象在生态中的位置：是否已被废弃 / 已被新技能替代 / 与其他技能职责是否重叠 |
-| **2** | `Use Skill: eas-skill-creator` | 拿到 SKILL.md 结构规范、5 大模式、frontmatter 约束、`scripts/` / `references/` / `assets/` 规则 | 评审维度 1（结构）+ 维度 4（规范）的判据来源；不加载此技能则维度清单的"通过条件"无权威依据 |
-| **3（条件）** | 评审对象为**提示词**时：`Use Skill: eas-prompt-creator` | 拿到八大提示词类型规范 + 验证清单 | 评审维度 3（语义）中"指令强度词 / 边界控制 / Token 预算"的判据来源 |
-| **3（条件）** | 评审对象为**跨技能决策**时：`Use Skill: eas-planning-writer` | 拿到决策沉淀规范与三件套落地路径 | 评审产出物 §14.7 落档路径的判据来源 |
-| **4** | 执行五维度评审（§14.5） | — | 必须在步骤 1-3 全部加载完成后才允许开始 |
-| **5** | 产出评审报告（§14.7） | — | 同上 |
+| 步骤          | 命令                                                         | 目的                                                                                            | 不可跳过理由                                                                                 |
+| ------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| **1**         | `Use Skill: eas-skill-using`                                 | 拿到 builtin 技能生态的能力索引与场景映射                                                       | 评审者须确认被评审对象在生态中的位置：是否已被废弃 / 已被新技能替代 / 与其他技能职责是否重叠 |
+| **2**         | `Use Skill: eas-skill-creator`                               | 拿到 SKILL.md 结构规范、5 大模式、frontmatter 约束、`scripts/` / `references/` / `assets/` 规则 | 评审维度 1（结构）+ 维度 4（规范）的判据来源；不加载此技能则维度清单的"通过条件"无权威依据   |
+| **3（条件）** | 评审对象为**提示词**时：`Use Skill: eas-prompt-creator`      | 拿到八大提示词类型规范 + 验证清单                                                               | 评审维度 3（语义）中"指令强度词 / 边界控制 / Token 预算"的判据来源                           |
+| **3（条件）** | 评审对象为**跨技能决策**时：`Use Skill: eas-planning-writer` | 拿到决策沉淀规范与三件套落地路径                                                                | 评审产出物 §14.7 落档路径的判据来源                                                          |
+| **4**         | 执行五维度评审（§14.5）                                      | —                                                                                               | 必须在步骤 1-3 全部加载完成后才允许开始                                                      |
+| **5**         | 产出评审报告（§14.7）                                        | —                                                                                               | 同上                                                                                         |
 
 > **顺序硬约束**：步骤 1 → 步骤 2 → 步骤 3 是单向链。**禁止**先加载 `eas-skill-creator` 再加载 `eas-skill-using`——后者负责"是否还要评这个对象"的前置判断，先加载结构规范会浪费上下文。
 
@@ -619,14 +718,14 @@ LLM 注意力呈 U 型分布——开头最高、中间最低、结尾次高（p
 入口加载（§14.3 MUST） → 启动阶段 → 五维度并行评审（§14.5） → 严重度分级（§14.6） → 产出评审报告（§14.7） → 修复闭环（§14.8）
 ```
 
-| 阶段 | 输入 | 输出 | 工具 | Gate（不通过则不可进入下一阶段） |
-|---|---|---|---|---|
-| **入口加载** | 被评审对象（文件 / 路径） | 已加载的 §14.3.1 序列技能上下文 | `skill` 工具 | §14.3.2 全部勾选；缺一项 = 阻塞 |
-| **启动** | 入口加载完成的上下文 + 被评审对象 | 评审 scope 边界（明确评什么 / 不评什么） | `Read` / `Grep` / `Glob` | 评审报告 §评审对象 已填写 |
-| **评审** | scope 边界 + 维度清单 + 规范来源 | 每维度发现项（含严重度） | `Read` / `Grep` / `quick-validate` | 五维度清单全跑，无维度遗漏 |
-| **分级** | 发现项 | P0 / P1 / P2 / P3 分类 | 人工判定（按 §14.6） | 每条发现项 MUST 有严重度 |
-| **产出** | 分级后发现项 + 入口加载证据 | 评审报告（§14.7） | `Write` 到 PR 描述 / 评论 | 报告 §五维度评分 + §入口加载 已填写 |
-| **闭环** | 评审报告 | 修复 commit | `git commit -m "[skill: <name>] fix: ..."` | 所有 P0 = 0；P1 = 0 或全部豁免 |
+| 阶段         | 输入                              | 输出                                     | 工具                                       | Gate（不通过则不可进入下一阶段）    |
+| ------------ | --------------------------------- | ---------------------------------------- | ------------------------------------------ | ----------------------------------- |
+| **入口加载** | 被评审对象（文件 / 路径）         | 已加载的 §14.3.1 序列技能上下文          | `skill` 工具                               | §14.3.2 全部勾选；缺一项 = 阻塞     |
+| **启动**     | 入口加载完成的上下文 + 被评审对象 | 评审 scope 边界（明确评什么 / 不评什么） | `Read` / `Grep` / `Glob`                   | 评审报告 §评审对象 已填写           |
+| **评审**     | scope 边界 + 维度清单 + 规范来源  | 每维度发现项（含严重度）                 | `Read` / `Grep` / `quick-validate`         | 五维度清单全跑，无维度遗漏          |
+| **分级**     | 发现项                            | P0 / P1 / P2 / P3 分类                   | 人工判定（按 §14.6）                       | 每条发现项 MUST 有严重度            |
+| **产出**     | 分级后发现项 + 入口加载证据       | 评审报告（§14.7）                        | `Write` 到 PR 描述 / 评论                  | 报告 §五维度评分 + §入口加载 已填写 |
+| **闭环**     | 评审报告                          | 修复 commit                              | `git commit -m "[skill: <name>] fix: ..."` | 所有 P0 = 0；P1 = 0 或全部豁免      |
 
 > **Gate 强制**：表中每行「Gate」列是 MUST 通过条件。任何 Gate 未通过即视为评审未完成，不得进入下一阶段，也不得提交评审报告。
 > **入口加载是第一个 Gate**：评审者在对话中未实际加载 §14.3.1 序列技能，产出的评审报告按 §14.6 直接判 P0。
@@ -635,79 +734,79 @@ LLM 注意力呈 U 型分布——开头最高、中间最低、结尾次高（p
 
 #### 维度 1：结构 (Structure)
 
-| 检查项 | 通过条件 | 严重度 |
-|---|---|---|
-| **入口技能加载** | 评审者 MUST 已按 §14.3.1 完成 `eas-skill-using` + `eas-skill-creator`（提示词评审加 `eas-prompt-creator`、跨技能决策加 `eas-planning-writer`）加载；§14.3.2 全部勾选 | **P0** |
-| 技能目录结构正确 | 含 `SKILL.md`；可选 `scripts/` / `references/` / `assets/` 不混入根目录 | P0 |
-| frontmatter 完整 | `name`（hyphen-case、≤64）/ `description`（第三人称、≤1024）；**顶层仅含白名单字段**（AgentSkills 标准 + 5 大模式 + `scope`）；**项目扩展字段**（`category` / `version` / `author` / `compatibility` / `tags`）MUST 进 `metadata:` 子键，**禁止**平铺到顶层（与 `quick-validate.ts` 同步） | P0 |
-| 必填节齐全 | 概述 / 何时使用 / 快速参考 齐全（§13.5） | P0 |
-| 无冗余文档 | 技能目录下无 `README.md` / `INSTALLATION_GUIDE.md` / `QUICK_REFERENCE.md`（§4.2） | P0 |
-| `SKILL.md` 体量 | < 500 行；超过则拆 `references/`（§13.6） | P1 |
-| 章节层级合理 | 二级 = 双语标题；三级以下可只用中文 | P2 |
-| references 链接 | 用相对路径 `[xxx.md](references/xxx.md)`（§13.4） | P0 |
+| 检查项           | 通过条件                                                                                                                                                                                                                                                                                   | 严重度 |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ |
+| **入口技能加载** | 评审者 MUST 已按 §14.3.1 完成 `eas-skill-using` + `eas-skill-creator`（提示词评审加 `eas-prompt-creator`、跨技能决策加 `eas-planning-writer`）加载；§14.3.2 全部勾选                                                                                                                       | **P0** |
+| 技能目录结构正确 | 含 `SKILL.md`；可选 `scripts/` / `references/` / `assets/` 不混入根目录                                                                                                                                                                                                                    | P0     |
+| frontmatter 完整 | `name`（hyphen-case、≤64）/ `description`（第三人称、≤1024）；**顶层仅含白名单字段**（AgentSkills 标准 + 5 大模式 + `scope`）；**项目扩展字段**（`category` / `version` / `author` / `compatibility` / `tags`）MUST 进 `metadata:` 子键，**禁止**平铺到顶层（与 `quick-validate.ts` 同步） | P0     |
+| 必填节齐全       | 概述 / 何时使用 / 快速参考 齐全（§13.5）                                                                                                                                                                                                                                                   | P0     |
+| 无冗余文档       | 技能目录下无 `README.md` / `INSTALLATION_GUIDE.md` / `QUICK_REFERENCE.md`（§4.2）                                                                                                                                                                                                          | P0     |
+| `SKILL.md` 体量  | < 500 行；超过则拆 `references/`（§13.6）                                                                                                                                                                                                                                                  | P1     |
+| 章节层级合理     | 二级 = 双语标题；三级以下可只用中文                                                                                                                                                                                                                                                        | P2     |
+| references 链接  | 用相对路径 `[xxx.md](references/xxx.md)`（§13.4）                                                                                                                                                                                                                                          | P0     |
 
 #### 维度 2：内容 (Content)
 
-| 检查项 | 通过条件 | 严重度 |
-|---|---|---|
-| 概述准确 | 1-3 句说清"是什么 / 解决什么"，无主观评价 | P1 |
-| 何时使用完整 | 触发条件 + 反场景；不少于 3 条 | P1 |
-| 快速参考可用 | 表格 / 列表，速查要点齐全 | P2 |
-| `description` 触发条件充分 | 覆盖 5+ 触发短语 + 1+ 反场景；不总结过程 | P0 |
-| scripts 必要性 | 只在「重复 / 确定性可靠」时引入；非 demo 用例 | P1 |
-| references 信息不重复 | 信息在 SKILL.md 或 references 中只出现一次 | P1 |
+| 检查项                     | 通过条件                                      | 严重度 |
+| -------------------------- | --------------------------------------------- | ------ |
+| 概述准确                   | 1-3 句说清"是什么 / 解决什么"，无主观评价     | P1     |
+| 何时使用完整               | 触发条件 + 反场景；不少于 3 条                | P1     |
+| 快速参考可用               | 表格 / 列表，速查要点齐全                     | P2     |
+| `description` 触发条件充分 | 覆盖 5+ 触发短语 + 1+ 反场景；不总结过程      | P0     |
+| scripts 必要性             | 只在「重复 / 确定性可靠」时引入；非 demo 用例 | P1     |
+| references 信息不重复      | 信息在 SKILL.md 或 references 中只出现一次    | P1     |
 
 #### 维度 3：语义 (Semantics)
 
-| 检查项 | 通过条件 | 严重度 |
-|---|---|---|
-| 指令强度词规范 | 按 §13.3.1 7 级体系（CRITICAL / NEVER / MUST / ALWAYS / DO NOT / SHOULD / MAY）选用，优先级按 §13.3.2 排序，同一段不混用 MUST 与 SHOULD | P0 |
-| 安全/不可逆操作措辞 | 安全 / 不可逆操作 MUST 用 CRITICAL 或 NEVER / MUST NOT（§13.3.3 决策树） | P0 |
-| 双向约束 | 工具使用规则 MUST 同时含"做什么"+"不做什么"（§13.5.6） | P1 |
-| 关键内容位置 | 身份 + 安全 MUST 放顶部，关键提醒 MUST 放末尾（U 型曲线，§13.5.5） | P1 |
-| 无歧义指令 | 不出现"可能 / 大概 / 建议试试"做关键结论；推测标注"推测 / 假设" | P1 |
-| 无主观评价 | 不出现"非常好 / 极其强大 / 完美" | P2 |
-| 人称规范 | `description` 第三人称；正文用第二人称（"你应当…" / "MUST…"） | P1 |
-| 概念边界 | Skill / Tool / Task / Agent 区分清晰，不混淆（见 `eas-skill-using` §关键概念） | P0 |
-| 与其他技能不冲突 | 职责与既有 builtin 不重叠；若有重叠 MUST 在决策文档说明 | P0 |
+| 检查项              | 通过条件                                                                                                                                | 严重度 |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 指令强度词规范      | 按 §13.3.1 7 级体系（CRITICAL / NEVER / MUST / ALWAYS / DO NOT / SHOULD / MAY）选用，优先级按 §13.3.2 排序，同一段不混用 MUST 与 SHOULD | P0     |
+| 安全/不可逆操作措辞 | 安全 / 不可逆操作 MUST 用 CRITICAL 或 NEVER / MUST NOT（§13.3.3 决策树）                                                                | P0     |
+| 双向约束            | 工具使用规则 MUST 同时含"做什么"+"不做什么"（§13.5.6）                                                                                  | P1     |
+| 关键内容位置        | 身份 + 安全 MUST 放顶部，关键提醒 MUST 放末尾（U 型曲线，§13.5.5）                                                                      | P1     |
+| 无歧义指令          | 不出现"可能 / 大概 / 建议试试"做关键结论；推测标注"推测 / 假设"                                                                         | P1     |
+| 无主观评价          | 不出现"非常好 / 极其强大 / 完美"                                                                                                        | P2     |
+| 人称规范            | `description` 第三人称；正文用第二人称（"你应当…" / "MUST…"）                                                                           | P1     |
+| 概念边界            | Skill / Tool / Task / Agent 区分清晰，不混淆（见 `eas-skill-using` §关键概念）                                                          | P0     |
+| 与其他技能不冲突    | 职责与既有 builtin 不重叠；若有重叠 MUST 在决策文档说明                                                                                 | P0     |
 
 #### 维度 4：规范 (Compliance)
 
-| 检查项 | 通过条件 | 严重度 |
-|---|---|---|
-| 命名规范 | `name` 全部小写 + 连字符；推荐 `eas-` 前缀（§4.1） | P0 |
-| 标题双语 | 所有 `##` / `###` 用 `## 中文 (English)` 形式（§13.2） | P1 |
-| 链接无 `@` 引用 | 不出现 `@references/...` 或 `[xxx](@references/xxx.md)`（§13.4） | P0 |
-| 代码块带语言标记 | ` ```ts ` / ` ```bash ` / ` ```yaml `；无裸 ` ``` `（§13.4） | P1 |
-| scripts 依赖白名单 | 仅 `js-yaml` / `jszip` / `@easbot/agent`（§12.7） | P0 |
-| 行尾 LF + 2 空格缩进 | 与 `.editorconfig` 一致（§12.1） | P2 |
-| 中英文混排 | 正文中文；专有名词保留英文（§12.5 / §13.2） | P1 |
-| 通过 `quick-validate` | §5.2 顶部全量循环零失败 | P0 |
-| 提交前缀合法 | `[skill: <name>]` / `[repo]` / `[auto]` 之一（§7.1） | P0 |
+| 检查项                | 通过条件                                                         | 严重度 |
+| --------------------- | ---------------------------------------------------------------- | ------ |
+| 命名规范              | `name` 全部小写 + 连字符；推荐 `eas-` 前缀（§4.1）               | P0     |
+| 标题双语              | 所有 `##` / `###` 用 `## 中文 (English)` 形式（§13.2）           | P1     |
+| 链接无 `@` 引用       | 不出现 `@references/...` 或 `[xxx](@references/xxx.md)`（§13.4） | P0     |
+| 代码块带语言标记      | ` ```ts ` / ` ```bash ` / ` ```yaml `；无裸 ` ``` `（§13.4）     | P1     |
+| scripts 依赖白名单    | 仅 `js-yaml` / `jszip` / `@easbot/agent`（§12.7）                | P0     |
+| 行尾 LF + 2 空格缩进  | 与 `.editorconfig` 一致（§12.1）                                 | P2     |
+| 中英文混排            | 正文中文；专有名词保留英文（§12.5 / §13.2）                      | P1     |
+| 通过 `quick-validate` | §5.2 顶部全量循环零失败                                          | P0     |
+| 提交前缀合法          | `[skill: <name>]` / `[repo]` / `[auto]` 之一（§7.1）             | P0     |
 
 #### 维度 5：落地 (Actionability)
 
-| 检查项 | 通过条件 | 严重度 |
-|---|---|---|
-| 脚本路径规范 | 默认 `scripts/xxx.ts`；模板/跨技能用 `<skillPath>/scripts/xxx.ts`；无硬编码绝对路径（§5.2 / `eas-skill-creator` 脚本调用路径规范） | P0 |
-| Pipeline Gate 完整 | 入口 / 出口 / 失败策略三要素齐全 | P1 |
-| Reviewer 检查项分级 | `references/checklist.md` 按严重度分级（P0/P1/P2） | P1 |
-| Inversion Gate 完整 | `behavior.gate.phases` ≤ 5 必答、每题 2-4 选项 | P1 |
-| 失败处理可执行 | Reviewer / Pipeline / Inversion 三类必须包含失败兜底（不依赖 Agent 自决） | P0 |
-| 上下文预算 | name+description ≤ 1024 字符；SKILL.md < 500 行；references 单文件 < 10k 字 | P2 |
-| Token 预算（如为 Agent 提示词） | 自定义部分 < 6,000 tokens；超出 MUST 拆 references/ 或工具调用按需加载（§13.5.5） | P1 |
-| 提示词主体语言 | `eas-prompt-creator` 输出的 prompt 正文 MUST 全部英文（§12.5） | P0 |
-| 项目级同步 | 新增 / 演化 / 废弃技能按 §6.1 / §6.2 / §6.3 同步 README / marketplace / `eas-skill-using` 索引 | P0 |
-| 决策落档 | 跨技能决策已写入 `docs/decisions/00NN-*.md`（§11） | P0 |
+| 检查项                          | 通过条件                                                                                                                           | 严重度 |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 脚本路径规范                    | 默认 `scripts/xxx.ts`；模板/跨技能用 `<skillPath>/scripts/xxx.ts`；无硬编码绝对路径（§5.2 / `eas-skill-creator` 脚本调用路径规范） | P0     |
+| Pipeline Gate 完整              | 入口 / 出口 / 失败策略三要素齐全                                                                                                   | P1     |
+| Reviewer 检查项分级             | `references/checklist.md` 按严重度分级（P0/P1/P2）                                                                                 | P1     |
+| Inversion Gate 完整             | `behavior.gate.phases` ≤ 5 必答、每题 2-4 选项                                                                                     | P1     |
+| 失败处理可执行                  | Reviewer / Pipeline / Inversion 三类必须包含失败兜底（不依赖 Agent 自决）                                                          | P0     |
+| 上下文预算                      | name+description ≤ 1024 字符；SKILL.md < 500 行；references 单文件 < 10k 字                                                        | P2     |
+| Token 预算（如为 Agent 提示词） | 自定义部分 < 6,000 tokens；超出 MUST 拆 references/ 或工具调用按需加载（§13.5.5）                                                  | P1     |
+| 提示词主体语言                  | `eas-prompt-creator` 输出的 prompt 正文 MUST 全部英文（§12.5）                                                                     | P0     |
+| 项目级同步                      | 新增 / 演化 / 废弃技能按 §6.1 / §6.2 / §6.3 同步 README / marketplace / `eas-skill-using` 索引                                     | P0     |
+| 决策落档                        | 跨技能决策已写入 `docs/decisions/00NN-*.md`（§11）                                                                                 | P0     |
 
 ### 14.6 严重度分级 (Severity Levels)
 
-| 级别 | 含义 | 处理 |
-|---|---|---|
+| 级别   | 含义                                       | 处理                                                    |
+| ------ | ------------------------------------------ | ------------------------------------------------------- |
 | **P0** | 阻塞：违反 = 契约失败 / CI 失败 / 概念错乱 | **MUST** 修复，**禁止合入**；评审报告中明确列为 Blocker |
-| **P1** | 重要：影响可读性 / 可维护性 / 一致性 | **MUST** 修复或显式豁免（评审报告中给出理由） |
-| **P2** | 推荐：风格 / 美观 / 体量优化 | **SHOULD** 修复；可在后续 PR 中处理 |
-| **P3** | 建议：锦上添花 | **MAY** 修复；评审报告可选列出 |
+| **P1** | 重要：影响可读性 / 可维护性 / 一致性       | **MUST** 修复或显式豁免（评审报告中给出理由）           |
+| **P2** | 推荐：风格 / 美观 / 体量优化               | **SHOULD** 修复；可在后续 PR 中处理                     |
+| **P3** | 建议：锦上添花                             | **MAY** 修复；评审报告可选列出                          |
 
 > **通过条件**：所有 P0 项为 0；P1 项 = 0 或每项附豁免理由；P2/P3 不阻塞合入。
 > **冲突解决**：评审者与开发者对严重度有分歧时，**MUST** 在评审报告中给出依据，由项目维护者按 §13.3 指令强度词裁定。
@@ -716,11 +815,11 @@ LLM 注意力呈 U 型分布——开头最高、中间最低、结尾次高（p
 
 每次评审 MUST 产出**一份评审报告**，落地到以下位置之一：
 
-| 评审类型 | 落地位置 | 模板 |
-|---|---|---|
+| 评审类型             | 落地位置                                                                                                                       | 模板                                                                |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- |
 | 技能评审（单技能内） | `<skill-name>/0001-review-{topic}.md` **或** `docs/decisions/00NN-review-{topic}.md`（项目级惯例优先；详见下方"落档路径决策"） | `<skill-name>/0001-review-{topic}.md` 自由结构，但 MUST 含下方 5 节 |
-| 跨技能评审 | `docs/decisions/00NN-review-{topic}.md` | 复用 `eas-planning-writer` 决策模板 |
-| PR 评审 | PR 描述 / 评论 | 下方 Markdown 模板 |
+| 跨技能评审           | `docs/decisions/00NN-review-{topic}.md`                                                                                        | 复用 `eas-planning-writer` 决策模板                                 |
+| PR 评审              | PR 描述 / 评论                                                                                                                 | 下方 Markdown 模板                                                  |
 
 #### 落档路径决策 (Sediment Path Decision)
 
@@ -747,11 +846,13 @@ docs/decisions/
 # 评审报告：{被评审对象}（{YYYY-MM-DD}）
 
 ### 评审对象
+
 - 类型：技能 / 提示词 / 项目级 / 跨技能
 - 范围：列出文件清单
 - 评审者：<name or "Agent">
 
 ### 入口加载证据（§14.3.2 MUST）
+
 - [ ] `eas-skill-using` 已加载（`Use Skill:` 调用记录 / 时间戳）
 - [ ] `eas-skill-creator` 已加载
 - [ ] `eas-prompt-creator` 已加载（仅提示词评审）
@@ -761,24 +862,28 @@ docs/decisions/
 - 加载方式：`skill` 工具按 `name` 调用（**禁止**直接 `Read` SKILL.md 路径）
 
 ### 五维度评分
-| 维度 | P0 | P1 | P2 | P3 | 备注 |
-|---|---|---|---|---|---|
-| **入口加载** | 0 | 0 | 0 | 0 | §14.5 维度 1 第 1 项 |
-| 结构 | 0 | 0 | 0 | 0 | |
-| 内容 | 0 | 0 | 0 | 0 | |
-| 语义 | 0 | 0 | 0 | 0 | |
-| 规范 | 0 | 0 | 0 | 0 | |
-| 落地 | 0 | 0 | 0 | 0 | |
+
+| 维度         | P0  | P1  | P2  | P3  | 备注                 |
+| ------------ | --- | --- | --- | --- | -------------------- |
+| **入口加载** | 0   | 0   | 0   | 0   | §14.5 维度 1 第 1 项 |
+| 结构         | 0   | 0   | 0   | 0   |                      |
+| 内容         | 0   | 0   | 0   | 0   |                      |
+| 语义         | 0   | 0   | 0   | 0   |                      |
+| 规范         | 0   | 0   | 0   | 0   |                      |
+| 落地         | 0   | 0   | 0   | 0   |                      |
 
 ### 发现项明细
-| # | 维度 | 检查项 | 严重度 | 现状 | 建议修复 |
-|---|---|---|---|---|---|
+
+| #   | 维度 | 检查项 | 严重度 | 现状 | 建议修复 |
+| --- | ---- | ------ | ------ | ---- | -------- |
 
 ### 豁免项（如有）
-| # | 检查项 | 严重度 | 豁免理由 |
-|---|---|---|---|
+
+| #   | 检查项 | 严重度 | 豁免理由 |
+| --- | ------ | ------ | -------- |
 
 ### 结论
+
 - [ ] 通过（所有 P0 = 0，P1 = 0 或全部豁免）
 - [ ] 有条件通过（附豁免列表）
 - [ ] 不通过（必须修复 P0/P1）
@@ -786,13 +891,14 @@ docs/decisions/
 
 ### 14.8 修复闭环 (Fix Closure)
 
-| 评审结果 | 后续动作 |
-|---|---|
-| **通过** | 直接 commit（遵循 §7.1 / §10 / §13.7） |
-| **有条件通过** | 在 commit 前补齐豁免列表；评审报告附在 PR 描述 |
-| **不通过** | 修复 P0/P1 项 → 重新跑 `quick-validate` → 重新评审；**禁止**带 P0 合并 |
+| 评审结果       | 后续动作                                                               |
+| -------------- | ---------------------------------------------------------------------- |
+| **通过**       | 直接 commit（遵循 §7.1 / §10 / §13.7）                                 |
+| **有条件通过** | 在 commit 前补齐豁免列表；评审报告附在 PR 描述                         |
+| **不通过**     | 修复 P0/P1 项 → 重新跑 `quick-validate` → 重新评审；**禁止**带 P0 合并 |
 
 > **重新评审触发条件**：以下任一情况 MUST 重新评审：
+>
 > - 修复 commit 涉及 §14.5 任一 P0/P1 项；
 > - 新增 scripts / references / assets；
 > - 修改 frontmatter `description`（影响触发条件）；
@@ -800,33 +906,33 @@ docs/decisions/
 
 ### 14.9 评审反模式 (Review Anti-Patterns)
 
-| ❌ 不要 | ✅ 应该 |
-|---|---|
-| **跳过 §14.3.1 强制加载序列，直接开始评审** | MUST 按 §14.3.1 顺序加载 `eas-skill-using` → `eas-skill-creator`（必要时再加 `eas-prompt-creator` / `eas-planning-writer`）后再开始 |
-| **倒序加载（先 `eas-skill-creator` 后 `eas-skill-using`）** | 严格按 §14.3.1 顺序；中央导航必须是第一步 |
-| **只加载元数据（`name + description`）就视为已加载** | 必须把 SKILL.md 主体加载到上下文，并按 §14.3.2 第 3 条对照 §快速参考 |
-| **加载后未对照技能约束做判据**（"加载了但没用来评判"） | 加载后 MUST 将该技能的核心约束**回填**到本评审的内部 checklist（§14.3.2 第 4 条） |
-| 跳过 `eas-skill-using` 直接评审 | 先激活中央导航，确认对象在生态中的位置 |
-| 只跑 `quick-validate` 就下结论 | `quick-validate` 是 §14.5 维度 4 中的一项；其余 4 维度仍 MUST 人工评审 |
-| 评审者直接 `Read` SKILL.md 路径 | 通过 `Skill` 命名空间以 `name` 加载（§8.3） |
-| 把评审发现写在对话里不落档 | 评审报告 MUST 落到 §14.7 指定路径 |
-| P1 项无豁免理由直接放过 | P1 项必须 = 0 或附豁免理由，否则评审报告「不通过」 |
-| 评审与 §10 自检混为一谈 | §10 = 自检（开发者本人）；§14 = 评审（多视角 + 报告 + 闭环） |
-| 跨技能评审仅在 PR 评论里写 | 必须落档到 `docs/decisions/00NN-*.md`（§11） |
-| 把"评审"等同于"找 bug" | 评审目标 §14.1 的 8 项缺一不可；"符合最佳实践 + 语义明确 + 步骤清晰"是评审，不是 bug 排查 |
+| ❌ 不要                                                     | ✅ 应该                                                                                                                             |
+| ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **跳过 §14.3.1 强制加载序列，直接开始评审**                 | MUST 按 §14.3.1 顺序加载 `eas-skill-using` → `eas-skill-creator`（必要时再加 `eas-prompt-creator` / `eas-planning-writer`）后再开始 |
+| **倒序加载（先 `eas-skill-creator` 后 `eas-skill-using`）** | 严格按 §14.3.1 顺序；中央导航必须是第一步                                                                                           |
+| **只加载元数据（`name + description`）就视为已加载**        | 必须把 SKILL.md 主体加载到上下文，并按 §14.3.2 第 3 条对照 §快速参考                                                                |
+| **加载后未对照技能约束做判据**（"加载了但没用来评判"）      | 加载后 MUST 将该技能的核心约束**回填**到本评审的内部 checklist（§14.3.2 第 4 条）                                                   |
+| 跳过 `eas-skill-using` 直接评审                             | 先激活中央导航，确认对象在生态中的位置                                                                                              |
+| 只跑 `quick-validate` 就下结论                              | `quick-validate` 是 §14.5 维度 4 中的一项；其余 4 维度仍 MUST 人工评审                                                              |
+| 评审者直接 `Read` SKILL.md 路径                             | 通过 `Skill` 命名空间以 `name` 加载（§8.3）                                                                                         |
+| 把评审发现写在对话里不落档                                  | 评审报告 MUST 落到 §14.7 指定路径                                                                                                   |
+| P1 项无豁免理由直接放过                                     | P1 项必须 = 0 或附豁免理由，否则评审报告「不通过」                                                                                  |
+| 评审与 §10 自检混为一谈                                     | §10 = 自检（开发者本人）；§14 = 评审（多视角 + 报告 + 闭环）                                                                        |
+| 跨技能评审仅在 PR 评论里写                                  | 必须落档到 `docs/decisions/00NN-*.md`（§11）                                                                                        |
+| 把"评审"等同于"找 bug"                                      | 评审目标 §14.1 的 8 项缺一不可；"符合最佳实践 + 语义明确 + 步骤清晰"是评审，不是 bug 排查                                           |
 
 ### 14.10 与其他章节的关系 (Relationship with Other Sections)
 
-| 章节 | 关系 |
-|---|---|
-| §4 SKILL.md 规约 | 评审维度 1/4 的规则来源 |
-| §5 可用命令 | 评审维度 5 中脚本路径规范的依据 |
-| §6 生命周期 | 评审范围 §14.2 的分类依据 |
-| §7 提交与变更约定 | 评审产出物 §14.7 的 commit 前置条件 |
-| §8 协作流程 | 评审入口 §14.3 必须遵循的加载规范 |
-| §10 验证清单 | §10 = 自检（开发者本人，提交前快查）；§14 = 评审（多视角，提交前/合入前必走） |
-| §11 决策文档 | 跨技能评审产出物 §14.7 的落档路径 |
-| §12 编码与格式基线 | 评审维度 4 的规则来源 |
-| §13 提示词规范 | 评审维度 3/4 的规则来源 |
+| 章节               | 关系                                                                          |
+| ------------------ | ----------------------------------------------------------------------------- |
+| §4 SKILL.md 规约   | 评审维度 1/4 的规则来源                                                       |
+| §5 可用命令        | 评审维度 5 中脚本路径规范的依据                                               |
+| §6 生命周期        | 评审范围 §14.2 的分类依据                                                     |
+| §7 提交与变更约定  | 评审产出物 §14.7 的 commit 前置条件                                           |
+| §8 协作流程        | 评审入口 §14.3 必须遵循的加载规范                                             |
+| §10 验证清单       | §10 = 自检（开发者本人，提交前快查）；§14 = 评审（多视角，提交前/合入前必走） |
+| §11 决策文档       | 跨技能评审产出物 §14.7 的落档路径                                             |
+| §12 编码与格式基线 | 评审维度 4 的规则来源                                                         |
+| §13 提示词规范     | 评审维度 3/4 的规则来源                                                       |
 
 > **一句话定位**：**§10 保证「能提交」，§14 保证「值得合入」。** 两者串联才能确保仓库质量。
