@@ -4,8 +4,8 @@
 >
 > **版本对齐**（2026-09-25 同步）：
 >
-> - `@easbot/memory`：**v0.3.24**（独立 npm 包；`package.json` 的 `version`）
-> - `easbot`（主包）：**v0.3.24**（workspace 24 包统一版本）
+> - `@easbot/memory`：**v0.3.25**（独立 npm 包；`package.json` 的 `version`）
+> - `easbot`（主包）：**v0.3.25**（workspace 24 包统一版本）
 > - `node` 要求：`>=22.22.2`（`@easbot/memory` 的 `engines.node`）
 >
 > **重要**：memory 是 **per-agent 存储**（每个 Agent 一份独立 db），区别于 workspace 共享资源。`agentId` 通过 ctx 自动注入（agent CLI 走 bridge 从 `protocol.json` 注入；独立 CLI 读 `.easbot/protocol.json` → `metadata.agentId`）。

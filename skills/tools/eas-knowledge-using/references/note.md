@@ -4,8 +4,8 @@
 >
 > **版本对齐**（2026-09-25 同步）：
 >
-> - `@easbot/note`：**v0.3.24**（独立 npm 包；`package.json` 的 `version`）
-> - `easbot`（主包）：**v0.3.24**（workspace 24 包统一版本）
+> - `@easbot/note`：**v0.3.25**（独立 npm 包；`package.json` 的 `version`）
+> - `easbot`（主包）：**v0.3.25**（workspace 24 包统一版本）
 > - `node` 要求：`>=22.22.2`（`@easbot/note` 的 `engines.node`）
 >
 > **真值源**：

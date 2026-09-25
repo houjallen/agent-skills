@@ -16,14 +16,14 @@ importers:
   .:
     dependencies:
       '@easbot/agent':
-        specifier: ^0.3.24
-        version: 0.3.24(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)
+        specifier: ^0.3.25
+        version: 0.3.25(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)
       '@easbot/skills':
-        specifier: ^0.3.24
-        version: 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+        specifier: ^0.3.25
+        version: 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
       '@easbot/utils':
-        specifier: ^0.3.24
-        version: 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+        specifier: ^0.3.25
+        version: 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
     devDependencies:
       '@biomejs/biome':
         specifier: 2.5.5
@@ -505,16 +505,16 @@ packages:
     resolution: {integrity: sha512-y7/yvZ2TPAnR9+jnc00klvNNLkJiXFFrQA/hlLCcxA9a2A4zQIOimyFQ9XfwYKiGD1fb5GY8vbKIIgO8d5Tb2A==}
     engines: {node: '>= 20.12.0'}
 
-  '@easbot/agent@0.3.24':
+  '@easbot/agent@0.3.25':
     resolution: {integrity: sha512-r6vCw1lyyqANOjs0/KKuD+pJM4wxl+4YTQwvO6PK8G9dI4jgLuxdztJgSjFZSQcgSWjIoZ1Hipnz36q1s4C8fA==}
     hasBin: true
 
-  '@easbot/codebase@0.3.24':
+  '@easbot/codebase@0.3.25':
     resolution: {integrity: sha512-iPXodO53ate0y9Qcs+4C76J2vAIXqKxd5+yVa0XDViOVJ2+6or3DAbDl4vJDHfT8Na7hT4pL2pGAzcVLxQrO2w==}
     engines: {node: '>=22.22.2'}
     hasBin: true
 
-  '@easbot/database@0.3.24':
+  '@easbot/database@0.3.25':
     resolution: {integrity: sha512-MpIICFkJRbW7Koce3JFmkPf7p6XzsfgGUbtgSbTXbJ8yWtsDpwQ1GlPiBL6BJcHtkbZ+REZ+Xf8JIoz+ZBMIwg==}
     engines: {node: '>=22.22.2'}
     peerDependencies:
@@ -523,62 +523,62 @@ packages:
       better-sqlite3:
         optional: true
 
-  '@easbot/gateway@0.3.24':
+  '@easbot/gateway@0.3.25':
     resolution: {integrity: sha512-pqBKXCCUn0S1YMfOtEl4eyPnQ3lnMk+z7i7kGDtEACsAkOse7S8Hwy/8r7gsFaKC19r3CFYXWRt747BTbx0QpA==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/llm@0.3.24':
+  '@easbot/llm@0.3.25':
     resolution: {integrity: sha512-R+aBCIBHL2gsGiYdRm4JFgCkzH2BdAaABFuD65/Pnxi8fqOosN0c6DWffojsFAKwJXhuu7fPDy07czaiWtpsbA==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/local-model-sdk@0.3.24':
+  '@easbot/local-model-sdk@0.3.25':
     resolution: {integrity: sha512-JRck9gNED9qv3s+PYk7/yzkcobPJyNk9Wc3ISQJGk+bGNoXHt6Oq6BpJOS4R85Lhl/I75P3UUReHJm8JXAayaQ==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/mcp@0.3.24':
+  '@easbot/mcp@0.3.25':
     resolution: {integrity: sha512-uZTCNsYwFYcUDyZWEj/xJlm/+hf0lHjpOR9wcZmM605BgwdC2koPvd6CiA0zxTSskKQW/NlE+nYtuGsR/eY0zw==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/memory@0.3.24':
+  '@easbot/memory@0.3.25':
     resolution: {integrity: sha512-Yfil9LOgxzgmEVvfHNqA4JjKYuoD1KZH9uoa8qREwEu4x/vYcpI38byUkseaTQqqizV6JMFnNv0ncF1DkfhVwQ==}
     engines: {node: '>=22.22.2'}
     hasBin: true
 
-  '@easbot/note@0.3.24':
+  '@easbot/note@0.3.25':
     resolution: {integrity: sha512-rfIdkWLxzWjgnRUH5bLRjaw3Rz0rYLfCHicEHhhHKi+Md+Lj18vVwFMG5VSC46lMCvRSAKibMiUTDE/gBpkWdw==}
     engines: {node: '>=22.22.2'}
     hasBin: true
 
-  '@easbot/ollama-sdk@0.3.24':
+  '@easbot/ollama-sdk@0.3.25':
     resolution: {integrity: sha512-xHNWEgbb8/HqXNkkMjZ9QjZ/jujn3+inNXvi5qzofk7k6fooVHGjoZtIhXLb/DFfk2owTMHWHQcTTlozYKqX4A==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/plugin@0.3.24':
+  '@easbot/plugin@0.3.25':
     resolution: {integrity: sha512-oRYpCWkxqPgRS9/7yDt5JdqHWkgCP3EGXt3RLp1e4uCf1m4rDO6r+0NcJL9wyFFwuvx0jkSwYbNWV7wzETmcUA==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/sdk@0.3.24':
+  '@easbot/sdk@0.3.25':
     resolution: {integrity: sha512-B8/tDDa2ehYpQFa+Qh0Js31pLgPWvZxs72NsEjy2UcCDRTdebmadvypSx+2Ro/IxyhD5ym1Jv1n4wBymaFvf2Q==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/skills@0.3.24':
+  '@easbot/skills@0.3.25':
     resolution: {integrity: sha512-Fu9ug1aJ7XidsVijjrP3q3HNetEKE+y7LsVc+aFoc4JGsrZ0eG2OLy0AQ2IVXeFP8jI8Gd6Xrsewth8ADkFNXw==}
     engines: {node: '>=22.22.2'}
     hasBin: true
 
-  '@easbot/terminal@0.3.24':
+  '@easbot/terminal@0.3.25':
     resolution: {integrity: sha512-+kh2szB22/+ynpvtIDMyWPlR8/htTfHwTIrAenCO9AixJDU8z+a5/XJVG/4Xt0uRsX8sSYIxYuei28kZlQQa2g==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/tui@0.3.24':
+  '@easbot/tui@0.3.25':
     resolution: {integrity: sha512-vuNYrbY83L02Mbo9LMO4ozzYlyVj/I+2qgMiBnqulD1gbuoiChIyy8XOuLgzsn+PCaNUuDNZHJRBIVRywgBmVA==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/types@0.3.24':
+  '@easbot/types@0.3.25':
     resolution: {integrity: sha512-D8KZAIWHP6BMhBCnxsiGED1nTWWk9agJPVSFItX7iMuM1yMe+xTL/FPlxO6ilvw7cHJS2Efl4PpZp27j3+f6Vg==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/utils@0.3.24':
+  '@easbot/utils@0.3.25':
     resolution: {integrity: sha512-Bkyu8bEJeEWOoVxyPPH5mNB3cKlMVmyDqVX6rGzFvER2iBwnqwa/pElmciymgxcYH151Zra5b8olhqhUarwGEQ==}
     engines: {node: '>=22.22.2'}
 
@@ -4116,7 +4116,7 @@ snapshots:
       fast-wrap-ansi: 0.2.2
       sisteransi: 1.0.5
 
-  '@easbot/agent@0.3.24(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)':
+  '@easbot/agent@0.3.25(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)':
     dependencies:
       '@agentclientprotocol/sdk': 1.3.0(zod@4.4.3)
       '@ai-sdk/alibaba': 1.0.45(zod@4.4.3)
@@ -4142,21 +4142,21 @@ snapshots:
       '@ai-sdk/xai': 3.0.120(zod@4.4.3)
       '@aws-sdk/credential-providers': 3.1110.0
       '@clack/prompts': 1.7.0
-      '@easbot/codebase': 0.3.24(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)
-      '@easbot/gateway': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/llm': 0.3.24(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)
-      '@easbot/local-model-sdk': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/mcp': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/memory': 0.3.24(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)
-      '@easbot/note': 0.3.24(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)
-      '@easbot/ollama-sdk': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/plugin': 0.3.24
-      '@easbot/sdk': 0.3.24
-      '@easbot/skills': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/terminal': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/tui': 0.3.24
-      '@easbot/types': 0.3.24
-      '@easbot/utils': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/codebase': 0.3.25(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)
+      '@easbot/gateway': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/llm': 0.3.25(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)
+      '@easbot/local-model-sdk': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/mcp': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/memory': 0.3.25(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)
+      '@easbot/note': 0.3.25(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)
+      '@easbot/ollama-sdk': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/plugin': 0.3.25
+      '@easbot/sdk': 0.3.25
+      '@easbot/skills': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/terminal': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/tui': 0.3.25
+      '@easbot/types': 0.3.25
+      '@easbot/utils': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
       '@hono/node-server': 2.1.1(hono@4.13.4)
       '@hono/node-ws': 1.3.1(@hono/node-server@2.1.1(hono@4.13.4))(hono@4.13.4)
       '@hono/standard-validator': 0.4.0(@standard-schema/spec@1.1.0)(hono@4.13.4)
@@ -4216,19 +4216,19 @@ snapshots:
       - tree-sitter
       - utf-8-validate
 
-  '@easbot/codebase@0.3.24(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)':
+  '@easbot/codebase@0.3.25(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)':
     dependencies:
       '@ai-sdk/anthropic': 3.0.110(zod@4.4.3)
       '@ai-sdk/openai-compatible': 2.0.70(zod@4.4.3)
       '@ai-sdk/provider': 3.0.15
       '@ai-sdk/provider-utils': 4.0.48(zod@4.4.3)
-      '@easbot/database': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(better-sqlite3@13.0.3)(openapi-types@12.1.3)
-      '@easbot/llm': 0.3.24(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)
-      '@easbot/local-model-sdk': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/mcp': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/terminal': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/types': 0.3.24
-      '@easbot/utils': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/database': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(better-sqlite3@13.0.3)(openapi-types@12.1.3)
+      '@easbot/llm': 0.3.25(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)
+      '@easbot/local-model-sdk': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/mcp': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/terminal': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/types': 0.3.25
+      '@easbot/utils': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
       '@parcel/watcher': 2.6.0
       '@tree-sitter-grammars/tree-sitter-zig': 1.1.2
       ai: 6.0.266(zod@4.4.3)
@@ -4268,9 +4268,9 @@ snapshots:
       - utf-8-validate
       - ws
 
-  '@easbot/database@0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(better-sqlite3@13.0.3)(openapi-types@12.1.3)':
+  '@easbot/database@0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(better-sqlite3@13.0.3)(openapi-types@12.1.3)':
     dependencies:
-      '@easbot/utils': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/utils': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
       pg: 8.22.0
       zod: 4.4.3
     optionalDependencies:
@@ -4286,16 +4286,16 @@ snapshots:
       - pg-native
       - utf-8-validate
 
-  '@easbot/gateway@0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)':
+  '@easbot/gateway@0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)':
     dependencies:
       '@ai-sdk/anthropic': 3.0.110(zod@4.4.3)
       '@ai-sdk/openai-compatible': 2.0.70(zod@4.4.3)
       '@ai-sdk/provider': 3.0.15
       '@ai-sdk/provider-utils': 4.0.48(zod@4.4.3)
-      '@easbot/plugin': 0.3.24
-      '@easbot/sdk': 0.3.24
-      '@easbot/types': 0.3.24
-      '@easbot/utils': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/plugin': 0.3.25
+      '@easbot/sdk': 0.3.25
+      '@easbot/types': 0.3.25
+      '@easbot/utils': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
       '@hono/node-server': 2.1.1(hono@4.13.4)
       '@hono/node-ws': 1.3.1(@hono/node-server@2.1.1(hono@4.13.4))(hono@4.13.4)
       '@hono/standard-validator': 0.4.0(@standard-schema/spec@1.1.0)(hono@4.13.4)
@@ -4323,7 +4323,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@easbot/llm@0.3.24(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)':
+  '@easbot/llm@0.3.25(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)':
     dependencies:
       '@ai-sdk/alibaba': 1.0.45(zod@4.4.3)
       '@ai-sdk/amazon-bedrock': 4.0.153(zod@4.4.3)
@@ -4347,11 +4347,11 @@ snapshots:
       '@ai-sdk/vercel': 2.0.69(zod@4.4.3)
       '@ai-sdk/xai': 3.0.120(zod@4.4.3)
       '@aws-sdk/credential-providers': 3.1110.0
-      '@easbot/local-model-sdk': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/ollama-sdk': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/plugin': 0.3.24
-      '@easbot/types': 0.3.24
-      '@easbot/utils': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/local-model-sdk': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/ollama-sdk': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/plugin': 0.3.25
+      '@easbot/types': 0.3.25
+      '@easbot/utils': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
       '@openrouter/ai-sdk-provider': 2.10.0(ai@6.0.266(zod@4.4.3))(zod@4.4.3)
       ai: 6.0.266(zod@4.4.3)
       ai-gateway-provider: 3.2.0(@ai-sdk/openai-compatible@2.0.70(zod@4.4.3))(@ai-sdk/provider-utils@4.0.48(zod@4.4.3))(@ai-sdk/provider@3.0.15)(ai@6.0.266(zod@4.4.3))(zod@4.4.3)
@@ -4376,14 +4376,14 @@ snapshots:
       - utf-8-validate
       - ws
 
-  '@easbot/local-model-sdk@0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)':
+  '@easbot/local-model-sdk@0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)':
     dependencies:
       '@ai-sdk/anthropic': 3.0.110(zod@4.4.3)
       '@ai-sdk/openai-compatible': 2.0.70(zod@4.4.3)
       '@ai-sdk/provider': 3.0.15
       '@ai-sdk/provider-utils': 4.0.48(zod@4.4.3)
-      '@easbot/types': 0.3.24
-      '@easbot/utils': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/types': 0.3.25
+      '@easbot/utils': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
       '@huggingface/transformers': 4.2.0
       ai: 6.0.266(zod@4.4.3)
       onnxruntime-node: 1.27.0
@@ -4397,10 +4397,10 @@ snapshots:
       - openapi-types
       - utf-8-validate
 
-  '@easbot/mcp@0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)':
+  '@easbot/mcp@0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)':
     dependencies:
-      '@easbot/types': 0.3.24
-      '@easbot/utils': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/types': 0.3.25
+      '@easbot/utils': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
       '@modelcontextprotocol/sdk': 1.30.0(zod@4.4.3)
       ai: 6.0.266(zod@4.4.3)
       zod: 4.4.3
@@ -4415,20 +4415,20 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@easbot/memory@0.3.24(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)':
+  '@easbot/memory@0.3.25(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)':
     dependencies:
       '@ai-sdk/anthropic': 3.0.110(zod@4.4.3)
       '@ai-sdk/openai-compatible': 2.0.70(zod@4.4.3)
       '@ai-sdk/provider': 3.0.15
       '@ai-sdk/provider-utils': 4.0.48(zod@4.4.3)
-      '@easbot/database': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(better-sqlite3@13.0.3)(openapi-types@12.1.3)
-      '@easbot/llm': 0.3.24(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)
-      '@easbot/local-model-sdk': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/mcp': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/ollama-sdk': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/terminal': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/types': 0.3.24
-      '@easbot/utils': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/database': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(better-sqlite3@13.0.3)(openapi-types@12.1.3)
+      '@easbot/llm': 0.3.25(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)
+      '@easbot/local-model-sdk': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/mcp': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/ollama-sdk': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/terminal': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/types': 0.3.25
+      '@easbot/utils': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
       ai: 6.0.266(zod@4.4.3)
       better-sqlite3: 13.0.3
       jieba-wasm: 2.4.0
@@ -4452,20 +4452,20 @@ snapshots:
       - utf-8-validate
       - ws
 
-  '@easbot/note@0.3.24(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)':
+  '@easbot/note@0.3.25(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)':
     dependencies:
       '@ai-sdk/anthropic': 3.0.110(zod@4.4.3)
       '@ai-sdk/openai-compatible': 2.0.70(zod@4.4.3)
       '@ai-sdk/provider': 3.0.15
       '@ai-sdk/provider-utils': 4.0.48(zod@4.4.3)
-      '@easbot/database': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(better-sqlite3@13.0.3)(openapi-types@12.1.3)
-      '@easbot/llm': 0.3.24(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)
-      '@easbot/local-model-sdk': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/mcp': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/ollama-sdk': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/terminal': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/types': 0.3.24
-      '@easbot/utils': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/database': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(better-sqlite3@13.0.3)(openapi-types@12.1.3)
+      '@easbot/llm': 0.3.25(@aws-sdk/credential-provider-node@3.972.81)(@smithy/signature-v4@5.7.3)(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(graphql@16.14.2)(openapi-types@12.1.3)(ws@8.21.1)
+      '@easbot/local-model-sdk': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/mcp': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/ollama-sdk': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/terminal': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/types': 0.3.25
+      '@easbot/utils': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
       ai: 6.0.266(zod@4.4.3)
       better-sqlite3: 13.0.3
       gray-matter: 4.0.3
@@ -4490,12 +4490,12 @@ snapshots:
       - utf-8-validate
       - ws
 
-  '@easbot/ollama-sdk@0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)':
+  '@easbot/ollama-sdk@0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)':
     dependencies:
       '@ai-sdk/provider': 3.0.15
       '@ai-sdk/provider-utils': 4.0.48(zod@4.4.3)
-      '@easbot/types': 0.3.24
-      '@easbot/utils': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/types': 0.3.25
+      '@easbot/utils': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
       ai: 6.0.266(zod@4.4.3)
       zod: 4.4.3
     transitivePeerDependencies:
@@ -4507,24 +4507,24 @@ snapshots:
       - openapi-types
       - utf-8-validate
 
-  '@easbot/plugin@0.3.24':
+  '@easbot/plugin@0.3.25':
     dependencies:
-      '@easbot/sdk': 0.3.24
-      '@easbot/types': 0.3.24
+      '@easbot/sdk': 0.3.25
+      '@easbot/types': 0.3.25
       zod: 4.4.3
 
-  '@easbot/sdk@0.3.24':
+  '@easbot/sdk@0.3.25':
     dependencies:
       commander: 15.0.0
       events: 3.3.0
       zod: 4.4.3
 
-  '@easbot/skills@0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)':
+  '@easbot/skills@0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)':
     dependencies:
-      '@easbot/mcp': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/terminal': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
-      '@easbot/types': 0.3.24
-      '@easbot/utils': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/mcp': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/terminal': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/types': 0.3.25
+      '@easbot/utils': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
       simple-git: 3.36.0
       xdg-basedir: 5.1.0
       yaml: 2.9.0
@@ -4540,11 +4540,11 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@easbot/terminal@0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)':
+  '@easbot/terminal@0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)':
     dependencies:
       '@clack/prompts': 1.7.0
-      '@easbot/types': 0.3.24
-      '@easbot/utils': 0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
+      '@easbot/types': 0.3.25
+      '@easbot/utils': 0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)
       chalk: 6.0.0
     transitivePeerDependencies:
       - '@standard-community/standard-json'
@@ -4555,7 +4555,7 @@ snapshots:
       - openapi-types
       - utf-8-validate
 
-  '@easbot/tui@0.3.24':
+  '@easbot/tui@0.3.25':
     dependencies:
       '@types/mime-types': 3.0.1
       chalk: 5.6.2
@@ -4566,17 +4566,17 @@ snapshots:
       mime-types: 3.0.2
       zod: 4.4.3
 
-  '@easbot/types@0.3.24':
+  '@easbot/types@0.3.25':
     dependencies:
       '@ai-sdk/provider': 3.0.15
       '@ai-sdk/provider-utils': 4.0.48(zod@4.4.3)
-      '@easbot/sdk': 0.3.24
+      '@easbot/sdk': 0.3.25
       ai: 6.0.266(zod@4.4.3)
       zod: 4.4.3
 
-  '@easbot/utils@0.3.24(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)':
+  '@easbot/utils@0.3.25(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-community/standard-openapi@0.2.9(@standard-community/standard-json@0.3.5(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(quansync@0.2.11)(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3))(@standard-schema/spec@1.1.0)(openapi-types@12.1.3)(zod@4.4.3))(@standard-schema/spec@1.1.0)(@types/json-schema@7.0.15)(openapi-types@12.1.3)':
     dependencies:
-      '@easbot/types': 0.3.24
+      '@easbot/types': 0.3.25
       '@hono/node-server': 2.1.1(hono@4.13.4)
       '@hono/node-ws': 1.3.1(@hono/node-server@2.1.1(hono@4.13.4))(hono@4.13.4)
       '@hono/standard-validator': 0.4.0(@standard-schema/spec@1.1.0)(hono@4.13.4)

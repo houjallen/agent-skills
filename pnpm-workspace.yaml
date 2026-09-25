@@ -91,4 +91,4 @@ overrides:
 
 # 注：已通过 minimumReleaseAgeStrict: false 关闭 24h 冷静期
 # 此白名单保留仅为紧急绕过特定版本发布审核（按需取消注释）
-minimumReleaseAgeExclude: [ '@easbot/agent@0.3.24', '@easbot/codebase@0.3.24', '@easbot/database@0.3.24', '@easbot/gateway@0.3.24', '@easbot/local-model-sdk@0.3.24', '@easbot/mcp@0.3.24', '@easbot/memory@0.3.24', '@easbot/note@0.3.24', '@easbot/ollama-sdk@0.3.24', '@easbot/plugin@0.3.24', '@easbot/sdk@0.3.24', '@easbot/skills@0.3.24', '@easbot/terminal@0.3.24', '@easbot/tui@0.3.24', '@easbot/types@0.3.24', '@easbot/utils@0.3.24' ]
+minimumReleaseAgeExclude: [ '@easbot/agent@0.3.25', '@easbot/codebase@0.3.25', '@easbot/database@0.3.25', '@easbot/gateway@0.3.25', '@easbot/local-model-sdk@0.3.25', '@easbot/mcp@0.3.25', '@easbot/memory@0.3.25', '@easbot/note@0.3.25', '@easbot/ollama-sdk@0.3.25', '@easbot/plugin@0.3.25', '@easbot/sdk@0.3.25', '@easbot/skills@0.3.25', '@easbot/terminal@0.3.25', '@easbot/tui@0.3.25', '@easbot/types@0.3.25', '@easbot/utils@0.3.25' ]
