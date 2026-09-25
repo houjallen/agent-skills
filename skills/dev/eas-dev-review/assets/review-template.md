@@ -2,9 +2,9 @@
 topic: <评审主题 / PR 编号>
 phase: review
 scope: <overall | task>
-task_id: <T-XXX>              # 仅 scope: task 时必填
+task_id: <T-XXX> # 仅 scope: task 时必填
 p0_count: <N>
-p1_count: <N>                 # 已豁免 <M>
+p1_count: <N> # 已豁免 <M>
 p2_count: <N>
 status: <pass | fail>
 created_at: <YYYY-MM-DD>
@@ -18,21 +18,21 @@ diff_ref: <git-diff-output-or-link>
 # <主题> - 代码评审报告 (Code Review Report)
 
 > **生成方式**：通过 [`eas-dev-review`](../SKILL.md) 技能产出
-> **评审输入**：[`<spec_ref>`](<spec_ref>) + [`<diff_ref>`](<diff_ref>)
+> **评审输入**：[`<spec_ref>`](spec_ref) + [`<diff_ref>`](diff_ref)
 > **总体结论**：✅ PASS / ⚠️ PASS with notes / ❌ FAIL
 
 ---
 
 ## 1. Summary
 
-| 项 | 值 |
-|---|---|
-| 总体结论 | ✅ PASS / ⚠️ PASS with notes / ❌ FAIL |
-| P0 数量 | <N> |
-| P1 数量 | <N>（已豁免 <M>） |
-| P2 数量 | <N> |
-| 是否阻止合入 | 是（P0 > 0）/ 否 |
-| Strengths | <1-3 句话> |
+| 项           | 值                                     |
+| ------------ | -------------------------------------- |
+| 总体结论     | ✅ PASS / ⚠️ PASS with notes / ❌ FAIL |
+| P0 数量      | <N>                                    |
+| P1 数量      | <N>（已豁免 <M>）                      |
+| P2 数量      | <N>                                    |
+| 是否阻止合入 | 是（P0 > 0）/ 否                       |
+| Strengths    | <1-3 句话>                             |
 
 ---
 
@@ -70,9 +70,9 @@ diff_ref: <git-diff-output-or-link>
 
 ### 豁免列表 (Exemptions)
 
-| P1 ID | 豁免理由 | 豁免人 | 日期 |
-|---|---|---|---|
-| P1-X | <理由> | <name> | <YYYY-MM-DD> |
+| P1 ID | 豁免理由 | 豁免人 | 日期         |
+| ----- | -------- | ------ | ------------ |
+| P1-X  | <理由>   | <name> | <YYYY-MM-DD> |
 
 ---
 
@@ -103,15 +103,15 @@ diff_ref: <git-diff-output-or-link>
 
 ## 元数据 (Metadata)
 
-| 项 | 值 |
-|---|---|
-| 评审时间 | <YYYY-MM-DD> |
-| 评审者 | <name> |
-| spec 引用 | <path> |
-| design 引用 | <path> |
-| diff 引用 | <path> |
-| 总体结论 | ✅ / ⚠️ / ❌ |
-| 下一步 | `eas-dev-finish`（PASS）/ 修复 P0-P1（FAIL） |
+| 项          | 值                                           |
+| ----------- | -------------------------------------------- |
+| 评审时间    | <YYYY-MM-DD>                                 |
+| 评审者      | <name>                                       |
+| spec 引用   | <path>                                       |
+| design 引用 | <path>                                       |
+| diff 引用   | <path>                                       |
+| 总体结论    | ✅ / ⚠️ / ❌                                 |
+| 下一步      | `eas-dev-finish`（PASS）/ 修复 P0-P1（FAIL） |
 
 ---
 

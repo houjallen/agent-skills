@@ -1,12 +1,12 @@
 ---
 name: 0014-dev-skills-pack-architecture
-description: "0014: 通用开发闭环技能包架构 —— 9 个独立可执行 + 可组合的 eas-dev-* 技能，覆盖需求→设计→实现→测试→评审→交付→诊断→收尾完整闭环"
+description: '0014: 通用开发闭环技能包架构 —— 9 个独立可执行 + 可组合的 eas-dev-* 技能，覆盖需求→设计→实现→测试→评审→交付→诊断→收尾完整闭环'
 category: architecture
 author: Agent (EASBot)
 version: 1.0.0
-date: "2026-08-08"
+date: '2026-08-08'
 keywords:
-  - "0014"
+  - '0014'
   - dev-skills-pack
   - architecture
   - eas-dev-
@@ -55,39 +55,39 @@ EASBot agent-skills 仓库目前有 7 个 builtin 核心技能 + 5 个 tools 工
 
 ### 方案 A：1 个超大 `eas-dev` Pipeline 技能（gstack 风格）
 
-| 维度 | 评估 |
-|------|------|
-| 优点 | 一步到位；用户无需学习多技能；和 gstack / BMAD 一样"全自动" |
+| 维度 | 评估                                                                                                                                                  |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 优点 | 一步到位；用户无需学习多技能；和 gstack / BMAD 一样"全自动"                                                                                           |
 | 缺点 | 违反 C1（5 大模式中 Pipeline 技能描述完整流程则 SKILL.md 必然 > 500 行）；违反 C3（不能独立执行子阶段）；违反 C4（剥夺创造性）；违反 C6（过度工程化） |
-| 风险 | 用户被困在"全流程托管"，与 mattpocock 反模式警告一致 |
-| 成本 | 单 SKILL.md 可能 1000+ 行；后续修改牵一发动全身 |
+| 风险 | 用户被困在"全流程托管"，与 mattpocock 反模式警告一致                                                                                                  |
+| 成本 | 单 SKILL.md 可能 1000+ 行；后续修改牵一发动全身                                                                                                       |
 
 ### 方案 B：9 个独立可组合技能（mattpocock 风格）—— **本决策选择**
 
-| 维度 | 评估 |
-|------|------|
-| 优点 | 每个技能小、单一职责；满足 C3（独立 + 组合双契约）；满足 C5/C6（启发 + 不过度工程化） |
+| 维度 | 评估                                                                                             |
+| ---- | ------------------------------------------------------------------------------------------------ |
+| 优点 | 每个技能小、单一职责；满足 C3（独立 + 组合双契约）；满足 C5/C6（启发 + 不过度工程化）            |
 | 缺点 | 用户需了解 9 个技能（成本：能力索引清晰即可）；缺少"一键全流程"（用 Pipeline orchestrator 弥补） |
-| 风险 | 技能间接口若不一致会导致组合失败；通过"共享上下文契约 + 端到端示例"缓解 |
-| 成本 | 9 × ~400 行 SKILL.md = ~3600 行；可接受 |
+| 风险 | 技能间接口若不一致会导致组合失败；通过"共享上下文契约 + 端到端示例"缓解                          |
+| 成本 | 9 × ~400 行 SKILL.md = ~3600 行；可接受                                                          |
 
 ### 方案 C：复制 superpowers 全套 13 个技能（严格 1:1 对照）
 
-| 维度 | 评估 |
-|------|------|
-| 优点 | 用户可平滑迁移；已被验证 |
+| 维度 | 评估                                                                                                                                                                                              |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 优点 | 用户可平滑迁移；已被验证                                                                                                                                                                          |
 | 缺点 | 包含 "writing-skills" / "using-superpowers" / "using-git-worktrees" 等元层技能，与 EASBot 既有 `eas-skill-creator` / `eas-skill-find` / `eas-planning-writer` 冲突；包含强制流程红线（C4 不允许） |
-| 风险 | 技能职责重叠；用户认知负担 |
-| 成本 | 13 个技能，超出 C6 的 ≤10 上限 |
+| 风险 | 技能职责重叠；用户认知负担                                                                                                                                                                        |
+| 成本 | 13 个技能，超出 C6 的 ≤10 上限                                                                                                                                                                    |
 
 ### 方案 D：保留 superpowers 子集（7 个），跳过元层技能
 
-| 维度 | 评估 |
-|------|------|
-| 优点 | 避开元层冲突；保留 superpowers 强流程优势 |
+| 维度 | 评估                                                                                   |
+| ---- | -------------------------------------------------------------------------------------- |
+| 优点 | 避开元层冲突；保留 superpowers 强流程优势                                              |
 | 缺点 | 仍受 C4（强流程约束）和 C6（数量 7 个偏多）制约；未充分吸收 mattpocock / gstack 的优点 |
-| 风险 | 沦为 superpowers 仿制品，缺少 EASBot 特色 |
-| 成本 | 7 个技能，每个仍需大幅调整以适配 EASBot 规范 |
+| 风险 | 沦为 superpowers 仿制品，缺少 EASBot 特色                                              |
+| 成本 | 7 个技能，每个仍需大幅调整以适配 EASBot 规范                                           |
 
 ## 决策 (Decision)
 
@@ -95,25 +95,25 @@ EASBot agent-skills 仓库目前有 7 个 builtin 核心技能 + 5 个 tools 工
 
 落地清单（最终 10 个技能，其中 9 个独立 + 1 个组合 orchestrator）：
 
-| # | 技能 name | 中文名 | 模式 | 独立职责 | 在闭环中的位置 |
-|---|---|---|---|---|---|
-| 1 | `eas-dev-align` | 对齐 / 头脑风暴 | **Inversion**（3 阶段访谈） | 在写代码 / spec 之前对齐意图与术语；产出"对齐笔记" | 阶段 1 |
-| 2 | `eas-dev-spec` | 规格化 | **Generator** | 把对齐笔记转为可执行 spec（背景 / 目标 / 接口 / 验收 / 范围外） | 阶段 2 |
-| 3 | `eas-dev-design` | 架构设计 | **Pattern**（deep modules） | 在 spec 基础上设计模块边界 / 接口契约 / 测试面 | 阶段 3 |
-| 4 | `eas-dev-plan` | 任务拆解 | **Generator** | 把 spec/design 拆为可执行任务（2-5 分钟颗粒度） | 阶段 4 |
-| 5 | `eas-dev-tdd` | TDD 实现 | **Technique** | 红-绿-重构循环；含测试反模式库 | 阶段 5 |
-| 6 | `eas-dev-implement` | 实现驱动 | **Pipeline** | 调度 plan → tdd → review 的单任务级闭环 | 阶段 5（替代实现方式） |
-| 7 | `eas-dev-review` | 代码评审 | **Reviewer** | 两轴评审（标准 / spec）；P0/P1/P2 分级 | 阶段 6 |
-| 8 | `eas-dev-diagnose` | 诊断调试 | **Technique** | 4 阶段根因分析（复现 / 定位 / 修复 / 回归） | 阶段 7（bug 修复路径） |
-| 9 | `eas-dev-finish` | 收尾发布 | **Technique** | 合并 / PR / 部署 / 文档同步的工作流 | 阶段 8 |
-| 10 | `eas-dev-loop` | 全流程编排 | **Pipeline** | 把 1-9 组合成"完整开发闭环"（用户一键式）；可选 | 全流程 |
+| #   | 技能 name           | 中文名          | 模式                        | 独立职责                                                        | 在闭环中的位置         |
+| --- | ------------------- | --------------- | --------------------------- | --------------------------------------------------------------- | ---------------------- |
+| 1   | `eas-dev-align`     | 对齐 / 头脑风暴 | **Inversion**（3 阶段访谈） | 在写代码 / spec 之前对齐意图与术语；产出"对齐笔记"              | 阶段 1                 |
+| 2   | `eas-dev-spec`      | 规格化          | **Generator**               | 把对齐笔记转为可执行 spec（背景 / 目标 / 接口 / 验收 / 范围外） | 阶段 2                 |
+| 3   | `eas-dev-design`    | 架构设计        | **Pattern**（deep modules） | 在 spec 基础上设计模块边界 / 接口契约 / 测试面                  | 阶段 3                 |
+| 4   | `eas-dev-plan`      | 任务拆解        | **Generator**               | 把 spec/design 拆为可执行任务（2-5 分钟颗粒度）                 | 阶段 4                 |
+| 5   | `eas-dev-tdd`       | TDD 实现        | **Technique**               | 红-绿-重构循环；含测试反模式库                                  | 阶段 5                 |
+| 6   | `eas-dev-implement` | 实现驱动        | **Pipeline**                | 调度 plan → tdd → review 的单任务级闭环                         | 阶段 5（替代实现方式） |
+| 7   | `eas-dev-review`    | 代码评审        | **Reviewer**                | 两轴评审（标准 / spec）；P0/P1/P2 分级                          | 阶段 6                 |
+| 8   | `eas-dev-diagnose`  | 诊断调试        | **Technique**               | 4 阶段根因分析（复现 / 定位 / 修复 / 回归）                     | 阶段 7（bug 修复路径） |
+| 9   | `eas-dev-finish`    | 收尾发布        | **Technique**               | 合并 / PR / 部署 / 文档同步的工作流                             | 阶段 8                 |
+| 10  | `eas-dev-loop`      | 全流程编排      | **Pipeline**                | 把 1-9 组合成"完整开发闭环"（用户一键式）；可选                 | 全流程                 |
 
-| 项 | 内容 |
-|------|------|
+| 项       | 内容                                                        |
+| -------- | ----------------------------------------------------------- |
 | 选了什么 | 方案 B（10 个技能 = 9 个独立 + 1 个 Pipeline orchestrator） |
-| 适用范围 | 所有未来"通用开发流程"场景（任何语言 / 框架） |
-| 生效日期 | 2026-08-08（草拟，待 Review） |
-| 审批状态 | 📋 草拟 |
+| 适用范围 | 所有未来"通用开发流程"场景（任何语言 / 框架）               |
+| 生效日期 | 2026-08-08（草拟，待 Review）                               |
+| 审批状态 | 📋 草拟                                                     |
 
 ## 依据 (Rationale)
 
@@ -188,20 +188,20 @@ EASBot agent-skills 仓库目前有 7 个 builtin 核心技能 + 5 个 tools 工
 
 ## 后续任务 (Follow-up)
 
-| 任务 | 负责模块 | 优先级 | 状态 |
-|------|----------|--------|------|
-| 创建 `eas-dev-align`（Inversion 模式；最特殊，先做） | skills/dev/eas-dev-align | 🔴 高 | 📋 待启动 |
-| 创建 `eas-dev-spec`（Generator 模式；闭环起点） | skills/dev/eas-dev-spec | 🔴 高 | 📋 待启动 |
-| 创建 `eas-dev-design`（Pattern 模式） | skills/dev/eas-dev-design | 🔴 高 | 📋 待启动 |
-| 创建 `eas-dev-plan`（Generator 模式） | skills/dev/eas-dev-plan | 🔴 高 | 📋 待启动 |
-| 创建 `eas-dev-tdd`（Technique 模式） | skills/dev/eas-dev-tdd | 🟡 中 | 📋 待启动 |
-| 创建 `eas-dev-implement`（Pipeline 模式） | skills/dev/eas-dev-implement | 🟡 中 | 📋 待启动 |
-| 创建 `eas-dev-review`（Reviewer 模式） | skills/dev/eas-dev-review | 🔴 高 | 📋 待启动 |
-| 创建 `eas-dev-diagnose`（Technique 模式） | skills/dev/eas-dev-diagnose | 🟡 中 | 📋 待启动 |
-| 创建 `eas-dev-finish`（Technique 模式） | skills/dev/eas-dev-finish | 🟢 低 | 📋 待启动 |
-| 创建 `eas-dev-loop`（Pipeline 编排） | skills/dev/eas-dev-loop | 🟢 低 | 📋 待启动 |
-| 同步 AGENTS.md / README* / marketplace.json（**不**改 eas-skill-using） | repo | 🔴 高 | 📋 待启动 |
-| 全量 `quick-validate` + §14 评审 + 评审报告 0015 | repo | 🔴 高 | 📋 待启动 |
+| 任务                                                                    | 负责模块                     | 优先级 | 状态      |
+| ----------------------------------------------------------------------- | ---------------------------- | ------ | --------- |
+| 创建 `eas-dev-align`（Inversion 模式；最特殊，先做）                    | skills/dev/eas-dev-align     | 🔴 高  | 📋 待启动 |
+| 创建 `eas-dev-spec`（Generator 模式；闭环起点）                         | skills/dev/eas-dev-spec      | 🔴 高  | 📋 待启动 |
+| 创建 `eas-dev-design`（Pattern 模式）                                   | skills/dev/eas-dev-design    | 🔴 高  | 📋 待启动 |
+| 创建 `eas-dev-plan`（Generator 模式）                                   | skills/dev/eas-dev-plan      | 🔴 高  | 📋 待启动 |
+| 创建 `eas-dev-tdd`（Technique 模式）                                    | skills/dev/eas-dev-tdd       | 🟡 中  | 📋 待启动 |
+| 创建 `eas-dev-implement`（Pipeline 模式）                               | skills/dev/eas-dev-implement | 🟡 中  | 📋 待启动 |
+| 创建 `eas-dev-review`（Reviewer 模式）                                  | skills/dev/eas-dev-review    | 🔴 高  | 📋 待启动 |
+| 创建 `eas-dev-diagnose`（Technique 模式）                               | skills/dev/eas-dev-diagnose  | 🟡 中  | 📋 待启动 |
+| 创建 `eas-dev-finish`（Technique 模式）                                 | skills/dev/eas-dev-finish    | 🟢 低  | 📋 待启动 |
+| 创建 `eas-dev-loop`（Pipeline 编排）                                    | skills/dev/eas-dev-loop      | 🟢 低  | 📋 待启动 |
+| 同步 AGENTS.md / README* / marketplace.json（**不**改 eas-skill-using） | repo                         | 🔴 高  | 📋 待启动 |
+| 全量 `quick-validate` + §14 评审 + 评审报告 0015                        | repo                         | 🔴 高  | 📋 待启动 |
 
 ## 关联 (References)
 
@@ -220,8 +220,8 @@ EASBot agent-skills 仓库目前有 7 个 builtin 核心技能 + 5 个 tools 工
 
 ## 修订记录 (Revision History)
 
-| 版本 | 日期 | 修订内容 | 修订人 |
-|------|------|----------|--------|
+| 版本  | 日期       | 修订内容                                              | 修订人         |
+| ----- | ---------- | ----------------------------------------------------- | -------------- |
 | 1.0.0 | 2026-08-08 | 初版：10 个技能（9 独立 + 1 orchestrator）方案 B 选定 | Agent (EASBot) |
 
 ---

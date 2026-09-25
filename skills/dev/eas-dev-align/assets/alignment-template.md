@@ -85,18 +85,18 @@ status: draft | confirmed
 
 **Type**: `<behavior-defined | metric-defined | test-coverage | other>`
 
-| AC ID | Name | Target | Measurement |
-|---|---|---|---|
-| AC-1 | <验收项 1> | <目标值> | <如何测量> |
-| AC-2 | <验收项 2> | <目标值> | <如何测量> |
-| ... | | | |
+| AC ID | Name       | Target   | Measurement |
+| ----- | ---------- | -------- | ----------- |
+| AC-1  | <验收项 1> | <目标值> | <如何测量>  |
+| AC-2  | <验收项 2> | <目标值> | <如何测量>  |
+| ...   |            |          |             |
 
 ### Secondary Acceptance（副验收，可选）
 
-| AC ID | Name | Target | Measurement |
-|---|---|---|---|
-| AC-N | <附加验收> | <目标值> | <如何测量> |
-| ... | | | |
+| AC ID | Name       | Target   | Measurement |
+| ----- | ---------- | -------- | ----------- |
+| AC-N  | <附加验收> | <目标值> | <如何测量>  |
+| ...   |            |          |             |
 
 ### Done Definition（完成判定）
 
@@ -112,22 +112,22 @@ status: draft | confirmed
 
 > 来源：Phase 3（术语 + 验收）
 
-| 术语 | 定义 | 来源 |
-|---|---|---|
+| 术语       | 定义                 | 来源     |
+| ---------- | -------------------- | -------- |
 | `<term-a>` | <具体含义（无歧义）> | 用户定义 |
-| `<term-b>` | <具体含义> | 用户定义 |
-| ... | | |
+| `<term-b>` | <具体含义>           | 用户定义 |
+| ...        |                      |          |
 
 ---
 
 ## 元数据 (Metadata)
 
-| 项 | 值 |
-|---|---|
-| 创建时间 | <YYYY-MM-DD> |
+| 项       | 值                                                 |
+| -------- | -------------------------------------------------- |
+| 创建时间 | <YYYY-MM-DD>                                       |
 | 适用技能 | `eas-dev-spec` / `eas-dev-design` / `eas-dev-plan` |
-| 用户确认 | `<pending | confirmed @ YYYY-MM-DD>` |
-| 关联对话 | <链接 / 引用> |
+| 用户确认 | `<pending                                          | confirmed @ YYYY-MM-DD>` |
+| 关联对话 | <链接 / 引用>                                      |
 
 ---
 

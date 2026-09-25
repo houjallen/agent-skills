@@ -1,6 +1,6 @@
 ---
 name: requirement-decision-guide
-description: "eas-planning-writer 需求决策模板使用指南 —— 阶段 1 完成后落地 0001-initial-design.md 的流程、路径与反模式。"
+description: 'eas-planning-writer 需求决策模板使用指南 —— 阶段 1 完成后落地 0001-initial-design.md 的流程、路径与反模式。'
 category: reference
 ---
 
@@ -27,21 +27,24 @@ category: reference
 
 按"影响范围"分三类，对应不同的沉淀路径：
 
-| 场景 | 触发条件 | 沉淀路径 | 模板 |
-|------|----------|----------|------|
-| **场景 A：任务级需求决策** | 单个任务内的阶段划分、模式选择、字段约定 | `<task-dir>/0001-{topic}.md` | [`00NN-requirement.md`](templates/decisions/00NN-requirement.md) |
-| **场景 B：跨任务架构决策** | 影响 ≥ 2 个任务 / 改变任务间协议 / 引入新约定 | `<cwd>/docs/decisions/00NN-{topic}.md` | 通用 ADR 模板（架构型） |
-| **场景 C：执行型决策** | 阶段 7 迭代后的小决策、bugfix 决策 | `<cwd>/docs/decisions/00NN-{topic}.md` | 通用 ADR 模板（执行型） |
+| 场景                       | 触发条件                                      | 沉淀路径                               | 模板                                                             |
+| -------------------------- | --------------------------------------------- | -------------------------------------- | ---------------------------------------------------------------- |
+| **场景 A：任务级需求决策** | 单个任务内的阶段划分、模式选择、字段约定      | `<task-dir>/0001-{topic}.md`           | [`00NN-requirement.md`](templates/decisions/00NN-requirement.md) |
+| **场景 B：跨任务架构决策** | 影响 ≥ 2 个任务 / 改变任务间协议 / 引入新约定 | `<cwd>/docs/decisions/00NN-{topic}.md` | 通用 ADR 模板（架构型）                                          |
+| **场景 C：执行型决策**     | 阶段 7 迭代后的小决策、bugfix 决策            | `<cwd>/docs/decisions/00NN-{topic}.md` | 通用 ADR 模板（执行型）                                          |
 
 **沉淀路径说明**：
+
 - `<task-dir>` = `<cwd>/.easbot/knowledge/tasks/{task-name}/`（本技能三件套落地目录）
 - `docs/decisions/` 是 ADR（Architecture Decision Record）行业标准目录约定（Michael Nygard 格式）。Agent 在宿主项目下落地跨任务决策时，推荐沿用此约定；若宿主项目已建立自有决策目录（如 `<cwd>/.easbot/decisions/`、`<cwd>/adr/` 等），Agent 应优先遵循宿主项目规范。
 
 **路径变量说明**：
+
 - `<cwd>`：宿主项目根目录（Agent 调用本技能时的当前工作目录）
 - `<task-dir>`：单个任务的三件套目录
 
 **判定速查**：
+
 - ✅ 影响 1 个任务内的设计 → **场景 A**（本目录模板）
 - ✅ 影响 ≥ 2 个任务 / 改变调用协议 → **场景 B**（宿主项目级 ADR）
 - ✅ 迭代过程中的小调整 → **场景 C**（宿主项目级 ADR 执行型）
@@ -56,17 +59,17 @@ category: reference
 
 完整结构见 [`00NN-requirement.md`](templates/decisions/00NN-requirement.md)。每章作用：
 
-| # | 章节 | 作用 | 必填 |
-|---|---|---|---|
-| 1 | **背景 (Context)** | 用户原始诉求、收集到的需求摘要 | ✅ |
-| 2 | **需求画像 (Requirement Profile)** | 直接附上阶段 1 产出的 `task_profile` | ✅ |
-| 3 | **关键判断 (Key Judgments)** | 阶段 1 过程中做出的关键判断清单 | ✅ |
-| 4 | **备选方案 (Alternatives)** | 至少 2 个候选（模式、字段、路径）| ✅ |
-| 5 | **决策 (Decision)** | 选了什么 + 表格明确 | ✅ |
-| 6 | **依据 (Rationale)** | 为什么选这个 | ✅ |
-| 7 | **具体动作 (Actions)** | 可勾选清单（落到文件路径）| ✅ |
-| 8 | **影响 (Impact)** | 正面 ✅ / 风险 ⚠️ / 副作用 ❌ | ✅ |
-| 9 | **回溯链接 (Backlinks)** | 指向后续阶段产出 + 跨任务 ADR | ✅ |
+| #   | 章节                               | 作用                                 | 必填 |
+| --- | ---------------------------------- | ------------------------------------ | ---- |
+| 1   | **背景 (Context)**                 | 用户原始诉求、收集到的需求摘要       | ✅   |
+| 2   | **需求画像 (Requirement Profile)** | 直接附上阶段 1 产出的 `task_profile` | ✅   |
+| 3   | **关键判断 (Key Judgments)**       | 阶段 1 过程中做出的关键判断清单      | ✅   |
+| 4   | **备选方案 (Alternatives)**        | 至少 2 个候选（模式、字段、路径）    | ✅   |
+| 5   | **决策 (Decision)**                | 选了什么 + 表格明确                  | ✅   |
+| 6   | **依据 (Rationale)**               | 为什么选这个                         | ✅   |
+| 7   | **具体动作 (Actions)**             | 可勾选清单（落到文件路径）           | ✅   |
+| 8   | **影响 (Impact)**                  | 正面 ✅ / 风险 ⚠️ / 副作用 ❌        | ✅   |
+| 9   | **回溯链接 (Backlinks)**           | 指向后续阶段产出 + 跨任务 ADR        | ✅   |
 
 ### 3.2 与 `task_profile` 的关系
 
@@ -83,6 +86,7 @@ task_plan.md / findings.md / progress.md (阶段 2-5 产出)
 ```
 
 **铁律**：
+
 - `task_profile` 的字段 MUST 100% 出现在决策文档的「需求画像」章节
 - 决策文档「关键判断」章节 MUST 列出 `task_profile` 中无法表达的设计选择（如"为什么阶段数估为 5"、"为什么兜底策略选 A"）
 - 决策文档「回溯链接」章节 MUST 指向最终产出的 task_plan.md / findings.md / progress.md
@@ -120,6 +124,7 @@ cp <eas-planning-writer>/references/templates/decisions/00NN-requirement.md \
 ### 4.3 路径选择
 
 **默认路径**（推荐）：
+
 ```
 <task-dir>/0001-{topic}.md
 ```
@@ -128,6 +133,7 @@ cp <eas-planning-writer>/references/templates/decisions/00NN-requirement.md \
 - 容易找（不需要翻 `<cwd>/docs/decisions/`）
 
 **可选路径**（仅在以下情况使用）：
+
 ```
 <cwd>/.easbot/skills/{task-name}/decisions/00NN-{topic}.md
 ```
@@ -147,16 +153,16 @@ cp <eas-planning-writer>/references/templates/decisions/00NN-requirement.md \
 
 ## 六、反模式 (Anti-Patterns)
 
-| ❌ 不要 | ✅ 应该 |
-|---|---|
-| 阶段 1 完成后直接进阶段 2，无决策文档 | 必产决策文档，再进阶段 2 |
-| `task_profile` 与决策文档内容不一致 | 决策文档的「需求画像」 MUST 100% 复制 task_profile |
-| 决策文档写完就丢，不在 task_plan.md 引用 | task_plan.md 阶段 1 勾选"产出需求决策文档" |
-| 决策文档不写备选方案 | 至少 2 个并列候选 |
-| 决策文档无"具体动作"清单 | 每条 MUST 含可勾选落地动作 |
-| 跨任务决策放本目录 | 影响 ≥ 2 个任务必须升级到宿主项目级 ADR |
-| 修订另起 v2 文件 | 在原文件追加"修订记录" |
-| 引用本任务目录外的路径 | 本任务是自包含的，**只允许引用本任务目录内部** |
+| ❌ 不要                                  | ✅ 应该                                            |
+| ---------------------------------------- | -------------------------------------------------- |
+| 阶段 1 完成后直接进阶段 2，无决策文档    | 必产决策文档，再进阶段 2                           |
+| `task_profile` 与决策文档内容不一致      | 决策文档的「需求画像」 MUST 100% 复制 task_profile |
+| 决策文档写完就丢，不在 task_plan.md 引用 | task_plan.md 阶段 1 勾选"产出需求决策文档"         |
+| 决策文档不写备选方案                     | 至少 2 个并列候选                                  |
+| 决策文档无"具体动作"清单                 | 每条 MUST 含可勾选落地动作                         |
+| 跨任务决策放本目录                       | 影响 ≥ 2 个任务必须升级到宿主项目级 ADR            |
+| 修订另起 v2 文件                         | 在原文件追加"修订记录"                             |
+| 引用本任务目录外的路径                   | 本任务是自包含的，**只允许引用本任务目录内部**     |
 
 ---
 

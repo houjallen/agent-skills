@@ -11,37 +11,40 @@
 
 ### 必须通过项
 
-| 项 | 校验内容 | 失败动作 |
-|---|---|---|
-| tasks.md 存在 | 文件可读 | 报错"无任务清单" |
-| 每任务 7 字段齐全 | id / title / prerequisites / acceptance_steps / code_paths / estimated_minutes / risks | 报错 + 返回缺失字段任务 ID |
-| estimated_minutes ∈ [2, 5] | 每任务 | 报错 + 返回超颗粒度任务 ID |
-| 任务依赖无循环 | DAG 检查 | 报错 + 返回循环路径 |
-| spec.md 存在 | 文件可读 | 报错"无 spec 无法 review" |
+| 项                         | 校验内容                                                                               | 失败动作                   |
+| -------------------------- | -------------------------------------------------------------------------------------- | -------------------------- |
+| tasks.md 存在              | 文件可读                                                                               | 报错"无任务清单"           |
+| 每任务 7 字段齐全          | id / title / prerequisites / acceptance_steps / code_paths / estimated_minutes / risks | 报错 + 返回缺失字段任务 ID |
+| estimated_minutes ∈ [2, 5] | 每任务                                                                                 | 报错 + 返回超颗粒度任务 ID |
+| 任务依赖无循环             | DAG 检查                                                                               | 报错 + 返回循环路径        |
+| spec.md 存在               | 文件可读                                                                               | 报错"无 spec 无法 review"  |
 
 ### 校验脚本（伪代码）
 
 ```typescript
 async function checkEntryGate(): Promise<ValidationResult> {
   const tasks = await loadTasksMd();
-  if (!tasks) return { pass: false, reason: "tasks.md 缺失" };
+  if (!tasks) return { pass: false, reason: 'tasks.md 缺失' };
 
   for (const task of tasks) {
-    const missing = REQUIRED_FIELDS.filter(f => !task[f]);
+    const missing = REQUIRED_FIELDS.filter((f) => !task[f]);
     if (missing.length > 0) {
       return { pass: false, reason: `任务 ${task.id} 缺失字段：${missing}` };
     }
     if (task.estimated_minutes < 2 || task.estimated_minutes > 5) {
-      return { pass: false, reason: `任务 ${task.id} 颗粒度超界（${task.estimated_minutes} 分钟）` };
+      return {
+        pass: false,
+        reason: `任务 ${task.id} 颗粒度超界（${task.estimated_minutes} 分钟）`,
+      };
     }
   }
 
   if (hasCyclicDependency(tasks)) {
-    return { pass: false, reason: "任务依赖存在循环" };
+    return { pass: false, reason: '任务依赖存在循环' };
   }
 
-  if (!await fileExists("spec.md")) {
-    return { pass: false, reason: "spec.md 缺失（review 阶段必需）" };
+  if (!(await fileExists('spec.md'))) {
+    return { pass: false, reason: 'spec.md 缺失（review 阶段必需）' };
   }
 
   return { pass: true };
@@ -54,11 +57,11 @@ async function checkEntryGate(): Promise<ValidationResult> {
 
 ### 必须通过项
 
-| 项 | 校验内容 |
-|---|---|
-| 所有任务 status = complete | tasks.md frontmatter |
-| 所有任务 review.md status = PASS | 每个 review.md |
-| 所有 review P0 = 0 | 每个 review.md |
+| 项                               | 校验内容             |
+| -------------------------------- | -------------------- |
+| 所有任务 status = complete       | tasks.md frontmatter |
+| 所有任务 review.md status = PASS | 每个 review.md       |
+| 所有 review P0 = 0               | 每个 review.md       |
 
 ### 状态更新
 
@@ -79,11 +82,11 @@ pipeline_summary:
 
 ### 失败分类
 
-| 失败类型 | 处理 |
-|---|---|
-| **入口 Gate 失败** | 停止；返回错误；NEVER 进入 Step 1 |
+| 失败类型                                                | 处理                                             |
+| ------------------------------------------------------- | ------------------------------------------------ |
+| **入口 Gate 失败**                                      | 停止；返回错误；NEVER 进入 Step 1                |
 | **Step Gate 失败**（load / execute / review / advance） | 停止 pipeline；返回失败步骤 + 错误详情；保存状态 |
-| **出口 Gate 失败** | 停止；返回缺失 review 的任务列表 |
+| **出口 Gate 失败**                                      | 停止；返回缺失 review 的任务列表                 |
 
 ### 状态保存
 

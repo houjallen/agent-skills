@@ -54,23 +54,23 @@ status: proposed
 
 ```yaml
 task_profile:
-  domain: code | design | writing | business | data | hybrid   # [MUST]
-  scenarios: [<3+ 具体使用场景>]                                # [MUST]
-  triggers: [<5+ 触发短语>]                                    # [MUST]
-  boundaries: [<不应纳入本任务的场景>]                          # [MUST]
-  constraints:                                                  # [SHOULD]
+  domain: code | design | writing | business | data | hybrid # [MUST]
+  scenarios: [<3+ 具体使用场景>] # [MUST]
+  triggers: [<5+ 触发短语>] # [MUST]
+  boundaries: [<不应纳入本任务的场景>] # [MUST]
+  constraints: # [SHOULD]
     - <硬约束，如"必须支持 Windows">
-  assumptions:                                                  # [SHOULD]
+  assumptions: # [SHOULD]
     - <已验证的假设>
-  fallback_strategy:                                            # [MUST]
+  fallback_strategy: # [MUST]
     data_missing: <数据缺失时如何兜底>
     tool_failure: <工具调用失败时如何兜底>
     context_overflow: <上下文爆炸时如何兜底>
-  estimated_phases: <3-15>                                     # [MUST]
-  cross_session: <true | false>                                 # [MUST]
-  rounds_used: <实际提问轮次>                                   # [MUST]
-  compressed: <true | false>                                    # [MUST]
-  compressed_reason: <若压缩，引用 PRD/Spec/原任务名>            # [MAY]
+  estimated_phases: <3-15> # [MUST]
+  cross_session: <true | false> # [MUST]
+  rounds_used: <实际提问轮次> # [MUST]
+  compressed: <true | false> # [MUST]
+  compressed_reason: <若压缩，引用 PRD/Spec/原任务名> # [MAY]
 ```
 
 ---
@@ -79,12 +79,12 @@ task_profile:
 
 <!-- 阶段 1 过程中做出的关键判断清单。`task_profile` 无法表达的设计选择。 -->
 
-| # | 判断 | 理由 |
-|---|------|------|
-| 1 | <例：选择 `code` 领域而非 `hybrid`> | <用户场景全部是 SDK 封装，无设计/写作场景> |
-| 2 | <例：阶段数估为 5 而非 8> | <任务可拆解为：需求/设计/实现/测试/上线；归档合并入上线> |
-| 3 | <例：跨 session 设为 true> | <预计 3 天跨度，需跨日续做> |
-| 4 | <...> | <...> |
+| #   | 判断                                | 理由                                                     |
+| --- | ----------------------------------- | -------------------------------------------------------- |
+| 1   | <例：选择 `code` 领域而非 `hybrid`> | <用户场景全部是 SDK 封装，无设计/写作场景>               |
+| 2   | <例：阶段数估为 5 而非 8>           | <任务可拆解为：需求/设计/实现/测试/上线；归档合并入上线> |
+| 3   | <例：跨 session 设为 true>          | <预计 3 天跨度，需跨日续做>                              |
+| 4   | <...>                               | <...>                                                    |
 
 ---
 
@@ -94,8 +94,8 @@ task_profile:
 
 ### 方案 A：<名称>
 
-| 维度 | 评估 |
-|------|------|
+| 维度 | 评估  |
+| ---- | ----- |
 | 优点 | - ... |
 | 缺点 | - ... |
 | 风险 | - ... |
@@ -103,8 +103,8 @@ task_profile:
 
 ### 方案 B：<名称>
 
-| 维度 | 评估 |
-|------|------|
+| 维度 | 评估  |
+| ---- | ----- |
 | 优点 | - ... |
 | 缺点 | - ... |
 | 风险 | - ... |
@@ -120,11 +120,11 @@ task_profile:
 
 **本决策选择：方案 X**。
 
-| 项 | 内容 |
-|------|------|
-| 选了什么 | 方案 X |
-| 适用范围 | 任务 `{task-name}` 内所有未来变更 |
-| 生效日期 | YYYY-MM-DD |
+| 项       | 内容                                      |
+| -------- | ----------------------------------------- |
+| 选了什么 | 方案 X                                    |
+| 适用范围 | 任务 `{task-name}` 内所有未来变更         |
+| 生效日期 | YYYY-MM-DD                                |
 | 审批状态 | 📋 草拟 / 🟡 临时生效 / ✅ 已 Review 通过 |
 
 ---
@@ -193,9 +193,9 @@ task_profile:
 
 <!-- 不另起文件，修订追加在本节。version 在 frontmatter 递增。 -->
 
-| 版本 | 日期 | 修订内容 | 修订人 |
-|------|------|----------|--------|
-| 1.0.0 | YYYY-MM-DD | 初版 | <name> |
+| 版本  | 日期       | 修订内容 | 修订人 |
+| ----- | ---------- | -------- | ------ |
+| 1.0.0 | YYYY-MM-DD | 初版     | <name> |
 
 ---
 

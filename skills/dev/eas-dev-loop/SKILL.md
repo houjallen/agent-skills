@@ -12,54 +12,54 @@ behavior:
         name: 对齐 / 头脑风暴
         delegate_skill: eas-dev-align
         gate:
-          rule: "alignment.md status = confirmed"
+          rule: 'alignment.md status = confirmed'
           severity: must
       - id: spec
         name: 规格化
         delegate_skill: eas-dev-spec
         gate:
-          rule: "spec.md 通过 5 条校验规则"
+          rule: 'spec.md 通过 5 条校验规则'
           severity: must
       - id: design
         name: 架构设计（可选）
         delegate_skill: eas-dev-design
         gate:
-          rule: "design.md status = confirmed（如启用）"
+          rule: 'design.md status = confirmed（如启用）'
           severity: should
       - id: plan
         name: 任务拆解
         delegate_skill: eas-dev-plan
         gate:
-          rule: "tasks.md 每任务 7 字段齐全 + 颗粒度 [2, 5]"
+          rule: 'tasks.md 每任务 7 字段齐全 + 颗粒度 [2, 5]'
           severity: must
       - id: implement
         name: 实现驱动
         delegate_skill: eas-dev-implement
         gate:
-          rule: "所有任务 review PASS"
+          rule: '所有任务 review PASS'
           severity: must
       - id: review
         name: 整体评审
         delegate_skill: eas-dev-review
         gate:
-          rule: "P0 = 0；P1 修复或豁免"
+          rule: 'P0 = 0；P1 修复或豁免'
           severity: must
       - id: finish
         name: 收尾发布
         delegate_skill: eas-dev-finish
         gate:
-          rule: "7 步 checklist 全通过"
+          rule: '7 步 checklist 全通过'
           severity: must
   strong_constraints:
     - id: default-not-loaded
-      text: "默认不加载；仅在用户明确要求时启用"
+      text: '默认不加载；仅在用户明确要求时启用'
       severity: must
     - id: delegate-not-redo
-      text: "内部 MUST 委托独立技能；NEVER 重复实现独立技能的功能"
+      text: '内部 MUST 委托独立技能；NEVER 重复实现独立技能的功能'
       severity: must
   interrupt_resume:
     enabled: true
-    state_storage: "<cwd>/.easbot/state/dev-loop-<topic>.json"
+    state_storage: '<cwd>/.easbot/state/dev-loop-<topic>.json'
     recoverable_steps: all
 metadata:
   category: dev
@@ -112,14 +112,14 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项 | 内容 |
-|---|---|
-| 模式 | Pipeline（编排 7 步） |
-| 默认加载 | **false**（必用户明确启用） |
-| 输入契约 | 用户原始意图描述 |
-| 输出契约 | 完整交付物（alignment + spec + design + tasks + 代码 + tests + review + PR） |
-| 委托技能 | `eas-dev-align` / `eas-dev-spec` / `eas-dev-design` / `eas-dev-plan` / `eas-dev-implement` / `eas-dev-review` / `eas-dev-finish` |
-| 中断恢复 | 支持（`.easbot/dev-loop-state.json`） |
+| 项              | 内容                                                                                                                                      |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| 模式            | Pipeline（编排 7 步）                                                                                                                     |
+| 默认加载        | **false**（必用户明确启用）                                                                                                               |
+| 输入契约        | 用户原始意图描述                                                                                                                          |
+| 输出契约        | 完整交付物（alignment + spec + design + tasks + 代码 + tests + review + PR）                                                              |
+| 委托技能        | `eas-dev-align` / `eas-dev-spec` / `eas-dev-design` / `eas-dev-plan` / `eas-dev-implement` / `eas-dev-review` / `eas-dev-finish`          |
+| 中断恢复        | 支持（`.easbot/dev-loop-state.json`）                                                                                                     |
 | 必读 references | [references/full-pipeline-gates.md](references/full-pipeline-gates.md) / [references/interrupt-resume.md](references/interrupt-resume.md) |
 
 ## 第一性原理 (First Principles)
@@ -198,20 +198,20 @@ metadata:
 
 ## 输入契约 (Input Contract)
 
-| 项 | 要求 |
-|---|---|
-| 必备 | 用户原始意图（自然语言描述） |
+| 项   | 要求                                                 |
+| ---- | ---------------------------------------------------- |
+| 必备 | 用户原始意图（自然语言描述）                         |
 | 必备 | 用户**明确**启用 loop（如 "loop it" / "跑完整流程"） |
-| 拒绝 | 用户说 "只要 X 阶段"（用独立技能） |
+| 拒绝 | 用户说 "只要 X 阶段"（用独立技能）                   |
 
 ## 输出契约 (Output Contract)
 
 **本技能是编排器，不直接产出文档**；通过委托 1-9 独立技能产生产物（每个产物的路径遵循对应技能的 §输出契约）：
 
-| 产物 | 路径（由下游技能产出） |
-|---|---|
-| **完整交付物** | `alignment.md` + `spec.md` + `design.md`（可选）+ `tasks.md` + 代码 + 测试 + `review.md` + PR / merge / deploy —— 全部位于 `<cwd>/.easbot/knowledge/docs/dev/<topic>/` |
-| **调度状态文件** | `<cwd>/.easbot/state/dev-loop-<topic>.json`（中断恢复；用于跨 session 恢复） |
+| 产物             | 路径（由下游技能产出）                                                                                                                                                 |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **完整交付物**   | `alignment.md` + `spec.md` + `design.md`（可选）+ `tasks.md` + 代码 + 测试 + `review.md` + PR / merge / deploy —— 全部位于 `<cwd>/.easbot/knowledge/docs/dev/<topic>/` |
+| **调度状态文件** | `<cwd>/.easbot/state/dev-loop-<topic>.json`（中断恢复；用于跨 session 恢复）                                                                                           |
 
 **禁止路径**：
 
@@ -253,28 +253,28 @@ metadata:
 
 ## 失败处理 (Failure Handling)
 
-| 情况 | 动作 |
-|---|---|
+| 情况           | 动作                                |
+| -------------- | ----------------------------------- |
 | 任一 Gate 失败 | 停止；保存状态；返回失败步骤 + 错误 |
-| 用户想跳过某步 | 询问用户；按用户决策继续 / 停止 |
-| 中断后恢复 | 读取状态；从失败点继续 |
+| 用户想跳过某步 | 询问用户；按用户决策继续 / 停止     |
+| 中断后恢复     | 读取状态；从失败点继续              |
 
 ## 常见错误 (Common Mistakes)
 
-| ❌ 不要 | ✅ 应该 |
-|---|---|
-| 默认启用 loop | 必用户明确要求 |
+| ❌ 不要           | ✅ 应该                         |
+| ----------------- | ------------------------------- |
+| 默认启用 loop     | 必用户明确要求                  |
 | loop 取代独立技能 | 独立技能优先；loop 仅在完整场景 |
-| 不保存状态 | MUST 每步保存状态；支持中断恢复 |
-| 跳过失败 Gate | 任一失败 → 必停止；NEVER 跳过 |
+| 不保存状态        | MUST 每步保存状态；支持中断恢复 |
+| 跳过失败 Gate     | 任一失败 → 必停止；NEVER 跳过   |
 
 ## 下一步 (Next Steps)
 
-| 场景 | 动作 |
-|---|---|
-| 完成 loop | 归档 `.easbot/dev-loop-state.json`；记录复盘 |
-| 用户仅想用部分技能 | 推荐对应独立技能 |
-| 中断 | 下次启动恢复 |
+| 场景               | 动作                                         |
+| ------------------ | -------------------------------------------- |
+| 完成 loop          | 归档 `.easbot/dev-loop-state.json`；记录复盘 |
+| 用户仅想用部分技能 | 推荐对应独立技能                             |
+| 中断               | 下次启动恢复                                 |
 
 ## 参考资料 (References)
 
@@ -283,17 +283,17 @@ metadata:
 
 ## 与其他技能的关系 (Relationships)
 
-| 技能 | 关系 |
-|---|---|
-| `eas-dev-align` | **委托**（Step 1） |
-| `eas-dev-spec` | **委托**（Step 2） |
-| `eas-dev-design` | **委托**（Step 3，可选） |
-| `eas-dev-plan` | **委托**（Step 4） |
-| `eas-dev-implement` | **委托**（Step 5） |
-| `eas-dev-review` | **委托**（Step 6） |
-| `eas-dev-finish` | **委托**（Step 7） |
+| 技能                | 关系                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| `eas-dev-align`     | **委托**（Step 1）                                           |
+| `eas-dev-spec`      | **委托**（Step 2）                                           |
+| `eas-dev-design`    | **委托**（Step 3，可选）                                     |
+| `eas-dev-plan`      | **委托**（Step 4）                                           |
+| `eas-dev-implement` | **委托**（Step 5）                                           |
+| `eas-dev-review`    | **委托**（Step 6）                                           |
+| `eas-dev-finish`    | **委托**（Step 7）                                           |
 | `eas-skill-creator` | **规范基线**：本技能遵循其结构 + 5 大模式 + frontmatter 规范 |
-| `eas-skill-using` | **不重叠**：dev 分类不进索引 |
+| `eas-skill-using`   | **不重叠**：dev 分类不进索引                                 |
 
 ---
 

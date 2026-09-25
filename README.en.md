@@ -36,13 +36,13 @@ Once installed, `easbot-agent-skills` is available immediately; the build artifa
 
 ### Global Flags
 
-| Flag | Description |
-| --- | --- |
-| `--help` / `-h` | Print full help (recognized at both top level and subcommand level) |
-| `--version` / `-v` | Print the current package version |
-| `--log-level <DEBUG\|INFO\|WARN\|ERROR>` | Log level (default `INFO`) |
-| `--print-logs` | Mirror logs to stdout |
-| `--debug` | Enable debug mode (verbose dev logs) |
+| Flag                                     | Description                                                         |
+| ---------------------------------------- | ------------------------------------------------------------------- |
+| `--help` / `-h`                          | Print full help (recognized at both top level and subcommand level) |
+| `--version` / `-v`                       | Print the current package version                                   |
+| `--log-level <DEBUG\|INFO\|WARN\|ERROR>` | Log level (default `INFO`)                                          |
+| `--print-logs`                           | Mirror logs to stdout                                               |
+| `--debug`                                | Enable debug mode (verbose dev logs)                                |
 
 ### Common Commands
 
@@ -85,11 +85,11 @@ easbot-agent-skills init my-skill
 
 ### Relation to Other Entry Points
 
-| Entry point | Purpose |
-| --- | --- |
-| `easbot-agent-skills ...` | Bundled with this repo (host wrapper; imports `@easbot/skills` at runtime) |
-| `easbot-skills ...` | Standalone CLI shipped by `@easbot/skills` (also calls `handleSkillsCli`) |
-| `easbot skills ...` | Delegated from `@easbot/agent` main CLI via Commander.js — equivalent to the two above |
+| Entry point               | Purpose                                                                                |
+| ------------------------- | -------------------------------------------------------------------------------------- |
+| `easbot-agent-skills ...` | Bundled with this repo (host wrapper; imports `@easbot/skills` at runtime)             |
+| `easbot-skills ...`       | Standalone CLI shipped by `@easbot/skills` (also calls `handleSkillsCli`)              |
+| `easbot skills ...`       | Delegated from `@easbot/agent` main CLI via Commander.js — equivalent to the two above |
 
 All three entry points are equivalent; the difference is only the host (agent / agent-skills package / this repo's wrapper) — **the underlying implementation is identical**.
 
@@ -134,41 +134,41 @@ agent-skills/
 
 Engineering scripts invoked locally or by CI by repository maintainers. See [AGENTS.md §5.1](./AGENTS.md#51-project-maintenance-scripts-root-scripts) for the full command reference.
 
-| Script | Purpose |
-| --- | --- |
-| `docs_add_frontmatter.ts` | Add frontmatter to `docs/*.md` |
-| `docs_sync_automation.ts` | Sync the `docs/` directory (generate index, fix name/category) |
-| `generate-changelog.ts` | Generate CHANGELOG from git commits |
-| `bump-version.ts` | Manually bump versions and create a tag |
-| `pre-commit-version.ts` | Pre-commit hook variant, disabled by default |
-| `generate-plugin.ts` | Generate `.claude-plugin/marketplace.json` |
-| `generate-well-known.ts` | Generate `.well-known/agent-skills/index.json` (v1 protocol; clean + rebuild by default), exposes skills to external agents via the well-known URL discovery / load flow. Pass `--validate` to auto-run schema validation. |
-| `docs/schemas/agent-skills/validate-v1.cjs` | Validate `.well-known/agent-skills/index.json` against the v1 schema. Manual run: `npm run well-known:validate`. |
-| `publish.sh` / `publish.ps1` | Run `quick-validate` against every skill before publishing to npm |
+| Script                                      | Purpose                                                                                                                                                                                                                    |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `docs_add_frontmatter.ts`                   | Add frontmatter to `docs/*.md`                                                                                                                                                                                             |
+| `docs_sync_automation.ts`                   | Sync the `docs/` directory (generate index, fix name/category)                                                                                                                                                             |
+| `generate-changelog.ts`                     | Generate CHANGELOG from git commits                                                                                                                                                                                        |
+| `bump-version.ts`                           | Manually bump versions and create a tag                                                                                                                                                                                    |
+| `pre-commit-version.ts`                     | Pre-commit hook variant, disabled by default                                                                                                                                                                               |
+| `generate-plugin.ts`                        | Generate `.claude-plugin/marketplace.json`                                                                                                                                                                                 |
+| `generate-well-known.ts`                    | Generate `.well-known/agent-skills/index.json` (v1 protocol; clean + rebuild by default), exposes skills to external agents via the well-known URL discovery / load flow. Pass `--validate` to auto-run schema validation. |
+| `docs/schemas/agent-skills/validate-v1.cjs` | Validate `.well-known/agent-skills/index.json` against the v1 schema. Manual run: `npm run well-known:validate`.                                                                                                           |
+| `publish.sh` / `publish.ps1`                | Run `quick-validate` against every skill before publishing to npm                                                                                                                                                          |
 
 ## Builtin Skills
 
-| Skill | Description |
-| --- | --- |
-| `eas-agent-creation` | Lifecycle entry point for EASBot skills — covers requirement capture, mode selection, creation, evolution, and deprecation |
-| `eas-agent-evolution` | Self-initialization, identity bootstrapping, config generation, and continuous evolution of an agent |
-| `eas-planning-writer` | Authoring of planning and decision documents (`task_plan` / `progress` / `decisions` / `findings`) |
-| `eas-prompt-creator` | Design and generation of prompts for Agent / Command / Context / Task / Feature / Mode and more |
-| `eas-research` | General research / analysis / comparison (business / technical / academic / policy / trend / competitive / root-cause); routes to 2 sub-references (research-report / comparison-analysis) |
-| `eas-skill-creator` | Official skill builder with full guidance on creating, structuring, validating, and packaging skills |
-| `eas-skill-find` | Search, discover, and explore available skills inside the EASBot ecosystem |
-| `eas-skill-using` | Central navigation of the skill ecosystem — answers "which skill should I use?" and gives typical combinations |
+| Skill                 | Description                                                                                                                                                                                |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `eas-agent-creation`  | Lifecycle entry point for EASBot skills — covers requirement capture, mode selection, creation, evolution, and deprecation                                                                 |
+| `eas-agent-evolution` | Self-initialization, identity bootstrapping, config generation, and continuous evolution of an agent                                                                                       |
+| `eas-planning-writer` | Authoring of planning and decision documents (`task_plan` / `progress` / `decisions` / `findings`)                                                                                         |
+| `eas-prompt-creator`  | Design and generation of prompts for Agent / Command / Context / Task / Feature / Mode and more                                                                                            |
+| `eas-research`        | General research / analysis / comparison (business / technical / academic / policy / trend / competitive / root-cause); routes to 2 sub-references (research-report / comparison-analysis) |
+| `eas-skill-creator`   | Official skill builder with full guidance on creating, structuring, validating, and packaging skills                                                                                       |
+| `eas-skill-find`      | Search, discover, and explore available skills inside the EASBot ecosystem                                                                                                                 |
+| `eas-skill-using`     | Central navigation of the skill ecosystem — answers "which skill should I use?" and gives typical combinations                                                                             |
 
 ## Tools
 
-| Skill | Description |
-| --- | --- |
-| `eas-chinese-writer` | Chinese writing and i18n assistance, including i18n / JSDoc / terminology guides |
-| `eas-docx` | Word (.docx) processing: CREATE (docx-js from-scratch) / EDIT (XML unpack/edit/pack) / ACCEPT-CHANGES |
+| Skill                 | Description                                                                                                                                                          |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `eas-chinese-writer`  | Chinese writing and i18n assistance, including i18n / JSDoc / terminology guides                                                                                     |
+| `eas-docx`            | Word (.docx) processing: CREATE (docx-js from-scratch) / EDIT (XML unpack/edit/pack) / ACCEPT-CHANGES                                                                |
 | `eas-knowledge-using` | CLI guide for the three knowledge bases (codebase / note / memory); covers init / doctor / status / sync / index / consolidate / reset and other CLI-only operations |
-| `eas-pdf` | Design-driven PDF processing: CREATE (from-scratch) / FILL (form fields) / REFORMAT (restyle existing docs) |
-| `eas-pptx` | PowerPoint (.pptx) processing: CREATE (PptxGenJS) / EDIT (XML-based on template) / READ (markitdown) |
-| `eas-xlsx` | Excel/spreadsheet processing: READ (analyze) / CREATE (XML template) / EDIT (XML direct) / FIX (formulas) / VALIDATE |
+| `eas-pdf`             | Design-driven PDF processing: CREATE (from-scratch) / FILL (form fields) / REFORMAT (restyle existing docs)                                                          |
+| `eas-pptx`            | PowerPoint (.pptx) processing: CREATE (PptxGenJS) / EDIT (XML-based on template) / READ (markitdown)                                                                 |
+| `eas-xlsx`            | Excel/spreadsheet processing: READ (analyze) / CREATE (XML template) / EDIT (XML direct) / FIX (formulas) / VALIDATE                                                 |
 
 ## Getting Started
 

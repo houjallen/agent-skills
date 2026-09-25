@@ -24,27 +24,28 @@
 
 ### 为什么不直接用 5W1H / JTBD
 
-| 框架 | 本质 | 局限 |
-|---|---|---|
-| **5W1H** (What/Why/Who/When/Where/How) | 信息收集清单 | 平面、不追问假设、不探后果 |
-| **JTBD** (Jobs To Be Done) | 需求挖掘术 | 偏商业视角，对 code/design 类技能粒度不够 |
-| **苏格拉底式六维度** | 元方法论 | 完整覆盖澄清→假设→证据→视角→后果→反思 |
+| 框架                                   | 本质         | 局限                                      |
+| -------------------------------------- | ------------ | ----------------------------------------- |
+| **5W1H** (What/Why/Who/When/Where/How) | 信息收集清单 | 平面、不追问假设、不探后果                |
+| **JTBD** (Jobs To Be Done)             | 需求挖掘术   | 偏商业视角，对 code/design 类技能粒度不够 |
+| **苏格拉底式六维度**                   | 元方法论     | 完整覆盖澄清→假设→证据→视角→后果→反思     |
 
 **苏格拉底式六维度** = 顶层骨架
 **5W1H / JTBD / 领域专属问句** = 填充进对应维度的具体问句
 
 ### 六维度定义（顶层骨架）
 
-| # | 维度 | 核心动作 | 在技能创建中的目标 |
-|---|---|---|---|
-| 1 | **澄清问题 (Clarify)** | 明确概念边界 | 让"技能做什么"无歧义 |
-| 2 | **探究假设 (Probe Assumptions)** | 检验前提 | 暴露用户没说出口的隐性约束 |
-| 3 | **挖掘证据 (Evidence)** | 收集具体例子 | 得到可验证的使用场景与触发短语 |
-| 4 | **视角探索 (Perspectives)** | 换位思考 | 发现边界用例与潜在冲突 |
-| 5 | **后果分析 (Consequences)** | 推演影响 | 评估模式选择带来的取舍 |
-| 6 | **反思完整性 (Reflection)** | 自我审视 | 检查是否遗漏关键信息 |
+| #   | 维度                             | 核心动作     | 在技能创建中的目标             |
+| --- | -------------------------------- | ------------ | ------------------------------ |
+| 1   | **澄清问题 (Clarify)**           | 明确概念边界 | 让"技能做什么"无歧义           |
+| 2   | **探究假设 (Probe Assumptions)** | 检验前提     | 暴露用户没说出口的隐性约束     |
+| 3   | **挖掘证据 (Evidence)**          | 收集具体例子 | 得到可验证的使用场景与触发短语 |
+| 4   | **视角探索 (Perspectives)**      | 换位思考     | 发现边界用例与潜在冲突         |
+| 5   | **后果分析 (Consequences)**      | 推演影响     | 评估模式选择带来的取舍         |
+| 6   | **反思完整性 (Reflection)**      | 自我审视     | 检查是否遗漏关键信息           |
 
 **关键原则**：
+
 - 六维度**不必每轮都全用**，按需选 1-2 个维度
 - 维度顺序可灵活调整，但**澄清问题必须先于其他维度**
 - 每个维度至少产出**一个可验证的产物**（场景列表 / 约束清单 / 触发短语集 等）
@@ -59,14 +60,14 @@
 
 进入提问前，先用一句话判断领域（影响后续问题模板）：
 
-| 领域 | 识别信号 | 典型技能示例 |
-|---|---|---|
-| **Code / 工程** | 用户提到 API、库、SDK、构建、测试 | `pdf-toolkit`、`supabase-helper`、`stripe-wrapper` |
-| **Design / 体验** | 用户提到界面、交互、视觉、可用性 | `figma-export`、`color-system`、`ui-review` |
-| **Writing / 创作** | 用户提到文档、报告、文案、内容 | `doc-generator`、`blog-drafter`、`api-doc-writer` |
-| **Business / 流程** | 用户提到合规、审查、决策、运营 | `contract-reviewer`、`nda-checker`、`sop-runner` |
-| **Data / 分析** | 用户提到数据、指标、报表、查询 | `sql-helper`、`bigquery-reporter`、`kpi-dashboard` |
-| **Hybrid** | 跨领域，需要多模板组合 | `code-review`（code + writing） |
+| 领域                | 识别信号                          | 典型技能示例                                       |
+| ------------------- | --------------------------------- | -------------------------------------------------- |
+| **Code / 工程**     | 用户提到 API、库、SDK、构建、测试 | `pdf-toolkit`、`supabase-helper`、`stripe-wrapper` |
+| **Design / 体验**   | 用户提到界面、交互、视觉、可用性  | `figma-export`、`color-system`、`ui-review`        |
+| **Writing / 创作**  | 用户提到文档、报告、文案、内容    | `doc-generator`、`blog-drafter`、`api-doc-writer`  |
+| **Business / 流程** | 用户提到合规、审查、决策、运营    | `contract-reviewer`、`nda-checker`、`sop-runner`   |
+| **Data / 分析**     | 用户提到数据、指标、报表、查询    | `sql-helper`、`bigquery-reporter`、`kpi-dashboard` |
+| **Hybrid**          | 跨领域，需要多模板组合            | `code-review`（code + writing）                    |
 
 **判断时机**：在维度 1（澄清问题）的第一题 MUST 调用宿主 Agent 的「结构化提问工具」询问领域。
 
@@ -159,11 +160,11 @@ D6+：是否需要版本化、可复现、追溯？
 
 **核心原则**：轮次与技能复杂度正相关，不要一刀切。
 
-| 技能复杂度 | 判据 | 推荐轮次 | 每轮题数 |
-|---|---|---|---|
-| **简单**（单模式、单领域） | 1 个明确场景、<5 个触发短语 | **1 轮** | 3-4 题 |
-| **中等**（组合模式 / 多领域） | 2-3 个场景、需明确边界 | **2 轮** | 3-4 题/轮 |
-| **复杂**（跨领域 / 跨 session） | 多角色、多边界、需持久化 | **3+ 轮** | 4 题/轮，第二轮起聚焦边界 |
+| 技能复杂度                      | 判据                        | 推荐轮次  | 每轮题数                  |
+| ------------------------------- | --------------------------- | --------- | ------------------------- |
+| **简单**（单模式、单领域）      | 1 个明确场景、<5 个触发短语 | **1 轮**  | 3-4 题                    |
+| **中等**（组合模式 / 多领域）   | 2-3 个场景、需明确边界      | **2 轮**  | 3-4 题/轮                 |
+| **复杂**（跨领域 / 跨 session） | 多角色、多边界、需持久化    | **3+ 轮** | 4 题/轮，第二轮起聚焦边界 |
 
 **轮次结构**：
 
@@ -193,21 +194,21 @@ D6+：是否需要版本化、可复现、追溯？
 
 不同 Agent 框架下，结构化提问工具的名称与签名不同。Agent MUST 按本机环境识别后调用，调用参数 MUST 包含：
 
-| 参数 | 必填 | 说明 |
-|---|---|---|
-| `question` / `prompt` / `text` | MUST | 问题文本 |
-| `options` / `choices` | MUST | 2-4 个互斥选项 |
-| `recommended` / `default` | SHOULD | 推荐项索引或标签 |
-| `multi_select` | MAY | 是否允许多选 |
+| 参数                           | 必填   | 说明             |
+| ------------------------------ | ------ | ---------------- |
+| `question` / `prompt` / `text` | MUST   | 问题文本         |
+| `options` / `choices`          | MUST   | 2-4 个互斥选项   |
+| `recommended` / `default`      | SHOULD | 推荐项索引或标签 |
+| `multi_select`                 | MAY    | 是否允许多选     |
 
 **主流 Agent 框架的别名映射**（Agent MUST 按本机识别）：
 
-| 框架 / 平台 | 工具名 | 备注 |
-|---|---|---|
-| Trae IDE / Claude Code / Cursor | `AskUserQuestion` | 主流交互 IDE |
-| OpenAI Agents SDK | `AskUserChoice` / `input_required` | 参数命名略不同 |
-| 自研 Agent 框架 | `request_user_input` / `user_confirm` | 视框架而定 |
-| LangGraph / CrewAI | 通常以 `Tool` 形式暴露，名称 `ask_user` 或类似 | 视实现而定 |
+| 框架 / 平台                     | 工具名                                         | 备注           |
+| ------------------------------- | ---------------------------------------------- | -------------- |
+| Trae IDE / Claude Code / Cursor | `AskUserQuestion`                              | 主流交互 IDE   |
+| OpenAI Agents SDK               | `AskUserChoice` / `input_required`             | 参数命名略不同 |
+| 自研 Agent 框架                 | `request_user_input` / `user_confirm`          | 视框架而定     |
+| LangGraph / CrewAI              | 通常以 `Tool` 形式暴露，名称 `ask_user` 或类似 | 视实现而定     |
 
 **退化策略**：若宿主环境未提供结构化提问工具，MUST 退化为"分段对话 + 主动声明每段答案"，但仍 MUST 遵守下方选项设计与轮次策略（即每段必须显式给出 2-4 个候选答案 + 1 个推荐）。
 
@@ -259,21 +260,21 @@ D6+：是否需要版本化、可复现、追溯？
 
 满足以下任一条件时，可压缩（如从多轮压到 1 轮内一次性抛出 3-4 题）但 MUST NOT 完全跳过：
 
-| 条件 | 证据形式 |
-|---|---|
-| 用户提供完整 PRD/Spec | 文件链接或内联内容 |
-| 用户明确说"照这个文档做" | 直接引用既有规范 |
+| 条件                     | 证据形式              |
+| ------------------------ | --------------------- |
+| 用户提供完整 PRD/Spec    | 文件链接或内联内容    |
+| 用户明确说"照这个文档做" | 直接引用既有规范      |
 | 技能是已有技能的小幅修改 | 引用原技能名 + 变更点 |
 
 ### 6.3 [MUST] 暂停规则
 
 遇到以下情况，Agent MUST 暂停流程并退出，等待下次触发：
 
-| 用户响应 | Agent 动作 |
-|---|---|
-| "我再想想" / "等一下" | MUST 退出，等待下次触发 |
-| "我也不知道" | MUST 给出 2-3 个常见模式作为默认假设，让用户挑 |
-| "你建议" | MUST 用 JTBD 视角给出 1-2 个候选场景，让用户确认 |
+| 用户响应              | Agent 动作                                       |
+| --------------------- | ------------------------------------------------ |
+| "我再想想" / "等一下" | MUST 退出，等待下次触发                          |
+| "我也不知道"          | MUST 给出 2-3 个常见模式作为默认假设，让用户挑   |
+| "你建议"              | MUST 用 JTBD 视角给出 1-2 个候选场景，让用户确认 |
 
 **[MUST]** 用户响应属于暂停类时，Agent MUST 暂停而非强行推进；MUST NOT 在需求不清时强行进入步骤 2。
 
@@ -286,19 +287,19 @@ D6+：是否需要版本化、可复现、追溯？
 ```yaml
 # 需求画像（仅 Agent 内部使用，不写入 SKILL.md）
 requirement_profile:
-  domain: code | design | writing | business | data | hybrid   # [MUST]
-  scenarios: [<3+ 具体使用场景>]                                # [MUST]
-  triggers: [<5+ 触发短语>]                                    # [MUST]
-  boundaries: [<不应触发的场景>]                                # [MUST]
-  constraints:                                                  # [SHOULD]
+  domain: code | design | writing | business | data | hybrid # [MUST]
+  scenarios: [<3+ 具体使用场景>] # [MUST]
+  triggers: [<5+ 触发短语>] # [MUST]
+  boundaries: [<不应触发的场景>] # [MUST]
+  constraints: # [SHOULD]
     - <硬约束，如"必须支持 Windows">
-  assumptions:                                                  # [SHOULD]
+  assumptions: # [SHOULD]
     - <已验证的假设>
-  primary_mode_candidate: <pipeline | generator | reviewer | inversion | tool_wrapper>  # [MUST]
-  secondary_mode_candidate: <可选>                              # [MAY]
-  rounds_used: <实际提问轮次>                                   # [MUST]
-  compressed: <true | false>                                    # [MUST]
-  compressed_reason: <若压缩，引用 PRD/Spec/原技能名>            # [MAY]
+  primary_mode_candidate: <pipeline | generator | reviewer | inversion | tool_wrapper> # [MUST]
+  secondary_mode_candidate: <可选> # [MAY]
+  rounds_used: <实际提问轮次> # [MUST]
+  compressed: <true | false> # [MUST]
+  compressed_reason: <若压缩，引用 PRD/Spec/原技能名> # [MAY]
 ```
 
 ### 7.1 [MUST] 自检清单（步骤 1 → 步骤 2 切换前）
@@ -318,13 +319,13 @@ Agent MUST 在切换前逐项校验，全部满足方可推进：
 
 ## 八、与步骤 2-7 的衔接 (Handoff)
 
-| 步骤 1 产出 | 步骤 2 输入 | 步骤 5 输入 |
-|---|---|---|
-| `domain` | 加载对应决策树 | 选择领域模板 |
+| 步骤 1 产出              | 步骤 2 输入                  | 步骤 5 输入      |
+| ------------------------ | ---------------------------- | ---------------- |
+| `domain`                 | 加载对应决策树               | 选择领域模板     |
 | `scenarios` + `triggers` | frontmatter description 草案 | 何时使用章节填充 |
-| `boundaries` | 反例清单 | 常见错误章节 |
-| `constraints` | 自由度级别选择 | 脚本规范 |
-| `primary_mode_candidate` | 模式决策树入口 | 模式特定内容填充 |
+| `boundaries`             | 反例清单                     | 常见错误章节     |
+| `constraints`            | 自由度级别选择               | 脚本规范         |
+| `primary_mode_candidate` | 模式决策树入口               | 模式特定内容填充 |
 
 **铁律**：**步骤 1 的产出是后续所有步骤的唯一可信输入**。若步骤 2 发现步骤 1 产出不足，**必须回退到步骤 1 补问**，不得"先做着试试"。
 
@@ -424,11 +425,11 @@ Q9 [维度5 后果 · 模式取舍]
 
 ## 十、与其他参考文件的关系 (Related References)
 
-| 文件 | 何时阅读 |
-|---|---|
-| [skill-spec.md](skill-spec.md) | 步骤 2：模式决策树 + §4 模式字段定义 |
-| [design-decisions.md](design-decisions.md) | 自由度级别选择 |
-| [workflows.md](workflows.md) | 完整 7 步流程概览 |
+| 文件                                       | 何时阅读                             |
+| ------------------------------------------ | ------------------------------------ |
+| [skill-spec.md](skill-spec.md)             | 步骤 2：模式决策树 + §4 模式字段定义 |
+| [design-decisions.md](design-decisions.md) | 自由度级别选择                       |
+| [workflows.md](workflows.md)               | 完整 7 步流程概览                    |
 
 ---
 

@@ -7,16 +7,16 @@
 
 `XDG_DATA_HOME` 默认 `~/.local/share`（Windows: `%LOCALAPPDATA%`）。`getXdgData()` 返回的是 EASBot 私有根 `<XDG_DATA_HOME>/easbot`。
 
-| 路径 | 用途 | 作用域 |
-|---|---|---|
-| `<XDG_DATA_HOME>/easbot/skills/store/index.json` | store 三层索引（v6 schema：market → plugin → skill） | 全局 |
-| `<XDG_DATA_HOME>/easbot/skills/store/<marketId-hash>/` | store 物理：每个 source 一份 cp 副本 | 全局 |
-| `<XDG_DATA_HOME>/easbot/skills/cache/<type>/<owner>/<repo>/` | git clone 缓存（type = github / gitlab / git / well-known） | 全局 |
-| `<XDG_DATA_HOME>/easbot/skills/cache/wellknown-<hash16>/` | well-known HTTP 缓存（origin hash 区分） | 全局 |
-| `<XDG_DATA_HOME>/easbot/skills/.skill-lock.json` | 全局安装锁（已装 skill 列表 + computedHash） | 全局 |
-| `<XDG_DATA_HOME>/easbot/skills/store/<marketId-hash>/<agent>/skills/<skillName>/` | **实际 agent 加载路径**（canonical / 软链接 / junction） | 全局 |
-| `<cwd>/<agent>/skills/<skillName>/` | 项目级已装 skill 目录（按 agent 分多种） | 仅当前项目 |
-| `<cwd>/skills-lock.json` | 项目级安装锁 | 仅当前项目 |
+| 路径                                                                              | 用途                                                        | 作用域     |
+| --------------------------------------------------------------------------------- | ----------------------------------------------------------- | ---------- |
+| `<XDG_DATA_HOME>/easbot/skills/store/index.json`                                  | store 三层索引（v6 schema：market → plugin → skill）        | 全局       |
+| `<XDG_DATA_HOME>/easbot/skills/store/<marketId-hash>/`                            | store 物理：每个 source 一份 cp 副本                        | 全局       |
+| `<XDG_DATA_HOME>/easbot/skills/cache/<type>/<owner>/<repo>/`                      | git clone 缓存（type = github / gitlab / git / well-known） | 全局       |
+| `<XDG_DATA_HOME>/easbot/skills/cache/wellknown-<hash16>/`                         | well-known HTTP 缓存（origin hash 区分）                    | 全局       |
+| `<XDG_DATA_HOME>/easbot/skills/.skill-lock.json`                                  | 全局安装锁（已装 skill 列表 + computedHash）                | 全局       |
+| `<XDG_DATA_HOME>/easbot/skills/store/<marketId-hash>/<agent>/skills/<skillName>/` | **实际 agent 加载路径**（canonical / 软链接 / junction）    | 全局       |
+| `<cwd>/<agent>/skills/<skillName>/`                                               | 项目级已装 skill 目录（按 agent 分多种）                    | 仅当前项目 |
+| `<cwd>/skills-lock.json`                                                          | 项目级安装锁                                                | 仅当前项目 |
 
 `<agent>` 路径按 agent 字典动态派生，常见例子：
 

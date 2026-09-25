@@ -5,6 +5,7 @@
 ## 函数注释 (Function Comments)
 
 ### 基础函数
+
 ```typescript
 /**
  * 计算两个数字的和
@@ -19,6 +20,7 @@ function add(a: number, b: number): number {
 ```
 
 ### 异步函数
+
 ```typescript
 /**
  * 异步获取用户信息
@@ -38,7 +40,8 @@ async function getUser(userId: string, options?: GetUserOptions): Promise<User |
 ```
 
 ### 带复杂参数的函数
-```typescript
+
+````typescript
 /**
  * 创建新的 Agent 实例
  *
@@ -66,11 +69,12 @@ async function getUser(userId: string, options?: GetUserOptions): Promise<User |
 async function createAgent(config: AgentConfig): Promise<IAgent> {
   // 实现
 }
-```
+````
 
 ## 类注释 (Class Comments)
 
 ### 基础类
+
 ```typescript
 /**
  * Agent 管理器
@@ -104,6 +108,7 @@ export class AgentManager {
 ```
 
 ### 抽象类
+
 ```typescript
 /**
  * Agent 基类
@@ -143,6 +148,7 @@ export abstract class BaseAgent implements IAgent {
 ## 接口注释 (Interface Comments)
 
 ### 基础接口
+
 ```typescript
 /**
  * Agent 接口
@@ -182,6 +188,7 @@ export interface IAgent {
 ```
 
 ### 泛型接口
+
 ```typescript
 /**
  * 工具接口
@@ -272,6 +279,7 @@ export type AgentCapability = 'read' | 'write' | 'execute' | 'search' | 'analyze
 ## 关键节点注释 (Critical Node Comments)
 
 ### 复杂逻辑说明
+
 ```typescript
 // ripgrep 退出码：0=有匹配，1=无匹配，2=有错误（如损坏的符号链接，--no-messages 下仍可能产生输出）
 // 仅在 exitCode=2 且无任何输出时视为失败；有输出时仍返回结果并附带"部分路径不可访问"提示
@@ -284,6 +292,7 @@ matches.sort((a, b) => b.modTime - a.modTime);
 ```
 
 ### 性能优化说明
+
 ```typescript
 // 性能优化：使用缓存避免重复执行 which 命令
 const cacheKey = `${command}:${options?.PATH || process.env.PATH}`;
@@ -293,6 +302,7 @@ if (whichCache.has(cacheKey)) {
 ```
 
 ### 错误处理说明
+
 ```typescript
 // 错误处理：命令不存在时返回 null 而不是抛出异常
 try {

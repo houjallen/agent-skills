@@ -52,6 +52,7 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 4. 编写常见错误表（错误现象 → 原因 → 修复）
 
 > **checklist 项（可选）**：
+>
 > - [ ] C-T001 API 表覆盖库核心能力 ≥ 80%
 > - [ ] C-T002 每个 API 有可运行示例
 > - [ ] C-T003 常见错误表 ≥ 5 项
@@ -68,6 +69,7 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 > **步骤模板（可选）**：
 >
 > ### Step 1: 收集输入
+>
 > - 目标: 拿到生成所需的全部参数
 > - 入口: 用户已给出需求或上游产物
 > - 操作: 列出必填参数清单，逐项确认
@@ -75,6 +77,7 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 > - 失败: 缺参数 → 反问补全，不进入下一步
 >
 > ### Step 2: 填充模板
+>
 > - 目标: 按模板产出候选产物
 > - 入口: 参数已收集
 > - 操作: 按模板逐字段填入，运行校验清单
@@ -82,6 +85,7 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 > - 失败: 校验失败 → 重填或回退到 Step 1
 >
 > **checklist 项（必选）**：
+>
 > - [ ] C-G001 必填字段齐全
 > - [ ] C-G002 字符数合规（name ≤ 64 / description ≤ 1024）
 > - [ ] C-G003 文件路径使用相对路径
@@ -97,6 +101,7 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 3. 定义输出格式（结构化 JSON 报告）
 
 > **checklist 规范要求**（按 [skill-spec.md §8.4](skill-spec.md)）：
+>
 > - 落地到 `<skill-name>/references/checklist.md`
 > - 每项含：唯一 ID（C-001）/ 检查项 / 通过条件 / 严重度（P0-P3）/ 检查方式（manual/auto）
 > - **按严重度分级**：P0 = Blocker / P1 = MUST / P2 = SHOULD / P3 = MAY
@@ -104,15 +109,16 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 >
 > **checklist 章节划分（推荐）**：
 >
-> | 章节 | 内容 | 示例 |
-> |---|---|---|
-> | §1 入口检查 | 待审对象是否就绪、范围是否明确 | 提交 PR 时附 description |
+> | 章节        | 内容                            | 示例                              |
+> | ----------- | ------------------------------- | --------------------------------- |
+> | §1 入口检查 | 待审对象是否就绪、范围是否明确  | 提交 PR 时附 description          |
 > | §2 结构检查 | 文件结构 / frontmatter / 必填节 | `SKILL.md` 存在；frontmatter 完整 |
-> | §3 语义检查 | 指令强度 / 概念边界 / 无歧义 | MUST / SHOULD 按 §13.3 使用 |
-> | §4 规范检查 | 命名 / 链接 / 代码块 / 中英混排 | 无 `@` 路径引用 |
-> | §5 出口检查 | 产出报告 / 闭环动作 | 输出结构化 JSON |
+> | §3 语义检查 | 指令强度 / 概念边界 / 无歧义    | MUST / SHOULD 按 §13.3 使用       |
+> | §4 规范检查 | 命名 / 链接 / 代码块 / 中英混排 | 无 `@` 路径引用                   |
+> | §5 出口检查 | 产出报告 / 闭环动作             | 输出结构化 JSON                   |
 >
 > **输出格式**：
+>
 > ```json
 > {
 >   "passed": true | false,
@@ -133,6 +139,7 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 > **步骤模板（推荐）**：
 >
 > ### Phase 1: 澄清阶段
+>
 > - 目标: 把模糊需求拆成可选项
 > - 入口: 用户提出需求但有歧义
 > - 操作: 按 `behavior.gate.phases` 顺序提问，每题 2~4 选项
@@ -140,6 +147,7 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 > - 失败: 用户拒绝回答 → 退出，不进入后续步骤
 >
 > ### Phase 2: 锁定需求
+>
 > - 目标: 收敛到唯一方案
 > - 入口: 必答完成
 > - 操作: 总结用户选择 + 推断未选维度
@@ -157,6 +165,7 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 > **步骤规范要求**（按 [skill-spec.md §8.3](skill-spec.md)）：每步 MUST 包含
 >
 > ### Step <N>: <步骤名>
+>
 > - **目标 (Goal)**: 本步要完成什么（1 句）
 > - **入口条件 (Entry)**: 前置依赖 / 必备输入（MUST 满足才能开始）
 > - **操作 (Action)**: 具体动作（动词开头，1~3 句）
@@ -165,11 +174,13 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 > - **回滚 (Rollback)**: 是否需要回滚 + 回滚动作
 >
 > **Gate 三要素**（每步 MUST）：
+>
 > 1. **入口 Gate** — 依赖就绪、权限就位、输入存在
 > 2. **出口 Gate** — 产物已生成、校验已通过、人工已批准
 > 3. **失败 Gate** — 失败兜底动作 + 通知方式（不可"Agent 自决"）
 >
 > **checklist 项（可选，仅 Gate 条件清单）**：
+>
 > - [ ] C-P001 步骤依赖图无循环
 > - [ ] C-P002 每个 step 都设置了 entryConditions / exitConditions / onFailure
 > - [ ] C-P003 `onFailure` 必须含 `action` ∈ {abort, retry, skip} + `maxRetries` + `rollback` 三子字段；涉及部署/删除的步骤 `rollback=true` 必须显式声明
@@ -200,6 +211,7 @@ tsx scripts/quick-validate.ts ./skills/<skill-name>
 ```
 
 校验项包含：
+
 - 检查 SKILL.md 文件是否存在
 - 验证 YAML frontmatter 格式和内容
 - 检查 name 和 description 字段是否符合要求（hyphen-case / 第三人称 / 字符限制）
@@ -216,6 +228,7 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 ```
 
 打包步骤：
+
 - 先调用 `quick-validate.ts` 验证技能格式是否正确
 - 使用 ZIP 格式创建 `.skill` 文件
 - 将技能目录中的所有文件添加到包中
@@ -227,6 +240,7 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 ### 零外部依赖原则 (Zero External Dependencies)
 
 **核心脚本（`scripts/init-skill.ts`、`scripts/quick-validate.ts`、`scripts/package-skill.ts`）仅依赖 Node.js 内置模块**：
+
 - `fs` / `fs/promises` — 文件系统操作
 - `path` — 路径处理
 - `url` — URL 解析（用于 ESM `import.meta.url`）
@@ -239,6 +253,7 @@ tsx scripts/package-skill.ts ./skills/<skill-name>
 ### init-skill.ts (技能初始化脚本)
 
 此脚本用于创建新的技能目录结构，包含：
+
 - 技能目录的创建
 - SKILL.md 模板文件的生成
 - 可选的 scripts、references、assets 目录及示例文件的创建

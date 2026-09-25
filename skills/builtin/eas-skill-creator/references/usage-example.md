@@ -11,6 +11,7 @@ tsx scripts/init-skill.ts react-19-tool --path ./skills --resources scripts,refe
 ```
 
 **SKILL.md**：
+
 ```yaml
 ---
 name: react-19-tool
@@ -40,14 +41,14 @@ deliveryChecklist:
 
 ## API 速查表 (API Reference)
 
-| 方法 | 用途 | 示例 |
-|---|---|---|
+| 方法              | 用途     | 示例                                |
+| ----------------- | -------- | ----------------------------------- |
 | `startTransition` | 状态更新 | `startTransition(() => setState())` |
 
 ## 常见错误 (Common Mistakes)
 
-| 错误 | 解决方案 |
-|---|---|
+| 错误      | 解决方案     |
+| --------- | ------------ |
 | TypeError | 检查参数类型 |
 
 ## 2. Generator 示例 (Generator Examples)
@@ -59,6 +60,7 @@ tsx scripts/init-skill.ts report-generator --path ./skills --resources reference
 ```
 
 **SKILL.md**：
+
 ```yaml
 ---
 name: report-generator
@@ -99,6 +101,7 @@ tsx scripts/init-skill.ts code-reviewer --path ./skills --resources scripts,refe
 ```
 
 **SKILL.md**：
+
 ```yaml
 ---
 name: code-reviewer
@@ -130,20 +133,21 @@ reviewer:
 ```
 
 **references/checklist.md**：
+
 ```markdown
 # 审查清单
 
 ## §1 命名规范 (Naming Conventions)
 
-| # | 检查项 | 通过标准 | 严重程度 |
-|---|---|---|---|
-| 1.1 | 变量有意义 | 名称能反映用途 | high |
-| 1.2 | 函数 camelCase | 函数名使用 camelCase | medium |
+| #   | 检查项         | 通过标准             | 严重程度 |
+| --- | -------------- | -------------------- | -------- |
+| 1.1 | 变量有意义     | 名称能反映用途       | high     |
+| 1.2 | 函数 camelCase | 函数名使用 camelCase | medium   |
 
 ## §2 错误处理 (Error Handling)
 
-| # | 检查项 | 通过标准 | 严重程度 |
-|---|---|---|---|
+| #   | 检查项             | 通过标准                   | 严重程度 |
+| --- | ------------------ | -------------------------- | -------- |
 | 2.1 | 关键操作 try-catch | 网络、文件操作必须捕获异常 | critical |
 ```
 
@@ -158,6 +162,7 @@ tsx scripts/init-skill.ts deploy-clarifier --path ./skills --resources reference
 ```
 
 **SKILL.md**：
+
 ```yaml
 ---
 name: deploy-clarifier
@@ -229,6 +234,7 @@ tsx scripts/init-skill.ts deploy-pipeline --path ./skills --resources scripts,re
 ```
 
 **SKILL.md**：
+
 ```yaml
 ---
 name: deploy-pipeline
@@ -275,11 +281,12 @@ behavior:
 
 ## 流水线步骤 (Pipeline Steps)
 
-| 步骤 | 名称 | 失败策略 |
-|---|---|---|
-| 1 | 构建 | abort |
-| 2 | 部署 | abort + rollback |
-```
+| 步骤 | 名称 | 失败策略         |
+| ---- | ---- | ---------------- |
+| 1    | 构建 | abort            |
+| 2    | 部署 | abort + rollback |
+
+````
 
 ---
 
@@ -300,7 +307,7 @@ compositionConnections:
     to: reviewer
     kind: gate
 ---
-```
+````
 
 ## 脚本命令 (Script Commands)
 

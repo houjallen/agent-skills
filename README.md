@@ -36,13 +36,13 @@ npm install @easbot/agent-skills
 
 ### 全局参数
 
-| 参数 | 说明 |
-| --- | --- |
-| `--help` / `-h` | 打印完整帮助（顶层 / 子命令级别均识别） |
-| `--version` / `-v` | 打印当前包版本号 |
-| `--log-level <DEBUG\|INFO\|WARN\|ERROR>` | 日志级别（默认 `INFO`） |
-| `--print-logs` | 把日志同步输出到 stdout |
-| `--debug` | 启用调试模式（dev 模式日志） |
+| 参数                                     | 说明                                    |
+| ---------------------------------------- | --------------------------------------- |
+| `--help` / `-h`                          | 打印完整帮助（顶层 / 子命令级别均识别） |
+| `--version` / `-v`                       | 打印当前包版本号                        |
+| `--log-level <DEBUG\|INFO\|WARN\|ERROR>` | 日志级别（默认 `INFO`）                 |
+| `--print-logs`                           | 把日志同步输出到 stdout                 |
+| `--debug`                                | 启用调试模式（dev 模式日志）            |
 
 ### 常用命令
 
@@ -85,11 +85,11 @@ easbot-agent-skills init my-skill
 
 ### 与其他入口的关系
 
-| 入口 | 用途 |
-| --- | --- |
+| 入口                      | 用途                                                               |
+| ------------------------- | ------------------------------------------------------------------ |
 | `easbot-agent-skills ...` | 本仓库内置命令（host wrapper，运行时直接 import `@easbot/skills`） |
-| `easbot-skills ...` | `@easbot/skills` 包自带命令（独立 CLI，同样调 `handleSkillsCli`） |
-| `easbot skills ...` | `@easbot/agent` 主 CLI 通过 Commander.js 委派，等价于上面两个 |
+| `easbot-skills ...`       | `@easbot/skills` 包自带命令（独立 CLI，同样调 `handleSkillsCli`）  |
+| `easbot skills ...`       | `@easbot/agent` 主 CLI 通过 Commander.js 委派，等价于上面两个      |
 
 三种入口等价；区别在于宿主（agent / agent-skills 包 / 本仓库 wrapper）不同，**底层实现完全一致**。
 
@@ -145,59 +145,59 @@ agent-skills/
 
 仓库维护者本地或 CI 调用的工程级脚本，详见 [AGENTS.md §5.1](./AGENTS.md#51-项目维护脚本根-scripts)。
 
-| 脚本 | 用途 |
-| --- | --- |
-| `docs_add_frontmatter.ts` | 为 `docs/*.md` 补 frontmatter |
-| `docs_sync_automation.ts` | 同步 docs 目录（生成索引、修正 name/category） |
-| `generate-changelog.ts` | 根据 git commits 生成 CHANGELOG |
-| `bump-version.ts` | 手动升级版本号并打 tag |
-| `pre-commit-version.ts` | pre-commit hook 用，默认禁用 |
-| `generate-plugin.ts` | 生成 `.claude-plugin/marketplace.json` |
-| `generate-well-known.ts` | 生成 `.well-known/agent-skills/index.json`（v1 协议，默认清空 + 重建），用于外部 Agent 按 well-known URL 发现 / 加载技能；可加 `--validate` 自动跑 schema 校验 |
-| `docs/schemas/agent-skills/validate-v1.cjs` | 校验 `.well-known/agent-skills/index.json` 是否符合 v1 schema（按需手动跑：`npm run well-known:validate`） |
-| `publish.sh` / `publish.ps1` | 发布到 npm 前对全部技能跑一次 `quick-validate` 校验 |
+| 脚本                                        | 用途                                                                                                                                                           |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `docs_add_frontmatter.ts`                   | 为 `docs/*.md` 补 frontmatter                                                                                                                                  |
+| `docs_sync_automation.ts`                   | 同步 docs 目录（生成索引、修正 name/category）                                                                                                                 |
+| `generate-changelog.ts`                     | 根据 git commits 生成 CHANGELOG                                                                                                                                |
+| `bump-version.ts`                           | 手动升级版本号并打 tag                                                                                                                                         |
+| `pre-commit-version.ts`                     | pre-commit hook 用，默认禁用                                                                                                                                   |
+| `generate-plugin.ts`                        | 生成 `.claude-plugin/marketplace.json`                                                                                                                         |
+| `generate-well-known.ts`                    | 生成 `.well-known/agent-skills/index.json`（v1 协议，默认清空 + 重建），用于外部 Agent 按 well-known URL 发现 / 加载技能；可加 `--validate` 自动跑 schema 校验 |
+| `docs/schemas/agent-skills/validate-v1.cjs` | 校验 `.well-known/agent-skills/index.json` 是否符合 v1 schema（按需手动跑：`npm run well-known:validate`）                                                     |
+| `publish.sh` / `publish.ps1`                | 发布到 npm 前对全部技能跑一次 `quick-validate` 校验                                                                                                            |
 
 ## 内置技能一览（builtin）
 
-| 技能 | 说明 |
-| --- | --- |
-| `eas-agent-creation` | EASBot 技能生命周期管理入口，覆盖技能从需求捕获、模式选择、创建、演化和废弃的全链路 |
-| `eas-agent-evolution` | Agent 自我初始化、身份认知建立、配置文件生成与持续进化 |
-| `eas-planning-writer` | 计划与决策文档的撰写（task_plan / progress / decisions / findings） |
-| `eas-prompt-creator` | Agent / Command / Context / Task / Feature / Mode 等 Prompt 的设计与生成 |
-| `eas-research` | 通用调研 / 分析 / 对比（商业 / 技术 / 学术 / 政策 / 趋势 / 竞品 / 根因）；调度 2 个子 reference（research-report / comparison-analysis） |
-| `eas-skill-creator` | 官方技能创建与构建工具，提供创建、结构化、验证、打包技能的完整指导 |
-| `eas-skill-find` | 在 EASBot 技能生态系统中查找、搜索与探索可用技能 |
-| `eas-skill-using` | 技能生态中央导航，给出"我应该用哪个技能"的判断与典型场景下的推荐组合 |
+| 技能                  | 说明                                                                                                                                     |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `eas-agent-creation`  | EASBot 技能生命周期管理入口，覆盖技能从需求捕获、模式选择、创建、演化和废弃的全链路                                                      |
+| `eas-agent-evolution` | Agent 自我初始化、身份认知建立、配置文件生成与持续进化                                                                                   |
+| `eas-planning-writer` | 计划与决策文档的撰写（task_plan / progress / decisions / findings）                                                                      |
+| `eas-prompt-creator`  | Agent / Command / Context / Task / Feature / Mode 等 Prompt 的设计与生成                                                                 |
+| `eas-research`        | 通用调研 / 分析 / 对比（商业 / 技术 / 学术 / 政策 / 趋势 / 竞品 / 根因）；调度 2 个子 reference（research-report / comparison-analysis） |
+| `eas-skill-creator`   | 官方技能创建与构建工具，提供创建、结构化、验证、打包技能的完整指导                                                                       |
+| `eas-skill-find`      | 在 EASBot 技能生态系统中查找、搜索与探索可用技能                                                                                         |
+| `eas-skill-using`     | 技能生态中央导航，给出"我应该用哪个技能"的判断与典型场景下的推荐组合                                                                     |
 
 ## 工具类技能（tools）
 
-| 技能 | 说明 |
-| --- | --- |
-| `eas-chinese-writer` | 中文写作与本地化辅助，含 i18n / JSDoc / 术语指南 |
-| `eas-docx` | Word 文档（.docx）处理：CREATE（用 docx-js 从零生成）/ EDIT（XML unpack/edit/pack）/ ACCEPT-CHANGES（接受所有修订） |
+| 技能                  | 说明                                                                                                                                   |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `eas-chinese-writer`  | 中文写作与本地化辅助，含 i18n / JSDoc / 术语指南                                                                                       |
+| `eas-docx`            | Word 文档（.docx）处理：CREATE（用 docx-js 从零生成）/ EDIT（XML unpack/edit/pack）/ ACCEPT-CHANGES（接受所有修订）                    |
 | `eas-knowledge-using` | 三大知识库（codebase / note / memory）的 CLI 操作引导；覆盖 init / doctor / status / sync / index / consolidate / reset 等 CLI-only op |
-| `eas-pdf` | 设计驱动的 PDF 处理：CREATE（从零生成成品）/ FILL（向既有 PDF 填表）/ REFORMAT（既有文档套设计） |
-| `eas-pptx` | PowerPoint 演示处理：CREATE（用 PptxGenJS 生成）/ EDIT（基于模板的 XML 编辑）/ READ（markitdown 抽取） |
-| `eas-xlsx` | Excel/电子表格处理：READ（分析）/ CREATE（XML 模板从零生成）/ EDIT（XML 直编）/ FIX（修公式）/ VALIDATE（公式校验） |
+| `eas-pdf`             | 设计驱动的 PDF 处理：CREATE（从零生成成品）/ FILL（向既有 PDF 填表）/ REFORMAT（既有文档套设计）                                       |
+| `eas-pptx`            | PowerPoint 演示处理：CREATE（用 PptxGenJS 生成）/ EDIT（基于模板的 XML 编辑）/ READ（markitdown 抽取）                                 |
+| `eas-xlsx`            | Excel/电子表格处理：READ（分析）/ CREATE（XML 模板从零生成）/ EDIT（XML 直编）/ FIX（修公式）/ VALIDATE（公式校验）                    |
 
 ## 开发流程技能（dev）
 
 > **独立分类**：与 builtin / tools 并列，**不**进 `eas-skill-using` 索引；开发者按 description 自行匹配。
 > 每个技能可独立执行，也可连贯组合跑完整开发闭环（align → spec → design → plan → tdd → implement → review → finish）。
 
-| 技能 | 模式 | 用途 |
-| --- | --- | --- |
-| `eas-dev-align` | Inversion | 写代码 / spec 之前的 3 阶段访谈对齐（背景 / 范围 / 验收） |
-| `eas-dev-spec` | Generator | 把对齐笔记转为可执行 spec.md（5 章节 + 5 条校验规则） |
-| `eas-dev-design` | Pattern | 基于 spec 设计模块架构（Deep Modules 哲学 + 4 核心问题） |
-| `eas-dev-plan` | Generator | 把 spec/design 拆为 2-5 分钟颗粒度任务（7 字段模板） |
-| `eas-dev-tdd` | Technique | 强制红-绿-重构循环 + 测试反模式库 |
-| `eas-dev-implement` | Pipeline | 调度 plan → tdd → review 单任务级闭环 |
-| `eas-dev-review` | Reviewer | 两轴评审（标准 + spec）+ P0/P1/P2 分级 |
-| `eas-dev-diagnose` | Technique | 4 阶段根因分析（复现 / 定位 / 修复 / 回归） |
-| `eas-dev-finish` | Technique | 7 步收尾发布（test → review → docs → PR → merge → deploy → notify） |
-| `eas-dev-loop` | Pipeline（编排） | 一站式全流程编排；**默认不加载**（避免反 mattpocock "全流程托管" 警告） |
+| 技能                | 模式             | 用途                                                                    |
+| ------------------- | ---------------- | ----------------------------------------------------------------------- |
+| `eas-dev-align`     | Inversion        | 写代码 / spec 之前的 3 阶段访谈对齐（背景 / 范围 / 验收）               |
+| `eas-dev-spec`      | Generator        | 把对齐笔记转为可执行 spec.md（5 章节 + 5 条校验规则）                   |
+| `eas-dev-design`    | Pattern          | 基于 spec 设计模块架构（Deep Modules 哲学 + 4 核心问题）                |
+| `eas-dev-plan`      | Generator        | 把 spec/design 拆为 2-5 分钟颗粒度任务（7 字段模板）                    |
+| `eas-dev-tdd`       | Technique        | 强制红-绿-重构循环 + 测试反模式库                                       |
+| `eas-dev-implement` | Pipeline         | 调度 plan → tdd → review 单任务级闭环                                   |
+| `eas-dev-review`    | Reviewer         | 两轴评审（标准 + spec）+ P0/P1/P2 分级                                  |
+| `eas-dev-diagnose`  | Technique        | 4 阶段根因分析（复现 / 定位 / 修复 / 回归）                             |
+| `eas-dev-finish`    | Technique        | 7 步收尾发布（test → review → docs → PR → merge → deploy → notify）     |
+| `eas-dev-loop`      | Pipeline（编排） | 一站式全流程编排；**默认不加载**（避免反 mattpocock "全流程托管" 警告） |
 
 ## 快速开始
 

@@ -16,6 +16,7 @@ metadata:
 `eas-skill-find` 是 EASBot 的官方技能发现入口。它教 Agent 怎么用 `easbot skills find` 在 [skills.sh](https://skills.sh/) 公共市场里搜索、过滤、验证候选技能，并以"安装命令 + 安装数 + 来源"形式呈现给用户。
 
 **两套搜索模式**：
+
 - **远程搜索**（默认）—— 调 skills.sh `/api/search`，按 install 数倒序
 - **本地搜索**（`--local` / `--path`）—— 扫 store 索引或文件系统，详见 [references/local-search.md](references/local-search.md)
 
@@ -37,16 +38,16 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项目 | 取值 / 说明 |
-| --- | --- |
-| 入口命令 | `easbot skills find [query] [flags]` |
-| 数据源 | skills.sh 公共 API（`${SKILLS_API_URL:-https://skills.sh}/api/search`） |
-| 排序 | 按 install 数倒序（API 强制，客户端无 `--sort` flag） |
-| 限制 | API 默认 limit=10；无 `--limit` flag（要更多结果用更窄的 `--owner` / 更精确的关键字） |
-| 过滤 | `--owner <name>` 限定 GitHub owner（仅远程模式有效） |
-| 输出模式 | 默认 TTY 渲染（fzf 风格）；`--json` 输出结构化 JSON |
+| 项目     | 取值 / 说明                                                                              |
+| -------- | ---------------------------------------------------------------------------------------- |
+| 入口命令 | `easbot skills find [query] [flags]`                                                     |
+| 数据源   | skills.sh 公共 API（`${SKILLS_API_URL:-https://skills.sh}/api/search`）                  |
+| 排序     | 按 install 数倒序（API 强制，客户端无 `--sort` flag）                                    |
+| 限制     | API 默认 limit=10；无 `--limit` flag（要更多结果用更窄的 `--owner` / 更精确的关键字）    |
+| 过滤     | `--owner <name>` 限定 GitHub owner（仅远程模式有效）                                     |
+| 输出模式 | 默认 TTY 渲染（fzf 风格）；`--json` 输出结构化 JSON                                      |
 | 本地模式 | `--local` 查 store 内已登记 skill；`--path <dir>` 扫文件系统 SKILL.md（详见 references） |
-| 安装命令 | `easbot skills add <owner>/<repo>@<skill> -g -y` |
+| 安装命令 | `easbot skills add <owner>/<repo>@<skill> -g -y`                                         |
 
 > **本技能主文件仅覆盖远程搜索**。本地搜索（`--local` / `--path`）的语义、输出格式、文件结构约束见 [references/local-search.md](references/local-search.md)。
 
@@ -56,12 +57,12 @@ metadata:
 
 把用户自然语言需求拆成可搜索的关键字：
 
-| 用户表达 | 推荐关键字 |
-|---|---|
-| "怎么写 React 组件测试" | `react testing` |
-| "帮我 review PR" | `pr review` |
-| "有没有 changelog 模板" | `changelog` |
-| "我想做 release notes" | `release notes` / `changelog` |
+| 用户表达                | 推荐关键字                    |
+| ----------------------- | ----------------------------- |
+| "怎么写 React 组件测试" | `react testing`               |
+| "帮我 review PR"        | `pr review`                   |
+| "有没有 changelog 模板" | `changelog`                   |
+| "我想做 release notes"  | `release notes` / `changelog` |
 
 表达模糊时 SHOULD 先追问 1-2 个问题再搜索，避免一次搜太宽泛。
 

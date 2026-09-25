@@ -59,16 +59,16 @@ behavior:
 
 **提示词类型分类：**
 
-| 类型 | 用途 | 规范文件 |
-|------|------|----------|
-| Agent | 定义 Agent 行为 | [agent-prompt-spec.md](references/agent-prompt-spec.md) |
-| Tool | 描述工具功能 | [tool-prompt-spec.md](references/tool-prompt-spec.md) |
-| Task | 任务管理流程 | [task-prompt-spec.md](references/task-prompt-spec.md) |
-| Command | 命令执行指南 | [command-prompt-spec.md](references/command-prompt-spec.md) |
-| Mode | 场景模式切换 | [mode-prompt-spec.md](references/mode-prompt-spec.md) |
-| Session | 会话生命周期 | [session-prompt-spec.md](references/session-prompt-spec.md) |
-| Feature | 特性功能定义 | [feature-prompt-spec.md](references/feature-prompt-spec.md) |
-| Context | 上下文构建 | [context-prompt-spec.md](references/context-prompt-spec.md) |
+| 类型    | 用途            | 规范文件                                                    |
+| ------- | --------------- | ----------------------------------------------------------- |
+| Agent   | 定义 Agent 行为 | [agent-prompt-spec.md](references/agent-prompt-spec.md)     |
+| Tool    | 描述工具功能    | [tool-prompt-spec.md](references/tool-prompt-spec.md)       |
+| Task    | 任务管理流程    | [task-prompt-spec.md](references/task-prompt-spec.md)       |
+| Command | 命令执行指南    | [command-prompt-spec.md](references/command-prompt-spec.md) |
+| Mode    | 场景模式切换    | [mode-prompt-spec.md](references/mode-prompt-spec.md)       |
+| Session | 会话生命周期    | [session-prompt-spec.md](references/session-prompt-spec.md) |
+| Feature | 特性功能定义    | [feature-prompt-spec.md](references/feature-prompt-spec.md) |
+| Context | 上下文构建      | [context-prompt-spec.md](references/context-prompt-spec.md) |
 
 ## 信息收集流程 (Information Collection)
 
@@ -127,6 +127,7 @@ optional: [comma-separated optional fields]
 **支持的格式**：JSON、Markdown
 
 **何时需要**：
+
 - Agent 能判断需要固定输出格式时（如总结、计划、任务结果）
 - 用户明确要求时
 
@@ -155,19 +156,19 @@ optional: [comma-separated optional fields]
 
 ## 参考资料 (References)
 
-| 类型 | 规范文件 |
-|------|----------|
-| Agent | [agent-prompt-spec.md](references/agent-prompt-spec.md) |
-| Tool | [tool-prompt-spec.md](references/tool-prompt-spec.md) |
-| Task | [task-prompt-spec.md](references/task-prompt-spec.md) |
-| Command | [command-prompt-spec.md](references/command-prompt-spec.md) |
-| Mode | [mode-prompt-spec.md](references/mode-prompt-spec.md) |
-| Session | [session-prompt-spec.md](references/session-prompt-spec.md) |
-| Feature | [feature-prompt-spec.md](references/feature-prompt-spec.md) |
-| Context | [context-prompt-spec.md](references/context-prompt-spec.md) |
-| Output Template | [output-template.md](references/output-template.md) |
-| Boundary Control | [boundary-control.md](references/boundary-control.md) |
-| **Prompt Validation** | [prompt-validation.md](references/prompt-validation.md) |
+| 类型                  | 规范文件                                                    |
+| --------------------- | ----------------------------------------------------------- |
+| Agent                 | [agent-prompt-spec.md](references/agent-prompt-spec.md)     |
+| Tool                  | [tool-prompt-spec.md](references/tool-prompt-spec.md)       |
+| Task                  | [task-prompt-spec.md](references/task-prompt-spec.md)       |
+| Command               | [command-prompt-spec.md](references/command-prompt-spec.md) |
+| Mode                  | [mode-prompt-spec.md](references/mode-prompt-spec.md)       |
+| Session               | [session-prompt-spec.md](references/session-prompt-spec.md) |
+| Feature               | [feature-prompt-spec.md](references/feature-prompt-spec.md) |
+| Context               | [context-prompt-spec.md](references/context-prompt-spec.md) |
+| Output Template       | [output-template.md](references/output-template.md)         |
+| Boundary Control      | [boundary-control.md](references/boundary-control.md)       |
+| **Prompt Validation** | [prompt-validation.md](references/prompt-validation.md)     |
 
 ## 提示词验证规范 (Prompt Validation)
 
@@ -185,47 +186,47 @@ optional: [comma-separated optional fields]
 
 #### 结构验证 (Structure Validation)
 
-| 检查项 | 通过条件 |
-|--------|----------|
-| 身份定义在最顶部 | ✅ |
-| 安全约束使用 IMPORTANT 标记并在结尾重复 | ✅ |
-| 清晰的章节分隔 | ✅ |
-| 示例使用 `<example>` 标签 | ✅ |
+| 检查项                                  | 通过条件 |
+| --------------------------------------- | -------- |
+| 身份定义在最顶部                        | ✅       |
+| 安全约束使用 IMPORTANT 标记并在结尾重复 | ✅       |
+| 清晰的章节分隔                          | ✅       |
+| 示例使用 `<example>` 标签               | ✅       |
 
 #### Token 预算验证 (Token Budget Validation)
 
-| 检查项 | 通过条件 |
-|--------|----------|
-| 自定义部分 < 6,000 tokens | ✅ |
-| 不重复工具定义中已有的信息 | ✅ |
-| 领域知识按需加载，非预加载 | ✅ |
-| 无冗长的背景故事 | ✅ |
+| 检查项                     | 通过条件 |
+| -------------------------- | -------- |
+| 自定义部分 < 6,000 tokens  | ✅       |
+| 不重复工具定义中已有的信息 | ✅       |
+| 领域知识按需加载，非预加载 | ✅       |
+| 无冗长的背景故事           | ✅       |
 
 #### 规则质量验证 (Rule Quality Validation)
 
-| 检查项 | 通过条件 |
-|--------|----------|
-| 每条规则可真/假测试 | ✅ |
-| 硬约束使用绝对语言（NEVER/MUST） | ✅ |
-| 软建议使用推荐语言（recommended/prefer） | ✅ |
-| 关键规则解释原因 | ✅ |
-| 双向约束（做什么 + 不做什么） | ✅ |
+| 检查项                                   | 通过条件 |
+| ---------------------------------------- | -------- |
+| 每条规则可真/假测试                      | ✅       |
+| 硬约束使用绝对语言（NEVER/MUST）         | ✅       |
+| 软建议使用推荐语言（recommended/prefer） | ✅       |
+| 关键规则解释原因                         | ✅       |
+| 双向约束（做什么 + 不做什么）            | ✅       |
 
 ### 反模式检测 (Anti-pattern Detection)
 
-| 反模式 | 问题 | 解决方案 |
-|--------|------|----------|
-| Prompt Chains | 机械执行 | 告诉目标，让模型决定步骤 |
-| Flattery Engineering | 浪费 tokens | 删除奉承语言 |
-| Knowledge Dumps | 消耗上下文 | 按需加载 |
-| Missing Failure Handling | 无限重试 | 添加失败处理策略 |
+| 反模式                   | 问题        | 解决方案                 |
+| ------------------------ | ----------- | ------------------------ |
+| Prompt Chains            | 机械执行    | 告诉目标，让模型决定步骤 |
+| Flattery Engineering     | 浪费 tokens | 删除奉承语言             |
+| Knowledge Dumps          | 消耗上下文  | 按需加载                 |
+| Missing Failure Handling | 无限重试    | 添加失败处理策略         |
 
 ### 内容质量评分
 
-| 评分 | 等级 | 处理方式 |
-|------|------|----------|
-| 5 | 必需 | **MUST** 包含 |
-| 4 | 重要 | **ALWAYS** 推荐包含 |
-| 3 | 有用 | 可选包含 |
-| 2 | 模糊 | 考虑剔除 |
-| 1 | 冗余 | **DO NOT** 剔除 |
+| 评分 | 等级 | 处理方式            |
+| ---- | ---- | ------------------- |
+| 5    | 必需 | **MUST** 包含       |
+| 4    | 重要 | **ALWAYS** 推荐包含 |
+| 3    | 有用 | 可选包含            |
+| 2    | 模糊 | 考虑剔除            |
+| 1    | 冗余 | **DO NOT** 剔除     |

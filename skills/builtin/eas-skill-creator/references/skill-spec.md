@@ -6,13 +6,13 @@
 
 ## 1. 五大模式快速对照 (Five Mode Quick Reference)
 
-| # | 模式 | 一句话定义 | 典型场景 | 侧别 |
-|---|---|---|---|---|
-| 1 | **Tool Wrapper** | 给模型补某个库的专家知识 | 补 API/库/工具的最新用法 | 内容侧 |
-| 2 | **Generator** | 按固定模板/格式稳定输出 | 报表生成、Schema 化输出、代码脚手架 | 内容侧 |
-| 3 | **Reviewer** | 按标准清单逐项核查 | 代码评审、合规审查、Pre-PR 检查 | 行动侧 |
-| 4 | **Inversion** | 先问清楚：反向澄清需求 | 模糊需求澄清、关键参数反问 | 行动侧 |
-| 5 | **Pipeline** | 不能跳步：流程化多步串联 | 部署流水线、数据 ETL、多阶段审查 | 行动侧 |
+| #   | 模式             | 一句话定义               | 典型场景                            | 侧别   |
+| --- | ---------------- | ------------------------ | ----------------------------------- | ------ |
+| 1   | **Tool Wrapper** | 给模型补某个库的专家知识 | 补 API/库/工具的最新用法            | 内容侧 |
+| 2   | **Generator**    | 按固定模板/格式稳定输出  | 报表生成、Schema 化输出、代码脚手架 | 内容侧 |
+| 3   | **Reviewer**     | 按标准清单逐项核查       | 代码评审、合规审查、Pre-PR 检查     | 行动侧 |
+| 4   | **Inversion**    | 先问清楚：反向澄清需求   | 模糊需求澄清、关键参数反问          | 行动侧 |
+| 5   | **Pipeline**     | 不能跳步：流程化多步串联 | 部署流水线、数据 ETL、多阶段审查    | 行动侧 |
 
 ---
 
@@ -59,6 +59,7 @@
 ### 步骤 3：编辑文件 (Edit Files)
 
 根据模式填充内容：
+
 - **Tool Wrapper**: 补充 API 速查表、调用示例
 - **Generator**: 定义输出模板、校验规则
 - **Reviewer**: 编写审查流程 + `references/checklist.md`
@@ -72,12 +73,14 @@
 ### 4.1 Tool Wrapper
 
 **frontmatter 必须字段**：
+
 ```yaml
 mode: tool-wrapper
 composition: single
 ```
 
 **body 必需内容**：
+
 - 概述 (Overview)
 - 何时使用 (When to Use)
 - API 速查表 / 调用示例
@@ -88,12 +91,14 @@ composition: single
 ### 4.2 Generator
 
 **frontmatter 必须字段**：
+
 ```yaml
 mode: generator
 composition: single
 ```
 
 **body 必需内容**：
+
 - 概述 (Overview)
 - 何时使用 (When to Use)
 - 输出模板（JSON/Markdown/代码）
@@ -105,6 +110,7 @@ composition: single
 ### 4.3 Reviewer
 
 **frontmatter 必须字段**：
+
 ```yaml
 mode: reviewer
 composition: single
@@ -122,10 +128,12 @@ reviewer:
 ```
 
 **references/checklist.md 必须包含**：
+
 - 按严重程度分级的检查项
 - 每项含：通过标准、检查方法（manual/auto）
 
 **输出格式**：
+
 ```json
 {
   "passed": true | false,
@@ -140,6 +148,7 @@ reviewer:
 ### 4.4 Inversion
 
 **frontmatter 必须字段**：
+
 ```yaml
 mode: inversion
 composition: single
@@ -159,6 +168,7 @@ behavior:
 ```
 
 **必须遵循**：
+
 - 必答题 ≤ 5 个
 - 每题 2~4 个选项
 - 全部必答完成才能开始执行
@@ -168,6 +178,7 @@ behavior:
 ### 4.5 Pipeline
 
 **frontmatter 必须字段**：
+
 ```yaml
 mode: pipeline
 composition: single
@@ -189,6 +200,7 @@ behavior:
 ```
 
 **必须遵循**：
+
 - 每步定义 Gate 三要素（入口/出口/失败策略）
 - `dependsOn` 声明前置依赖
 - 依赖图无循环
@@ -198,12 +210,13 @@ behavior:
 ## 5. 组合模式 (Composition Modes)
 
 **frontmatter 模板**：
+
 ```yaml
 mode: <主模式>
 composition: composed
 secondaryModes:
   - <次要模式1>
-  - <次要模式2>  # 最多 2 个
+  - <次要模式2> # 最多 2 个
 compositionConnections:
   - from: <模式A>
     to: <模式B>
@@ -211,24 +224,25 @@ compositionConnections:
 ```
 
 **典型组合**：
-| 主模式 | 次要模式 | 场景 |
-|---|---|---|
-| Pipeline | + Reviewer | 多阶段审查流水线 |
-| Pipeline | + Inversion | 部署前置澄清 |
-| Generator | + Reviewer | 生成 + 合规审查 |
+
+| 主模式    | 次要模式    | 场景             |
+| --------- | ----------- | ---------------- |
+| Pipeline  | + Reviewer  | 多阶段审查流水线 |
+| Pipeline  | + Inversion | 部署前置澄清     |
+| Generator | + Reviewer  | 生成 + 合规审查  |
 
 ---
 
 ## 6. 交付完整性自检 (Delivery Checklist)
 
-| 项目 | 说明 | 审查类必须 |
-|---|---|---|
-| `developmentGuide` | When to Use + 典型用法 | — |
-| `pitfallTable` | 已知坑 + 反模式 | — |
-| `reviewProcess` | 准入准出清单 | ✅ |
-| `deploymentGuide` | 安装/卸载命令 | 部署类必须 |
-| `observability` | 日志/调试入口 | 运维类必须 |
-| `scripts` | 辅助脚本目录 | 有脚本必须 |
+| 项目               | 说明                   | 审查类必须 |
+| ------------------ | ---------------------- | ---------- |
+| `developmentGuide` | When to Use + 典型用法 | —          |
+| `pitfallTable`     | 已知坑 + 反模式        | —          |
+| `reviewProcess`    | 准入准出清单           | ✅         |
+| `deploymentGuide`  | 安装/卸载命令          | 部署类必须 |
+| `observability`    | 日志/调试入口          | 运维类必须 |
+| `scripts`          | 辅助脚本目录           | 有脚本必须 |
 
 > **本节为通用 spec 字段表，**非本技能 frontmatter 必填项**。按需选用：Reviewer 类技能必须 `reviewProcess`；有 `scripts/` 的技能必须含脚本目录；其他字段为建议性自检项。**
 
@@ -249,23 +263,23 @@ compositionConnections:
 
 ### 8.1 何时用步骤规范 vs Checklist 规范
 
-| 触发问题 | → 用步骤规范 | → 用 Checklist 规范 |
-|---|---|---|
-| 技能的核心是"**按顺序做事**"吗？ | ✅ 必须有步骤序列 | ❌ 不需要 |
-| 技能的核心是"**逐项核对**"吗？ | ❌ 不需要 | ✅ 必须有 checklist |
-| 技能需要"**生成后自检**"吗？ | ⚠ 可选（步骤内嵌校验） | ✅ 独立 checklist 更佳 |
-| 技能需要"**多阶段 Gate 控流**"吗？ | ✅ Pipeline 步骤规范 | ⚠ 可选 Gate 条件清单 |
+| 触发问题                           | → 用步骤规范           | → 用 Checklist 规范    |
+| ---------------------------------- | ---------------------- | ---------------------- |
+| 技能的核心是"**按顺序做事**"吗？   | ✅ 必须有步骤序列      | ❌ 不需要              |
+| 技能的核心是"**逐项核对**"吗？     | ❌ 不需要              | ✅ 必须有 checklist    |
+| 技能需要"**生成后自检**"吗？       | ⚠ 可选（步骤内嵌校验） | ✅ 独立 checklist 更佳 |
+| 技能需要"**多阶段 Gate 控流**"吗？ | ✅ Pipeline 步骤规范   | ⚠ 可选 Gate 条件清单   |
 
 ### 8.2 五大模式必选/可选矩阵
 
-| 模式 | 步骤规范 (Step Spec) | Checklist 规范 (Checklist Spec) |
-|---|---|---|
-| **Tool Wrapper** | ❌ 不需要 | ⚠ 可选（仅「常见错误表」可作为轻度 checklist） |
-| **Generator** | ⚠ 可选（生成阶段步骤） | ✅ **推荐**（输出模板校验清单） |
-| **Reviewer** | ❌ 不需要 | ✅ **必须**（`references/checklist.md` 按严重度分级） |
-| **Inversion** | ⚠ 可选（澄清阶段序列） | ❌ 不需要 |
-| **Pipeline** | ✅ **必须**（`behavior.sequence.steps` + Gate 三要素） | ⚠ 可选（Gate 条件清单） |
-| **Reference 类型技能** | ❌ 不需要 | ❌ 不需要（静态信息） |
+| 模式                   | 步骤规范 (Step Spec)                                   | Checklist 规范 (Checklist Spec)                       |
+| ---------------------- | ------------------------------------------------------ | ----------------------------------------------------- |
+| **Tool Wrapper**       | ❌ 不需要                                              | ⚠ 可选（仅「常见错误表」可作为轻度 checklist）        |
+| **Generator**          | ⚠ 可选（生成阶段步骤）                                 | ✅ **推荐**（输出模板校验清单）                       |
+| **Reviewer**           | ❌ 不需要                                              | ✅ **必须**（`references/checklist.md` 按严重度分级） |
+| **Inversion**          | ⚠ 可选（澄清阶段序列）                                 | ❌ 不需要                                             |
+| **Pipeline**           | ✅ **必须**（`behavior.sequence.steps` + Gate 三要素） | ⚠ 可选（Gate 条件清单）                               |
+| **Reference 类型技能** | ❌ 不需要                                              | ❌ 不需要（静态信息）                                 |
 
 > **硬约束**：Reviewer 模式 = 必须有 checklist；Pipeline 模式 = 必须有步骤规范（详见 §4.3 / §4.5）。
 > **反模式**：Tool Wrapper 写 checklist（补知识不核查）/ Reference 写步骤（静态信息无流程）。
@@ -278,6 +292,7 @@ compositionConnections:
 ## 步骤序列 (Step Sequence)
 
 ### Step 1: <步骤名>
+
 - **目标 (Goal)**: 本步要完成什么（1 句）
 - **入口条件 (Entry)**: 前置依赖 / 必备输入（MUST 满足才能开始）
 - **操作 (Action)**: 具体动作（动词开头，1~3 句）
@@ -286,11 +301,13 @@ compositionConnections:
 - **回滚 (Rollback)**: 是否需要回滚 + 回滚动作
 
 ### Step 2: <步骤名>
+
 ...
 
 ## Gate 三要素 (Three Gates)
 
 每步 MUST 明确三要素：
+
 1. **入口 Gate**：依赖就绪、权限就位、输入存在
 2. **出口 Gate**：产物已生成、校验已通过、人工已批准
 3. **失败 Gate**：失败时的兜底动作 + 通知方式
@@ -304,12 +321,12 @@ compositionConnections:
 
 按本项目 §14.6 的严重度分级：
 
-| 级别 | 含义 | 处理 |
-|---|---|---|
+| 级别              | 含义                            | 处理                |
+| ----------------- | ------------------------------- | ------------------- |
 | **P0 / Critical** | 阻塞：违反 = 契约失败 / CI 失败 | MUST 修复，禁止放行 |
-| **P1 / High** | 重要：影响一致性 / 可维护性 | MUST 修复或显式豁免 |
-| **P2 / Medium** | 推荐：风格 / 美观 | SHOULD 修复 |
-| **P3 / Low** | 建议：锦上添花 | MAY 修复 |
+| **P1 / High**     | 重要：影响一致性 / 可维护性     | MUST 修复或显式豁免 |
+| **P2 / Medium**   | 推荐：风格 / 美观               | SHOULD 修复         |
+| **P3 / Low**      | 建议：锦上添花                  | MAY 修复            |
 
 #### 8.4.2 Checklist 项最小结构
 
@@ -318,10 +335,10 @@ compositionConnections:
 ```markdown
 ## §<章节号> <章节名>
 
-| ID | 检查项 | 通过条件 | 严重度 | 检查方式 |
-|---|---|---|---|---|
+| ID    | 检查项     | 通过条件       | 严重度      | 检查方式      |
+| ----- | ---------- | -------------- | ----------- | ------------- |
 | C-001 | 检查项标题 | 具体可验证条件 | P0/P1/P2/P3 | manual / auto |
-| C-002 | ... | ... | ... | ... |
+| C-002 | ...        | ...            | ...         | ...           |
 ```
 
 **强制约束**：
@@ -344,11 +361,12 @@ compositionConnections:
 
 ## §1 <章节名>
 
-| ID | 检查项 | 通过条件 | 严重度 | 检查方式 |
-|---|---|---|---|---|
-| C-001 | ... | ... | P0 | auto |
+| ID    | 检查项 | 通过条件 | 严重度 | 检查方式 |
+| ----- | ------ | -------- | ------ | -------- |
+| C-001 | ...    | ...      | P0     | auto     |
 
 ## §2 <章节名>
+
 ...
 ```
 
@@ -373,25 +391,25 @@ Generator 模式可使用**轻量 checklist**（不强制落地独立文件，bo
 
 当 `composition: composed` 时，按主模式选规范，次要模式可叠加：
 
-| 主模式 | 次要模式 | 步骤规范 | Checklist 规范 |
-|---|---|---|---|
-| Pipeline | + Reviewer | ✅ 主模式必选 | ✅ 次模式必选（双份清单） |
-| Pipeline | + Inversion | ✅ 主模式必选 | ⚠ 次模式可省略 |
-| Generator | + Reviewer | ⚠ 主模式可选 | ✅ 双份（生成校验 + 产物审查） |
-| Inversion | + Pipeline | ✅ 次模式必选 | ⚠ 可选 |
+| 主模式    | 次要模式    | 步骤规范      | Checklist 规范                 |
+| --------- | ----------- | ------------- | ------------------------------ |
+| Pipeline  | + Reviewer  | ✅ 主模式必选 | ✅ 次模式必选（双份清单）      |
+| Pipeline  | + Inversion | ✅ 主模式必选 | ⚠ 次模式可省略                 |
+| Generator | + Reviewer  | ⚠ 主模式可选  | ✅ 双份（生成校验 + 产物审查） |
+| Inversion | + Pipeline  | ✅ 次模式必选 | ⚠ 可选                         |
 
 > **反模式**：Tool Wrapper + Reviewer 组合——Tool Wrapper 不产出可审查产物，硬塞 checklist 会变成空壳。
 
 ### 8.6 常用 Pattern 与本技能模式对照 (Pattern Correspondence)
 
-| 通用 Pattern | 本技能对应模式 | 关键产物 |
-|---|---|---|
-| **Template Pattern** | Generator | 输出模板 + 校验清单 |
-| **Examples Pattern** | Generator / Tool Wrapper | 输入/输出示例对 |
-| **Workflow Pattern**（带步骤清单）| Pipeline | 步骤序列 + Gate 三要素 |
-| **Feedback Loop Pattern**（带校验循环）| Pipeline + Reviewer / Generator | 自检步骤 + 失败兜底 |
-| **Conditional Workflow Pattern** | Pipeline（带分支）| 决策点 → 子流程 |
-| **Checklist Pattern**（核心）| **Reviewer** | `references/checklist.md` 按严重度分级 |
+| 通用 Pattern                            | 本技能对应模式                  | 关键产物                               |
+| --------------------------------------- | ------------------------------- | -------------------------------------- |
+| **Template Pattern**                    | Generator                       | 输出模板 + 校验清单                    |
+| **Examples Pattern**                    | Generator / Tool Wrapper        | 输入/输出示例对                        |
+| **Workflow Pattern**（带步骤清单）      | Pipeline                        | 步骤序列 + Gate 三要素                 |
+| **Feedback Loop Pattern**（带校验循环） | Pipeline + Reviewer / Generator | 自检步骤 + 失败兜底                    |
+| **Conditional Workflow Pattern**        | Pipeline（带分支）              | 决策点 → 子流程                        |
+| **Checklist Pattern**（核心）           | **Reviewer**                    | `references/checklist.md` 按严重度分级 |
 
 ---
 
@@ -401,13 +419,13 @@ Generator 模式可使用**轻量 checklist**（不强制落地独立文件，bo
 
 ### 9.1 字段对照表
 
-| 字段 | 必填 | 约束 | 说明 |
-|---|---|---|---|
-| **name** | ✅ MUST | hyphen-case，≤64 字符，与目录名一致 | 技能唯一标识 |
-| **description** | ✅ MUST | 第三人称，仅描述触发条件，**MUST ≤ 1024** / SHOULD ≤ 500 字符 | Agent 加载决策依据 |
-| **license** | ⚠ 推荐 | 协议名或引用 bundled license 文件 | 协议声明 |
-| **metadata** | ⚠ 可选 | 自定义 key-value（项目内可任意键名） | 推荐放 `category` / `version` / `author` / `compatibility` / `tags` |
-| **allowed-tools** | ⚠ 可选 | 空格分隔的预批准工具列表 | 跨 Agent 互操作 |
+| 字段              | 必填    | 约束                                                          | 说明                                                                |
+| ----------------- | ------- | ------------------------------------------------------------- | ------------------------------------------------------------------- |
+| **name**          | ✅ MUST | hyphen-case，≤64 字符，与目录名一致                           | 技能唯一标识                                                        |
+| **description**   | ✅ MUST | 第三人称，仅描述触发条件，**MUST ≤ 1024** / SHOULD ≤ 500 字符 | Agent 加载决策依据                                                  |
+| **license**       | ⚠ 推荐  | 协议名或引用 bundled license 文件                             | 协议声明                                                            |
+| **metadata**      | ⚠ 可选  | 自定义 key-value（项目内可任意键名）                          | 推荐放 `category` / `version` / `author` / `compatibility` / `tags` |
+| **allowed-tools** | ⚠ 可选  | 空格分隔的预批准工具列表                                      | 跨 Agent 互操作                                                     |
 
 ### 9.2 关键约束
 
@@ -426,19 +444,19 @@ Generator 模式可使用**轻量 checklist**（不强制落地独立文件，bo
 
 一份合格的 `description` MUST 同时含 **WHAT** + **WHEN** + **第三人称** 三要素，缺一项视为 P0 缺陷：
 
-| 要素 | 含义 | 落地要求 |
-|---|---|---|
-| **WHAT** | 技能做什么（具体能力清单） | 动词引导的能力列表；避免泛词（"处理文档"） |
-| **WHEN** | Agent 何时应触发（触发场景 + 触发短语） | 含 5+ 触发短语 + 1+ 反场景 |
-| **第三人称** | 描述注入 Agent 系统提示，必须第三人称 | "该技能应在…时使用"，**禁止**"我" / "你可以" |
+| 要素         | 含义                                    | 落地要求                                     |
+| ------------ | --------------------------------------- | -------------------------------------------- |
+| **WHAT**     | 技能做什么（具体能力清单）              | 动词引导的能力列表；避免泛词（"处理文档"）   |
+| **WHEN**     | Agent 何时应触发（触发场景 + 触发短语） | 含 5+ 触发短语 + 1+ 反场景                   |
+| **第三人称** | 描述注入 Agent 系统提示，必须第三人称   | "该技能应在…时使用"，**禁止**"我" / "你可以" |
 
 #### 9.3.2 字符控制 (Length Control)
 
-| 阈值 | 性质 | 处置 |
-|---|---|---|
-| **≤ 500 字符** | SHOULD（推荐值） | 满足时优先采用，便于 Agent 上下文预算 |
-| **≤ 1024 字符** | MUST（硬上限） | `quick-validate.ts` 强制；超过直接拒绝 |
-| **> 1024 字符** | 校验失败 | 提交会被 CI 拦截（§7.5 CI 契约） |
+| 阈值            | 性质             | 处置                                   |
+| --------------- | ---------------- | -------------------------------------- |
+| **≤ 500 字符**  | SHOULD（推荐值） | 满足时优先采用，便于 Agent 上下文预算  |
+| **≤ 1024 字符** | MUST（硬上限）   | `quick-validate.ts` 强制；超过直接拒绝 |
+| **> 1024 字符** | 校验失败         | 提交会被 CI 拦截（§7.5 CI 契约）       |
 
 #### 9.3.3 句式模板 (Sentence Templates)
 
@@ -501,12 +519,12 @@ description: 该技能应在 Agent 需要处理文档、生成报告、分析数
 
 按 AGENTS.md §6.2 演化规则，`description` 字段修订 MUST 同步更新：
 
-| # | 同步目标 | 字段 |
-|---|---|---|
-| 1 | `.claude-plugin/marketplace.json` | `plugins[].description` |
-| 2 | `README.md` + `README.en.md` | 内置技能一览 / 工具类技能表的描述列 |
-| 3 | `skills/builtin/eas-skill-using/SKILL.md` | 仅 `builtin` 类别：能力索引 + 决策辅助 + 场景映射 |
-| 4 | `metadata.version` | frontmatter `version` bump（patch） |
+| #   | 同步目标                                  | 字段                                              |
+| --- | ----------------------------------------- | ------------------------------------------------- |
+| 1   | `.claude-plugin/marketplace.json`         | `plugins[].description`                           |
+| 2   | `README.md` + `README.en.md`              | 内置技能一览 / 工具类技能表的描述列               |
+| 3   | `skills/builtin/eas-skill-using/SKILL.md` | 仅 `builtin` 类别：能力索引 + 决策辅助 + 场景映射 |
+| 4   | `metadata.version`                        | frontmatter `version` bump（patch）               |
 
 > 失同步会被本评审（`docs/decisions/0006-review-all-skills.md`）判为 P0。
 
@@ -530,12 +548,12 @@ description: 该技能应在 Agent 需要处理文档、生成报告、分析数
 
 ### 9.4 字段分层策略
 
-| 层 | 字段 | 推荐用法 |
-|---|---|---|
-| **AgentSkills 标准**（顶层） | `name` / `description` / `license` / `metadata` / `allowed-tools` | 通用；跨 Agent 互操作 |
-| **5 大模式规范字段**（顶层） | `mode` / `composition` / `secondaryModes` / `compositionConnections` / `behavior` / `reviewer` / `deliveryChecklist` | 行为类技能的规范字段；保留顶层 |
-| **EASBot plugin 项目级元数据**（顶层） | `scope` | 上下文模式 `general` / `coder` / `all`；与 plugin command/hook 顶层保持统一；**EASBot 产品 plugin 管理属性**，非通用 skill 属性 |
-| **本项目扩展**（metadata 块内，**强制**） | `category` / `version` / `author` / `compatibility` / `tags` | EASBot 内部组织；不影响外部 Agent；**禁止出现在顶层**（quick-validate.ts 白名单已移除） |
+| 层                                        | 字段                                                                                                                 | 推荐用法                                                                                                                        |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| **AgentSkills 标准**（顶层）              | `name` / `description` / `license` / `metadata` / `allowed-tools`                                                    | 通用；跨 Agent 互操作                                                                                                           |
+| **5 大模式规范字段**（顶层）              | `mode` / `composition` / `secondaryModes` / `compositionConnections` / `behavior` / `reviewer` / `deliveryChecklist` | 行为类技能的规范字段；保留顶层                                                                                                  |
+| **EASBot plugin 项目级元数据**（顶层）    | `scope`                                                                                                              | 上下文模式 `general` / `coder` / `all`；与 plugin command/hook 顶层保持统一；**EASBot 产品 plugin 管理属性**，非通用 skill 属性 |
+| **本项目扩展**（metadata 块内，**强制**） | `category` / `version` / `author` / `compatibility` / `tags`                                                         | EASBot 内部组织；不影响外部 Agent；**禁止出现在顶层**（quick-validate.ts 白名单已移除）                                         |
 
 > **规范生效**: 本分层策略已通过 [0012 跨技能决策](file:///e:/work/apps/eas/agent-skills/docs/decisions/0012-cross-skill-decision-frontmatter-metadata-normalize.md) 确立；任何 `category` / `version` / `tags` / `author` / `compatibility` 出现在顶层视为 P0 违规，quick-validate 直接拒绝。
 

@@ -50,7 +50,7 @@ metadata:
 
 ```ts
 // 在 Agent 上下文中
-tool.execute({ name: 'eas-skill-using' })
+tool.execute({ name: 'eas-skill-using' });
 ```
 
 加载后，Agent 会收到一个 `<skill_content name="eas-skill-using">` 块，包含：
@@ -128,44 +128,44 @@ tool.execute({ name: 'eas-skill-using' })
 
 ### 找现成技能（Search First）
 
-| 需求 | 第一步 | 第二步 |
-|---|---|---|
-| 用户问"有没有做 X 的技能" | `eas-skill-using`（先看能力索引） | `eas-skill-find`（如果索引里没有） |
-| 排查问题时发现需要某个领域技能 | `eas-skill-using`（查能力索引） | 直接加载对应技能 |
-| 用户想了解生态全景 | `eas-skill-using` | — |
+| 需求                           | 第一步                            | 第二步                             |
+| ------------------------------ | --------------------------------- | ---------------------------------- |
+| 用户问"有没有做 X 的技能"      | `eas-skill-using`（先看能力索引） | `eas-skill-find`（如果索引里没有） |
+| 排查问题时发现需要某个领域技能 | `eas-skill-using`（查能力索引）   | 直接加载对应技能                   |
+| 用户想了解生态全景             | `eas-skill-using`                 | —                                  |
 
 ### 创建新技能（Create）
 
-| 需求 | 推荐路径 |
-|---|---|
-| 设计一个全新技能 | `eas-skill-creator`（写单个技能）→ `eas-agent-creation`（管生命周期） |
-| 把多个技能打包成 Bundle | `eas-agent-creation` |
-| Agent 第一次启动，需要写技能引导 | `eas-skill-using`（先看生态）→ `eas-skill-creator`（写技能） |
+| 需求                             | 推荐路径                                                              |
+| -------------------------------- | --------------------------------------------------------------------- |
+| 设计一个全新技能                 | `eas-skill-creator`（写单个技能）→ `eas-agent-creation`（管生命周期） |
+| 把多个技能打包成 Bundle          | `eas-agent-creation`                                                  |
+| Agent 第一次启动，需要写技能引导 | `eas-skill-using`（先看生态）→ `eas-skill-creator`（写技能）          |
 
 ### 配置 / 维护 Agent（Maintain）
 
-| 需求 | 推荐路径 |
-|---|---|
-| Agent 第一次启动初始化 | `eas-agent-evolution` |
-| 修改 Agent 身份 / 配置 / 模板 | `eas-agent-evolution`（禁止手改） |
-| 排查技能失败 / 改进描述 | `eas-agent-creation`（生命周期视角）→ `eas-skill-creator`（单技能编辑） |
+| 需求                          | 推荐路径                                                                |
+| ----------------------------- | ----------------------------------------------------------------------- |
+| Agent 第一次启动初始化        | `eas-agent-evolution`                                                   |
+| 修改 Agent 身份 / 配置 / 模板 | `eas-agent-evolution`（禁止手改）                                       |
+| 排查技能失败 / 改进描述       | `eas-agent-creation`（生命周期视角）→ `eas-skill-creator`（单技能编辑） |
 
 ### 提示词工程（Prompt Engineering）
 
-| 需求 | 推荐路径 |
-|---|---|
+| 需求                                | 推荐路径             |
+| ----------------------------------- | -------------------- |
 | 创建新的 Agent / Tool / Task 提示词 | `eas-prompt-creator` |
-| 审核现有提示词质量 | `eas-prompt-creator` |
-| 把提示词规范成 EASBot 标准格式 | `eas-prompt-creator` |
+| 审核现有提示词质量                  | `eas-prompt-creator` |
+| 把提示词规范成 EASBot 标准格式      | `eas-prompt-creator` |
 
 ### 长任务规划（Project-level Tasks）
 
-| 需求 | 推荐路径 |
-|---|---|
+| 需求                                        | 推荐路径                                                        |
+| ------------------------------------------- | --------------------------------------------------------------- |
 | 跨 session 推进、需要事后 Review 的复杂任务 | `eas-planning-writer`（task_plan + findings + progress 三件套） |
-| 仅当前 session 内拆分子任务 | 用 Agent 内部 `todo` 工具 |
-| 一次性 subagent | 用 `task` 工具 |
-| 定时/周期任务 | 用 `scheduler.*` 工具 |
+| 仅当前 session 内拆分子任务                 | 用 Agent 内部 `todo` 工具                                       |
+| 一次性 subagent                             | 用 `task` 工具                                                  |
+| 定时/周期任务                               | 用 `scheduler.*` 工具                                           |
 
 ### 综合场景（Combine）
 
@@ -238,13 +238,13 @@ EASBot 技能遵循三级加载，最大限度节省上下文：
 
 > 容易混淆：技能是**提示词包**，不是"做事的工具"。做事的工具是 `task` / `scheduler.*` / `todo` / `skill`（`Skill` 命名空间）这些 Tool。
 
-| 概念 | 是什么 | 何时用 |
-|------|--------|--------|
-| **技能（Skill）** | 注入到上下文的提示词包（SKILL.md + bundled resources） | Agent 需要某领域的工作流指导 |
-| **`task` 工具** | 启动一次性 subagent | 独立子任务（探索、写文件等） |
-| **`scheduler.*` 工具** | 创建定时/周期任务 | 心跳、清理、批处理 |
-| **`todo` 工具** | 维护当前 session 的子任务清单 | 当前 session 内多步操作 |
-| **`skill` 工具** | 加载/读取技能 | 通过 `name` 加载技能到上下文 |
+| 概念                   | 是什么                                                 | 何时用                       |
+| ---------------------- | ------------------------------------------------------ | ---------------------------- |
+| **技能（Skill）**      | 注入到上下文的提示词包（SKILL.md + bundled resources） | Agent 需要某领域的工作流指导 |
+| **`task` 工具**        | 启动一次性 subagent                                    | 独立子任务（探索、写文件等） |
+| **`scheduler.*` 工具** | 创建定时/周期任务                                      | 心跳、清理、批处理           |
+| **`todo` 工具**        | 维护当前 session 的子任务清单                          | 当前 session 内多步操作      |
+| **`skill` 工具**       | 加载/读取技能                                          | 通过 `name` 加载技能到上下文 |
 
 **关系**：
 
@@ -272,19 +272,19 @@ EASBot 技能遵循三级加载，最大限度节省上下文：
 
 ### 上下文窗口预算 (Context Window Budget)
 
-| 加载阶段 | 体积建议 | 说明 |
-|---|---|---|
-| name + description | ≤ 1024 字符 | 决定是否触发，必须精简 |
-| SKILL.md 主体 | ≤ 500 行 | 触发后加载，含完整指令 |
-| references/* | 无硬性限制 | 按需加载，单文件 < 10k 字 |
+| 加载阶段           | 体积建议    | 说明                      |
+| ------------------ | ----------- | ------------------------- |
+| name + description | ≤ 1024 字符 | 决定是否触发，必须精简    |
+| SKILL.md 主体      | ≤ 500 行    | 触发后加载，含完整指令    |
+| references/*       | 无硬性限制  | 按需加载，单文件 < 10k 字 |
 
 ### 技能版本与维护 (Skill Versioning and Maintenance)
 
-| 字段 | 规范 | 升级时机 |
-|------|------|----------|
-| `version` | 遵循 semver（major.minor.patch） | 内容变更时 bump |
-| `category` | `builtin` / `domain` / `workflow` | 极少变更 |
-| `tags` | hyphen-case 数组 | 新增主题时追加 |
+| 字段       | 规范                              | 升级时机        |
+| ---------- | --------------------------------- | --------------- |
+| `version`  | 遵循 semver（major.minor.patch）  | 内容变更时 bump |
+| `category` | `builtin` / `domain` / `workflow` | 极少变更        |
+| `tags`     | hyphen-case 数组                  | 新增主题时追加  |
 
 **维护者 Checklist**（builtin 技能新增/删除时必做）：
 

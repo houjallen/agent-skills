@@ -10,19 +10,19 @@ behavior:
     template: assets/spec-template.md
     validation_rules:
       - id: no-tbd
-        rule: "所有章节 MUST 不含 TBD / 看情况 / 待定 等占位符；如有不确定项 MUST 转为显式假设并标注"
+        rule: '所有章节 MUST 不含 TBD / 看情况 / 待定 等占位符；如有不确定项 MUST 转为显式假设并标注'
         severity: must
       - id: no-empty-section
-        rule: "所有章节 MUST 含 ≥1 个具体条目；空章节视为未完成"
+        rule: '所有章节 MUST 含 ≥1 个具体条目；空章节视为未完成'
         severity: must
       - id: interface-required
-        rule: "接口章节 MUST 含 ≥1 个具体接口签名 / API 端点 / 数据结构"
+        rule: '接口章节 MUST 含 ≥1 个具体接口签名 / API 端点 / 数据结构'
         severity: must
       - id: acceptance-testable
         rule: "验收章节每条 AC MUST 含 target + measurement；不可含'差不多就行'"
         severity: must
       - id: out-of-scope-explicit
-        rule: "Out-of-Scope 章节 MUST 列出 ≥3 项明确不做的事"
+        rule: 'Out-of-Scope 章节 MUST 列出 ≥3 项明确不做的事'
         severity: must
 metadata:
   category: dev
@@ -73,16 +73,16 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项 | 内容 |
-|---|---|
-| 模式 | Generator（5 章节固定模板 + 5 条校验规则） |
-| 输入契约 | `alignment.md`（来自 `eas-dev-align`）+ 可选补充资料 |
-| 输出契约 | `spec.md`（5 章节 + frontmatter；**无歧义**，**可执行**） |
-| 必填章节 | 背景 / 目标 / 接口 / 验收 / 范围外 |
-| 必读 references | [references/spec-template.md](references/spec-template.md) |
-| 必含 assets | [assets/spec-template.md](assets/spec-template.md) |
-| 校验规则数 | 5 条 must 规则（见 frontmatter `behavior.output.validation_rules`） |
-| 失败处理 | 任一校验规则不通过 → MUST 报错并指明章节 / 规则 |
+| 项              | 内容                                                                |
+| --------------- | ------------------------------------------------------------------- |
+| 模式            | Generator（5 章节固定模板 + 5 条校验规则）                          |
+| 输入契约        | `alignment.md`（来自 `eas-dev-align`）+ 可选补充资料                |
+| 输出契约        | `spec.md`（5 章节 + frontmatter；**无歧义**，**可执行**）           |
+| 必填章节        | 背景 / 目标 / 接口 / 验收 / 范围外                                  |
+| 必读 references | [references/spec-template.md](references/spec-template.md)          |
+| 必含 assets     | [assets/spec-template.md](assets/spec-template.md)                  |
+| 校验规则数      | 5 条 must 规则（见 frontmatter `behavior.output.validation_rules`） |
+| 失败处理        | 任一校验规则不通过 → MUST 报错并指明章节 / 规则                     |
 
 ## 第一性原理 (First Principles)
 
@@ -156,21 +156,21 @@ metadata:
 
 ## 输入契约 (Input Contract)
 
-| 项 | 要求 |
-|---|---|
+| 项   | 要求                                                      |
+| ---- | --------------------------------------------------------- |
 | 必备 | `alignment.md`（`status: confirmed`；用户已确认对齐结果） |
-| 可选 | 已有的 spec.md（增量更新场景） |
-| 可选 | 设计草图 / API 草稿 / 数据 schema |
-| 拒绝 | 无 alignment 直接生成（NEVER；先走 `eas-dev-align`） |
+| 可选 | 已有的 spec.md（增量更新场景）                            |
+| 可选 | 设计草图 / API 草稿 / 数据 schema                         |
+| 拒绝 | 无 alignment 直接生成（NEVER；先走 `eas-dev-align`）      |
 
 ## 输出契约 (Output Contract)
 
 **必须产出 `spec.md`**，落地路径规范（dev 技能通用默认；宿主项目可在自有 `.easbot/AGENTS.md` 中声明覆盖）：
 
-| 场景 | 路径 |
-|---|---|
+| 场景               | 路径                                               |
+| ------------------ | -------------------------------------------------- |
 | **项目级（推荐）** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/spec.md` |
-| **临时 / 探索性** | `<cwd>/.easbot/state/dev-scratch-<topic>-spec.md` |
+| **临时 / 探索性**  | `<cwd>/.easbot/state/dev-scratch-<topic>-spec.md`  |
 
 **禁止路径**（会污染版本控制）：
 
@@ -184,44 +184,44 @@ metadata:
 
 **5 条校验规则**（来自 `behavior.output.validation_rules`）：
 
-| 规则 ID | 规则 | 严重度 |
-|---|---|---|
-| `no-tbd` | 不含 TBD / 看情况 / 待定 | must |
-| `no-empty-section` | 每章节 ≥1 条目 | must |
-| `interface-required` | 接口章节 ≥1 具体签名 | must |
-| `acceptance-testable` | 每 AC 含 target + measurement | must |
-| `out-of-scope-explicit` | Out-of-Scope ≥3 项 | must |
+| 规则 ID                 | 规则                          | 严重度 |
+| ----------------------- | ----------------------------- | ------ |
+| `no-tbd`                | 不含 TBD / 看情况 / 待定      | must   |
+| `no-empty-section`      | 每章节 ≥1 条目                | must   |
+| `interface-required`    | 接口章节 ≥1 具体签名          | must   |
+| `acceptance-testable`   | 每 AC 含 target + measurement | must   |
+| `out-of-scope-explicit` | Out-of-Scope ≥3 项            | must   |
 
 **模板见** [assets/spec-template.md](assets/spec-template.md)。
 
 ## 失败处理 (Failure Handling)
 
-| 情况 | 动作 |
-|---|---|
-| 输入无 alignment.md | 报错并指引用户先走 `eas-dev-align` |
-| 任一校验规则不通过 | 报错并指明章节 + 规则；NEVER 输出半成品 |
-| 用户要求"差不多就行" | 提醒"spec 是契约"原则；询问是否改用 Out-of-Scope 标注 |
-| Spec 输出后用户想加内容 | 增量更新模式；保留 frontmatter `updated_at` |
+| 情况                    | 动作                                                  |
+| ----------------------- | ----------------------------------------------------- |
+| 输入无 alignment.md     | 报错并指引用户先走 `eas-dev-align`                    |
+| 任一校验规则不通过      | 报错并指明章节 + 规则；NEVER 输出半成品               |
+| 用户要求"差不多就行"    | 提醒"spec 是契约"原则；询问是否改用 Out-of-Scope 标注 |
+| Spec 输出后用户想加内容 | 增量更新模式；保留 frontmatter `updated_at`           |
 
 ## 常见错误 (Common Mistakes)
 
-| ❌ 不要 | ✅ 应该 |
-|---|---|
-| 包含 "TBD" / "看情况" | 显式假设并标注；或放 Out-of-Scope |
-| 接口章节写"具体见代码" | 必须含具体签名 / schema |
-| AC 写"用户体验良好" | AC 必须含 target + measurement |
-| 把"未来要做"塞进目标 | 未来做的事放 Out-of-Scope；目标 = 当前可完成 |
-| 把架构设计塞进 spec | spec = 契约；架构 = `eas-dev-design` |
-| Spec 引用外部链接作为唯一说明 | 必填项必须内联；链接可补充但不能替代 |
+| ❌ 不要                       | ✅ 应该                                      |
+| ----------------------------- | -------------------------------------------- |
+| 包含 "TBD" / "看情况"         | 显式假设并标注；或放 Out-of-Scope            |
+| 接口章节写"具体见代码"        | 必须含具体签名 / schema                      |
+| AC 写"用户体验良好"           | AC 必须含 target + measurement               |
+| 把"未来要做"塞进目标          | 未来做的事放 Out-of-Scope；目标 = 当前可完成 |
+| 把架构设计塞进 spec           | spec = 契约；架构 = `eas-dev-design`         |
+| Spec 引用外部链接作为唯一说明 | 必填项必须内联；链接可补充但不能替代         |
 
 ## 下一步 (Next Steps)
 
-| 下游技能 | 何时使用 |
-|---|---|
-| `eas-dev-design` | 跨模块 / 复杂功能，需先设计架构 |
-| `eas-dev-plan` | spec 已确认，需拆任务 |
-| `eas-dev-review` | 实现后回检 spec 忠实度 |
-| 用户再次讨论 | spec 有歧义；回退 `eas-dev-align` 重新对齐 |
+| 下游技能         | 何时使用                                   |
+| ---------------- | ------------------------------------------ |
+| `eas-dev-design` | 跨模块 / 复杂功能，需先设计架构            |
+| `eas-dev-plan`   | spec 已确认，需拆任务                      |
+| `eas-dev-review` | 实现后回检 spec 忠实度                     |
+| 用户再次讨论     | spec 有歧义；回退 `eas-dev-align` 重新对齐 |
 
 ## 参考资料 (References)
 
@@ -230,15 +230,15 @@ metadata:
 
 ## 与其他技能的关系 (Relationships)
 
-| 技能 | 关系 |
-|---|---|
-| `eas-dev-align` | **上游**：alignment.md 是 spec.md 的输入 |
-| `eas-dev-design` | **下游**：spec.md 是 design.md 的输入 |
-| `eas-dev-plan` | **下游**：spec.md 是 tasks.md 的输入 |
-| `eas-dev-review` | **下游**：spec.md 是评审的对照基线 |
-| `eas-dev-loop` | **上游**：loop 第二阶段是本技能 |
+| 技能                | 关系                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| `eas-dev-align`     | **上游**：alignment.md 是 spec.md 的输入                     |
+| `eas-dev-design`    | **下游**：spec.md 是 design.md 的输入                        |
+| `eas-dev-plan`      | **下游**：spec.md 是 tasks.md 的输入                         |
+| `eas-dev-review`    | **下游**：spec.md 是评审的对照基线                           |
+| `eas-dev-loop`      | **上游**：loop 第二阶段是本技能                              |
 | `eas-skill-creator` | **规范基线**：本技能遵循其结构 + 5 大模式 + frontmatter 规范 |
-| `eas-skill-using` | **不重叠**：dev 分类不进索引 |
+| `eas-skill-using`   | **不重叠**：dev 分类不进索引                                 |
 
 ---
 

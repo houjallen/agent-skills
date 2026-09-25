@@ -52,18 +52,18 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项 | 内容 |
-|---|---|
-| 模式 | Generator（产出对比分析报告）+ 父技能 Pattern（思维框架）+ orchestrator |
-| 路由 | `eas-research` 多实体对比场景 MUST 路由到此 |
-| 必含分析 | Porter's Five Forces + 护城河 + 功能矩阵 + SWOT + 定位图 + 战略推断 + 差异化手册 |
+| 项       | 内容                                                                                                                                                   |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 模式     | Generator（产出对比分析报告）+ 父技能 Pattern（思维框架）+ orchestrator                                                                                |
+| 路由     | `eas-research` 多实体对比场景 MUST 路由到此                                                                                                            |
+| 必含分析 | Porter's Five Forces + 护城河 + 功能矩阵 + SWOT + 定位图 + 战略推断 + 差异化手册                                                                       |
 | 必含章节 | Executive Summary / Scope & Methodology / Industry Context / Multi-Dimensional Comparison / Competitive Positioning / Conflict & Uncertainty / Sources |
-| 可选章节 | Financial Benchmarking / Pricing Strategy / UX & Tech Architecture / Scenario Analysis / SWOT Cross-Strategy Matrix / Monitoring Cadence |
-| 源层级 | P0 官方原始 → P1 权威二手 → P2 专业社区 → P3一般参考 |
-| 引用规范 | `[cite:N]` inline；1-3 引用 / 实质性声明；≥3 独立源 / 核心声明 |
-| 红线 | 不编造数据 / 不第一人称 / 不武断取舍 / 不虚构引用 / 同维度同标度 |
-| 模板 | [comparison-analysis-template.md](../assets/comparison-analysis-template.md) |
-| 落地路径 | `<cwd>/.easbot/knowledge/docs/dev/<topic>/comparison-analysis.md` |
+| 可选章节 | Financial Benchmarking / Pricing Strategy / UX & Tech Architecture / Scenario Analysis / SWOT Cross-Strategy Matrix / Monitoring Cadence               |
+| 源层级   | P0 官方原始 → P1 权威二手 → P2 专业社区 → P3一般参考                                                                                                   |
+| 引用规范 | `[cite:N]` inline；1-3 引用 / 实质性声明；≥3 独立源 / 核心声明                                                                                         |
+| 红线     | 不编造数据 / 不第一人称 / 不武断取舍 / 不虚构引用 / 同维度同标度                                                                                       |
+| 模板     | [comparison-analysis-template.md](../assets/comparison-analysis-template.md)                                                                           |
+| 落地路径 | `<cwd>/.easbot/knowledge/docs/dev/<topic>/comparison-analysis.md`                                                                                      |
 
 ## 第一性原理 (First Principles)
 
@@ -88,14 +88,14 @@ metadata:
 
 > **本节保留速查入口**；详细规则见下方 §1-§6 各节。
 
-| Step | 目标 | 核心动作 | 落地产物 |
-|---|---|---|---|
-| 1 | 目的 + 深度标定 | 选目的 / 选深度 / 选行业指标 | §2 Scope & Methodology |
-| 2 | 信息收集 | 父技能 §3 + 本 reference §2.1 信度分级 + §2.2 收集清单 | §2 Scope & Methodology |
-| 3 | 评估框架 | Porter's Five Forces + Moat Assessment | §3 Industry Context |
-| 4 | 多维度比较 | 功能矩阵 / SWOT / 财务基准 / 定价 / UX & Tech | §4 Multi-Dimensional Comparison |
-| 5 | 竞争定位 + 战略推断 | 定位图 + 市场格局 + 战略推断 | §5 Competitive Positioning |
-| 6 | 差异化手册 | 三层策略 + 监控频率 | §6 Differentiation Playbook |
+| Step | 目标                | 核心动作                                               | 落地产物                        |
+| ---- | ------------------- | ------------------------------------------------------ | ------------------------------- |
+| 1    | 目的 + 深度标定     | 选目的 / 选深度 / 选行业指标                           | §2 Scope & Methodology          |
+| 2    | 信息收集            | 父技能 §3 + 本 reference §2.1 信度分级 + §2.2 收集清单 | §2 Scope & Methodology          |
+| 3    | 评估框架            | Porter's Five Forces + Moat Assessment                 | §3 Industry Context             |
+| 4    | 多维度比较          | 功能矩阵 / SWOT / 财务基准 / 定价 / UX & Tech          | §4 Multi-Dimensional Comparison |
+| 5    | 竞争定位 + 战略推断 | 定位图 + 市场格局 + 战略推断                           | §5 Competitive Positioning      |
+| 6    | 差异化手册          | 三层策略 + 监控频率                                    | §6 Differentiation Playbook     |
 
 ---
 
@@ -103,27 +103,27 @@ metadata:
 
 ### 1.1 目的 → 模板映射
 
-| 目的 (Purpose) | 重点维度 | 输出重点 | 深度 |
-|---|---|---|---|
-| **产品设计 (Product Design)** | 功能矩阵 + UX | 功能缺口清单 + 差异化手册 | Moderate |
-| **融资 deck (Fundraising Deck)** | 市场格局 + 防御性 | 定位图 + 护城河分析 | Concise |
-| **战略规划 (Strategic Planning)** | 全维度 | SWOT + Five Forces + 定价 + 路线图推断 | Deep |
-| **年度复盘 (Annual Review)** | 市占率变化 + 趋势 | YoY 差异分析 + 趋势预测 | Moderate |
+| 目的 (Purpose)                    | 重点维度          | 输出重点                               | 深度     |
+| --------------------------------- | ----------------- | -------------------------------------- | -------- |
+| **产品设计 (Product Design)**     | 功能矩阵 + UX     | 功能缺口清单 + 差异化手册              | Moderate |
+| **融资 deck (Fundraising Deck)**  | 市场格局 + 防御性 | 定位图 + 护城河分析                    | Concise  |
+| **战略规划 (Strategic Planning)** | 全维度            | SWOT + Five Forces + 定价 + 路线图推断 | Deep     |
+| **年度复盘 (Annual Review)**      | 市占率变化 + 趋势 | YoY 差异分析 + 趋势预测                | Moderate |
 
 ### 1.2 行业关键指标 (Industry-Defining Metrics)
 
 数据采集**前**先识别能区分本行业玩家的 **3-5 个核心指标**。下表为起点，按场景调整：
 
-| 行业 | 关键指标 |
-|---|---|
-| **SaaS** | ARR / NRR / CAC payback / LTV/CAC / Rule of 40 / RPO |
-| **支付 / 金融科技 (Payments / Fintech)** | GPV / take rate / attach rate / transaction margin |
-| **市场平台 (Marketplaces)** | GMV / take rate / 买卖比例 / 复购率 |
-| **零售 (Retail)** | 同店销售 / 库存周转 / sales/sqft / 电商占比 |
-| **工业 (Industrials)** | Backlog / book-to-bill / 产能利用率 / 价格 vs 销量 |
-| **医疗 (Healthcare)** | Scripts / 患者量 / pipeline 里程碑 / 研发投入占比 |
-| **半导体 (Semiconductors)** | 终端市场收入 / ASP 趋势 / design wins / fab 利用率 |
-| **消费软件 (Consumer Software)** | DAU/MAU / 留存率（D1/D7/D30）/ ARPU / 互动时长 |
+| 行业                                     | 关键指标                                             |
+| ---------------------------------------- | ---------------------------------------------------- |
+| **SaaS**                                 | ARR / NRR / CAC payback / LTV/CAC / Rule of 40 / RPO |
+| **支付 / 金融科技 (Payments / Fintech)** | GPV / take rate / attach rate / transaction margin   |
+| **市场平台 (Marketplaces)**              | GMV / take rate / 买卖比例 / 复购率                  |
+| **零售 (Retail)**                        | 同店销售 / 库存周转 / sales/sqft / 电商占比          |
+| **工业 (Industrials)**                   | Backlog / book-to-bill / 产能利用率 / 价格 vs 销量   |
+| **医疗 (Healthcare)**                    | Scripts / 患者量 / pipeline 里程碑 / 研发投入占比    |
+| **半导体 (Semiconductors)**              | 终端市场收入 / ASP 趋势 / design wins / fab 利用率   |
+| **消费软件 (Consumer Software)**         | DAU/MAU / 留存率（D1/D7/D30）/ ARPU / 互动时长       |
 
 > **无明确行业匹配时**：从竞品财报电话会或产品页推导专属指标，并陈述推导理由。
 
@@ -135,22 +135,22 @@ metadata:
 
 ### 2.1 信度分级 (Credibility Grading)
 
-| 信度 (Grade) | 源类型 (Source Type) | 标注 (Annotation) |
-|---|---|---|
-| **High（高）** | 官方网站 / 定价页 / 财报 / 监管文件 | 直接引用 |
-| **Medium（中）** | 一线媒体 / 分析师报告 / 用户评论（G2 / Capterra / 应用商店） | 标注源名 |
-| **Low（低）** | 传闻 / 过期数据（>12 个月）/ 未验证自媒体 | 标 `[unverified]` |
+| 信度 (Grade)     | 源类型 (Source Type)                                         | 标注 (Annotation) |
+| ---------------- | ------------------------------------------------------------ | ----------------- |
+| **High（高）**   | 官方网站 / 定价页 / 财报 / 监管文件                          | 直接引用          |
+| **Medium（中）** | 一线媒体 / 分析师报告 / 用户评论（G2 / Capterra / 应用商店） | 标注源名          |
+| **Low（低）**    | 传闻 / 过期数据（>12 个月）/ 未验证自媒体                    | 标 `[unverified]` |
 
 ### 2.2 收集清单 (Collection Checklist)
 
-| 维度 (Dimension) | 条目 (Items) | 典型源 (Typical Sources) |
-|---|---|---|
-| **基本面 (Fundamentals)** | 成立时间 / 融资轮次 / 团队规模 / 用户基数 | 官网 / Crunchbase / PitchBook |
-| **产品 (Product)** | 核心功能列表 / 最新发布 / 公开路线图 | 官网 / changelog / 博客 |
-| **定价 (Pricing)** | 套餐等级 / 价格点 / 免费层限制 / 计费模型 | 定价页 |
-| **口碑 (Reputation)** | 主要好评点 / 主要投诉 / NPS / 评分 | G2 / 应用商店 / 论坛 |
-| **战略 (Strategy)** | 目标细分 / 获客渠道 / 合作 / 定位声明 | 媒体 / 社交媒体 / 招聘 |
-| **财务 (Financials)（如上市）** | 营收 / 利润率 / 业务线拆分 / 资本配置 | SEC 文件 / 财报电话会 |
+| 维度 (Dimension)                | 条目 (Items)                              | 典型源 (Typical Sources)      |
+| ------------------------------- | ----------------------------------------- | ----------------------------- |
+| **基本面 (Fundamentals)**       | 成立时间 / 融资轮次 / 团队规模 / 用户基数 | 官网 / Crunchbase / PitchBook |
+| **产品 (Product)**              | 核心功能列表 / 最新发布 / 公开路线图      | 官网 / changelog / 博客       |
+| **定价 (Pricing)**              | 套餐等级 / 价格点 / 免费层限制 / 计费模型 | 定价页                        |
+| **口碑 (Reputation)**           | 主要好评点 / 主要投诉 / NPS / 评分        | G2 / 应用商店 / 论坛          |
+| **战略 (Strategy)**             | 目标细分 / 获客渠道 / 合作 / 定位声明     | 媒体 / 社交媒体 / 招聘        |
+| **财务 (Financials)（如上市）** | 营收 / 利润率 / 业务线拆分 / 资本配置     | SEC 文件 / 财报电话会         |
 
 ### 2.3 时效标注 (Timeliness Annotation)
 
@@ -170,13 +170,13 @@ metadata:
 
 ### 3.1 Porter's Five Forces（5 力模型）
 
-| 力量 (Force) | 分析维度 (Analysis Dimension) | 评估重点 (Assessment Focus) |
-|---|---|---|
-| **供应商议价 (Supplier Power)** | 上游依赖 | 关键技术 / 人才 / 资源集中度；切换成本 |
-| **买方议价 (Buyer Power)** | 下游客户杠杆 | 客户集中度 / 切换成本 / 价格敏感度 |
-| **新进入者威胁 (Threat of New Entrants)** | 进入壁垒 | 技术壁垒 / 资本要求 / 品牌护城河 / 网络效应 / 监管障碍 |
-| **替代品威胁 (Threat of Substitutes)** | 替代方案 | 现有替代品 / 替代品性价比 |
-| **行业竞争强度 (Industry Rivalry)** | 在位玩家动态 | 竞品数量 / 市场集中度 / 差异化程度 / 退出壁垒 |
+| 力量 (Force)                              | 分析维度 (Analysis Dimension) | 评估重点 (Assessment Focus)                            |
+| ----------------------------------------- | ----------------------------- | ------------------------------------------------------ |
+| **供应商议价 (Supplier Power)**           | 上游依赖                      | 关键技术 / 人才 / 资源集中度；切换成本                 |
+| **买方议价 (Buyer Power)**                | 下游客户杠杆                  | 客户集中度 / 切换成本 / 价格敏感度                     |
+| **新进入者威胁 (Threat of New Entrants)** | 进入壁垒                      | 技术壁垒 / 资本要求 / 品牌护城河 / 网络效应 / 监管障碍 |
+| **替代品威胁 (Threat of Substitutes)**    | 替代方案                      | 现有替代品 / 替代品性价比                              |
+| **行业竞争强度 (Industry Rivalry)**       | 在位玩家动态                  | 竞品数量 / 市场集中度 / 差异化程度 / 退出壁垒          |
 
 **每项输出**：Strong / Moderate / Weak + 一句话理由 + 引用
 
@@ -184,11 +184,11 @@ metadata:
 
 ### 3.2 竞争护城河评估 (Competitive Moat Assessment)
 
-| 护城河类型 (Moat Type) | 评估标准 (Criteria) |
-|---|---|
-| **网络效应 (Network Effects)** | 用户 / 供给双边的飞轮强度 |
-| **切换成本 (Switching Costs)** | 集成深度 / 数据锁定 / 工作流依赖 |
-| **规模经济 (Scale Economies)** | 批量下的单位成本优势 |
+| 护城河类型 (Moat Type)           | 评估标准 (Criteria)               |
+| -------------------------------- | --------------------------------- |
+| **网络效应 (Network Effects)**   | 用户 / 供给双边的飞轮强度         |
+| **切换成本 (Switching Costs)**   | 集成深度 / 数据锁定 / 工作流依赖  |
+| **规模经济 (Scale Economies)**   | 批量下的单位成本优势              |
 | **无形资产 (Intangible Assets)** | 品牌资产 / 专有数据 / 牌照 / 专利 |
 
 每项评 **Strong / Moderate / Weak** + 证据。引用源支撑。
@@ -199,60 +199,60 @@ metadata:
 
 ### 4.1 功能对比矩阵（核心交付物）(Feature Comparison Matrix)
 
-| Feature Module | Sub-feature | Ours | Comp A | Comp B | Comp C |
-|---|---|---|---|---|---|
-| {Module 1} | {Sub-feature 1} | ✅ Full | ✅ Full | ⚠️ Basic | ❌ None |
-| | {Sub-feature 2} | ⚠️ Basic | ✅ Full | ✅ Full | 🔜 Planned |
+| Feature Module | Sub-feature     | Ours     | Comp A  | Comp B   | Comp C     |
+| -------------- | --------------- | -------- | ------- | -------- | ---------- |
+| {Module 1}     | {Sub-feature 1} | ✅ Full  | ✅ Full | ⚠️ Basic | ❌ None    |
+|                | {Sub-feature 2} | ⚠️ Basic | ✅ Full | ✅ Full  | 🔜 Planned |
 
 **Legend**：✅ Full — ⚠️ Basic（存在但不完整） — ❌ None — 🔜 Planned
 
 ### 4.2 SWOT 分析 (SWOT Analysis)
 
-| | Positive（正） | Negative（负） |
-|---|---|---|
-| **Internal（内）** | **Strengths（优势）** | **Weaknesses（劣势）** |
-| **External（外）** | **Opportunities（机会）** | **Threats（威胁）** |
+|                    | Positive（正）            | Negative（负）         |
+| ------------------ | ------------------------- | ---------------------- |
+| **Internal（内）** | **Strengths（优势）**     | **Weaknesses（劣势）** |
+| **External（外）** | **Opportunities（机会）** | **Threats（威胁）**    |
 
 - 每象限 2-3 条；每条 MUST 引用可验证事实
 - 不可用空话（"团队强 / 技术先进"）
 
 **SWOT 跨策略矩阵**（仅当目的 = 战略规划）：
 
-| 策略 | 含义 | 行动方向 |
-|---|---|---|
+| 策略   | 含义         | 行动方向             |
+| ------ | ------------ | -------------------- |
 | **SO** | 用优势抓机会 | 用核心优势抢市场窗口 |
 | **WO** | 补弱点抓机会 | 补缺口解锁新增长路径 |
-| **ST** | 用优势挡威胁 | 用护城河抗竞争压力 |
-| **WT** | 补弱点挡威胁 | 最紧迫的防御动作 |
+| **ST** | 用优势挡威胁 | 用护城河抗竞争压力   |
+| **WT** | 补弱点挡威胁 | 最紧迫的防御动作     |
 
 ### 4.3 财务基准 (Financial Benchmarking)（维度含财务时）
 
-| Metric | Ours | Comp A | Comp B | Comp C | Sector Median |
-|---|---|---|---|---|---|
-| Revenue (LTM) | | | | | |
-| Revenue growth (3-yr CAGR) | | | | | |
-| Gross margin | | | | | |
-| EBITDA margin | | | | | |
-| FCF margin | | | | | |
+| Metric                     | Ours | Comp A | Comp B | Comp C | Sector Median |
+| -------------------------- | ---- | ------ | ------ | ------ | ------------- |
+| Revenue (LTM)              |      |        |        |        |               |
+| Revenue growth (3-yr CAGR) |      |        |        |        |               |
+| Gross margin               |      |        |        |        |               |
+| EBITDA margin              |      |        |        |        |               |
+| FCF margin                 |      |        |        |        |               |
 
 **估值对比**（仅上市公司）：
 
-| Metric | Ours | Comp A | Comp B | Comp C |
-|---|---|---|---|---|
-| P/E (NTM) | | | | |
-| EV/EBITDA (NTM) | | | | |
-| EV/Revenue (NTM) | | | | |
-| Premium / discount to median | | | | |
+| Metric                       | Ours | Comp A | Comp B | Comp C |
+| ---------------------------- | ---- | ------ | ------ | ------ |
+| P/E (NTM)                    |      |        |        |        |
+| EV/EBITDA (NTM)              |      |        |        |        |
+| EV/Revenue (NTM)             |      |        |        |        |
+| Premium / discount to median |      |        |        |        |
 
 ### 4.4 定价策略对比 (Pricing Strategy Comparison)（维度含定价时）
 
-| Item | Ours | Comp A | Comp B | Comp C |
-|---|---|---|---|---|
-| Free-tier capability | | | | |
-| Starter monthly price | | | | |
-| Enterprise monthly price | | | | |
-| Billing model | per-seat / usage / feature | | | |
-| Pricing strategy type | Penetration / Skimming / Freemium | | | |
+| Item                     | Ours                              | Comp A | Comp B | Comp C |
+| ------------------------ | --------------------------------- | ------ | ------ | ------ |
+| Free-tier capability     |                                   |        |        |        |
+| Starter monthly price    |                                   |        |        |        |
+| Enterprise monthly price |                                   |        |        |        |
+| Billing model            | per-seat / usage / feature        |        |        |        |
+| Pricing strategy type    | Penetration / Skimming / Freemium |        |        |        |
 
 **定价策略分类**：
 
@@ -262,10 +262,10 @@ metadata:
 
 ### 4.5 UX & 技术架构对比 (UX & Technical Architecture Comparison)（可选维度）
 
-| Dimension | Method | Scoring |
-|---|---|---|
-| **UX（用户体验）** | 核心流程步数 / 学习曲线 / 任务完成效率 | 对比关键工作流的点击数与耗时 |
-| **Tech Architecture（技术架构）** | 架构模式 / 技术栈 / 性能指标 / 开放性 | API 广度 / 集成能力 / 可扩展性 |
+| Dimension                         | Method                                 | Scoring                        |
+| --------------------------------- | -------------------------------------- | ------------------------------ |
+| **UX（用户体验）**                | 核心流程步数 / 学习曲线 / 任务完成效率 | 对比关键工作流的点击数与耗时   |
+| **Tech Architecture（技术架构）** | 架构模式 / 技术栈 / 性能指标 / 开放性  | API 广度 / 集成能力 / 可扩展性 |
 
 ---
 
@@ -288,21 +288,21 @@ metadata:
         Low capability（低能力）
 ```
 
-| 象限 | 特征 | 代表产品 |
-|---|---|---|
-| 高能力 + 高价 | 企业级一站式 | {list} |
-| 高能力 + 低价 | 性价比 | {list} |
-| 低能力 + 高价 | 利基 / 垂直专家 | {list} |
-| 低能力 + 低价 | 入门级 | {list} |
+| 象限          | 特征            | 代表产品 |
+| ------------- | --------------- | -------- |
+| 高能力 + 高价 | 企业级一站式    | {list}   |
+| 高能力 + 低价 | 性价比          | {list}   |
+| 低能力 + 高价 | 利基 / 垂直专家 | {list}   |
+| 低能力 + 低价 | 入门级          | {list}   |
 
 ### 5.2 市场格局分类 (Market Landscape Classification)
 
-| 格局类型 (Landscape Type) | 标识 (Signature) | 战略含义 (Strategy Implication) |
-|---|---|---|
-| **一家独大 + 众多小厂** | 主导者 > 50% 市占 | 利基差异化；避免正面冲突 |
-| **双寡头 (Duopoly)** | Top 2 合计 > 70% | 站队生态或做"第三选择" |
-| **分散 (Fragmented)** | Top 5 各 < 20% | 抢占细分市场 |
-| **新兴 (Nascent)** | 无明确领导者 | 投资市场教育；早期建品牌 |
+| 格局类型 (Landscape Type) | 标识 (Signature)  | 战略含义 (Strategy Implication) |
+| ------------------------- | ----------------- | ------------------------------- |
+| **一家独大 + 众多小厂**   | 主导者 > 50% 市占 | 利基差异化；避免正面冲突        |
+| **双寡头 (Duopoly)**      | Top 2 合计 > 70%  | 站队生态或做"第三选择"          |
+| **分散 (Fragmented)**     | Top 5 各 < 20%    | 抢占细分市场                    |
+| **新兴 (Nascent)**        | 无明确领导者      | 投资市场教育；早期建品牌        |
 
 ### 5.3 战略推断 (Strategy Projection)
 
@@ -315,20 +315,20 @@ metadata:
    - 降价 / 免费层扩张 → 抢市场份额
 3. **推断表 (Projection Table)**：
 
-| Competitor | Recent Key Moves | Inferred Strategic Intent | Impact on Us | Confidence | Suggested Response |
-|---|---|---|---|---|---|
-| Comp A | {description}[cite:N] | {inference} | {assessment} | High / Med / Low | {action} |
+| Competitor | Recent Key Moves      | Inferred Strategic Intent | Impact on Us | Confidence       | Suggested Response |
+| ---------- | --------------------- | ------------------------- | ------------ | ---------------- | ------------------ |
+| Comp A     | {description}[cite:N] | {inference}               | {assessment} | High / Med / Low | {action}           |
 
 - **MUST 区分**事实 vs 推断：事实带 `[cite:N]`；推断带置信度
 - 数据支持时给出短期（1-3 个月）+ 中期（3-12 个月）推断
 
 ### 5.4 情景分析 (Scenario Analysis)（如提供投资背景）
 
-| Scenario | Probability | Revenue | EPS | Key Driver |
-|---|---|---|---|---|
-| Bull（乐观） | 25-30% | $X.XB | $X.XX | ... |
-| Base（基准） | 45-50% | $X.XB | $X.XX | ... |
-| Bear（悲观） | 20-30% | $X.XB | $X.XX | ... |
+| Scenario     | Probability | Revenue | EPS   | Key Driver |
+| ------------ | ----------- | ------- | ----- | ---------- |
+| Bull（乐观） | 25-30%      | $X.XB   | $X.XX | ...        |
+| Base（基准） | 45-50%      | $X.XB   | $X.XX | ...        |
+| Bear（悲观） | 20-30%      | $X.XB   | $X.XX | ...        |
 
 概率 MUST 总和 ≈ 100%。每个驱动因素 MUST 引用。
 
@@ -338,19 +338,19 @@ metadata:
 
 ### 6.1 三层差异化策略 (Three-Tier Differentiation Strategy)
 
-| Tier | 描述 | Action Items |
-|---|---|---|
-| **Catch-up（追赶）** | 竞品都有但我们没有 | 列出功能 + 优先级 + 预估投入 |
-| **Differentiate（差异化）** | 我们领先 / 独有 | 列出优势 + 强化 + 信息钩子 |
-| **Innovate（创新）** | 蓝海机会（无人做） | 列出探索想法 + 验证方式 |
+| Tier                        | 描述               | Action Items                 |
+| --------------------------- | ------------------ | ---------------------------- |
+| **Catch-up（追赶）**        | 竞品都有但我们没有 | 列出功能 + 优先级 + 预估投入 |
+| **Differentiate（差异化）** | 我们领先 / 独有    | 列出优势 + 强化 + 信息钩子   |
+| **Innovate（创新）**        | 蓝海机会（无人做） | 列出探索想法 + 验证方式      |
 
 ### 6.2 监控频率 (Monitoring Cadence)（建议但非强制）
 
-| Frequency | Scope | Trigger Action |
-|---|---|---|
-| Weekly | 竞品发布日志 / 社交媒体 | 记录重大更新到跟踪表 |
-| Monthly | 价格 / 新功能 / 新闻 | 刷新功能对比矩阵 |
-| Quarterly | 全量对比报告 + 战略预测更新 | 分发团队简报 |
+| Frequency    | Scope                           | Trigger Action          |
+| ------------ | ------------------------------- | ----------------------- |
+| Weekly       | 竞品发布日志 / 社交媒体         | 记录重大更新到跟踪表    |
+| Monthly      | 价格 / 新功能 / 新闻            | 刷新功能对比矩阵        |
+| Quarterly    | 全量对比报告 + 战略预测更新     | 分发团队简报            |
 | Event-driven | 融资 / 并购 / 大动作 / 人事变动 | 即时影响评估 + 响应备忘 |
 
 ---
@@ -409,19 +409,19 @@ metadata:
 
 ## 输入契约 (Input Contract)
 
-| 项 | 要求 |
-|---|---|
+| 项   | 要求                                                   |
+| ---- | ------------------------------------------------------ |
 | 必备 | 候选实体清单（对比对象 ≥ 2 个）+ 对比维度 / 决策上下文 |
-| 可选 | 行业 / 地域范围 / 数据时效要求 |
-| 可选 | 已有参考资料 / 链接 |
-| 拒绝 | 单交付物研究（走 `research-report`） |
+| 可选 | 行业 / 地域范围 / 数据时效要求                         |
+| 可选 | 已有参考资料 / 链接                                    |
+| 拒绝 | 单交付物研究（走 `research-report`）                   |
 
 ## 输出契约 (Output Contract)
 
-| 路径 | 用途 |
-|---|---|
+| 路径                                                                   | 用途                         |
+| ---------------------------------------------------------------------- | ---------------------------- |
 | `<cwd>/.easbot/knowledge/docs/research/<topic>/comparison-analysis.md` | 主交付物（按 §7.1 默认结构） |
-| `<cwd>/.easbot/state/scratch-comparison-<topic>.md` | 临时 / 实验性场景 |
+| `<cwd>/.easbot/state/scratch-comparison-<topic>.md`                    | 临时 / 实验性场景            |
 
 **`<topic>` 命名**：kebab-case，≤ 64 字符；如 `compare-postgres-mysql` / `competitive-postgres-vs-mysql-2026-q3`。
 
@@ -429,34 +429,34 @@ metadata:
 
 ## 失败处理 (Failure Handling)
 
-| 情况 | 动作 |
-|---|---|
-| 用户未指定对比对象 | 退回 Step 1；询问候选实体清单 |
-| 维度过多（>10 维度） | 退回 §1.1；按目的选最相关 3-5 维度 |
+| 情况                           | 动作                                                        |
+| ------------------------------ | ----------------------------------------------------------- |
+| 用户未指定对比对象             | 退回 Step 1；询问候选实体清单                               |
+| 维度过多（>10 维度）           | 退回 §1.1；按目的选最相关 3-5 维度                          |
 | 源不足（<3 独立源 / 核心竞品） | 继续 §2 信息收集；如工具边界已达 → 标 `[INSUFFICIENT DATA]` |
-| 用户要求 PPTX 输出 | 路由到 `eas-pptx` 技能；本 reference 仅出 Markdown 内容 |
-| 战略推断置信度不足 | 标 `[SINGLE-SOURCE]` 或 `[LOW_CONFIDENCE]`；不武断推断 |
+| 用户要求 PPTX 输出             | 路由到 `eas-pptx` 技能；本 reference 仅出 Markdown 内容     |
+| 战略推断置信度不足             | 标 `[SINGLE-SOURCE]` 或 `[LOW_CONFIDENCE]`；不武断推断      |
 
 ## 常见错误 (Common Mistakes)
 
-| ❌ 不要 | ✅ 应该 |
-|---|---|
-| 跨实体用不同指标定义 | MUST 同维度同标度（避免 apples-to-oranges） |
-| SWOT 用空话（"团队强"） | 每条 MUST 引用可验证事实 |
-| 推断无置信度 | MUST 标 High / Medium / Low |
-| 数据无时效标签 | MUST `(as of YYYY-MM-DD public info)` |
-| 不同币种 / 财年直接比较 | MUST 标准化到同一币种 / 财年 |
-| 战略推断写成事实 | 推断行 MUST 显式标 `[inferred]` 或置信度标签 |
+| ❌ 不要                      | ✅ 应该                                                 |
+| ---------------------------- | ------------------------------------------------------- |
+| 跨实体用不同指标定义         | MUST 同维度同标度（避免 apples-to-oranges）             |
+| SWOT 用空话（"团队强"）      | 每条 MUST 引用可验证事实                                |
+| 推断无置信度                 | MUST 标 High / Medium / Low                             |
+| 数据无时效标签               | MUST `(as of YYYY-MM-DD public info)`                   |
+| 不同币种 / 财年直接比较      | MUST 标准化到同一币种 / 财年                            |
+| 战略推断写成事实             | 推断行 MUST 显式标 `[inferred]` 或置信度标签            |
 | 单交付物研究也用此 reference | 单交付物走 `research-report`；本 reference 仅多实体对比 |
 
 ## 下一步 (Next Steps)
 
-| 场景 | 动作 |
-|---|---|
-| 对比报告完成 | 落地到 `<cwd>/.easbot/knowledge/docs/research/<topic>/comparison-analysis.md` |
-| 用户要求进入战略实施 | 路由到对应领域的规格 / 架构设计流程（与本对比分析的下游对接） |
-| 后续监控需求 | 按 §6.2 监控频率执行；刷新功能矩阵 |
-| 重做 / 反驳 | 加载本 reference 重做；增量更新产物 frontmatter `updated_at` |
+| 场景                 | 动作                                                                          |
+| -------------------- | ----------------------------------------------------------------------------- |
+| 对比报告完成         | 落地到 `<cwd>/.easbot/knowledge/docs/research/<topic>/comparison-analysis.md` |
+| 用户要求进入战略实施 | 路由到对应领域的规格 / 架构设计流程（与本对比分析的下游对接）                 |
+| 后续监控需求         | 按 §6.2 监控频率执行；刷新功能矩阵                                            |
+| 重做 / 反驳          | 加载本 reference 重做；增量更新产物 frontmatter `updated_at`                  |
 
 ---
 

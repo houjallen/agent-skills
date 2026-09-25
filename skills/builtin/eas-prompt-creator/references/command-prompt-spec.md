@@ -10,48 +10,48 @@ All command prompt files MUST include the following YAML frontmatter:
 
 ```yaml
 ---
-name: [filename]                  # 文件名（必需，用于唯一标识）
-type: [system|extension]          # 文件类型（必需）
-scope: [all|general|coder]        # 模式范围（必需）
-priority: [number]                # 加载优先级（可选，默认 1000）
-permission: [read|write]          # 权限（可选，默认 read）
-dynamic: [true|false]             # 是否动态内容（可选，默认 false）
-owner: [string...]                # 所有者（可选，数组）
-share: [string...]                # 共享目标（可选，数组）
-description: [description]        # 描述（可选）
+name: [filename] # 文件名（必需，用于唯一标识）
+type: [system|extension] # 文件类型（必需）
+scope: [all|general|coder] # 模式范围（必需）
+priority: [number] # 加载优先级（可选，默认 1000）
+permission: [read|write] # 权限（可选，默认 read）
+dynamic: [true|false] # 是否动态内容（可选，默认 false）
+owner: [string...] # 所有者（可选，数组）
+share: [string...] # 共享目标（可选，数组）
+description: [description] # 描述（可选）
 ---
 ```
 
 ### Frontmatter Fields
 
-| Field | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| name | string | Yes | - | File name (unique identifier) |
-| type | string | Yes | - | `system` or `extension` |
-| scope | string | Yes | - | `all`, `general`, or `coder` |
-| priority | number | No | 1000 | Loading priority (lower = earlier) |
-| permission | string | No | read | `read` or `write` |
-| dynamic | boolean | No | false | Whether content is dynamic |
-| owner | string[] | No | - | Owner identifiers |
-| share | string[] | No | - | Share targets |
-| description | string | No | - | File description |
+| Field       | Type     | Required | Default | Description                        |
+| ----------- | -------- | -------- | ------- | ---------------------------------- |
+| name        | string   | Yes      | -       | File name (unique identifier)      |
+| type        | string   | Yes      | -       | `system` or `extension`            |
+| scope       | string   | Yes      | -       | `all`, `general`, or `coder`       |
+| priority    | number   | No       | 1000    | Loading priority (lower = earlier) |
+| permission  | string   | No       | read    | `read` or `write`                  |
+| dynamic     | boolean  | No       | false   | Whether content is dynamic         |
+| owner       | string[] | No       | -       | Owner identifiers                  |
+| share       | string[] | No       | -       | Share targets                      |
+| description | string   | No       | -       | File description                   |
 
 ## Required Fields
 
-| Field | Description | Example |
-|-------|-------------|---------|
-| name | Command name | `/commit`, `/plan` |
-| description | Command description | `Commit code and push` |
-| trigger | Trigger method | `/commit [options]` |
-| execution | Execution flow | `git add → git commit → git push` |
+| Field       | Description         | Example                           |
+| ----------- | ------------------- | --------------------------------- |
+| name        | Command name        | `/commit`, `/plan`                |
+| description | Command description | `Commit code and push`            |
+| trigger     | Trigger method      | `/commit [options]`               |
+| execution   | Execution flow      | `git add → git commit → git push` |
 
 ## Optional Fields
 
-| Field | Description | Example |
-|-------|-------------|---------|
-| arguments | Parameter description | `$ARGUMENTS` |
-| prerequisites | Prerequisites | `git initialized` |
-| postAction | Post action | `Auto open PR` |
+| Field         | Description           | Example           |
+| ------------- | --------------------- | ----------------- |
+| arguments     | Parameter description | `$ARGUMENTS`      |
+| prerequisites | Prerequisites         | `git initialized` |
+| postAction    | Post action           | `Auto open PR`    |
 
 ## Fixed Section Structure
 
@@ -89,8 +89,8 @@ subtask: [Whether it's a subtask]
 ```markdown
 ## Arguments
 
-| Parameter | Description | Example |
-|-----------|-------------|---------|
+| Parameter  | Description           | Example                 |
+| ---------- | --------------------- | ----------------------- |
 | $ARGUMENTS | User input parameters | `feat: add new feature` |
 ```
 
@@ -100,9 +100,11 @@ subtask: [Whether it's a subtask]
 ## Rules
 
 ### NEVER
+
 - [Prohibited behavior]
 
 ### ALWAYS
+
 - [Mandatory behavior]
 ```
 
@@ -158,9 +160,11 @@ Commit code changes and push to remote repository.
 
 ### Format
 ```
+
 <type>: <description>
 
 [type] optional values:
+
 - feat: new feature
 - fix: bug fix
 - docs: documentation update
@@ -168,7 +172,8 @@ Commit code changes and push to remote repository.
 - refactor: code refactoring
 - test: testing
 - chore: build/tooling
-```
+
+````
 
 ### NEVER
 - Commit unconfirmed changes
@@ -184,11 +189,12 @@ Commit code changes and push to remote repository.
 
 ```bash
 $ARGUMENTS = [Commit message provided by user]
-```
+````
 
 ## Examples
 
 **Correct:**
+
 ```
 feat: add user login feature
 fix: fix search result pagination issue
@@ -196,6 +202,7 @@ docs: update API documentation
 ```
 
 **Incorrect:**
+
 ```
 improved something
 fixed bug

@@ -44,7 +44,7 @@ async function main() {
 }
 
 if (process.argv[1] === new URL(import.meta.url).pathname) {
-  main().catch(err => {
+  main().catch((err) => {
     console.error('Error:', err);
     process.exit(1);
   });

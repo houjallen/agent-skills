@@ -20,6 +20,7 @@
    - 测试名描述行为（"should return empty array when no tickets match"）
 
 3. **运行测试 → 失败**：
+
    ```bash
    npm test -- <test-file>
    # 或
@@ -33,14 +34,14 @@
 
 ### 失败模式
 
-| 失败类型 | 是否红灯成功 |
-|---|---|
-| "function not implemented" | ✅ 成功 |
-| "returned undefined" | ✅ 成功 |
-| "expected X, got undefined" | ✅ 成功 |
-| 语法错误 | ❌ 修复语法后重试 |
-| Import 错误 | ❌ 修复 import 后重试 |
-| 测试运行前崩溃 | ❌ 修复配置后重试 |
+| 失败类型                    | 是否红灯成功          |
+| --------------------------- | --------------------- |
+| "function not implemented"  | ✅ 成功               |
+| "returned undefined"        | ✅ 成功               |
+| "expected X, got undefined" | ✅ 成功               |
+| 语法错误                    | ❌ 修复语法后重试     |
+| Import 错误                 | ❌ 修复 import 后重试 |
+| 测试运行前崩溃              | ❌ 修复配置后重试     |
 
 ### Commit 模板
 
@@ -64,6 +65,7 @@ test(<scope>): red light for <feature>
    - 必要时可写"硬编码"实现
 
 2. **运行测试 → 通过**：
+
    ```bash
    npm test -- <test-file>
    ```
@@ -78,9 +80,9 @@ test(<scope>): red light for <feature>
 **红灯测试**：
 
 ```typescript
-test("should return empty array when no tickets match", () => {
+test('should return empty array when no tickets match', () => {
   const service = new SearchService();
-  expect(service.search("xxx")).toEqual([]);
+  expect(service.search('xxx')).toEqual([]);
 });
 ```
 
@@ -89,7 +91,7 @@ test("should return empty array when no tickets match", () => {
 ```typescript
 class SearchService {
   search(query: string): Ticket[] {
-    return [];  // 最小：直接返回空数组
+    return []; // 最小：直接返回空数组
   }
 }
 ```
@@ -128,13 +130,13 @@ feat(<scope>): green light for <feature>
 
 ### 常见重构动作
 
-| 重构 | 说明 | 验证 |
-|---|---|---|
-| 提取函数 | 长函数拆为多个短函数 | 测试全绿 |
-| 重命名 | 变量 / 函数 / 类改名 | 测试全绿 |
+| 重构     | 说明                    | 验证     |
+| -------- | ----------------------- | -------- |
+| 提取函数 | 长函数拆为多个短函数    | 测试全绿 |
+| 重命名   | 变量 / 函数 / 类改名    | 测试全绿 |
 | 提取常量 | magic number → 命名常量 | 测试全绿 |
 | 移动代码 | 函数 / 类移到更合适位置 | 测试全绿 |
-| 内联变量 | 单次使用的临时变量内联 | 测试全绿 |
+| 内联变量 | 单次使用的临时变量内联  | 测试全绿 |
 
 ### 反模式
 
@@ -189,7 +191,7 @@ import { Ticket } from '../types';
 
 export class SearchService {
   search(query: string): Ticket[] {
-    return [];  // 最小实现
+    return []; // 最小实现
   }
 }
 ```
@@ -230,13 +232,13 @@ PASS tests/services/search-service.test.ts
 
 ## 红-绿-重构的反模式总览
 
-| ❌ 不要 | ✅ 应该 |
-|---|---|
-| 跳过红灯阶段 | 红灯验证测试有效性 |
-| 跳过绿灯最小约束 | YAGNI |
-| 重构阶段改逻辑 | 重构 = 仅改结构 |
-| 一次做太多步 | 一次一步；每步验证 |
-| 不运行测试就 commit | 每步后 MUST 测试 |
+| ❌ 不要             | ✅ 应该            |
+| ------------------- | ------------------ |
+| 跳过红灯阶段        | 红灯验证测试有效性 |
+| 跳过绿灯最小约束    | YAGNI              |
+| 重构阶段改逻辑      | 重构 = 仅改结构    |
+| 一次做太多步        | 一次一步；每步验证 |
+| 不运行测试就 commit | 每步后 MUST 测试   |
 
 ---
 

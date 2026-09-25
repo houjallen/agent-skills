@@ -42,12 +42,12 @@ related:
 
 ## 备选方案 (Alternatives Considered)
 
-| # | 方案 | 优点 | 缺点 | 取舍 |
-|---|---|---|---|---|
-| A | **追加 `skillPath` 字段（当前）** | 与 github 源 subpath 字段名一致；store 物化时直接用；老 index 兼容 fallback | 字段多 1 个，但 schema 仍是"字段最小化" | ✅ 采纳 |
-| B | 不加字段，前端从 `sourceUrl` URL 字符串解析 subpath | schema 字段数不变 | URL 结构与 subpath 强耦合；改 endpoint 拼接规则就破坏解析；多源对比时正则解析脆弱 | ❌ 拒 |
-| C | 改为 `category` + `subpath` 两个字段 | 表达更细（category 与 subpath 解耦） | 与 github 源端 `subpath` 字段语义不一致；前端需要把两个字段拼起来 | ❌ 拒 |
-| D | 复用 `installName` 的 `owner/repo@skill` 解析 subpath | 少一个字段 | `@` 后只到 skill 名，不含 category，丢失物理分类信息 | ❌ 拒 |
+| #   | 方案                                                  | 优点                                                                        | 缺点                                                                              | 取舍    |
+| --- | ----------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------- |
+| A   | **追加 `skillPath` 字段（当前）**                     | 与 github 源 subpath 字段名一致；store 物化时直接用；老 index 兼容 fallback | 字段多 1 个，但 schema 仍是"字段最小化"                                           | ✅ 采纳 |
+| B   | 不加字段，前端从 `sourceUrl` URL 字符串解析 subpath   | schema 字段数不变                                                           | URL 结构与 subpath 强耦合；改 endpoint 拼接规则就破坏解析；多源对比时正则解析脆弱 | ❌ 拒   |
+| C   | 改为 `category` + `subpath` 两个字段                  | 表达更细（category 与 subpath 解耦）                                        | 与 github 源端 `subpath` 字段语义不一致；前端需要把两个字段拼起来                 | ❌ 拒   |
+| D   | 复用 `installName` 的 `owner/repo@skill` 解析 subpath | 少一个字段                                                                  | `@` 后只到 skill 名，不含 category，丢失物理分类信息                              | ❌ 拒   |
 
 ## 影响 (Consequences)
 

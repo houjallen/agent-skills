@@ -47,13 +47,13 @@
 
 ## 何时保存状态
 
-| 触发时机 | 动作 |
-|---|---|
-| 每步开始 | 保存 `current_step` |
-| 每步完成 | 保存 `completed_steps` + 产出路径 |
-| 每子步完成（如 implement 单任务） | 保存 `step_outputs` |
-| 任一 Gate 失败 | 保存 `last_failure` |
-| 用户主动停止 | 保存状态 + 标记 `status: paused` |
+| 触发时机                          | 动作                              |
+| --------------------------------- | --------------------------------- |
+| 每步开始                          | 保存 `current_step`               |
+| 每步完成                          | 保存 `completed_steps` + 产出路径 |
+| 每子步完成（如 implement 单任务） | 保存 `step_outputs`               |
+| 任一 Gate 失败                    | 保存 `last_failure`               |
+| 用户主动停止                      | 保存状态 + 标记 `status: paused`  |
 
 ## 恢复流程
 
@@ -63,10 +63,10 @@ Loop 启动时 MUST 检查：
 
 ```typescript
 async function checkResume(): Promise<LoopState | null> {
-  const stateFile = ".easbot/state/dev-loop-<topic>.json";
+  const stateFile = '.easbot/state/dev-loop-<topic>.json';
   if (await fileExists(stateFile)) {
     const state = await readJson(stateFile);
-    if (state.status === "in_progress" || state.status === "paused") {
+    if (state.status === 'in_progress' || state.status === 'paused') {
       return state;
     }
   }
@@ -109,27 +109,27 @@ if (resumeState) {
 如果 `status = failed`：
 
 ```typescript
-if (resumeState.status === "failed") {
+if (resumeState.status === 'failed') {
   return askUser({
     question: `Loop 在 Step ${resumeState.last_failure.step} 失败`,
     options: [
-      { id: "retry", label: `重试 Step ${resumeState.last_failure.step}` },
-      { id: "fix-and-resume", label: "修复问题后继续" },
-      { id: "abort", label: "中止；清理状态文件" }
-    ]
+      { id: 'retry', label: `重试 Step ${resumeState.last_failure.step}` },
+      { id: 'fix-and-resume', label: '修复问题后继续' },
+      { id: 'abort', label: '中止；清理状态文件' },
+    ],
   });
 }
 ```
 
 ## 状态文件生命周期
 
-| 阶段 | 状态 |
-|---|---|
-| 启动 | `in_progress` |
-| 正常完成 | `completed`（保留 N 天后清理） |
-| 用户主动停止 | `paused`（保留 N 天后清理） |
-| Gate 失败 | `failed`（保留 N 天后清理） |
-| 启动新 loop | 创建新文件（old loop 归档） |
+| 阶段         | 状态                           |
+| ------------ | ------------------------------ |
+| 启动         | `in_progress`                  |
+| 正常完成     | `completed`（保留 N 天后清理） |
+| 用户主动停止 | `paused`（保留 N 天后清理）    |
+| Gate 失败    | `failed`（保留 N 天后清理）    |
+| 启动新 loop  | 创建新文件（old loop 归档）    |
 
 ## 状态文件清理
 
@@ -139,11 +139,11 @@ if (resumeState.status === "failed") {
 
 ## 与其他工具的协作
 
-| 工具 | 协作方式 |
-|---|---|
-| `eas-planning-writer` | loop 可调用 planning-writer 做长任务拆分 |
-| Git | 状态文件 MUST `.gitignore`（不进版本控制） |
-| CI | 状态文件不进 build artifact |
+| 工具                  | 协作方式                                   |
+| --------------------- | ------------------------------------------ |
+| `eas-planning-writer` | loop 可调用 planning-writer 做长任务拆分   |
+| Git                   | 状态文件 MUST `.gitignore`（不进版本控制） |
+| CI                    | 状态文件不进 build artifact                |
 
 ## 状态文件 .gitignore
 

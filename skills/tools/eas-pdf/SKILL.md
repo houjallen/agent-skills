@@ -14,13 +14,13 @@ metadata:
     - linux
   dependencies:
     - python3 >= 3.9
-    - reportlab (pip)         # 渲染正文
-    - pypdf (pip)             # 填表 / 合并 / REFORMAT
-    - nodejs >= 18            # 渲染封面
-    - playwright (npm)        # 渲染封面
-    - chromium (playwright)   # 渲染封面
-    - matplotlib (pip)        # chart / flowchart / math
-    - make (system)           # 统一入口 make.sh
+    - reportlab (pip) # 渲染正文
+    - pypdf (pip) # 填表 / 合并 / REFORMAT
+    - nodejs >= 18 # 渲染封面
+    - playwright (npm) # 渲染封面
+    - chromium (playwright) # 渲染封面
+    - matplotlib (pip) # chart / flowchart / math
+    - make (system) # 统一入口 make.sh
   sources:
     - reportlab documentation
     - pypdf documentation
@@ -58,26 +58,26 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项目 | 取值 / 说明 |
-| --- | --- |
-| 模式组合 | Tool Wrapper + Pipeline + Generator + Reviewer |
-| 三大任务路由 | CREATE / FILL / REFORMAT |
-| 核心脚本 | `scripts/make.sh`（统一入口）+ `palette.py` / `cover.py` / `render_body.py` / `render_cover.js` / `merge.py` / `fill_inspect.py` / `fill_write.py` / `reformat_parse.py` |
-| 设计 token 来源 | [aesthetic-system.md](references/aesthetic-system.md) —— **MUST 先读** |
-| 文档类型 | report / proposal / resume / portfolio / academic / general / minimal / stripe / diagonal / frame / editorial / magazine / darkroom / terminal / poster |
-| 配色来源 | 按行业 / 文档语境选 accent（Reviewer 校验项） |
-| 主要依赖 | Python 3.9+ / reportlab / pypdf / Node.js 18+ / Playwright + Chromium |
-| 脚本调用约定 | `bash <skillPath>/scripts/make.sh ...` / `python3 <skillPath>/scripts/xxx.py ...` |
+| 项目            | 取值 / 说明                                                                                                                                                              |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 模式组合        | Tool Wrapper + Pipeline + Generator + Reviewer                                                                                                                           |
+| 三大任务路由    | CREATE / FILL / REFORMAT                                                                                                                                                 |
+| 核心脚本        | `scripts/make.sh`（统一入口）+ `palette.py` / `cover.py` / `render_body.py` / `render_cover.js` / `merge.py` / `fill_inspect.py` / `fill_write.py` / `reformat_parse.py` |
+| 设计 token 来源 | [aesthetic-system.md](references/aesthetic-system.md) —— **MUST 先读**                                                                                                   |
+| 文档类型        | report / proposal / resume / portfolio / academic / general / minimal / stripe / diagonal / frame / editorial / magazine / darkroom / terminal / poster                  |
+| 配色来源        | 按行业 / 文档语境选 accent（Reviewer 校验项）                                                                                                                            |
+| 主要依赖        | Python 3.9+ / reportlab / pypdf / Node.js 18+ / Playwright + Chromium                                                                                                    |
+| 脚本调用约定    | `bash <skillPath>/scripts/make.sh ...` / `python3 <skillPath>/scripts/xxx.py ...`                                                                                        |
 
 ## 任务路由 (Task Routing)
 
 > **直接执行模式**：按路由表选定路径后，由主 Agent 自己走完流水线；REFORMAT 走 `reformat_parse.py` → 完整 CREATE 链路；FILL 走 `fill_inspect.py` → `fill_write.py`。
 
-| 任务 | 路径 | 必读参考 | 脚本调用链 |
-| --- | --- | --- | --- |
-| **CREATE** —— 从零生成 PDF | CREATE | [aesthetic-system.md](references/aesthetic-system.md) + [overview.md](references/overview.md) | `make.sh run` → 内部串接 `palette.py` → `cover.py` → `render_cover.js` → `render_body.py` → `merge.py` |
-| **FILL** —— 在既有 PDF 填表 | FILL | — | `fill_inspect.py` → `fill_write.py` |
-| **REFORMAT** —— 既有文档套设计 | REFORMAT | [aesthetic-system.md](references/aesthetic-system.md) | `make.sh reformat` → 内部 `reformat_parse.py` → 完整 CREATE 链路 |
+| 任务                           | 路径     | 必读参考                                                                                      | 脚本调用链                                                                                             |
+| ------------------------------ | -------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| **CREATE** —— 从零生成 PDF     | CREATE   | [aesthetic-system.md](references/aesthetic-system.md) + [overview.md](references/overview.md) | `make.sh run` → 内部串接 `palette.py` → `cover.py` → `render_cover.js` → `render_body.py` → `merge.py` |
+| **FILL** —— 在既有 PDF 填表    | FILL     | —                                                                                             | `fill_inspect.py` → `fill_write.py`                                                                    |
+| **REFORMAT** —— 既有文档套设计 | REFORMAT | [aesthetic-system.md](references/aesthetic-system.md)                                         | `make.sh reformat` → 内部 `reformat_parse.py` → 完整 CREATE 链路                                       |
 
 **CREATE vs REFORMAT 决策口诀**：用户有现成文档吗？有 → REFORMAT；无 → CREATE。
 
@@ -97,23 +97,23 @@ bash <skillPath>/scripts/make.sh run \
 
 **文档类型清单 (Doc Types)**：
 
-| 类型 | 封面样式 | 视觉识别度 |
-| --- | --- | --- |
-| `report` | `fullbleed` | 深色背景 + 点阵网格 + Playfair Display |
-| `proposal` | `split` | 左面板 + 右几何块 + Syne |
-| `resume` | `typographic` | 超大首词 + DM Serif Display |
-| `portfolio` | `atmospheric` | 近黑 + 径向辉光 + Fraunces |
-| `academic` | `typographic` | 浅色 + 古典衬线 + EB Garamond |
-| `general` | `fullbleed` | 深石板 + Outfit |
-| `minimal` | `minimal` | 白底 + 8px 强调条 + Cormorant Garamond |
-| `stripe` | `stripe` | 三条粗色横带 + Barlow Condensed |
-| `diagonal` | `diagonal` | SVG 斜切 + 深浅分屏 + Montserrat |
-| `frame` | `frame` | 内嵌边框 + 角饰 + Cormorant |
-| `editorial` | `editorial` | 幽灵字母 + 全大写标题 + Bebas Neue |
-| `magazine` | `magazine` | 暖米色 + 居中堆叠 + 头图 + Playfair Display |
-| `darkroom` | `darkroom` | 海军蓝 + 居中堆叠 + 灰度图 + Playfair Display |
-| `terminal` | `terminal` | 近黑 + 网格线 + 等宽 + 霓虹绿 |
-| `poster` | `poster` | 白底 + 粗侧栏 + 超大标题 + Barlow Condensed |
+| 类型        | 封面样式      | 视觉识别度                                    |
+| ----------- | ------------- | --------------------------------------------- |
+| `report`    | `fullbleed`   | 深色背景 + 点阵网格 + Playfair Display        |
+| `proposal`  | `split`       | 左面板 + 右几何块 + Syne                      |
+| `resume`    | `typographic` | 超大首词 + DM Serif Display                   |
+| `portfolio` | `atmospheric` | 近黑 + 径向辉光 + Fraunces                    |
+| `academic`  | `typographic` | 浅色 + 古典衬线 + EB Garamond                 |
+| `general`   | `fullbleed`   | 深石板 + Outfit                               |
+| `minimal`   | `minimal`     | 白底 + 8px 强调条 + Cormorant Garamond        |
+| `stripe`    | `stripe`      | 三条粗色横带 + Barlow Condensed               |
+| `diagonal`  | `diagonal`    | SVG 斜切 + 深浅分屏 + Montserrat              |
+| `frame`     | `frame`       | 内嵌边框 + 角饰 + Cormorant                   |
+| `editorial` | `editorial`   | 幽灵字母 + 全大写标题 + Bebas Neue            |
+| `magazine`  | `magazine`    | 暖米色 + 居中堆叠 + 头图 + Playfair Display   |
+| `darkroom`  | `darkroom`    | 海军蓝 + 居中堆叠 + 灰度图 + Playfair Display |
+| `terminal`  | `terminal`    | 近黑 + 网格线 + 等宽 + 霓虹绿                 |
+| `poster`    | `poster`      | 白底 + 粗侧栏 + 超大标题 + Barlow Condensed   |
 
 **封面扩展字段**：
 
@@ -127,42 +127,42 @@ bash <skillPath>/scripts/make.sh run \
 
 **强调色选择规范 (Reviewer 项)**：根据文档语义语境（标题 / 行业 / 用途 / 受众）选色，**禁止**套用通用"安全色"。强调色会出现在分节线 / 标注条 / 表格头 / 封面，承载文档的视觉识别度。
 
-| 语境 | 推荐强调色范围 |
-| --- | --- |
+| 语境               | 推荐强调色范围                                   |
+| ------------------ | ------------------------------------------------ |
 | 法律 / 合规 / 金融 | 深海军 `#1C3A5E`、炭灰 `#2E3440`、石板 `#3D4C5E` |
-| 医疗 / 健康 | 青绿 `#2A6B5A`、冷绿 `#3A7D6A` |
-| 科技 / 工程 | 钢蓝 `#2D5F8A`、靛蓝 `#3D4F8A` |
-| 环境 / 可持续 | 森林 `#2E5E3A`、橄榄 `#4A5E2A` |
-| 创意 / 艺术 / 文化 | 酒红 `#6B2A35`、紫红 `#5A2A6B`、陶土 `#8A3A2A` |
-| 学术 / 研究 | 深青 `#2A5A6B`、图书蓝 `#2A4A6B` |
-| 企业 / 中性 | 石板 `#3D4A5A`、石墨 `#444C56` |
-| 奢侈 / 高端 | 暖黑 `#1A1208`、深铜 `#4A3820` |
+| 医疗 / 健康        | 青绿 `#2A6B5A`、冷绿 `#3A7D6A`                   |
+| 科技 / 工程        | 钢蓝 `#2D5F8A`、靛蓝 `#3D4F8A`                   |
+| 环境 / 可持续      | 森林 `#2E5E3A`、橄榄 `#4A5E2A`                   |
+| 创意 / 艺术 / 文化 | 酒红 `#6B2A35`、紫红 `#5A2A6B`、陶土 `#8A3A2A`   |
+| 学术 / 研究        | 深青 `#2A5A6B`、图书蓝 `#2A4A6B`                 |
+| 企业 / 中性        | 石板 `#3D4A5A`、石墨 `#444C56`                   |
+| 奢侈 / 高端        | 暖黑 `#1A1208`、深铜 `#4A3820`                   |
 
 **[MUST]** 选择"为这份文档专门思考过的颜色"，而非类型的默认值。低饱和、暗色调优先；犹豫时往更暗、更中性走。
 
 **`content.json` 块类型速查**：
 
-| 块 | 用途 | 关键字段 |
-| --- | --- | --- |
-| `h1` | 节标题 + 强调线 | `text` |
-| `h2` | 子节标题 | `text` |
-| `h3` | 子子节（粗体） | `text` |
-| `body` | 两端对齐段落，支持 `<b>` `<i>` 标记 | `text` |
-| `bullet` | 无序列表项（• 前缀） | `text` |
-| `numbered` | 有序列表项——遇到非 numbered 块自动重置计数 | `text` |
-| `callout` | 高亮洞见框，左侧强调条 | `text` |
-| `table` | 数据表——强调色表头，交替行底色 | `headers` / `rows` / `col_widths`? / `caption`? |
-| `image` | 嵌入图片，按列宽缩放 | `path` / `src` / `caption`? |
-| `figure` | 图片 + 自动编号 "Figure N:" | `path` / `src` / `caption`? |
-| `code` | 等宽代码块，左强调条 | `text` / `language`? |
-| `math` | 显示数学公式——LaTeX 经 matplotlib mathtext | `text` / `label`? / `caption`? |
-| `chart` | 柱 / 折线 / 饼图（matplotlib） | `chart_type` / `labels` / `datasets` / `title`? / `x_label`? / `y_label`? / `caption`? / `figure`? |
-| `flowchart` | 节点 + 边的流程图（matplotlib） | `nodes` / `edges` / `caption`? / `figure`? |
-| `bibliography` | 编号参考列表 + 悬挂缩进 | `items[{id,text}]` / `title`? |
-| `divider` | 全宽强调色分隔线 | — |
-| `caption` | 小号 muted 标签 | `text` |
-| `pagebreak` | 强制新页 | — |
-| `spacer` | 垂直空白 | `pt`（默认 12） |
+| 块             | 用途                                       | 关键字段                                                                                           |
+| -------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| `h1`           | 节标题 + 强调线                            | `text`                                                                                             |
+| `h2`           | 子节标题                                   | `text`                                                                                             |
+| `h3`           | 子子节（粗体）                             | `text`                                                                                             |
+| `body`         | 两端对齐段落，支持 `<b>` `<i>` 标记        | `text`                                                                                             |
+| `bullet`       | 无序列表项（• 前缀）                       | `text`                                                                                             |
+| `numbered`     | 有序列表项——遇到非 numbered 块自动重置计数 | `text`                                                                                             |
+| `callout`      | 高亮洞见框，左侧强调条                     | `text`                                                                                             |
+| `table`        | 数据表——强调色表头，交替行底色             | `headers` / `rows` / `col_widths`? / `caption`?                                                    |
+| `image`        | 嵌入图片，按列宽缩放                       | `path` / `src` / `caption`?                                                                        |
+| `figure`       | 图片 + 自动编号 "Figure N:"                | `path` / `src` / `caption`?                                                                        |
+| `code`         | 等宽代码块，左强调条                       | `text` / `language`?                                                                               |
+| `math`         | 显示数学公式——LaTeX 经 matplotlib mathtext | `text` / `label`? / `caption`?                                                                     |
+| `chart`        | 柱 / 折线 / 饼图（matplotlib）             | `chart_type` / `labels` / `datasets` / `title`? / `x_label`? / `y_label`? / `caption`? / `figure`? |
+| `flowchart`    | 节点 + 边的流程图（matplotlib）            | `nodes` / `edges` / `caption`? / `figure`?                                                         |
+| `bibliography` | 编号参考列表 + 悬挂缩进                    | `items[{id,text}]` / `title`?                                                                      |
+| `divider`      | 全宽强调色分隔线                           | —                                                                                                  |
+| `caption`      | 小号 muted 标签                            | `text`                                                                                             |
+| `pagebreak`    | 强制新页                                   | —                                                                                                  |
+| `spacer`       | 垂直空白                                   | `pt`（默认 12）                                                                                    |
 
 **chart / flowchart 示例**：
 
@@ -194,12 +194,12 @@ python3 <skillPath>/scripts/fill_write.py --input form.pdf --out filled.pdf \
   --values '{"FirstName": "Jane", "Agree": "true", "Country": "US"}'
 ```
 
-| 字段类型 | 取值格式 |
-| --- | --- |
-| `text` | 任意字符串 |
-| `checkbox` | `"true"` 或 `"false"` |
-| `dropdown` | 必须匹配 inspect 输出中的 choice value |
-| `radio` | 必须匹配 radio value（通常以 `/` 开头） |
+| 字段类型   | 取值格式                                |
+| ---------- | --------------------------------------- |
+| `text`     | 任意字符串                              |
+| `checkbox` | `"true"` 或 `"false"`                   |
+| `dropdown` | 必须匹配 inspect 输出中的 choice value  |
+| `radio`    | 必须匹配 radio value（通常以 `/` 开头） |
 
 **[MUST]** 总先跑 `fill_inspect.py` 获取精确字段名。
 
@@ -222,13 +222,13 @@ bash <skillPath>/scripts/make.sh fix     # 自动安装缺失依赖
 bash <skillPath>/scripts/make.sh demo    # 生成示例 PDF
 ```
 
-| 工具 | 使用脚本 | 安装方式 |
-| --- | --- | --- |
-| Python 3.9+ | 全部 `.py` 脚本 | 系统包 |
-| `reportlab` | `render_body.py` | `pip install reportlab` |
-| `pypdf` | fill / merge / reformat | `pip install pypdf` |
-| Node.js 18+ | `render_cover.js` | 系统包 |
-| `playwright` + Chromium | `render_cover.js` | `npm install -g playwright && npx playwright install chromium` |
+| 工具                    | 使用脚本                | 安装方式                                                       |
+| ----------------------- | ----------------------- | -------------------------------------------------------------- |
+| Python 3.9+             | 全部 `.py` 脚本         | 系统包                                                         |
+| `reportlab`             | `render_body.py`        | `pip install reportlab`                                        |
+| `pypdf`                 | fill / merge / reformat | `pip install pypdf`                                            |
+| Node.js 18+             | `render_cover.js`       | 系统包                                                         |
+| `playwright` + Chromium | `render_cover.js`       | `npm install -g playwright && npx playwright install chromium` |
 
 ## 核心红线 (Key Rules)
 

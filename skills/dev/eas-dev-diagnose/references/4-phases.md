@@ -9,33 +9,33 @@
 
 ### MRC（最小可重现用例）5 要素
 
-| 要素 | 说明 | 示例 |
-|---|---|---|
-| **Description** | 一句话描述 | "搜索包含特殊字符的 query 返回 500" |
-| **Input** | 最小输入 | `q = "test\\u0000"` |
-| **Expected** | 期望行为 | "返回 200 + 空结果" |
-| **Actual** | 实际行为 | "返回 500" |
-| **Trigger Rate** | 触发概率 | "必现" / "10% 概率" / "特定数据下" |
+| 要素             | 说明       | 示例                                |
+| ---------------- | ---------- | ----------------------------------- |
+| **Description**  | 一句话描述 | "搜索包含特殊字符的 query 返回 500" |
+| **Input**        | 最小输入   | `q = "test\\u0000"`                 |
+| **Expected**     | 期望行为   | "返回 200 + 空结果"                 |
+| **Actual**       | 实际行为   | "返回 500"                          |
+| **Trigger Rate** | 触发概率   | "必现" / "10% 概率" / "特定数据下"  |
 
 ### 复现步骤
 
 ```yaml
 mrc:
-  description: "搜索包含特殊字符的 query 返回 500"
+  description: '搜索包含特殊字符的 query 返回 500'
   input: |
     q = "test\u0000"
   expected: |
     HTTP 200, JSON { results: [] }
   actual: |
     HTTP 500, "Internal Server Error"
-  trigger_rate: "必现"
+  trigger_rate: '必现'
   environment:
-    os: "Linux 5.15"
-    runtime: "Node 20.10"
-    data: "staging DB 含 1000 工单"
+    os: 'Linux 5.15'
+    runtime: 'Node 20.10'
+    data: 'staging DB 含 1000 工单'
   steps:
-    - "调用 GET /api/tickets/search?q=test%5C0"
-    - "观察响应"
+    - '调用 GET /api/tickets/search?q=test%5C0'
+    - '观察响应'
 ```
 
 ### 复现技巧
@@ -71,12 +71,12 @@ mrc:
 
 ### 4 层排查法
 
-| 层 | 关注点 | 工具 |
-|---|---|---|
-| **用户层** | 操作 / 输入 | 浏览器 DevTools / 用户日志 |
-| **应用层** | 代码逻辑 / 状态 | 应用日志 / 调用栈 / debugger |
-| **数据层** | DB / 缓存 / 队列 | DB 慢查询日志 / Redis monitor |
-| **基础设施** | 网络 / 资源 / 依赖 | 系统监控 / APM / 链路追踪 |
+| 层           | 关注点             | 工具                          |
+| ------------ | ------------------ | ----------------------------- |
+| **用户层**   | 操作 / 输入        | 浏览器 DevTools / 用户日志    |
+| **应用层**   | 代码逻辑 / 状态    | 应用日志 / 调用栈 / debugger  |
+| **数据层**   | DB / 缓存 / 队列   | DB 慢查询日志 / Redis monitor |
+| **基础设施** | 网络 / 资源 / 依赖 | 系统监控 / APM / 链路追踪     |
 
 ### 定位证据收集
 
@@ -106,10 +106,10 @@ mrc:
 
 ```yaml
 fix:
-  change_type: code  # code / config / data / infra
+  change_type: code # code / config / data / infra
   files:
     - src/services/search-service.ts
-  diff_summary: "转义 ES 查询特殊字符"
+  diff_summary: '转义 ES 查询特殊字符'
   why_root_cause_fix: |
     ES 查询未转义导致解析失败；转义后 ES 正常解析。
   why_not_symptom_fix: |
@@ -134,10 +134,10 @@ fix:
 ### 测试模板
 
 ```typescript
-test("should handle special characters in search query", async () => {
+test('should handle special characters in search query', async () => {
   const service = new SearchService();
   // 根因触发条件：特殊字符
-  const result = await service.search("test\u0000");
+  const result = await service.search('test\u0000');
   // 期望行为：返回结果（不抛错）
   expect(result).toBeDefined();
   expect(result.length).toBeGreaterThanOrEqual(0);
@@ -164,20 +164,20 @@ mrc:
   input: q="test\\"
   expected: HTTP 200, results
   actual: HTTP 500
-  trigger_rate: "必现"
+  trigger_rate: '必现'
   steps:
-    - "GET /api/tickets/search?q=test%5C%5C"
+    - 'GET /api/tickets/search?q=test%5C%5C'
 ```
 
 ### Phase 2: 定位
 
 ```yaml
 root_cause:
-  description: "ES 查询构造时未转义反斜杠"
+  description: 'ES 查询构造时未转义反斜杠'
   layer: application
   evidence:
-    - "应用日志：ES returned 400 - failed to parse query"
-    - "代码：src/services/search-service.ts:42 — 直接拼接 query，未调用 escapeQuery"
+    - '应用日志：ES returned 400 - failed to parse query'
+    - '代码：src/services/search-service.ts:42 — 直接拼接 query，未调用 escapeQuery'
   why_symptoms_explainable: |
     ES 7.x 后对反斜杠敏感；未转义 → ES 解析失败 → 上层捕获为 500。
 ```
@@ -188,9 +188,9 @@ root_cause:
 fix:
   change_type: code
   files: [src/services/search-service.ts]
-  diff_summary: "调用 escapeQuery 转义 query 后传给 ES"
-  why_root_cause_fix: "转义后 ES 正常解析"
-  why_not_symptom_fix: "不是 catch 500；是消除 ES 解析失败"
+  diff_summary: '调用 escapeQuery 转义 query 后传给 ES'
+  why_root_cause_fix: '转义后 ES 正常解析'
+  why_not_symptom_fix: '不是 catch 500；是消除 ES 解析失败'
 ```
 
 ### Phase 4: 回归
@@ -198,9 +198,9 @@ fix:
 ```yaml
 regression_test:
   test_file: tests/services/search-service.test.ts
-  test_name: "should escape special characters in search query"
-  before_fix_behavior: "测试失败（500）"
-  after_fix_behavior: "测试通过（200）"
+  test_name: 'should escape special characters in search query'
+  before_fix_behavior: '测试失败（500）'
+  after_fix_behavior: '测试通过（200）'
 ```
 
 ---

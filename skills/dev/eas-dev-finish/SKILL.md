@@ -10,37 +10,37 @@ behavior:
       - id: tests-green
         name: 测试全绿
         gate:
-          rule: "所有测试 MUST 通过（单测 / 集成 / E2E）"
+          rule: '所有测试 MUST 通过（单测 / 集成 / E2E）'
           severity: must
       - id: review-passed
         name: 评审通过
         gate:
-          rule: "review.md 状态 = PASS（P0 = 0；P1 修复或豁免）"
+          rule: 'review.md 状态 = PASS（P0 = 0；P1 修复或豁免）'
           severity: must
       - id: docs-synced
         name: 文档同步
         gate:
-          rule: "README / API 文档 / CHANGELOG MUST 同步（如接口变更）"
+          rule: 'README / API 文档 / CHANGELOG MUST 同步（如接口变更）'
           severity: must
       - id: pr-created
         name: PR 创建
         gate:
-          rule: "PR 描述 MUST 含 spec 链接 + review 链接 + 测试计划"
+          rule: 'PR 描述 MUST 含 spec 链接 + review 链接 + 测试计划'
           severity: must
       - id: merge-decision
         name: merge 决策
         gate:
-          rule: "MUST 询问用户 merge 策略（merge commit / squash / rebase）"
+          rule: 'MUST 询问用户 merge 策略（merge commit / squash / rebase）'
           severity: must
       - id: deploy
         name: 部署（如适用）
         gate:
-          rule: "CI MUST 通过；deploy MUST 成功；smoke test MUST 通过"
+          rule: 'CI MUST 通过；deploy MUST 成功；smoke test MUST 通过'
           severity: must
       - id: notify
         name: 通知（如适用）
         gate:
-          rule: "相关方 MUST 收到通知（含变更摘要 + 影响范围）"
+          rule: '相关方 MUST 收到通知（含变更摘要 + 影响范围）'
           severity: must
 metadata:
   category: dev
@@ -95,15 +95,15 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项 | 内容 |
-|---|---|
-| 模式 | Technique（7 步固定序列） |
-| 输入契约 | review.md（PASS）+ 代码变更 |
-| 输出契约 | PR URL + merge commit + 部署记录 + 通知 |
-| 序列步骤 | tests → review → docs → PR → merge → deploy → notify（`behavior.sequence.steps`） |
-| Gate 数量 | 7 道 must（每步 1 道） |
-| 必读 references | [references/finish-checklist.md](references/finish-checklist.md) |
-| 失败处理 | 任一 Gate 失败 → MUST 报错并指出步骤 |
+| 项              | 内容                                                                              |
+| --------------- | --------------------------------------------------------------------------------- |
+| 模式            | Technique（7 步固定序列）                                                         |
+| 输入契约        | review.md（PASS）+ 代码变更                                                       |
+| 输出契约        | PR URL + merge commit + 部署记录 + 通知                                           |
+| 序列步骤        | tests → review → docs → PR → merge → deploy → notify（`behavior.sequence.steps`） |
+| Gate 数量       | 7 道 must（每步 1 道）                                                            |
+| 必读 references | [references/finish-checklist.md](references/finish-checklist.md)                  |
+| 失败处理        | 任一 Gate 失败 → MUST 报错并指出步骤                                              |
 
 ## 第一性原理 (First Principles)
 
@@ -135,7 +135,7 @@ metadata:
 
 ```yaml
 gate:
-  rule: "所有测试 MUST 通过"
+  rule: '所有测试 MUST 通过'
   severity: must
 ```
 
@@ -153,7 +153,7 @@ gate:
 
 ```yaml
 gate:
-  rule: "review.md 状态 = PASS"
+  rule: 'review.md 状态 = PASS'
   severity: must
 ```
 
@@ -171,7 +171,7 @@ gate:
 
 ```yaml
 gate:
-  rule: "README / API 文档 / CHANGELOG MUST 同步"
+  rule: 'README / API 文档 / CHANGELOG MUST 同步'
   severity: must
 ```
 
@@ -188,7 +188,7 @@ gate:
 
 ```yaml
 gate:
-  rule: "PR 描述 MUST 含 spec 链接 + review 链接 + 测试计划"
+  rule: 'PR 描述 MUST 含 spec 链接 + review 链接 + 测试计划'
   severity: must
 ```
 
@@ -206,7 +206,7 @@ gate:
 
 ```yaml
 gate:
-  rule: "MUST 询问用户 merge 策略"
+  rule: 'MUST 询问用户 merge 策略'
   severity: must
 ```
 
@@ -224,7 +224,7 @@ gate:
 
 ```yaml
 gate:
-  rule: "CI MUST 通过；deploy MUST 成功；smoke test MUST 通过"
+  rule: 'CI MUST 通过；deploy MUST 成功；smoke test MUST 通过'
   severity: must
 ```
 
@@ -241,7 +241,7 @@ gate:
 
 ```yaml
 gate:
-  rule: "相关方 MUST 收到通知"
+  rule: '相关方 MUST 收到通知'
   severity: must
 ```
 
@@ -249,23 +249,23 @@ gate:
 
 ## 输入契约 (Input Contract)
 
-| 项 | 要求 |
-|---|---|
-| 必备 | `review.md`（status = PASS） |
-| 必备 | 测试报告（status = passed） |
-| 可选 | 部署平台 / 通知渠道配置 |
+| 项   | 要求                                 |
+| ---- | ------------------------------------ |
+| 必备 | `review.md`（status = PASS）         |
+| 必备 | 测试报告（status = passed）          |
+| 可选 | 部署平台 / 通知渠道配置              |
 | 拒绝 | review 未 PASS 或测试未全绿（NEVER） |
 
 ## 输出契约 (Output Contract)
 
 **收尾产物分组 `finish/`**（dev 技能通用默认；宿主项目可在自有 `.easbot/AGENTS.md` 中声明覆盖）：
 
-| 产物 | 路径 |
-|---|---|
-| **PR 描述 / URL** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/finish/pr.md` |
-| **merge 决策 / commit** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/finish/merge.md` |
+| 产物                      | 路径                                                        |
+| ------------------------- | ----------------------------------------------------------- |
+| **PR 描述 / URL**         | `<cwd>/.easbot/knowledge/docs/dev/<topic>/finish/pr.md`     |
+| **merge 决策 / commit**   | `<cwd>/.easbot/knowledge/docs/dev/<topic>/finish/merge.md`  |
 | **部署记录 / smoke test** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/finish/deploy.md` |
-| **通知消息**（按需） | `<cwd>/.easbot/knowledge/docs/dev/<topic>/finish/notify.md` |
+| **通知消息**（按需）      | `<cwd>/.easbot/knowledge/docs/dev/<topic>/finish/notify.md` |
 
 **禁止路径**（会污染版本控制）：
 
@@ -282,30 +282,30 @@ gate:
 
 ## 失败处理 (Failure Handling)
 
-| 情况 | 动作 |
-|---|---|
-| 任一 Gate 失败 | 报错 + 指出步骤；状态保存 |
-| CI 失败 | 回滚部署；报给用户 |
-| 部署失败 | 立即回滚；记录原因 |
-| 通知失败 | 重试一次；仍失败则记录待人工处理 |
+| 情况           | 动作                             |
+| -------------- | -------------------------------- |
+| 任一 Gate 失败 | 报错 + 指出步骤；状态保存        |
+| CI 失败        | 回滚部署；报给用户               |
+| 部署失败       | 立即回滚；记录原因               |
+| 通知失败       | 重试一次；仍失败则记录待人工处理 |
 
 ## 常见错误 (Common Mistakes)
 
-| ❌ 不要 | ✅ 应该 |
-|---|---|
-| 跳过文档同步 | 文档 = 用户契约；必同步 |
-| 自动 merge | 必询问用户 |
-| 部署后不通知 | 通知 = 让相关方知情 |
-| 部署失败不回滚 | 必立即回滚 |
-| "完成" = push | 完成 ≠ merge ≠ deploy |
+| ❌ 不要        | ✅ 应该                 |
+| -------------- | ----------------------- |
+| 跳过文档同步   | 文档 = 用户契约；必同步 |
+| 自动 merge     | 必询问用户              |
+| 部署后不通知   | 通知 = 让相关方知情     |
+| 部署失败不回滚 | 必立即回滚              |
+| "完成" = push  | 完成 ≠ merge ≠ deploy   |
 
 ## 下一步 (Next Steps)
 
-| 下游动作 | 何时使用 |
-|---|---|
-| 关闭任务 | 收尾完成；归档文档 |
+| 下游动作   | 何时使用             |
+| ---------- | -------------------- |
+| 关闭任务   | 收尾完成；归档文档   |
 | 开始新需求 | 回到 `eas-dev-align` |
-| 监控生产 | 部署后观察 |
+| 监控生产   | 部署后观察           |
 
 ## 参考资料 (References)
 
@@ -313,14 +313,14 @@ gate:
 
 ## 与其他技能的关系 (Relationships)
 
-| 技能 | 关系 |
-|---|---|
-| `eas-dev-review` | **上游**：review PASS 是入口 |
-| `eas-dev-tdd` | **上游**：测试全绿是入口 |
-| `eas-dev-implement` | **上游**：任务完成是入口 |
-| `eas-dev-loop` | **上游**：loop 收尾阶段 |
+| 技能                | 关系                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| `eas-dev-review`    | **上游**：review PASS 是入口                                 |
+| `eas-dev-tdd`       | **上游**：测试全绿是入口                                     |
+| `eas-dev-implement` | **上游**：任务完成是入口                                     |
+| `eas-dev-loop`      | **上游**：loop 收尾阶段                                      |
 | `eas-skill-creator` | **规范基线**：本技能遵循其结构 + 5 大模式 + frontmatter 规范 |
-| `eas-skill-using` | **不重叠**：dev 分类不进索引 |
+| `eas-skill-using`   | **不重叠**：dev 分类不进索引                                 |
 
 ---
 

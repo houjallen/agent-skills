@@ -17,23 +17,23 @@ User task
 
 下表是 `--type` 与对应调色板 / 封面模式 / Google Fonts 速查。
 
-| `--type` | Mood | Cover pattern | Display font | Body font |
-| --- | --- | --- | --- | --- |
-| `report` | Authoritative | `fullbleed` | Playfair Display | IBM Plex Sans |
-| `proposal` | Confident | `split` | Syne | Nunito Sans |
-| `resume` | Clean | `typographic` | DM Serif Display | DM Sans |
-| `portfolio` | Expressive | `atmospheric` | Fraunces | Inter |
-| `academic` | Scholarly | `typographic` | EB Garamond | Source Sans 3 |
-| `general` | Neutral | `fullbleed` | Outfit | Outfit |
-| `minimal` | Restrained | `minimal` | Cormorant Garamond | Jost |
-| `stripe` | Bold | `stripe` | Barlow Condensed | Barlow |
-| `diagonal` | Dynamic | `diagonal` | Montserrat | Montserrat |
-| `frame` | Classical | `frame` | Cormorant | Crimson Pro |
-| `editorial` | Editorial | `editorial` | Bebas Neue | Libre Franklin |
-| `magazine` | Magazine | `magazine` | Playfair Display | EB Garamond |
-| `darkroom` | Darkroom | `darkroom` | Playfair Display | EB Garamond |
-| `terminal` | Terminal | `terminal` | Space Mono | Space Mono |
-| `poster` | Poster | `poster` | Barlow Condensed | Courier Prime |
+| `--type`    | Mood          | Cover pattern | Display font       | Body font      |
+| ----------- | ------------- | ------------- | ------------------ | -------------- |
+| `report`    | Authoritative | `fullbleed`   | Playfair Display   | IBM Plex Sans  |
+| `proposal`  | Confident     | `split`       | Syne               | Nunito Sans    |
+| `resume`    | Clean         | `typographic` | DM Serif Display   | DM Sans        |
+| `portfolio` | Expressive    | `atmospheric` | Fraunces           | Inter          |
+| `academic`  | Scholarly     | `typographic` | EB Garamond        | Source Sans 3  |
+| `general`   | Neutral       | `fullbleed`   | Outfit             | Outfit         |
+| `minimal`   | Restrained    | `minimal`     | Cormorant Garamond | Jost           |
+| `stripe`    | Bold          | `stripe`      | Barlow Condensed   | Barlow         |
+| `diagonal`  | Dynamic       | `diagonal`    | Montserrat         | Montserrat     |
+| `frame`     | Classical     | `frame`       | Cormorant          | Crimson Pro    |
+| `editorial` | Editorial     | `editorial`   | Bebas Neue         | Libre Franklin |
+| `magazine`  | Magazine      | `magazine`    | Playfair Display   | EB Garamond    |
+| `darkroom`  | Darkroom      | `darkroom`    | Playfair Display   | EB Garamond    |
+| `terminal`  | Terminal      | `terminal`    | Space Mono         | Space Mono     |
+| `poster`    | Poster        | `poster`      | Barlow Condensed   | Courier Prime  |
 
 完整设计系统（mood × 调色板 hex × 字体 × 间距 × 反模式）见 [aesthetic-system.md](aesthetic-system.md)。
 
@@ -60,13 +60,13 @@ scripts/
 
 ## 依赖 (Dependencies)
 
-| 工具 | 用途 | 安装 |
-| --- | --- | --- |
-| Python 3.9+ | 全部 `.py` 脚本 | 系统包 |
-| `reportlab` | 正文页面渲染 | `pip install reportlab` |
-| `pypdf` | fill / merge / reformat | `pip install pypdf` |
-| Node.js 18+ | `render_cover.js` | 系统包 |
-| `playwright` + Chromium | 封面无头浏览器 | `npm install -g playwright && npx playwright install chromium` |
+| 工具                    | 用途                    | 安装                                                           |
+| ----------------------- | ----------------------- | -------------------------------------------------------------- |
+| Python 3.9+             | 全部 `.py` 脚本         | 系统包                                                         |
+| `reportlab`             | 正文页面渲染            | `pip install reportlab`                                        |
+| `pypdf`                 | fill / merge / reformat | `pip install pypdf`                                            |
+| Node.js 18+             | `render_cover.js`       | 系统包                                                         |
+| `playwright` + Chromium | 封面无头浏览器          | `npm install -g playwright && npx playwright install chromium` |
 
 **校验依赖**：`bash scripts/make.sh check`
 **自动安装**：`bash scripts/make.sh fix`
@@ -75,36 +75,57 @@ scripts/
 
 完整 schema 在 [SKILL.md](../SKILL.md)；本处只列行内常用块。
 
-| 块 | 用途 | 关键字段 |
-| --- | --- | --- |
-| `h1` | 节标题 | `text` |
-| `h2` | 子节 | `text` |
-| `h3` | 子子节（粗体） | `text` |
-| `body` | 两端对齐段落，支持 `<b>` `<i>` 标记 | `text` |
-| `bullet` | 无序列表（•） | `text` |
-| `numbered` | 有序列表（自动编号） | `text` |
-| `callout` | 高亮洞见框 | `text` |
-| `table` | 数据表 | `headers` / `rows` |
-| `image` | 嵌入图片 | `path` / `src` / `caption`? |
-| `code` | 等宽代码块 | `text` / `language`? |
-| `math` | 显示数学公式 | `text` / `label`? |
-| `chart` | matplotlib 图表 | `chart_type` / `labels` / `datasets` |
-| `flowchart` | matplotlib 流程图 | `nodes` / `edges` |
-| `bibliography` | 编号参考列表 | `items[{id,text}]` |
-| `divider` | 全宽分隔线 | — |
-| `caption` | 小标签 | `text` |
-| `pagebreak` | 强制新页 | — |
-| `spacer` | 垂直空白 | `pt`（默认 12） |
+| 块             | 用途                                | 关键字段                             |
+| -------------- | ----------------------------------- | ------------------------------------ |
+| `h1`           | 节标题                              | `text`                               |
+| `h2`           | 子节                                | `text`                               |
+| `h3`           | 子子节（粗体）                      | `text`                               |
+| `body`         | 两端对齐段落，支持 `<b>` `<i>` 标记 | `text`                               |
+| `bullet`       | 无序列表（•）                       | `text`                               |
+| `numbered`     | 有序列表（自动编号）                | `text`                               |
+| `callout`      | 高亮洞见框                          | `text`                               |
+| `table`        | 数据表                              | `headers` / `rows`                   |
+| `image`        | 嵌入图片                            | `path` / `src` / `caption`?          |
+| `code`         | 等宽代码块                          | `text` / `language`?                 |
+| `math`         | 显示数学公式                        | `text` / `label`?                    |
+| `chart`        | matplotlib 图表                     | `chart_type` / `labels` / `datasets` |
+| `flowchart`    | matplotlib 流程图                   | `nodes` / `edges`                    |
+| `bibliography` | 编号参考列表                        | `items[{id,text}]`                   |
+| `divider`      | 全宽分隔线                          | —                                    |
+| `caption`      | 小标签                              | `text`                               |
+| `pagebreak`    | 强制新页                            | —                                    |
+| `spacer`       | 垂直空白                            | `pt`（默认 12）                      |
 
 完整示例：
 
 ```json
 [
-  {"type":"h1","text":"Executive Summary"},
-  {"type":"body","text":"This document was generated by easbot-pdf. Design tokens flow through every renderer."},
-  {"type":"callout","text":"Key insight: design tokens flow from palette.py through every renderer."},
-  {"type":"table","headers":["Quarter","Revenue"],"rows":[["Q1","$120K"],["Q2","$145K"]]},
-  {"type":"chart","chart_type":"bar","labels":["Q1","Q2","Q3","Q4"],"datasets":[{"label":"Revenue","values":[120,145,132,178]}]},
-  {"type":"bibliography","items":[{"id":"1","text":"Bringhurst, R. (2004). The Elements of Typographic Style."}]}
+  { "type": "h1", "text": "Executive Summary" },
+  {
+    "type": "body",
+    "text": "This document was generated by easbot-pdf. Design tokens flow through every renderer."
+  },
+  {
+    "type": "callout",
+    "text": "Key insight: design tokens flow from palette.py through every renderer."
+  },
+  {
+    "type": "table",
+    "headers": ["Quarter", "Revenue"],
+    "rows": [
+      ["Q1", "$120K"],
+      ["Q2", "$145K"]
+    ]
+  },
+  {
+    "type": "chart",
+    "chart_type": "bar",
+    "labels": ["Q1", "Q2", "Q3", "Q4"],
+    "datasets": [{ "label": "Revenue", "values": [120, 145, 132, 178] }]
+  },
+  {
+    "type": "bibliography",
+    "items": [{ "id": "1", "text": "Bringhurst, R. (2004). The Elements of Typographic Style." }]
+  }
 ]
 ```

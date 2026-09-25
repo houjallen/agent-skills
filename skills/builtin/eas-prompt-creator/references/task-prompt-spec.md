@@ -10,50 +10,50 @@ All task prompt files MUST include the following YAML frontmatter:
 
 ```yaml
 ---
-name: [filename]                  # 文件名（必需，用于唯一标识）
-type: [system|extension]          # 文件类型（必需）
-scope: [all|general|coder]        # 模式范围（必需）
-priority: [number]                # 加载优先级（可选，默认 1000）
-permission: [read|write]          # 权限（可选，默认 read）
-dynamic: [true|false]             # 是否动态内容（可选，默认 false）
-owner: [string...]                # 所有者（可选，数组）
-share: [string...]                # 共享目标（可选，数组）
-description: [description]        # 描述（可选）
+name: [filename] # 文件名（必需，用于唯一标识）
+type: [system|extension] # 文件类型（必需）
+scope: [all|general|coder] # 模式范围（必需）
+priority: [number] # 加载优先级（可选，默认 1000）
+permission: [read|write] # 权限（可选，默认 read）
+dynamic: [true|false] # 是否动态内容（可选，默认 false）
+owner: [string...] # 所有者（可选，数组）
+share: [string...] # 共享目标（可选，数组）
+description: [description] # 描述（可选）
 ---
 ```
 
 ### Frontmatter Fields
 
-| Field | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| name | string | Yes | - | File name (unique identifier) |
-| type | string | Yes | - | `system` or `extension` |
-| scope | string | Yes | - | `all`, `general`, or `coder` |
-| priority | number | No | 1000 | Loading priority (lower = earlier) |
-| permission | string | No | read | `read` or `write` |
-| dynamic | boolean | No | false | Whether content is dynamic |
-| owner | string[] | No | - | Owner identifiers |
-| share | string[] | No | - | Share targets |
-| description | string | No | - | File description | | - | Share targets |
-| description | string | No | - | Task description |
+| Field       | Type     | Required | Default | Description                        |
+| ----------- | -------- | -------- | ------- | ---------------------------------- |
+| name        | string   | Yes      | -       | File name (unique identifier)      |
+| type        | string   | Yes      | -       | `system` or `extension`            |
+| scope       | string   | Yes      | -       | `all`, `general`, or `coder`       |
+| priority    | number   | No       | 1000    | Loading priority (lower = earlier) |
+| permission  | string   | No       | read    | `read` or `write`                  |
+| dynamic     | boolean  | No       | false   | Whether content is dynamic         |
+| owner       | string[] | No       | -       | Owner identifiers                  |
+| share       | string[] | No       | -       | Share targets                      |
+| description | string   | No       | -       | File description                   |     | -   | Share targets |
+| description | string   | No       | -       | Task description                   |
 
 ## Required Fields
 
-| Field | Description | Example |
-|-------|-------------|---------|
-| name | Task name | `Todowrite`, `TaskCreate` |
-| purpose | Task purpose | `Create and manage task lists` |
-| workflow | Workflow process | `Create → In Progress → Complete` |
-| states | State definitions | `pending|in_progress|completed` |
+| Field    | Description       | Example                           |
+| -------- | ----------------- | --------------------------------- |
+| name     | Task name         | `Todowrite`, `TaskCreate`         |
+| purpose  | Task purpose      | `Create and manage task lists`    |
+| workflow | Workflow process  | `Create → In Progress → Complete` |
+| states   | State definitions | `pending                          | in_progress | completed` |
 
 ## Optional Fields
 
-| Field | Description | Example |
-|-------|-------------|---------|
-| triggers | Trigger conditions | `Tasks with 3+ steps` |
-| limits | Constraints | `Maximum 20 tasks` |
-| dependencies | Dependencies | `Complete before starting next` |
-| outputTemplate | Output format | `JSON or Markdown` |
+| Field          | Description        | Example                         |
+| -------------- | ------------------ | ------------------------------- |
+| triggers       | Trigger conditions | `Tasks with 3+ steps`           |
+| limits         | Constraints        | `Maximum 20 tasks`              |
+| dependencies   | Dependencies       | `Complete before starting next` |
+| outputTemplate | Output format      | `JSON or Markdown`              |
 
 ## Output Template
 
@@ -66,10 +66,11 @@ description: [description]        # 描述（可选）
 
 When adding output template:
 
-```markdown
+````markdown
 ## Output Template
 
 ### Success Output
+
 ```json
 {
   "status": "success",
@@ -81,15 +82,18 @@ When adding output template:
   }
 }
 ```
+````
 
 ### Error Output
+
 ```json
 {
   "status": "error",
   "message": "Error description"
 }
 ```
-```
+
+````
 
 ## Fixed Section Structure
 
@@ -99,7 +103,7 @@ When adding output template:
 ## Overview
 
 [Concise description of task purpose]
-```
+````
 
 ### 2. When to Use
 
@@ -107,10 +111,12 @@ When adding output template:
 ## When to Use
 
 ### Use Cases
+
 - [Scenario 1]
 - [Scenario 2]
 
 ### Do Not Use
+
 - [Scenario 1]
 - [Scenario 2]
 ```
@@ -123,6 +129,7 @@ When adding output template:
 [State flow diagram or text description]
 
 State transitions:
+
 - pending → in_progress: [trigger condition]
 - in_progress → completed: [trigger condition]
 ```
@@ -131,18 +138,21 @@ State transitions:
 
 ```markdown
 ### NEVER
+
 - [Prohibited behavior]
 
 ### DO NOT
+
 - [Discouraged behavior]
 
 ### ALWAYS
+
 - [Required behavior]
 ```
 
 ## Example
 
-```markdown
+````markdown
 ---
 title: Todowrite Task Prompt
 type: task
@@ -159,12 +169,14 @@ Create and manage structured task lists to track progress of complex tasks.
 ## When to Use
 
 ### Use Cases
+
 - Complex multi-step tasks (3+ steps)
 - Tasks requiring progress tracking
 - User explicitly requests task list
 - Adding follow-up tasks immediately after completing one
 
 ### Do Not Use
+
 - Single simple tasks
 - Conversational or informational interactions
 - Simple tasks within 3 steps
@@ -172,6 +184,7 @@ Create and manage structured task lists to track progress of complex tasks.
 ## Workflow
 
 State transitions:
+
 - pending → in_progress: When starting work
 - in_progress → completed: When task is finished
 - new task → pending: When added
@@ -181,6 +194,7 @@ State transitions:
 **Note**: If the Agent cannot determine whether an output template is needed, ask the user.
 
 ### Task List Format (JSON)
+
 ```json
 {
   "todos": [
@@ -193,8 +207,10 @@ State transitions:
   ]
 }
 ```
+````
 
 ### Task Item Format
+
 ```json
 {
   "id": "unique-identifier",
@@ -207,16 +223,19 @@ State transitions:
 ## Boundaries
 
 ### NEVER
+
 - Batch mark multiple tasks as complete
 - Create more than 20 tasks
 - Delete incomplete tasks
 
 ### DO NOT
+
 - Vague task descriptions
 - Skip in_progress state when completing
 - Assume user intentions
 
 ### ALWAYS
+
 - Use TodoWrite tool to manage tasks
 - Keep one in_progress task at a time
 - Update status immediately after completion

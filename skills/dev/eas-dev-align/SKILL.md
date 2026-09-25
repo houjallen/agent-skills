@@ -11,35 +11,35 @@ behavior:
         question: "这个需求背后的'为什么'是什么？"
         options:
           - id: user-pain
-            label: "解决用户痛点"
+            label: '解决用户痛点'
           - id: tech-debt
-            label: "偿还技术债"
+            label: '偿还技术债'
           - id: opportunity
-            label: "抓住新机会"
+            label: '抓住新机会'
           - id: other
-            label: "其他（请说明）"
+            label: '其他（请说明）'
       - id: phase-2-scope
-        question: "本次工作的范围边界在哪？"
+        question: '本次工作的范围边界在哪？'
         options:
           - id: greenfield
-            label: "全新模块"
+            label: '全新模块'
           - id: extend-existing
-            label: "扩展已有模块"
+            label: '扩展已有模块'
           - id: refactor
-            label: "重构已有代码"
+            label: '重构已有代码'
           - id: other
-            label: "其他（请说明）"
+            label: '其他（请说明）'
       - id: phase-3-acceptance
         question: "怎么算'做完了'？"
         options:
           - id: behavior-defined
-            label: "可观察行为已定义"
+            label: '可观察行为已定义'
           - id: metric-defined
-            label: "可量化指标已定义"
+            label: '可量化指标已定义'
           - id: test-coverage
-            label: "测试覆盖率达标"
+            label: '测试覆盖率达标'
           - id: other
-            label: "其他（请说明）"
+            label: '其他（请说明）'
 metadata:
   category: dev
   version: 1.0.0
@@ -89,16 +89,16 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项 | 内容 |
-|---|---|
-| 模式 | Inversion（§13.3.3 安全/不可逆操作决策树映射：澄清歧义 = 不可逆操作前置） |
-| 触发器 | `behavior.gate.phases` 3 个必答（背景 / 范围 / 验收） |
-| 必答顺序 | phase-1-background → phase-2-scope → phase-3-acceptance（**NEVER 跳过 phase-1**） |
-| 每题选项 | 2-4 个互斥选项 + "其他" 预留（§13.3.3 / eas-skill-creator Inversion 规范） |
-| 输入契约 | 用户原始意图描述（自然语言 / 草稿 / 链接） |
-| 输出契约 | `alignment.md`（5 章节 frontmatter + Markdown） |
+| 项              | 内容                                                                                                                                                                                          |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 模式            | Inversion（§13.3.3 安全/不可逆操作决策树映射：澄清歧义 = 不可逆操作前置）                                                                                                                     |
+| 触发器          | `behavior.gate.phases` 3 个必答（背景 / 范围 / 验收）                                                                                                                                         |
+| 必答顺序        | phase-1-background → phase-2-scope → phase-3-acceptance（**NEVER 跳过 phase-1**）                                                                                                             |
+| 每题选项        | 2-4 个互斥选项 + "其他" 预留（§13.3.3 / eas-skill-creator Inversion 规范）                                                                                                                    |
+| 输入契约        | 用户原始意图描述（自然语言 / 草稿 / 链接）                                                                                                                                                    |
+| 输出契约        | `alignment.md`（5 章节 frontmatter + Markdown）                                                                                                                                               |
 | 必读 references | [phase-1-background.md](references/phase-1-background.md) / [phase-2-goal-scope.md](references/phase-2-goal-scope.md) / [phase-3-terms-acceptance.md](references/phase-3-terms-acceptance.md) |
-| 必含 assets | [alignment-template.md](assets/alignment-template.md) |
+| 必含 assets     | [alignment-template.md](assets/alignment-template.md)                                                                                                                                         |
 
 ## 第一性原理 (First Principles)
 
@@ -141,21 +141,21 @@ metadata:
 
 ## 输入契约 (Input Contract)
 
-| 项 | 要求 |
-|---|---|
-| 来源 | 用户原始意图（自然语言 / 草稿 / 对话历史 / 链接） |
-| 必备 | 用户至少有"想做某件事"的最简描述 |
-| 可选 | 之前会话的相关上下文 / 已有的 alignment.md（增量对齐） |
+| 项   | 要求                                                            |
+| ---- | --------------------------------------------------------------- |
+| 来源 | 用户原始意图（自然语言 / 草稿 / 对话历史 / 链接）               |
+| 必备 | 用户至少有"想做某件事"的最简描述                                |
+| 可选 | 之前会话的相关上下文 / 已有的 alignment.md（增量对齐）          |
 | 拒绝 | 纯技术问题（无业务意图） / 纯 bug 报告（走 `eas-dev-diagnose`） |
 
 ## 输出契约 (Output Contract)
 
 **必须产出 `alignment.md`**，落地路径规范（dev 技能通用默认；宿主项目可在自有 `.easbot/AGENTS.md` 中声明覆盖）：
 
-| 场景 | 路径 |
-|---|---|
+| 场景               | 路径                                                    |
+| ------------------ | ------------------------------------------------------- |
 | **项目级（推荐）** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/alignment.md` |
-| **临时 / 探索性** | `<cwd>/.easbot/state/dev-scratch-<topic>-alignment.md` |
+| **临时 / 探索性**  | `<cwd>/.easbot/state/dev-scratch-<topic>-alignment.md`  |
 
 **禁止路径**（会污染版本控制或与既有 §11 冲突）：
 
@@ -179,31 +179,31 @@ metadata:
 
 ## 失败处理 (Failure Handling)
 
-| 情况 | 动作 |
-|---|---|
-| 用户拒绝回答 phase | 退回 phase-1 重新提问；NEVER 跳过 |
-| 用户回答"不知道" | 提供 2-3 个默认假设，让用户挑选；NEVER 默认 |
-| 用户回答相互矛盾 | 标记矛盾点，请用户裁决 |
-| 访谈超过 5 轮仍未对齐 | 暂停，询问用户是否转人工会议 |
+| 情况                  | 动作                                        |
+| --------------------- | ------------------------------------------- |
+| 用户拒绝回答 phase    | 退回 phase-1 重新提问；NEVER 跳过           |
+| 用户回答"不知道"      | 提供 2-3 个默认假设，让用户挑选；NEVER 默认 |
+| 用户回答相互矛盾      | 标记矛盾点，请用户裁决                      |
+| 访谈超过 5 轮仍未对齐 | 暂停，询问用户是否转人工会议                |
 
 ## 常见错误 (Common Mistakes)
 
-| ❌ 不要 | ✅ 应该 |
-|---|---|
-| 跳过 phase-1 直接问 phase-2 | 严格按顺序执行；phase-1 是 phase-2/3 的前提 |
-| 用 5+ 选项轰炸用户 | 每题 ≤ 4 选项；超出的归入"其他" |
-| 接受"TBD"作为答案 | "TBD" = 不明确 = 不可进入下一阶段 |
-| 在 alignment.md 中写"待评估技术方案" | 技术方案是 `eas-dev-design` 的事 |
-| 把 alignment 当 spec 用 | alignment 是契约的前置；spec 才是契约 |
+| ❌ 不要                              | ✅ 应该                                     |
+| ------------------------------------ | ------------------------------------------- |
+| 跳过 phase-1 直接问 phase-2          | 严格按顺序执行；phase-1 是 phase-2/3 的前提 |
+| 用 5+ 选项轰炸用户                   | 每题 ≤ 4 选项；超出的归入"其他"             |
+| 接受"TBD"作为答案                    | "TBD" = 不明确 = 不可进入下一阶段           |
+| 在 alignment.md 中写"待评估技术方案" | 技术方案是 `eas-dev-design` 的事            |
+| 把 alignment 当 spec 用              | alignment 是契约的前置；spec 才是契约       |
 
 ## 下一步 (Next Steps)
 
-| 下游技能 | 何时使用 |
-|---|---|
-| `eas-dev-spec` | 意图已对齐，需产出可执行 spec |
-| `eas-dev-design` | 跨模块 / 复杂功能，需先设计架构 |
-| `eas-dev-diagnose` | 实际是 bug 修复路径（误判时） |
-| 用户再次讨论 | 对齐结果有歧义，回退重新对齐 |
+| 下游技能           | 何时使用                        |
+| ------------------ | ------------------------------- |
+| `eas-dev-spec`     | 意图已对齐，需产出可执行 spec   |
+| `eas-dev-design`   | 跨模块 / 复杂功能，需先设计架构 |
+| `eas-dev-diagnose` | 实际是 bug 修复路径（误判时）   |
+| 用户再次讨论       | 对齐结果有歧义，回退重新对齐    |
 
 ## 参考资料 (References)
 
@@ -214,15 +214,15 @@ metadata:
 
 ## 与其他技能的关系 (Relationships)
 
-| 技能 | 关系 |
-|---|---|
-| `eas-dev-spec` | **下游**：alignment.md 是 spec.md 的输入 |
-| `eas-dev-design` | **下游**：alignment.md 是 design.md 的输入（可选） |
-| `eas-dev-plan` | **下游**：alignment.md 是 tasks.md 的输入（可选） |
-| `eas-dev-diagnose` | **平行**：bug 修复不走对齐，走诊断 |
-| `eas-dev-loop` | **上游**：loop 第一阶段就是本技能 |
+| 技能                | 关系                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| `eas-dev-spec`      | **下游**：alignment.md 是 spec.md 的输入                     |
+| `eas-dev-design`    | **下游**：alignment.md 是 design.md 的输入（可选）           |
+| `eas-dev-plan`      | **下游**：alignment.md 是 tasks.md 的输入（可选）            |
+| `eas-dev-diagnose`  | **平行**：bug 修复不走对齐，走诊断                           |
+| `eas-dev-loop`      | **上游**：loop 第一阶段就是本技能                            |
 | `eas-skill-creator` | **规范基线**：本技能遵循其结构 + 5 大模式 + frontmatter 规范 |
-| `eas-skill-using` | **不重叠**：dev 分类不进索引 |
+| `eas-skill-using`   | **不重叠**：dev 分类不进索引                                 |
 
 ---
 

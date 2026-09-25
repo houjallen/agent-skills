@@ -6,13 +6,13 @@ phase: design
 skill: eas-dev-design
 status: draft | confirmed
 upstream: <path-to-spec.md>
-thinking_framework: "Deep Modules (John Ousterhout)"
+thinking_framework: 'Deep Modules (John Ousterhout)'
 ---
 
 # <主题> - 架构设计 (Architecture Design)
 
 > **生成方式**：通过 [`eas-dev-design`](../SKILL.md) 技能产出
-> **上游输入**：[`<path-to-spec.md>`](<path-to-spec.md>)
+> **上游输入**：[`<path-to-spec.md>`](path-to-spec.md)
 > **下游消费者**：`eas-dev-plan` / `eas-dev-implement` / `eas-dev-review`
 > **核心思维框架**：Deep Modules（多行为 + 小接口 + 干净接缝）
 
@@ -48,11 +48,11 @@ graph TD
 
 > 每个模块一句话职责
 
-| 模块 | 职责（一句话） |
-|---|---|
-| `<Module A>` | <职责描述> |
-| `<Module B>` | <职责描述> |
-| ... | |
+| 模块         | 职责（一句话） |
+| ------------ | -------------- |
+| `<Module A>` | <职责描述>     |
+| `<Module B>` | <职责描述>     |
+| ...          |                |
 
 ---
 
@@ -75,11 +75,11 @@ interface ModuleBInterface {
 
 **接缝度量**：
 
-| 接口 | 方法数 | 参数数 | 状态暴露 | 评估 |
-|---|---|---|---|---|
-| `<Module A>` | ≤ 3 | ≤ 3 | 无 | Deep ✓ / Shallow ✗ |
-| `<Module B>` | | | | |
-| ... | | | | |
+| 接口         | 方法数 | 参数数 | 状态暴露 | 评估               |
+| ------------ | ------ | ------ | -------- | ------------------ |
+| `<Module A>` | ≤ 3    | ≤ 3    | 无       | Deep ✓ / Shallow ✗ |
+| `<Module B>` |        |        |          |                    |
+| ...          |        |        |          |                    |
 
 ---
 
@@ -112,19 +112,19 @@ User → API.searchTickets(query)
 
 ### 接口测试 (Interface Test)
 
-| 模块 | mock 什么 | 验证什么 |
-|---|---|---|
+| 模块         | mock 什么         | 验证什么                   |
+| ------------ | ----------------- | -------------------------- |
 | `<Module A>` | mock `<Module B>` | 验证 A 调用 B 的逻辑正确性 |
 | `<Module B>` | mock `<Module C>` | 验证 B 调用 C 的逻辑正确性 |
-| ... | | |
+| ...          |                   |                            |
 
 ### 集成测试 (Seam Test)
 
-| 模块 | 真实依赖 | 验证什么 |
-|---|---|---|
+| 模块               | 真实依赖          | 验证什么                       |
+| ------------------ | ----------------- | ------------------------------ |
 | `<Search Service>` | testcontainers ES | 验证分词 / 评分 / 排序的正确性 |
-| `<Repository>` | testcontainers DB | 验证 SQL / 索引正确性 |
-| ... | | |
+| `<Repository>`     | testcontainers DB | 验证 SQL / 索引正确性          |
+| ...                |                   |                                |
 
 ---
 
@@ -134,7 +134,7 @@ User → API.searchTickets(query)
 
 ```yaml
 shared_behaviors:
-  - behavior: "<共享行为>"
+  - behavior: '<共享行为>'
     callers: [<调用方 1>, <调用方 2>]
     proposed_module: <模块名>
 ```
@@ -143,7 +143,7 @@ shared_behaviors:
 
 ```yaml
 change_axes:
-  - axis: "<变化轴>"
+  - axis: '<变化轴>'
     affects: [<受影响的模块>]
     decision: <如何隔离>
 ```
@@ -152,7 +152,7 @@ change_axes:
 
 ```yaml
 seams:
-  - seam: "<方法签名>"
+  - seam: '<方法签名>'
     exposes: <接口面积>
     hides: <隐藏的复杂度>
 ```
@@ -170,15 +170,15 @@ test_strategy:
 
 ## 元数据 (Metadata)
 
-| 项 | 值 |
-|---|---|
-| 创建时间 | <YYYY-MM-DD> |
-| 更新时间 | <YYYY-MM-DD> |
-| 上游输入 | <path-to-spec.md> |
-| 核心思维框架 | Deep Modules (John Ousterhout) |
-| 下游消费者 | `eas-dev-plan` / `eas-dev-implement` / `eas-dev-review` |
-| 用户确认 | `<pending | confirmed @ YYYY-MM-DD>` |
-| 关联决策 | <link to docs/decisions/...> |
+| 项           | 值                                                      |
+| ------------ | ------------------------------------------------------- |
+| 创建时间     | <YYYY-MM-DD>                                            |
+| 更新时间     | <YYYY-MM-DD>                                            |
+| 上游输入     | <path-to-spec.md>                                       |
+| 核心思维框架 | Deep Modules (John Ousterhout)                          |
+| 下游消费者   | `eas-dev-plan` / `eas-dev-implement` / `eas-dev-review` |
+| 用户确认     | `<pending                                               | confirmed @ YYYY-MM-DD>` |
+| 关联决策     | <link to docs/decisions/...>                            |
 
 ---
 

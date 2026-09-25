@@ -10,9 +10,9 @@
 **症状**：
 
 ```typescript
-test("should set internal cache", () => {
+test('should set internal cache', () => {
   const service = new SearchService();
-  service.search("foo");
+  service.search('foo');
   // ❌ 直接读私有字段
   expect((service as any).cache).toBeDefined();
 });
@@ -23,12 +23,12 @@ test("should set internal cache", () => {
 **修复**：测行为而非状态
 
 ```typescript
-test("should return cached results on second call", () => {
+test('should return cached results on second call', () => {
   const service = new SearchService();
-  const firstResult = service.search("foo");
-  const secondResult = service.search("foo");
+  const firstResult = service.search('foo');
+  const secondResult = service.search('foo');
   // ✅ 测可观察行为
-  expect(secondResult).toBe(firstResult);  // 引用相等 = 缓存命中
+  expect(secondResult).toBe(firstResult); // 引用相等 = 缓存命中
 });
 ```
 
@@ -37,14 +37,14 @@ test("should return cached results on second call", () => {
 **症状**：
 
 ```typescript
-test("should call dependencies", () => {
+test('should call dependencies', () => {
   const mockDb = jest.mock();
   const mockCache = jest.mock();
   const mockLogger = jest.mock();
   const mockMetrics = jest.mock();
   // ❌ mock 所有依赖
   const service = new SearchService(mockDb, mockCache, mockLogger, mockMetrics);
-  service.search("foo");
+  service.search('foo');
   expect(mockDb.query).toHaveBeenCalled();
 });
 ```
@@ -54,11 +54,11 @@ test("should call dependencies", () => {
 **修复**：仅 mock 边界（外部依赖）
 
 ```typescript
-test("should return empty when no matches", () => {
+test('should return empty when no matches', () => {
   // ✅ 仅 mock 必要的外部依赖
   const mockIndex = { query: () => [] };
   const service = new SearchService(mockIndex);
-  expect(service.search("foo")).toEqual([]);
+  expect(service.search('foo')).toEqual([]);
 });
 ```
 
@@ -67,11 +67,11 @@ test("should return empty when no matches", () => {
 **症状**：
 
 ```typescript
-test("should call query then sort then format", () => {
-  const spy1 = jest.spyOn(service, "query");
-  const spy2 = jest.spyOn(service, "sort");
-  const spy3 = jest.spyOn(service, "format");
-  service.search("foo");
+test('should call query then sort then format', () => {
+  const spy1 = jest.spyOn(service, 'query');
+  const spy2 = jest.spyOn(service, 'sort');
+  const spy3 = jest.spyOn(service, 'format');
+  service.search('foo');
   // ❌ 测调用顺序
   expect(spy1).toHaveBeenCalledBefore(spy2);
   expect(spy2).toHaveBeenCalledBefore(spy3);
@@ -83,8 +83,8 @@ test("should call query then sort then format", () => {
 **修复**：测结果
 
 ```typescript
-test("should return results sorted by score", () => {
-  const results = service.search("foo");
+test('should return results sorted by score', () => {
+  const results = service.search('foo');
   // ✅ 测可观察结果
   expect(results[0].score).toBeGreaterThanOrEqual(results[1].score);
 });
@@ -95,10 +95,10 @@ test("should return results sorted by score", () => {
 **症状**：
 
 ```typescript
-test("should save to database", () => {
+test('should save to database', () => {
   // ❌ 用真实数据库
   const service = new SearchService(realDatabaseConnection);
-  service.search("foo");
+  service.search('foo');
 });
 ```
 
@@ -108,18 +108,18 @@ test("should save to database", () => {
 
 ```typescript
 // 方案 A: 真实 DB 但用 testcontainers
-test("should save to database", async () => {
+test('should save to database', async () => {
   const db = await new TestDB().start();
   const service = new SearchService(db);
-  service.search("foo");
+  service.search('foo');
   await teardown(db);
 });
 
 // 方案 B: 完全 mock 边界
-test("should save to database", () => {
+test('should save to database', () => {
   const mockDb = { save: jest.fn() };
   const service = new SearchService(mockDb);
-  service.search("foo");
+  service.search('foo');
   expect(mockDb.save).toHaveBeenCalled();
 });
 ```
@@ -140,11 +140,11 @@ test("should save to database", () => {
 let sharedService: SearchService;
 
 beforeAll(() => {
-  sharedService = new SearchService();  // ❌ 共享
+  sharedService = new SearchService(); // ❌ 共享
 });
 
-test("test A", () => {
-  sharedService.search("foo");  // 影响 test B
+test('test A', () => {
+  sharedService.search('foo'); // 影响 test B
 });
 ```
 
@@ -152,7 +152,7 @@ test("test A", () => {
 
 ```typescript
 beforeEach(() => {
-  const service = new SearchService();  // ✅ 每个 test 独立
+  const service = new SearchService(); // ✅ 每个 test 独立
 });
 ```
 
@@ -168,13 +168,13 @@ beforeEach(() => {
 
 ```typescript
 expect(result).toEqual({
-  id: "ticket-123",
-  title: "Test",
-  content: "...",
-  tags: ["a", "b", "c"],
-  customerName: "Alice",
-  createdAt: new Date("2024-01-01"),
-  updatedAt: new Date("2024-01-01"),
+  id: 'ticket-123',
+  title: 'Test',
+  content: '...',
+  tags: ['a', 'b', 'c'],
+  customerName: 'Alice',
+  createdAt: new Date('2024-01-01'),
+  updatedAt: new Date('2024-01-01'),
   // ... 20 个字段
 });
 ```
@@ -184,8 +184,8 @@ expect(result).toEqual({
 **修复**：断言关键字段
 
 ```typescript
-expect(result.id).toBe("ticket-123");
-expect(result.title).toBe("Test");
+expect(result.id).toBe('ticket-123');
+expect(result.title).toBe('Test');
 // 仅断言验证行为所必需的字段
 ```
 
@@ -194,9 +194,9 @@ expect(result.title).toBe("Test");
 **症状**：
 
 ```typescript
-test("async operation", async () => {
+test('async operation', async () => {
   service.startAsync();
-  await new Promise(r => setTimeout(r, 100));  // ❌ 魔法等待时间
+  await new Promise((r) => setTimeout(r, 100)); // ❌ 魔法等待时间
   expect(service.isDone()).toBe(true);
 });
 ```
@@ -204,26 +204,26 @@ test("async operation", async () => {
 **修复**：等待真实信号
 
 ```typescript
-test("async operation", async () => {
+test('async operation', async () => {
   const promise = service.startAsync();
-  await promise;  // ✅ 等待 promise 解析
+  await promise; // ✅ 等待 promise 解析
   expect(service.isDone()).toBe(true);
 });
 ```
 
 ## 反模式速查表 (Quick Reference)
 
-| 反模式 | 一句话识别 | 修复 |
-|---|---|---|
-| 私有状态测试 | 读 `.privateField` | 测行为 |
-| 过度 mock | mock 5+ 依赖 | 仅 mock 边界 |
-| 不测实现 | `toHaveBeenCalledBefore` | 测结果 |
-| 测试替身 | 用真实 DB / API | testcontainers 或 mock |
-| 跳过遗留 | `test.skip` | 删除或修复 |
-| 共享状态 | `beforeAll` 创建 | `beforeEach` 独立 |
-| 不清理 | 无 `afterEach` | 显式清理 |
-| 过度具体 | 断言 20 字段 | 断言关键字段 |
-| 魔法等待 | `setTimeout(100)` | 等待真实信号 |
+| 反模式       | 一句话识别               | 修复                   |
+| ------------ | ------------------------ | ---------------------- |
+| 私有状态测试 | 读 `.privateField`       | 测行为                 |
+| 过度 mock    | mock 5+ 依赖             | 仅 mock 边界           |
+| 不测实现     | `toHaveBeenCalledBefore` | 测结果                 |
+| 测试替身     | 用真实 DB / API          | testcontainers 或 mock |
+| 跳过遗留     | `test.skip`              | 删除或修复             |
+| 共享状态     | `beforeAll` 创建         | `beforeEach` 独立      |
+| 不清理       | 无 `afterEach`           | 显式清理               |
+| 过度具体     | 断言 20 字段             | 断言关键字段           |
+| 魔法等待     | `setTimeout(100)`        | 等待真实信号           |
 
 ---
 

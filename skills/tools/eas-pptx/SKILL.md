@@ -13,10 +13,10 @@ metadata:
     - macos
     - linux
   dependencies:
-    - markitdown[pptx] (pip)    # READ + Content QA
-    - pillow (pip)              # 缩略图
-    - pptxgenjs (npm)           # CREATE
-    - lxml (pip)                # XML 编辑
+    - markitdown[pptx] (pip) # READ + Content QA
+    - pillow (pip) # 缩略图
+    - pptxgenjs (npm) # CREATE
+    - lxml (pip) # XML 编辑
   sources:
     - https://gitbrent.github.io/PptxGenJS/
     - https://github.com/microsoft/markitdown
@@ -53,31 +53,31 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项目 | 取值 / 说明 |
-| --- | --- |
-| 模式组合 | Tool Wrapper + Pipeline + Generator + Reviewer |
-| 三大任务路由 | CREATE / EDIT / READ |
-| 默认布局 | `LAYOUT_16x9`（10" × 5.625"） |
-| 颜色格式 | 6 字符 hex（**无 `#` 前缀**，例如 `"FF0000"`） |
-| 字体 | 中文 Microsoft YaHei / 英文 Arial 或授权替代 |
-| 页码徽章位置 | x: 9.3", y: 5.1" |
-| Theme 契约 keys | `primary` / `secondary` / `accent` / `light` / `bg`（**禁止其他命名**） |
-| 5 页面类型 | Cover / TOC / Section Divider / Content / Summary |
-| 4 风格配方 | Sharp / Soft / Rounded / Pill（仅 `rectRadius` 与 spacing 不同） |
-| 核心脚本 | `scripts/validate_layout.py`（Layout QA）/ `scripts/fix_pptx.py`（修复）/ `scripts/unpack.py` + `scripts/pack.py`（XML 编辑）/ `scripts/clean.py` / `scripts/add_slide.py` / `scripts/thumbnail.py` |
-| 设计搜索 | `scripts/design/search.py "<topic> <industry>" --design-system` |
-| 数据 CSV 资产 | `references/design-data/colors.csv` / `styles.csv` / `icons.csv` / `charts.csv` 等 |
-| 脚本调用约定 | `python3 <skillPath>/scripts/xxx.py ...` / `python3 -m markitdown ...` |
+| 项目            | 取值 / 说明                                                                                                                                                                                         |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 模式组合        | Tool Wrapper + Pipeline + Generator + Reviewer                                                                                                                                                      |
+| 三大任务路由    | CREATE / EDIT / READ                                                                                                                                                                                |
+| 默认布局        | `LAYOUT_16x9`（10" × 5.625"）                                                                                                                                                                       |
+| 颜色格式        | 6 字符 hex（**无 `#` 前缀**，例如 `"FF0000"`）                                                                                                                                                      |
+| 字体            | 中文 Microsoft YaHei / 英文 Arial 或授权替代                                                                                                                                                        |
+| 页码徽章位置    | x: 9.3", y: 5.1"                                                                                                                                                                                    |
+| Theme 契约 keys | `primary` / `secondary` / `accent` / `light` / `bg`（**禁止其他命名**）                                                                                                                             |
+| 5 页面类型      | Cover / TOC / Section Divider / Content / Summary                                                                                                                                                   |
+| 4 风格配方      | Sharp / Soft / Rounded / Pill（仅 `rectRadius` 与 spacing 不同）                                                                                                                                    |
+| 核心脚本        | `scripts/validate_layout.py`（Layout QA）/ `scripts/fix_pptx.py`（修复）/ `scripts/unpack.py` + `scripts/pack.py`（XML 编辑）/ `scripts/clean.py` / `scripts/add_slide.py` / `scripts/thumbnail.py` |
+| 设计搜索        | `scripts/design/search.py "<topic> <industry>" --design-system`                                                                                                                                     |
+| 数据 CSV 资产   | `references/design-data/colors.csv` / `styles.csv` / `icons.csv` / `charts.csv` 等                                                                                                                  |
+| 脚本调用约定    | `python3 <skillPath>/scripts/xxx.py ...` / `python3 -m markitdown ...`                                                                                                                              |
 
 ## 任务路由 (Task Routing)
 
 > **直接执行模式**：按路由表选定路径后，由主 Agent 自己走完；任何 CREATE / EDIT 完成后 MUST 跑 [VALIDATE 子路径](#validate-子路径--createedit-必跑)。
 
-| 任务 | 路径 | 必读参考 | 脚本调用链 |
-| --- | --- | --- | --- |
-| **READ** —— 分析既有内容 | READ | — | `python -m markitdown file.pptx` |
-| **CREATE** —— 从零生成 | CREATE | [slide-types.md](references/slide-types.md) + [design-system.md](references/design-system.md) + [pptxgenjs.md](references/pptxgenjs.md) | PptxGenJS 脚本 → `fix_pptx.py` → `validate_layout.py` → `markitdown` |
-| **EDIT** —— 修改既有模板 | EDIT | [editing.md](references/editing.md) | `unpack.py` → 改 XML / `add_slide.py` → `clean.py` → `pack.py` → `validate_layout.py` |
+| 任务                     | 路径   | 必读参考                                                                                                                                | 脚本调用链                                                                            |
+| ------------------------ | ------ | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| **READ** —— 分析既有内容 | READ   | —                                                                                                                                       | `python -m markitdown file.pptx`                                                      |
+| **CREATE** —— 从零生成   | CREATE | [slide-types.md](references/slide-types.md) + [design-system.md](references/design-system.md) + [pptxgenjs.md](references/pptxgenjs.md) | PptxGenJS 脚本 → `fix_pptx.py` → `validate_layout.py` → `markitdown`                  |
+| **EDIT** —— 修改既有模板 | EDIT   | [editing.md](references/editing.md)                                                                                                     | `unpack.py` → 改 XML / `add_slide.py` → `clean.py` → `pack.py` → `validate_layout.py` |
 
 **CREATE vs EDIT 决策口诀**：用户给了 .pptx 模板吗？给了 → EDIT；没给 → CREATE。
 
@@ -145,16 +145,18 @@ python3 <skillPath>/scripts/unpack.py presentation.pptx unpacked/
 
 ```markdown
 ## 演示计划
+
 **主题**：Ocean Gradient 配色（065A82 / 1C7293 / 21295C）
 **字体**：Georgia（标题）+ Calibri（正文）
 **母题**：圆角卡片 + 左侧强调条
 
 ### 幻灯片：
+
 1. Cover —— 居中标题，渐变背景
 2. TOC —— Overview / Architecture / Metrics / Timeline
 3. [TOC 章节 1] —— 布局 / 元素 / 洞见（如有视觉）
-...
-n. Thank You —— 收尾语 + 联系方式
+   ...
+   n. Thank You —— 收尾语 + 联系方式
 ```
 
 #### B-3.2 预生成外部资产
@@ -271,26 +273,26 @@ done
 
 ```javascript
 pres.layout = 'LAYOUT_16x9';
-const SLIDE_W = 10;        // 英寸
-const SLIDE_H = 5.625;     // 英寸
+const SLIDE_W = 10; // 英寸
+const SLIDE_H = 5.625; // 英寸
 
 const MARGIN = 0.5;
 const CONTENT_X = MARGIN;
 const CONTENT_Y = MARGIN;
-const CONTENT_W = SLIDE_W - (2 * MARGIN);  // 9
-const CONTENT_H = SLIDE_H - (2 * MARGIN);  // 4.625
+const CONTENT_W = SLIDE_W - 2 * MARGIN; // 9
+const CONTENT_H = SLIDE_H - 2 * MARGIN; // 4.625
 
-const CENTER_X = SLIDE_W / 2;               // 5
-const CENTER_Y = SLIDE_H / 2;               // 2.8125
+const CENTER_X = SLIDE_W / 2; // 5
+const CENTER_Y = SLIDE_H / 2; // 2.8125
 ```
 
 **可用布局与尺寸**：
 
-| Layout | 宽 × 高 | 内容区（含 0.5" 边距） |
-| --- | --- | --- |
-| `LAYOUT_16x9` | 10" × 5.625" | 9" × 4.625" |
-| `LAYOUT_16x10` | 10" × 6.25" | 9" × 5.25" |
-| `LAYOUT_4x3` | 10" × 7.5" | 9" × 6.5" |
+| Layout         | 宽 × 高      | 内容区（含 0.5" 边距） |
+| -------------- | ------------ | ---------------------- |
+| `LAYOUT_16x9`  | 10" × 5.625" | 9" × 4.625"            |
+| `LAYOUT_16x10` | 10" × 6.25"  | 9" × 5.25"             |
+| `LAYOUT_4x3`   | 10" × 7.5"   | 9" × 6.5"              |
 
 **[MUST]** 所有定位用尺寸常量，**禁止**硬编码坐标。
 
@@ -308,10 +310,14 @@ const CENTER_Y = SLIDE_H / 2;               // 2.8125
 
 ```javascript
 let card = slide.addShape(pres.shapes.RECTANGLE, {
-  x: 1, y: 2, w: 4, h: 2.5, fill: { color: "FFFFFF" }
+  x: 1,
+  y: 2,
+  w: 4,
+  h: 2.5,
+  fill: { color: 'FFFFFF' },
 });
-card.addText("Title", { x: 0.2, y: 0.2, w: 3.6, h: 0.4, fontSize: 18 });
-card.addText("Description", { x: 0.2, y: 0.7, w: 3.6, h: 1.5, fontSize: 12 });
+card.addText('Title', { x: 0.2, y: 0.2, w: 3.6, h: 0.4, fontSize: 18 });
+card.addText('Description', { x: 0.2, y: 0.7, w: 3.6, h: 1.5, fontSize: 12 });
 
 // ⚠️ 必调：slide.render()
 slide.render();
@@ -323,13 +329,13 @@ slide.render();
 
 `compile.js` 传给每页的 theme 对象 keys 必须为以下 5 个：
 
-| Key | 用途 | 示例 |
-| --- | --- | --- |
-| `theme.primary` | 最深色，标题 | `"22223b"` |
+| Key               | 用途         | 示例       |
+| ----------------- | ------------ | ---------- |
+| `theme.primary`   | 最深色，标题 | `"22223b"` |
 | `theme.secondary` | 深强调，正文 | `"4a4e69"` |
-| `theme.accent` | 中等强调 | `"9a8c98"` |
-| `theme.light` | 浅强调 | `"c9ada7"` |
-| `theme.bg` | 背景色 | `"f2e9e4"` |
+| `theme.accent`    | 中等强调     | `"9a8c98"` |
+| `theme.light`     | 浅强调       | `"c9ada7"` |
+| `theme.bg`        | 背景色       | `"f2e9e4"` |
 
 **[MUST] 禁止**使用 `background` / `text` / `muted` / `darkest` / `lightest` 等其他命名。
 
@@ -345,17 +351,43 @@ slide.render();
 
 ```javascript
 slide.addShape(pres.shapes.OVAL, { x: 9.3, y: 5.1, w: 0.4, h: 0.4, fill: { color: theme.accent } });
-slide.addText("3", { x: 9.3, y: 5.1, w: 0.4, h: 0.4, fontSize: 12, fontFace: "Arial",
-  color: "FFFFFF", bold: true, align: "center", valign: "middle" });
+slide.addText('3', {
+  x: 9.3,
+  y: 5.1,
+  w: 0.4,
+  h: 0.4,
+  fontSize: 12,
+  fontFace: 'Arial',
+  color: 'FFFFFF',
+  bold: true,
+  align: 'center',
+  valign: 'middle',
+});
 ```
 
 **药丸徽章**：
 
 ```javascript
-slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 9.1, y: 5.15, w: 0.6, h: 0.35,
-  fill: { color: theme.accent }, rectRadius: 0.15 });
-slide.addText("03", { x: 9.1, y: 5.15, w: 0.6, h: 0.35, fontSize: 11, fontFace: "Arial",
-  color: "FFFFFF", bold: true, align: "center", valign: "middle" });
+slide.addShape(pres.shapes.ROUNDED_RECTANGLE, {
+  x: 9.1,
+  y: 5.15,
+  w: 0.6,
+  h: 0.35,
+  fill: { color: theme.accent },
+  rectRadius: 0.15,
+});
+slide.addText('03', {
+  x: 9.1,
+  y: 5.15,
+  w: 0.6,
+  h: 0.35,
+  fontSize: 11,
+  fontFace: 'Arial',
+  color: 'FFFFFF',
+  bold: true,
+  align: 'center',
+  valign: 'middle',
+});
 ```
 
 ## 路径 C：EDIT —— 修改既有模板 (Edit Existing)
@@ -466,12 +498,12 @@ grep 有结果 → 修干净再宣布成功。
 
 仅调整 `rectRadius` 与 spacing 即可在同一设计上呈现 4 种风格：
 
-| 风格 | rectRadius | 间距 | 最佳用途 |
-| --- | --- | --- | --- |
-| **Sharp & Compact** | 0 ~ 0.05" | 紧凑 | 数据密集 / 表格 / 专业报告 |
-| **Soft & Balanced** | 0.08 ~ 0.12" | 适中 | 企业 / 商务 / 通用 |
-| **Rounded & Spacious** | 0.15 ~ 0.25" | 放松 | 产品介绍 / 营销 / 创意展示 |
-| **Pill & Airy** | 0.3 ~ 0.5" | 开放 | 品牌展示 / 发布会 / 高端演示 |
+| 风格                   | rectRadius   | 间距 | 最佳用途                     |
+| ---------------------- | ------------ | ---- | ---------------------------- |
+| **Sharp & Compact**    | 0 ~ 0.05"    | 紧凑 | 数据密集 / 表格 / 专业报告   |
+| **Soft & Balanced**    | 0.08 ~ 0.12" | 适中 | 企业 / 商务 / 通用           |
+| **Rounded & Spacious** | 0.15 ~ 0.25" | 放松 | 产品介绍 / 营销 / 创意展示   |
+| **Pill & Airy**        | 0.3 ~ 0.5"   | 开放 | 品牌展示 / 发布会 / 高端演示 |
 
 **混合规则**：
 
@@ -481,14 +513,14 @@ grep 有结果 → 修干净再宣布成功。
 
 **速选指引**：
 
-| 演示类型 | 推荐风格 | 原因 |
-| --- | --- | --- |
-| 财务 / 数据报告 | Sharp & Compact | 高密度 + 严谨精确 |
-| 企业 / 商务 | Soft & Balanced | 专业 + 平易近人 |
-| 产品介绍 / 营销 | Rounded & Spacious | 现代 + 友好 |
-| 发布会 / 品牌 | Pill & Airy | 高端 + 视觉冲击 |
-| 培训 / 教育 | Soft / Rounded | 清晰 + 易读 + 友好 |
-| 技术分享 | Sharp / Soft | 专业 + 信息密集 |
+| 演示类型        | 推荐风格           | 原因               |
+| --------------- | ------------------ | ------------------ |
+| 财务 / 数据报告 | Sharp & Compact    | 高密度 + 严谨精确  |
+| 企业 / 商务     | Soft & Balanced    | 专业 + 平易近人    |
+| 产品介绍 / 营销 | Rounded & Spacious | 现代 + 友好        |
+| 发布会 / 品牌   | Pill & Airy        | 高端 + 视觉冲击    |
+| 培训 / 教育     | Soft / Rounded     | 清晰 + 易读 + 友好 |
+| 技术分享        | Sharp / Soft       | 专业 + 信息密集    |
 
 ### 排版 (Typography)
 
@@ -496,36 +528,36 @@ grep 有结果 → 修干净再宣布成功。
 
 **字体配对**：serif 标题 + sans-serif 正文。
 
-| Header (serif) | Body |
-| --- | --- |
-| Georgia | Calibri |
-| Cambria | Calibri |
-| Cambria | Calibri Light |
-| Palatino Linotype | Calibri |
-| Palatino | Garamond |
-| Garamond | Calibri Light |
-| Times New Roman | Arial |
+| Header (serif)    | Body          |
+| ----------------- | ------------- |
+| Georgia           | Calibri       |
+| Cambria           | Calibri       |
+| Cambria           | Calibri Light |
+| Palatino Linotype | Calibri       |
+| Palatino          | Garamond      |
+| Garamond          | Calibri Light |
+| Times New Roman   | Arial         |
 
 **字号表**：
 
-| 元素 | 字号 |
-| --- | --- |
-| 封面标题 | 36-44pt 粗体 serif |
+| 元素       | 字号               |
+| ---------- | ------------------ |
+| 封面标题   | 36-44pt 粗体 serif |
 | 幻灯片标题 | 28-36pt 粗体 serif |
-| 副标题 | 18-24pt serif |
-| 节标题 | 20-24pt 粗体 |
-| 正文 | 14-16pt |
-| 注释 | 10-12pt muted |
+| 副标题     | 18-24pt serif      |
+| 节标题     | 20-24pt 粗体       |
+| 正文       | 14-16pt            |
+| 注释       | 10-12pt muted      |
 
 **衬线 charSpacing 规则**：
 
-| 字号 | charSpacing |
-| --- | --- |
-| ≥ 36pt | 2.5 |
-| 24-35pt | 1.5 |
-| 18-23pt | 1 |
-| 12-17pt | 0.5 |
-| < 12pt | 0（默认） |
+| 字号    | charSpacing |
+| ------- | ----------- |
+| ≥ 36pt  | 2.5         |
+| 24-35pt | 1.5         |
+| 18-23pt | 1           |
+| 12-17pt | 0.5         |
+| < 12pt  | 0（默认）   |
 
 ### 5 种页面类型 (Slide Page Types)
 
@@ -618,16 +650,16 @@ npm install pptxgenjs              # 从零生成（项目依赖）
 
 > **按需加载**：不要一次性全读，按当前任务挑最相关的文件。
 
-| 文件 | 何时读 |
-| --- | --- |
-| [slide-types.md](references/slide-types.md) | 5 页面类型的版式 / 字号 / 工作流 |
+| 文件                                            | 何时读                                                      |
+| ----------------------------------------------- | ----------------------------------------------------------- |
+| [slide-types.md](references/slide-types.md)     | 5 页面类型的版式 / 字号 / 工作流                            |
 | [design-system.md](references/design-system.md) | 18 配色 / 4 风格 / 字体配对 / 字号 / 间距 / matplotlib 模板 |
-| [pptxgenjs.md](references/pptxgenjs.md) | PptxGenJS 完整 API + 容器系统 + 布局安全 + 字号表 |
-| [editing.md](references/editing.md) | 模板编辑工作流 / 结构 / 内容 / 格式规则 / 常见坑 |
-| [colors.csv](references/design-data/colors.csv) | 按域查配色 |
-| [styles.csv](references/design-data/styles.csv) | 按域查样式 |
-| [charts.csv](references/design-data/charts.csv) | 按域查图表 |
-| [icons.csv](references/design-data/icons.csv) | 按域查图标 |
-| [stacks/](references/design-data/stacks/) | 各类技术栈的设计基线 |
+| [pptxgenjs.md](references/pptxgenjs.md)         | PptxGenJS 完整 API + 容器系统 + 布局安全 + 字号表           |
+| [editing.md](references/editing.md)             | 模板编辑工作流 / 结构 / 内容 / 格式规则 / 常见坑            |
+| [colors.csv](references/design-data/colors.csv) | 按域查配色                                                  |
+| [styles.csv](references/design-data/styles.csv) | 按域查样式                                                  |
+| [charts.csv](references/design-data/charts.csv) | 按域查图表                                                  |
+| [icons.csv](references/design-data/icons.csv)   | 按域查图标                                                  |
+| [stacks/](references/design-data/stacks/)       | 各类技术栈的设计基线                                        |
 
 > **设计选择归档**：本技能的设计取舍（PptxGenJS 为主、Theme 5 keys、三维组合设计资产、Layout QA + Content QA 双层 Reviewer、模式组合等）已迁出至 [docs/decisions/0008-decision-sediment-tools-office.md § 3](file:///e:/work/apps/eas/agent-skills/docs/decisions/0008-decision-sediment-tools-office.md)，不在 SKILL.md 末尾重复。

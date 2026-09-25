@@ -38,6 +38,7 @@
 ## 消息键命名规范 (Message Key Naming Standards)
 
 ### 命名格式
+
 使用 `模块.动作.结果` 格式：
 
 ```
@@ -46,16 +47,16 @@
 
 ### 示例
 
-| 消息键 | 中文 | 英文 |
-|--------|------|------|
-| `agent.init.success` | Agent 初始化成功 | Agent initialized successfully |
-| `agent.init.error` | Agent 初始化失败 | Agent initialization failed |
-| `skill.load.success` | Skill 加载成功 | Skill loaded successfully |
-| `skill.load.error` | Skill 加载失败：{error} | Failed to load skill: {error} |
-| `session.create.complete` | 会话创建完成 | Session created successfully |
-| `session.create.error` | 会话创建失败 | Failed to create session |
-| `tool.execute.success` | 工具执行成功 | Tool executed successfully |
-| `tool.execute.error` | 工具执行失败：{error} | Tool execution failed: {error} |
+| 消息键                    | 中文                    | 英文                           |
+| ------------------------- | ----------------------- | ------------------------------ |
+| `agent.init.success`      | Agent 初始化成功        | Agent initialized successfully |
+| `agent.init.error`        | Agent 初始化失败        | Agent initialization failed    |
+| `skill.load.success`      | Skill 加载成功          | Skill loaded successfully      |
+| `skill.load.error`        | Skill 加载失败：{error} | Failed to load skill: {error}  |
+| `session.create.complete` | 会话创建完成            | Session created successfully   |
+| `session.create.error`    | 会话创建失败            | Failed to create session       |
+| `tool.execute.success`    | 工具执行成功            | Tool executed successfully     |
+| `tool.execute.error`      | 工具执行失败：{error}   | Tool execution failed: {error} |
 
 ### 命名规则
 
@@ -68,6 +69,7 @@
 每个子项目在 `locales/zh-CN.ts` 与 `locales/en-US.ts` 中分别导出 `TranslationResources`，键名一致，模板变量使用 `{{var}}`。
 
 ### zh-CN.ts 示例
+
 ```typescript
 import type { TranslationResources } from '../config';
 
@@ -83,6 +85,7 @@ export default zhCNTranslations;
 ```
 
 ### en-US.ts 示例
+
 ```typescript
 import type { TranslationResources } from '../config';
 
@@ -98,16 +101,18 @@ export default enUSTranslations;
 ```
 
 ### 带参数的消息（双语言同 key）
+
 同一 key 在 zh-CN 与 en-US 中均需定义，变量用 `{{name}}`：
 
-| key | zh-CN | en-US |
-|-----|--------|--------|
-| `agent.create.success` | Agent {{agentId}} 创建成功 | Agent {{agentId}} created successfully |
+| key                       | zh-CN                                          | en-US                                                 |
+| ------------------------- | ---------------------------------------------- | ----------------------------------------------------- |
+| `agent.create.success`    | Agent {{agentId}} 创建成功                     | Agent {{agentId}} created successfully                |
 | `session.update.complete` | 会话 {{sessionId}} 已更新，共 {{count}} 条消息 | Session {{sessionId}} updated with {{count}} messages |
 
 ## 使用示例 (Usage Examples)
 
 ### 基础使用
+
 ```typescript
 import { Log } from '@/util/log';
 import { t } from '@/i18n';
@@ -121,22 +126,27 @@ console.log('Agent 初始化成功');
 ```
 
 ### 带参数的消息
+
 ```typescript
 import { Log } from '@/util/log';
 import { t } from '@/i18n';
 
 // ✅ 正确：使用参数化消息
 const log = Log.create({ service: 'agent' });
-log.error(t('agent.create.error', {
-  agentId: 'agent-123',
-  error: error.message
-}), { error });
+log.error(
+  t('agent.create.error', {
+    agentId: 'agent-123',
+    error: error.message,
+  }),
+  { error },
+);
 
 // ❌ 错误：字符串拼接
 console.log(`Agent ${agentId} 创建失败：${error.message}`);
 ```
 
 ### 结构化日志
+
 ```typescript
 import { Log } from '@/util/log';
 import { t } from '@/i18n';
@@ -168,16 +178,18 @@ log.info(t('session.create.complete'), {
 ## 日志级别 (Log Levels)
 
 ### 级别定义
+
 ```typescript
 enum LogLevel {
-  DEBUG = 'debug',    // 详细调试信息，仅在开发环境启用
-  INFO = 'info',      // 重要的程序状态变化
-  WARN = 'warn',      // 潜在问题，不影响程序执行
-  ERROR = 'error',    // 错误事件，会影响程序功能
+  DEBUG = 'debug', // 详细调试信息，仅在开发环境启用
+  INFO = 'info', // 重要的程序状态变化
+  WARN = 'warn', // 潜在问题，不影响程序执行
+  ERROR = 'error', // 错误事件，会影响程序功能
 }
 ```
 
 ### 使用示例
+
 ```typescript
 import { Log } from '@/util/log';
 import { t } from '@/i18n';
@@ -200,15 +212,20 @@ log.warn(t('skill.deprecated.warning'), {
 });
 
 // Error：错误事件
-log.error(t('agent.execute.error'), {
-  agentId: 'agent-123',
-  error: error.message,
-}, { error });
+log.error(
+  t('agent.execute.error'),
+  {
+    agentId: 'agent-123',
+    error: error.message,
+  },
+  { error },
+);
 ```
 
 ## 常见模式 (Common Patterns)
 
 ### 操作开始/完成
+
 ```typescript
 // 操作开始
 const log = Log.create({ service: 'agent' });
@@ -219,21 +236,27 @@ log.info(t('agent.start.complete'), { agentId, duration: elapsedTime });
 ```
 
 ### 错误处理
+
 ```typescript
 try {
   await agent.execute(task);
   const log = Log.create({ service: 'agent' });
   log.info(t('agent.execute.success'), { agentId, taskId });
 } catch (error) {
-  log.error(t('agent.execute.error'), {
-    agentId,
-    taskId,
-    error: error.message,
-  }, { error });
+  log.error(
+    t('agent.execute.error'),
+    {
+      agentId,
+      taskId,
+      error: error.message,
+    },
+    { error },
+  );
 }
 ```
 
 ### 资源加载
+
 ```typescript
 const log = Log.create({ service: 'skill' });
 log.info(t('skill.load.begin'), { skillName });
@@ -242,10 +265,14 @@ try {
   log.info(t('skill.load.success'), { skillName });
   return skill;
 } catch (error) {
-  log.error(t('skill.load.error'), {
-    skillName,
-    error: error.message,
-  }, { error });
+  log.error(
+    t('skill.load.error'),
+    {
+      skillName,
+      error: error.message,
+    },
+    { error },
+  );
   throw error;
 }
 ```
@@ -270,6 +297,7 @@ try {
 ## 迁移指南 (Migration Guide)
 
 ### 从 console.log 迁移
+
 ```typescript
 // ❌ 旧代码
 console.log('Agent 初始化成功');
@@ -279,13 +307,18 @@ console.error(`Agent ${agentId} 初始化失败：${error.message}`);
 import { Log } from '@/util/log';
 const log = Log.create({ service: 'agent' });
 log.info(t('agent.init.success'), { agentId });
-log.error(t('agent.init.error'), {
-  agentId,
-  error: error.message,
-}, { error });
+log.error(
+  t('agent.init.error'),
+  {
+    agentId,
+    error: error.message,
+  },
+  { error },
+);
 ```
 
 ### 从字符串拼接迁移
+
 ```typescript
 // ❌ 旧代码
 const message = `会话 ${sessionId} 已更新，共 ${count} 条消息`;

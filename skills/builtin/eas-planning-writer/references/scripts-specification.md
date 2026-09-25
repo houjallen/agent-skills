@@ -1,6 +1,6 @@
 ---
 name: scripts-specification
-description: "eas-planning-writer 辅助脚本规范 — init-planning-session.ts 与 check-complete.ts 的 CLI 参数、退出码、调用约定、设计原则。"
+description: 'eas-planning-writer 辅助脚本规范 — init-planning-session.ts 与 check-complete.ts 的 CLI 参数、退出码、调用约定、设计原则。'
 category: reference
 ---
 
@@ -52,10 +52,10 @@ category: reference
 
 ### 默认输出路径
 
-| 脚本 | 默认值 |
-|------|--------|
+| 脚本                       | 默认值                                         |
+| -------------------------- | ---------------------------------------------- |
 | `init-planning-session.ts` | `.easbot/knowledge/tasks/`（相对当前工作目录） |
-| `check-complete.ts` | `<cwd>/task_plan.md`（当前工作目录） |
+| `check-complete.ts`        | `<cwd>/task_plan.md`（当前工作目录）           |
 
 实际推荐落地路径是 `<cwd>/.easbot/knowledge/tasks/<task-name>/`。
 
@@ -71,10 +71,10 @@ category: reference
 npx tsx scripts/init-planning-session.ts [选项]
 ```
 
-| 参数 | 简写 | 说明 | 默认值 |
-|------|------|------|--------|
+| 参数             | 简写       | 说明                           | 默认值                    |
+| ---------------- | ---------- | ------------------------------ | ------------------------- |
 | `--output <dir>` | `-o <dir>` | 规划文件的输出目录（相对路径） | `.easbot/knowledge/tasks` |
-| `--help` | `-h` | 显示帮助信息 | — |
+| `--help`         | `-h`       | 显示帮助信息                   | —                         |
 
 ### 调用示例
 
@@ -108,10 +108,10 @@ npx tsx scripts/init-planning-session.ts
 
 ### 退出码 (Exit Codes)
 
-| Code | 含义 |
-|------|------|
-| `0` | 成功（含部分文件已存在跳过的情况） |
-| `1` | 参数错误 / 输出目录非法 / 模板缺失 / 写入失败 |
+| Code | 含义                                          |
+| ---- | --------------------------------------------- |
+| `0`  | 成功（含部分文件已存在跳过的情况）            |
+| `1`  | 参数错误 / 输出目录非法 / 模板缺失 / 写入失败 |
 
 ### 校验规则
 
@@ -133,13 +133,13 @@ import {
 } from './init-planning-session.js';
 ```
 
-| 导出 | 说明 |
-|------|------|
-| `createPlanningFiles(outputDir)` | 执行完整落地流程 |
-| `readTemplate(name)` | 读取模板内容，缺失时抛错 |
-| `PLANNING_FILES` | `['task_plan.md', 'findings.md', 'progress.md']`（常量元组） |
-| `parseArgs(argv)` | 解析 CLI 参数，返回输出目录 |
-| `validateOutputDir(dir)` | 校验目录合法性 |
+| 导出                             | 说明                                                         |
+| -------------------------------- | ------------------------------------------------------------ |
+| `createPlanningFiles(outputDir)` | 执行完整落地流程                                             |
+| `readTemplate(name)`             | 读取模板内容，缺失时抛错                                     |
+| `PLANNING_FILES`                 | `['task_plan.md', 'findings.md', 'progress.md']`（常量元组） |
+| `parseArgs(argv)`                | 解析 CLI 参数，返回输出目录                                  |
+| `validateOutputDir(dir)`         | 校验目录合法性                                               |
 
 ---
 
@@ -153,8 +153,8 @@ import {
 npx tsx scripts/check-complete.ts [<plan-file>]
 ```
 
-| 参数 | 说明 | 默认值 |
-|------|------|--------|
+| 参数          | 说明                         | 默认值               |
+| ------------- | ---------------------------- | -------------------- |
 | `<plan-file>` | 待检查的 `task_plan.md` 路径 | `<cwd>/task_plan.md` |
 
 ### 调用示例
@@ -204,9 +204,9 @@ npx tsx scripts/check-complete.ts \
 
 ### 退出码 (Exit Codes)
 
-| Code | 含义 |
-|------|------|
-| `0` | **始终为 0**——本脚本是"只读探针"，不阻塞调用方 |
+| Code | 含义                                           |
+| ---- | ---------------------------------------------- |
+| `0`  | **始终为 0**——本脚本是"只读探针"，不阻塞调用方 |
 
 ### 阶段识别规则
 
@@ -219,18 +219,14 @@ npx tsx scripts/check-complete.ts \
 ### 内部 API 导出
 
 ```ts
-import {
-  checkComplete,
-  PHASE_HEADING_REGEX,
-  STATUS_REGEX,
-} from './check-complete.js';
+import { checkComplete, PHASE_HEADING_REGEX, STATUS_REGEX } from './check-complete.js';
 ```
 
-| 导出 | 说明 |
-|------|------|
-| `checkComplete(planFile)` | 执行扫描并打印结果 |
-| `PHASE_HEADING_REGEX` | 阶段标题正则（可复用） |
-| `STATUS_REGEX` | 状态正则（可复用） |
+| 导出                      | 说明                   |
+| ------------------------- | ---------------------- |
+| `checkComplete(planFile)` | 执行扫描并打印结果     |
+| `PHASE_HEADING_REGEX`     | 阶段标题正则（可复用） |
+| `STATUS_REGEX`            | 状态正则（可复用）     |
 
 ---
 

@@ -54,14 +54,14 @@ apt install poppler-utils   # Debian/Ubuntu
 
 ## 依赖矩阵 (Dependency Matrix)
 
-| 路径 | Node + docx | Python + defusedxml | LibreOffice | pandoc | Poppler |
-| --- | --- | --- | --- | --- | --- |
-| **A：CREATE** | ✓ 必装 | ✓ 必装（sanitize.py） | — | — | — |
-| **B：EDIT** | — | ✓ 必装 | — | — | — |
-| **C：ACCEPT-CHANGES** | — | ✓ 必装 | ✓ 必装 | — | — |
-| 文本抽取 | — | ✓（用 unpack.py 替代） | — | 可选 | — |
-| 格式转换（.doc → .docx） | — | — | ✓ 必装 | — | — |
-| 预览截图（.docx → 图片） | — | — | ✓ 必装 | — | ✓ 必装 |
+| 路径                     | Node + docx | Python + defusedxml    | LibreOffice | pandoc | Poppler |
+| ------------------------ | ----------- | ---------------------- | ----------- | ------ | ------- |
+| **A：CREATE**            | ✓ 必装      | ✓ 必装（sanitize.py）  | —           | —      | —       |
+| **B：EDIT**              | —           | ✓ 必装                 | —           | —      | —       |
+| **C：ACCEPT-CHANGES**    | —           | ✓ 必装                 | ✓ 必装      | —      | —       |
+| 文本抽取                 | —           | ✓（用 unpack.py 替代） | —           | 可选   | —       |
+| 格式转换（.doc → .docx） | —           | —                      | ✓ 必装      | —      | —       |
+| 预览截图（.docx → 图片） | —           | —                      | ✓ 必装      | —      | ✓ 必装  |
 
 ## 项目级依赖白名单 (§12.7)
 

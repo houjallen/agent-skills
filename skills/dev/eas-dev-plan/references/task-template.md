@@ -14,6 +14,7 @@
 **格式**：`T-NNN`（3 位数字，零填充）
 
 **示例**：
+
 - `T-001`（首个任务）
 - `T-042`（第 42 个任务）
 
@@ -46,8 +47,8 @@
 **示例**：
 
 ```yaml
-prerequisites: [T-001, T-002]  # 依赖 T-001 和 T-002 完成
-prerequisites: []              # 无依赖，可立即开始
+prerequisites: [T-001, T-002] # 依赖 T-001 和 T-002 完成
+prerequisites: [] # 无依赖，可立即开始
 ```
 
 **作用**：定义任务执行顺序；下游 `eas-dev-implement` 据此调度。
@@ -66,10 +67,10 @@ prerequisites: []              # 无依赖，可立即开始
 
 ```yaml
 acceptance_steps:
-  - "curl GET /api/tickets/search?q=test 返回 200"
-  - "返回 JSON 含 results 数组，每项有 id / title / score"
-  - "空查询返回 400 错误"
-  - "单元测试覆盖率 ≥ 80%"
+  - 'curl GET /api/tickets/search?q=test 返回 200'
+  - '返回 JSON 含 results 数组，每项有 id / title / score'
+  - '空查询返回 400 错误'
+  - '单元测试覆盖率 ≥ 80%'
 ```
 
 **必含要素**：
@@ -119,9 +120,9 @@ code_paths:
 **示例**：
 
 ```yaml
-estimated_minutes: 3  # 典型值
-estimated_minutes: 2  # 下限（必须含 acceptance + 测试）
-estimated_minutes: 5  # 上限（含简单实现 + 测试）
+estimated_minutes: 3 # 典型值
+estimated_minutes: 2 # 下限（必须含 acceptance + 测试）
+estimated_minutes: 5 # 上限（含简单实现 + 测试）
 ```
 
 **反例**：
@@ -138,18 +139,18 @@ estimated_minutes: 5  # 上限（含简单实现 + 测试）
 
 ```yaml
 risks:
-  - risk: "<风险描述>"
-    mitigation: "<缓解策略>"
+  - risk: '<风险描述>'
+    mitigation: '<缓解策略>'
 ```
 
 **示例**：
 
 ```yaml
 risks:
-  - risk: "ES 索引可能因字段映射不一致导致查询失败"
-    mitigation: "先在 staging 验证 mapping；用别名做切换"
-  - risk: "中文分词性能可能不达标"
-    mitigation: "准备 fallback 到简单 substring 匹配"
+  - risk: 'ES 索引可能因字段映射不一致导致查询失败'
+    mitigation: '先在 staging 验证 mapping；用别名做切换'
+  - risk: '中文分词性能可能不达标'
+    mitigation: '准备 fallback 到简单 substring 匹配'
 ```
 
 **反例**：

@@ -31,34 +31,34 @@ related:
 
 ## 内容归属对照表 (Content Attribution)
 
-| skill-creation-guide.md 章节 | 已归属到 |
-|---|---|
-| §技能解剖 / 目录结构 | SKILL.md §核心功能 1. 技能的构成 |
-| §SKILL.md 结构 / 必需部分 / 可选部分 | SKILL.md §Markdown主体 必需部分 + 可选部分 |
-| §资源规划 (scripts/references/assets 何时使用) | SKILL.md §核心功能 1. 脚本 / 参考资料 / 资产 |
-| §写作规范 / Frontmatter 写作 | SKILL.md §核心功能 1. YAML前置信息 + skill-spec.md §4 |
-| §Body 写作 + 常见错误 | SKILL.md §技能创建规范 + 常见错误 |
-| §脚本编写规范 / TypeScript 脚本 / 最佳实践 | SKILL.md §核心脚本实现 + workflows.md §核心脚本实现 |
-| §渐进式披露 / 三级加载 / 引用规范 | SKILL.md §渐进式披露设计原则 + §参考资料 |
+| skill-creation-guide.md 章节                   | 已归属到                                              |
+| ---------------------------------------------- | ----------------------------------------------------- |
+| §技能解剖 / 目录结构                           | SKILL.md §核心功能 1. 技能的构成                      |
+| §SKILL.md 结构 / 必需部分 / 可选部分           | SKILL.md §Markdown主体 必需部分 + 可选部分            |
+| §资源规划 (scripts/references/assets 何时使用) | SKILL.md §核心功能 1. 脚本 / 参考资料 / 资产          |
+| §写作规范 / Frontmatter 写作                   | SKILL.md §核心功能 1. YAML前置信息 + skill-spec.md §4 |
+| §Body 写作 + 常见错误                          | SKILL.md §技能创建规范 + 常见错误                     |
+| §脚本编写规范 / TypeScript 脚本 / 最佳实践     | SKILL.md §核心脚本实现 + workflows.md §核心脚本实现   |
+| §渐进式披露 / 三级加载 / 引用规范              | SKILL.md §渐进式披露设计原则 + §参考资料              |
 
 ## 关键判断 (Key Judgments)
 
-| 判断点 | 结论 |
-|---|---|
-| 是否新增独有内容？ | **否**——所有内容在其它文件均有更新版本 |
-| 是否被其它文件依赖？ | **否**——grep 验证无任何 references 引用 |
-| 删除是否破坏 CI？ | **否**——quick-validate 不检查特定 references 是否存在 |
+| 判断点               | 结论                                                                                                            |
+| -------------------- | --------------------------------------------------------------------------------------------------------------- |
+| 是否新增独有内容？   | **否**——所有内容在其它文件均有更新版本                                                                          |
+| 是否被其它文件依赖？ | **否**——grep 验证无任何 references 引用                                                                         |
+| 删除是否破坏 CI？    | **否**——quick-validate 不检查特定 references 是否存在                                                           |
 | 是否需要过渡期保留？ | **否**——本仓库遵循 AGENTS.md §6.3 流程；该文件已加 `[待合并 - 历史文档]` 标记 1 个评审周期（round-2 评审 0004） |
 
 ## 具体动作 (Action Items)
 
-| # | 动作 | 文件 |
-|---|---|---|
-| 1 | 落档本决策文档 | `docs/decisions/0005-archive-skill-creation-guide.md` |
-| 2 | 删除 SKILL.md §详细定义参考 中对 skill-creation-guide.md 的引用 | `SKILL.md` 行 47 |
-| 3 | 删除 SKILL.md §快速参考 中对 skill-creation-guide.md 的引用 | `SKILL.md` 行 88 |
-| 4 | 删除文件本身 | `skills/builtin/eas-skill-creator/references/skill-creation-guide.md` |
-| 5 | 运行 quick-validate 校验 | — |
+| #   | 动作                                                            | 文件                                                                  |
+| --- | --------------------------------------------------------------- | --------------------------------------------------------------------- |
+| 1   | 落档本决策文档                                                  | `docs/decisions/0005-archive-skill-creation-guide.md`                 |
+| 2   | 删除 SKILL.md §详细定义参考 中对 skill-creation-guide.md 的引用 | `SKILL.md` 行 47                                                      |
+| 3   | 删除 SKILL.md §快速参考 中对 skill-creation-guide.md 的引用     | `SKILL.md` 行 88                                                      |
+| 4   | 删除文件本身                                                    | `skills/builtin/eas-skill-creator/references/skill-creation-guide.md` |
+| 5   | 运行 quick-validate 校验                                        | —                                                                     |
 
 ## 影响 (Impact)
 

@@ -52,19 +52,19 @@ status: proposed
 
 ```yaml
 requirement_profile:
-  domain: code | design | writing | business | data | hybrid   # [MUST]
-  scenarios: [<3+ 具体使用场景>]                                # [MUST]
-  triggers: [<5+ 触发短语>]                                    # [MUST]
-  boundaries: [<不应触发的场景>]                                # [MUST]
-  constraints:                                                  # [SHOULD]
+  domain: code | design | writing | business | data | hybrid # [MUST]
+  scenarios: [<3+ 具体使用场景>] # [MUST]
+  triggers: [<5+ 触发短语>] # [MUST]
+  boundaries: [<不应触发的场景>] # [MUST]
+  constraints: # [SHOULD]
     - <硬约束>
-  assumptions:                                                  # [SHOULD]
+  assumptions: # [SHOULD]
     - <已验证的假设>
-  primary_mode_candidate: <pipeline | generator | reviewer | inversion | tool_wrapper>  # [MUST]
-  secondary_mode_candidate: <可选>                              # [MAY]
-  rounds_used: <实际提问轮次>                                   # [MUST]
-  compressed: <true | false>                                    # [MUST]
-  compressed_reason: <若压缩，引用 PRD/Spec/原技能名>            # [MAY]
+  primary_mode_candidate: <pipeline | generator | reviewer | inversion | tool_wrapper> # [MUST]
+  secondary_mode_candidate: <可选> # [MAY]
+  rounds_used: <实际提问轮次> # [MUST]
+  compressed: <true | false> # [MUST]
+  compressed_reason: <若压缩，引用 PRD/Spec/原技能名> # [MAY]
 ```
 
 ---
@@ -73,11 +73,11 @@ requirement_profile:
 
 <!-- 步骤 1 过程中做出的关键判断清单。`requirement_profile` 无法表达的设计选择。 -->
 
-| # | 判断 | 理由 |
-|---|------|------|
-| 1 | <例：选择 `code` 领域而非 `hybrid`> | <用户场景全部是 SDK 封装，无设计/写作场景> |
-| 2 | <例：选择 Pipeline 而非 Reviewer> | <需要按顺序执行初始化/调用/清理，不能跳步> |
-| 3 | <...> | <...> |
+| #   | 判断                                | 理由                                       |
+| --- | ----------------------------------- | ------------------------------------------ |
+| 1   | <例：选择 `code` 领域而非 `hybrid`> | <用户场景全部是 SDK 封装，无设计/写作场景> |
+| 2   | <例：选择 Pipeline 而非 Reviewer>   | <需要按顺序执行初始化/调用/清理，不能跳步> |
+| 3   | <...>                               | <...>                                      |
 
 ---
 
@@ -87,8 +87,8 @@ requirement_profile:
 
 ### 方案 A：<名称>
 
-| 维度 | 评估 |
-|------|------|
+| 维度 | 评估  |
+| ---- | ----- |
 | 优点 | - ... |
 | 缺点 | - ... |
 | 风险 | - ... |
@@ -96,8 +96,8 @@ requirement_profile:
 
 ### 方案 B：<名称>
 
-| 维度 | 评估 |
-|------|------|
+| 维度 | 评估  |
+| ---- | ----- |
 | 优点 | - ... |
 | 缺点 | - ... |
 | 风险 | - ... |
@@ -113,11 +113,11 @@ requirement_profile:
 
 **本决策选择：方案 X**。
 
-| 项 | 内容 |
-|------|------|
-| 选了什么 | 方案 X |
-| 适用范围 | 技能 `{skill-name}` 内所有未来变更 |
-| 生效日期 | YYYY-MM-DD |
+| 项       | 内容                                      |
+| -------- | ----------------------------------------- |
+| 选了什么 | 方案 X                                    |
+| 适用范围 | 技能 `{skill-name}` 内所有未来变更        |
+| 生效日期 | YYYY-MM-DD                                |
 | 审批状态 | 📋 草拟 / 🟡 临时生效 / ✅ 已 Review 通过 |
 
 ---
@@ -187,9 +187,9 @@ requirement_profile:
 
 <!-- 不另起文件，修订追加在本节。version 在 frontmatter 递增。 -->
 
-| 版本 | 日期 | 修订内容 | 修订人 |
-|------|------|----------|--------|
-| 1.0.0 | YYYY-MM-DD | 初版 | <name> |
+| 版本  | 日期       | 修订内容 | 修订人 |
+| ----- | ---------- | -------- | ------ |
+| 1.0.0 | YYYY-MM-DD | 初版     | <name> |
 
 ---
 

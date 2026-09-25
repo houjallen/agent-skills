@@ -10,51 +10,51 @@ All agent prompt files MUST include the following YAML frontmatter:
 
 ```yaml
 ---
-name: [filename]                  # 文件名（必需，用于唯一标识）
-type: [system|extension]          # 文件类型（必需）
-scope: [all|general|coder]        # 模式范围（必需）
-priority: [number]                # 加载优先级（可选，默认 1000）
-permission: [read|write]          # 权限（可选，默认 read）
-dynamic: [true|false]             # 是否动态内容（可选，默认 false）
-owner: [string...]                # 所有者（可选，数组）
-share: [string...]                # 共享目标（可选，数组）
-description: [description]        # 描述（可选）
+name: [filename] # 文件名（必需，用于唯一标识）
+type: [system|extension] # 文件类型（必需）
+scope: [all|general|coder] # 模式范围（必需）
+priority: [number] # 加载优先级（可选，默认 1000）
+permission: [read|write] # 权限（可选，默认 read）
+dynamic: [true|false] # 是否动态内容（可选，默认 false）
+owner: [string...] # 所有者（可选，数组）
+share: [string...] # 共享目标（可选，数组）
+description: [description] # 描述（可选）
 ---
 ```
 
 ### Frontmatter Fields
 
-| Field | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| name | string | Yes | - | File name (unique identifier) |
-| type | string | Yes | - | `system` or `extension` |
-| scope | string | Yes | - | `all`, `general`, or `coder` |
-| priority | number | No | 1000 | Loading priority (lower = earlier) |
-| permission | string | No | read | `read` or `write` |
-| dynamic | boolean | No | false | Whether content is dynamic |
-| owner | string[] | No | - | Owner identifiers |
-| share | string[] | No | - | Share targets |
-| description | string | No | - | File description |
+| Field       | Type     | Required | Default | Description                        |
+| ----------- | -------- | -------- | ------- | ---------------------------------- |
+| name        | string   | Yes      | -       | File name (unique identifier)      |
+| type        | string   | Yes      | -       | `system` or `extension`            |
+| scope       | string   | Yes      | -       | `all`, `general`, or `coder`       |
+| priority    | number   | No       | 1000    | Loading priority (lower = earlier) |
+| permission  | string   | No       | read    | `read` or `write`                  |
+| dynamic     | boolean  | No       | false   | Whether content is dynamic         |
+| owner       | string[] | No       | -       | Owner identifiers                  |
+| share       | string[] | No       | -       | Share targets                      |
+| description | string   | No       | -       | File description                   |
 
 ## Required Fields
 
-| Field | Description | Example |
-|-------|-------------|---------|
-| name | Agent name | `eas-coder`, `explore-agent` |
-| role | Agent role | `Code Editor`, `Search Expert` |
-| identity | Agent identity description | `You are EASBot's code assistant` |
-| capabilities | Core capability list | `Code generation, debugging, refactoring` |
-| boundaries | Behavior boundaries | `Do not modify unread files` |
+| Field        | Description                | Example                                   |
+| ------------ | -------------------------- | ----------------------------------------- |
+| name         | Agent name                 | `eas-coder`, `explore-agent`              |
+| role         | Agent role                 | `Code Editor`, `Search Expert`            |
+| identity     | Agent identity description | `You are EASBot's code assistant`         |
+| capabilities | Core capability list       | `Code generation, debugging, refactoring` |
+| boundaries   | Behavior boundaries        | `Do not modify unread files`              |
 
 ## Optional Fields
 
-| Field | Description | Example |
-|-------|-------------|---------|
-| model | Specified model | `haiku`, `opus` |
-| permission | Permission level | `readonly`, `edit` |
-| tools | Allowed tools | `[Read, Write, Bash]` |
-| outputStyle | Output style | `concise`, `detailed` |
-| language | Language preference | `Chinese`, `English` |
+| Field       | Description         | Example               |
+| ----------- | ------------------- | --------------------- |
+| model       | Specified model     | `haiku`, `opus`       |
+| permission  | Permission level    | `readonly`, `edit`    |
+| tools       | Allowed tools       | `[Read, Write, Bash]` |
+| outputStyle | Output style        | `concise`, `detailed` |
+| language    | Language preference | `Chinese`, `English`  |
 
 ## Fixed Section Structure
 
@@ -64,6 +64,7 @@ description: [description]        # 描述（可选）
 You are [role name], a [primary responsibility description].
 
 Your core responsibilities:
+
 - [Responsibility 1]
 - [Responsibility 2]
 - [Responsibility 3]
@@ -75,6 +76,7 @@ Your core responsibilities:
 ## Capabilities
 
 You have the following core capabilities:
+
 - [Capability 1]
 - [Capability 2]
 ```
@@ -87,14 +89,17 @@ Use boundary control keywords:
 ## Boundaries
 
 ### NEVER
+
 - [Absolute prohibition 1]
 - [Absolute prohibition 2]
 
 ### DO NOT
+
 - [Non-recommended behavior 1]
 - [Non-recommended behavior 2]
 
 ### ALWAYS
+
 - [Mandatory action 1]
 - [Mandatory action 2]
 ```
@@ -157,10 +162,12 @@ You are Explore Subagent, a sub-agent specialized in codebase search and explora
 ## Boundaries
 
 ### NEVER
+
 - Modify any files
 - Execute operations that may change system state
 
 ### ALWAYS
+
 - Return absolute paths
 - Provide clear search result summaries
 

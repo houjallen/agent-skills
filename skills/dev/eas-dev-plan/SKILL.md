@@ -6,9 +6,9 @@ composition: standalone
 scope: coder
 behavior:
   granularity:
-    rule: "每个任务 MUST 在 2-5 分钟内可完成；超过 MUST 拆分为多个子任务"
+    rule: '每个任务 MUST 在 2-5 分钟内可完成；超过 MUST 拆分为多个子任务'
     severity: must
-    rationale: "反馈速率是速度上限（Pragmatic Programmer §small steps）；颗粒度越大，反馈越慢"
+    rationale: '反馈速率是速度上限（Pragmatic Programmer §small steps）；颗粒度越大，反馈越慢'
   output:
     format: markdown
     template: assets/tasks-template.md
@@ -70,16 +70,16 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项 | 内容 |
-|---|---|
-| 模式 | Generator（7 字段模板 + 颗粒度约束） |
-| 输入契约 | `spec.md` + `design.md`（可仅 spec） |
-| 输出契约 | `tasks.md`（任务列表，每个 7 字段齐全） |
-| 颗粒度 | 2-5 分钟 / 任务（`behavior.granularity.rule`） |
-| 必填字段 | id / title / prerequisites / acceptance_steps / code_paths / estimated_minutes / risks |
+| 项              | 内容                                                                                                                            |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| 模式            | Generator（7 字段模板 + 颗粒度约束）                                                                                            |
+| 输入契约        | `spec.md` + `design.md`（可仅 spec）                                                                                            |
+| 输出契约        | `tasks.md`（任务列表，每个 7 字段齐全）                                                                                         |
+| 颗粒度          | 2-5 分钟 / 任务（`behavior.granularity.rule`）                                                                                  |
+| 必填字段        | id / title / prerequisites / acceptance_steps / code_paths / estimated_minutes / risks                                          |
 | 必读 references | [references/task-template.md](references/task-template.md) / [references/granularity-rules.md](references/granularity-rules.md) |
-| 必含 assets | [assets/tasks-template.md](assets/tasks-template.md) |
-| 失败处理 | 任一任务超 5 分钟 → MUST 拆分；任一字段缺失 → MUST 报错 |
+| 必含 assets     | [assets/tasks-template.md](assets/tasks-template.md)                                                                            |
+| 失败处理        | 任一任务超 5 分钟 → MUST 拆分；任一字段缺失 → MUST 报错                                                                         |
 
 ## 第一性原理 (First Principles)
 
@@ -108,32 +108,32 @@ metadata:
 
 每个任务 MUST 含 7 字段：
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | string | 唯一 ID（如 `T-001`）；用于引用 |
-| `title` | string | 一句话动作（动宾结构） |
-| `prerequisites` | list | 前置任务 ID 列表；空 = 无依赖 |
-| `acceptance_steps` | list | 验收步骤（如何验证任务完成） |
-| `code_paths` | list | 涉及的文件 / 目录路径 |
-| `estimated_minutes` | number | 估计时间（2-5 之间） |
-| `risks` | list | 潜在风险 + 缓解策略 |
+| 字段                | 类型   | 说明                            |
+| ------------------- | ------ | ------------------------------- |
+| `id`                | string | 唯一 ID（如 `T-001`）；用于引用 |
+| `title`             | string | 一句话动作（动宾结构）          |
+| `prerequisites`     | list   | 前置任务 ID 列表；空 = 无依赖   |
+| `acceptance_steps`  | list   | 验收步骤（如何验证任务完成）    |
+| `code_paths`        | list   | 涉及的文件 / 目录路径           |
+| `estimated_minutes` | number | 估计时间（2-5 之间）            |
+| `risks`             | list   | 潜在风险 + 缓解策略             |
 
 ## 输入契约 (Input Contract)
 
-| 项 | 要求 |
-|---|---|
-| 必备 | `spec.md`（`status: confirmed`） |
-| 可选 | `design.md`（复杂任务强烈建议） |
+| 项   | 要求                                      |
+| ---- | ----------------------------------------- |
+| 必备 | `spec.md`（`status: confirmed`）          |
+| 可选 | `design.md`（复杂任务强烈建议）           |
 | 拒绝 | spec / design 缺失（NEVER；先回前置技能） |
 
 ## 输出契约 (Output Contract)
 
 **必须产出 `tasks.md`**，落地路径规范（dev 技能通用默认；宿主项目可在自有 `.easbot/AGENTS.md` 中声明覆盖）：
 
-| 场景 | 路径 |
-|---|---|
+| 场景               | 路径                                                |
+| ------------------ | --------------------------------------------------- |
 | **项目级（推荐）** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/tasks.md` |
-| **临时 / 探索性** | `<cwd>/.easbot/state/dev-scratch-<topic>-tasks.md` |
+| **临时 / 探索性**  | `<cwd>/.easbot/state/dev-scratch-<topic>-tasks.md`  |
 
 **禁止路径**（会污染版本控制或与既有 §11 冲突）：
 
@@ -155,31 +155,31 @@ metadata:
 
 ## 失败处理 (Failure Handling)
 
-| 情况 | 动作 |
-|---|---|
-| 任务超 5 分钟 | 标记 + 拆分；NEVER 输出超颗粒度任务 |
-| 任务无 acceptance_steps | 报错"无验收的任务不可执行" |
-| 任务间存在循环依赖 | 报错 + 提示断环点 |
-| 用户要求"一步到位"任务 | 提醒"反馈速率"原理；询问是否可拆 |
+| 情况                    | 动作                                |
+| ----------------------- | ----------------------------------- |
+| 任务超 5 分钟           | 标记 + 拆分；NEVER 输出超颗粒度任务 |
+| 任务无 acceptance_steps | 报错"无验收的任务不可执行"          |
+| 任务间存在循环依赖      | 报错 + 提示断环点                   |
+| 用户要求"一步到位"任务  | 提醒"反馈速率"原理；询问是否可拆    |
 
 ## 常见错误 (Common Mistakes)
 
-| ❌ 不要 | ✅ 应该 |
-|---|---|
-| 任务颗粒度过粗（"实现全文搜索"） | 拆为"加分词器 / 加索引 / 加 API / 加测试"等 |
-| 任务颗粒度过细（"写 import 语句"） | 合并到 5 分钟任务 |
-| 任务无验收 | 每任务 MUST 含可验证的 acceptance_steps |
-| 任务间依赖复杂 DAG | 拆为线性可执行；复杂依赖 = 拆得更细 |
-| 任务标题用名词（"搜索功能"） | 用动宾结构（"添加全文搜索 API"） |
+| ❌ 不要                            | ✅ 应该                                     |
+| ---------------------------------- | ------------------------------------------- |
+| 任务颗粒度过粗（"实现全文搜索"）   | 拆为"加分词器 / 加索引 / 加 API / 加测试"等 |
+| 任务颗粒度过细（"写 import 语句"） | 合并到 5 分钟任务                           |
+| 任务无验收                         | 每任务 MUST 含可验证的 acceptance_steps     |
+| 任务间依赖复杂 DAG                 | 拆为线性可执行；复杂依赖 = 拆得更细         |
+| 任务标题用名词（"搜索功能"）       | 用动宾结构（"添加全文搜索 API"）            |
 
 ## 下一步 (Next Steps)
 
-| 下游技能 | 何时使用 |
-|---|---|
-| `eas-dev-tdd` | 单个任务执行 + TDD 循环 |
-| `eas-dev-implement` | 多任务自动执行 + 评审闭环 |
-| `eas-dev-review` | 任务完成后评审实现 |
-| 用户再次讨论 | plan 有歧义；回退 `eas-dev-spec` / `eas-dev-design` |
+| 下游技能            | 何时使用                                            |
+| ------------------- | --------------------------------------------------- |
+| `eas-dev-tdd`       | 单个任务执行 + TDD 循环                             |
+| `eas-dev-implement` | 多任务自动执行 + 评审闭环                           |
+| `eas-dev-review`    | 任务完成后评审实现                                  |
+| 用户再次讨论        | plan 有歧义；回退 `eas-dev-spec` / `eas-dev-design` |
 
 ## 参考资料 (References)
 
@@ -189,15 +189,15 @@ metadata:
 
 ## 与其他技能的关系 (Relationships)
 
-| 技能 | 关系 |
-|---|---|
-| `eas-dev-spec` | **上游**：spec.md 是 tasks.md 的输入 |
-| `eas-dev-design` | **上游**：design.md 是 tasks.md 的输入（可选） |
-| `eas-dev-tdd` | **下游**：tasks.md 中每个任务由 tdd 执行 |
-| `eas-dev-implement` | **下游**：tasks.md 是 implement 的调度依据 |
-| `eas-dev-loop` | **上游**：loop 第四阶段是本技能 |
+| 技能                | 关系                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| `eas-dev-spec`      | **上游**：spec.md 是 tasks.md 的输入                         |
+| `eas-dev-design`    | **上游**：design.md 是 tasks.md 的输入（可选）               |
+| `eas-dev-tdd`       | **下游**：tasks.md 中每个任务由 tdd 执行                     |
+| `eas-dev-implement` | **下游**：tasks.md 是 implement 的调度依据                   |
+| `eas-dev-loop`      | **上游**：loop 第四阶段是本技能                              |
 | `eas-skill-creator` | **规范基线**：本技能遵循其结构 + 5 大模式 + frontmatter 规范 |
-| `eas-skill-using` | **不重叠**：dev 分类不进索引 |
+| `eas-skill-using`   | **不重叠**：dev 分类不进索引                                 |
 
 ---
 

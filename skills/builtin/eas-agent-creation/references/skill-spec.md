@@ -16,31 +16,31 @@
 
 ### 1.3 任务的两个分水岭
 
-| 分组 | 模式 | 角色 |
-|---|---|---|
-| **内容侧** | Tool Wrapper、Generator | 补知识、稳输出——给模型"补课" |
-| **分水岭** | — | 不再是"内容"，而是"行动方式" |
+| 分组       | 模式                          | 角色                         |
+| ---------- | ----------------------------- | ---------------------------- |
+| **内容侧** | Tool Wrapper、Generator       | 补知识、稳输出——给模型"补课" |
+| **分水岭** | —                             | 不再是"内容"，而是"行动方式" |
 | **行动侧** | Reviewer、Inversion、Pipeline | 控行为、管流程——给模型"加锁" |
 
 ## 2. 五种模式详解
 
-| # | 模式 | 一句话定义 | 典型场景 |
-|---|---|---|---|
-| 1 | **Tool Wrapper** | 给模型补某个库的专家知识 | 补 API/库/工具的最新用法 |
-| 2 | **Generator** | 按固定模板/格式稳定输出 | 报表生成、Schema 化输出、代码脚手架 |
-| 3 | **Reviewer** | 按标准清单逐项核查 | 代码评审、合规审查、Pre-PR 检查 |
-| 4 | **Inversion** | 先问清楚：反向澄清需求 | 模糊需求澄清、关键参数反问 |
-| 5 | **Pipeline** | 不能跳步：流程化多步串联 | 部署流水线、数据 ETL、多阶段审查 |
+| #   | 模式             | 一句话定义               | 典型场景                            |
+| --- | ---------------- | ------------------------ | ----------------------------------- |
+| 1   | **Tool Wrapper** | 给模型补某个库的专家知识 | 补 API/库/工具的最新用法            |
+| 2   | **Generator**    | 按固定模板/格式稳定输出  | 报表生成、Schema 化输出、代码脚手架 |
+| 3   | **Reviewer**     | 按标准清单逐项核查       | 代码评审、合规审查、Pre-PR 检查     |
+| 4   | **Inversion**    | 先问清楚：反向澄清需求   | 模糊需求澄清、关键参数反问          |
+| 5   | **Pipeline**     | 不能跳步：流程化多步串联 | 部署流水线、数据 ETL、多阶段审查    |
 
 ## 3. SkillSpec 类型定义
 
 ```typescript
 export type SkillMode =
-  | 'tool-wrapper'   // 补知识
-  | 'generator'      // 稳输出
-  | 'reviewer'       // 按标准审
-  | 'inversion'      // 先问再做
-  | 'pipeline';      // 每步过 Gate
+  | 'tool-wrapper' // 补知识
+  | 'generator' // 稳输出
+  | 'reviewer' // 按标准审
+  | 'inversion' // 先问再做
+  | 'pipeline'; // 每步过 Gate
 
 export type Composition = 'single' | 'composed';
 
@@ -150,7 +150,12 @@ export interface PipelineSequenceSpec {
     gate: {
       entryConditions: Array<{ type: string; check?: string }>;
       exitConditions: Array<{ type: string; metric?: { name: string; op: string; value: number } }>;
-      onFailure: { action: 'abort' | 'skip' | 'retry'; maxRetries?: number; rollback?: boolean; notifyHuman?: boolean };
+      onFailure: {
+        action: 'abort' | 'skip' | 'retry';
+        maxRetries?: number;
+        rollback?: boolean;
+        notifyHuman?: boolean;
+      };
     };
   }>;
   policy?: { strictMode?: boolean; rollbackOnAbort?: boolean };
@@ -159,10 +164,10 @@ export interface PipelineSequenceSpec {
 
 ## 6. 模式识别关键词
 
-| 模式 | 关键词信号 |
-|---|---|
-| **Tool Wrapper** | 「怎么用」「API」「库」「版本」「最新」「语法」「调用」 |
-| **Generator** | 「生成」「输出」「模板」「固定」「结构」「格式」「报表」 |
-| **Reviewer** | 「审查」「评审」「检查」「合规」「对照」「清单」「verify」 |
-| **Inversion** | 「先问」「澄清」「确认」「需求」「参数」「歧义」「前置」 |
-| **Pipeline** | 「按顺序」「先 X 后 Y」「流程」「步骤」「pipeline」「不能跳」 |
+| 模式             | 关键词信号                                                    |
+| ---------------- | ------------------------------------------------------------- |
+| **Tool Wrapper** | 「怎么用」「API」「库」「版本」「最新」「语法」「调用」       |
+| **Generator**    | 「生成」「输出」「模板」「固定」「结构」「格式」「报表」      |
+| **Reviewer**     | 「审查」「评审」「检查」「合规」「对照」「清单」「verify」    |
+| **Inversion**    | 「先问」「澄清」「确认」「需求」「参数」「歧义」「前置」      |
+| **Pipeline**     | 「按顺序」「先 X 后 Y」「流程」「步骤」「pipeline」「不能跳」 |

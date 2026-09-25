@@ -6,20 +6,20 @@ composition: standalone
 scope: coder
 behavior:
   thinking_framework:
-    name: "Deep Modules (John Ousterhout)"
+    name: 'Deep Modules (John Ousterhout)'
     core_questions:
       - id: q1-shared-behavior
-        question: "哪些行为共享？"
-        purpose: "识别同质行为；共享行为可下沉到同一模块"
+        question: '哪些行为共享？'
+        purpose: '识别同质行为；共享行为可下沉到同一模块'
       - id: q2-independent-change
-        question: "哪些行为可独立变化？"
-        purpose: "识别变化轴；可独立变化的行为 MUST 分到不同模块"
+        question: '哪些行为可独立变化？'
+        purpose: '识别变化轴；可独立变化的行为 MUST 分到不同模块'
       - id: q3-seam-location
-        question: "接缝在哪？"
-        purpose: "寻找最小接口面积；接缝 = 抽象边界"
+        question: '接缝在哪？'
+        purpose: '寻找最小接口面积；接缝 = 抽象边界'
       - id: q4-test-interface
-        question: "怎么测试接口？"
-        purpose: "通过接口可独立测试 = 抽象成功的标志"
+        question: '怎么测试接口？'
+        purpose: '通过接口可独立测试 = 抽象成功的标志'
 metadata:
   category: dev
   version: 1.0.0
@@ -70,16 +70,16 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项 | 内容 |
-|---|---|
-| 模式 | Pattern（思维框架 + 4 核心问题） |
-| 输入契约 | `spec.md`（来自 `eas-dev-spec`，`status: confirmed`） |
-| 输出契约 | `design.md`（模块图 + 接口契约 + 数据流 + 测试策略） |
-| 核心思维框架 | John Ousterhout "Deep Modules" |
-| 必答问题 | 4 个核心问题（共享行为 / 独立变化 / 接缝位置 / 测试接口） |
+| 项              | 内容                                                                                                                |
+| --------------- | ------------------------------------------------------------------------------------------------------------------- |
+| 模式            | Pattern（思维框架 + 4 核心问题）                                                                                    |
+| 输入契约        | `spec.md`（来自 `eas-dev-spec`，`status: confirmed`）                                                               |
+| 输出契约        | `design.md`（模块图 + 接口契约 + 数据流 + 测试策略）                                                                |
+| 核心思维框架    | John Ousterhout "Deep Modules"                                                                                      |
+| 必答问题        | 4 个核心问题（共享行为 / 独立变化 / 接缝位置 / 测试接口）                                                           |
 | 必读 references | [references/deep-modules.md](references/deep-modules.md) / [references/seam-finding.md](references/seam-finding.md) |
-| 必含 assets | [assets/design-template.md](assets/design-template.md) |
-| 失败处理 | spec 缺失或不完整 → MUST 报错 |
+| 必含 assets     | [assets/design-template.md](assets/design-template.md)                                                              |
+| 失败处理        | spec 缺失或不完整 → MUST 报错                                                                                       |
 
 ## 第一性原理 (First Principles)
 
@@ -113,10 +113,10 @@ metadata:
 
 ```yaml
 shared_behaviors:
-  - behavior: "全文搜索"
+  - behavior: '全文搜索'
     callers: [TicketAPI, EmailAPI, KnowledgeBaseAPI]
     proposed_module: SearchService
-  - behavior: "用户认证"
+  - behavior: '用户认证'
     callers: [所有 API]
     proposed_module: AuthMiddleware
 ```
@@ -129,10 +129,10 @@ shared_behaviors:
 
 ```yaml
 change_axes:
-  - axis: "搜索引擎替换（ES → 自研）"
+  - axis: '搜索引擎替换（ES → 自研）'
     affects: [SearchService]
     decision: 隔离到独立模块
-  - axis: "数据库切换（Postgres → MySQL）"
+  - axis: '数据库切换（Postgres → MySQL）'
     affects: [Repository 层]
     decision: 抽象 Repository 接口
 ```
@@ -145,10 +145,10 @@ change_axes:
 
 ```yaml
 seams:
-  - seam: "SearchService.search(query) → SearchResult[]"
+  - seam: 'SearchService.search(query) → SearchResult[]'
     exposes: 1 个方法 + 1 个返回类型
     hides: 索引策略 / 评分算法 / 缓存策略 / 持久化
-  - seam: "AuthMiddleware.verify(token) → User"
+  - seam: 'AuthMiddleware.verify(token) → User'
     exposes: 1 个方法 + 1 个返回类型
     hides: token 解析 / 缓存 / 过期检查 / 权限模型
 ```
@@ -162,30 +162,30 @@ seams:
 ```yaml
 test_strategy:
   - module: SearchService
-    interface_test: "mock 索引层；验证 query → result 映射"
-    seam_test: "用真实索引（testcontainers）跑完整流程"
+    interface_test: 'mock 索引层；验证 query → result 映射'
+    seam_test: '用真实索引（testcontainers）跑完整流程'
   - module: AuthMiddleware
-    interface_test: "mock token 解析；验证 user 提取"
-    seam_test: "用真实 JWT 库验证签名 / 过期"
+    interface_test: 'mock token 解析；验证 user 提取'
+    seam_test: '用真实 JWT 库验证签名 / 过期'
 ```
 
 ## 输入契约 (Input Contract)
 
-| 项 | 要求 |
-|---|---|
-| 必备 | `spec.md`（`status: confirmed`） |
-| 可选 | 现有代码（brownfield 场景） |
-| 可选 | 已有 `design.md`（增量设计场景） |
+| 项   | 要求                                            |
+| ---- | ----------------------------------------------- |
+| 必备 | `spec.md`（`status: confirmed`）                |
+| 可选 | 现有代码（brownfield 场景）                     |
+| 可选 | 已有 `design.md`（增量设计场景）                |
 | 拒绝 | spec 缺失或不完整（NEVER；先回 `eas-dev-spec`） |
 
 ## 输出契约 (Output Contract)
 
 **必须产出 `design.md`**，落地路径规范（dev 技能通用默认；宿主项目可在自有 `.easbot/AGENTS.md` 中声明覆盖）：
 
-| 场景 | 路径 |
-|---|---|
+| 场景               | 路径                                                 |
+| ------------------ | ---------------------------------------------------- |
 | **项目级（推荐）** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/design.md` |
-| **临时 / 探索性** | `<cwd>/.easbot/state/dev-scratch-<topic>-design.md` |
+| **临时 / 探索性**  | `<cwd>/.easbot/state/dev-scratch-<topic>-design.md`  |
 
 **禁止路径**（会污染版本控制）：
 
@@ -208,31 +208,31 @@ test_strategy:
 
 ## 失败处理 (Failure Handling)
 
-| 情况 | 动作 |
-|---|---|
-| spec.md 缺失 | 报错并指引用户先走 `eas-dev-spec` |
-| spec.md 不完整 | 报错并指明缺失章节 |
-| 用户拒绝回答 4 个核心问题 | 退回 Q1 重新提问；NEVER 跳过 |
-| 设计中出现 trade-off | 落地到 `docs/decisions/` ADR，而非 design.md |
+| 情况                      | 动作                                         |
+| ------------------------- | -------------------------------------------- |
+| spec.md 缺失              | 报错并指引用户先走 `eas-dev-spec`            |
+| spec.md 不完整            | 报错并指明缺失章节                           |
+| 用户拒绝回答 4 个核心问题 | 退回 Q1 重新提问；NEVER 跳过                 |
+| 设计中出现 trade-off      | 落地到 `docs/decisions/` ADR，而非 design.md |
 
 ## 常见错误 (Common Mistakes)
 
-| ❌ 不要 | ✅ 应该 |
-|---|---|
-| 接口暴露实现细节 | 接口 = 抽象边界；实现细节 MUST 隐藏在模块内 |
-| 为未来预留通用抽象 | YAGNI；只设计当前需要的行为 |
-| 把设计塞进 spec | design = 设计；spec = 契约；两者分离 |
+| ❌ 不要                            | ✅ 应该                                                |
+| ---------------------------------- | ------------------------------------------------------ |
+| 接口暴露实现细节                   | 接口 = 抽象边界；实现细节 MUST 隐藏在模块内            |
+| 为未来预留通用抽象                 | YAGNI；只设计当前需要的行为                            |
+| 把设计塞进 spec                    | design = 设计；spec = 契约；两者分离                   |
 | 选具体技术栈（Postgres / Express） | design 聚焦"做什么"；技术栈由 `eas-dev-implement` 决定 |
-| 没有 seam test | seam test 是验证抽象成功的唯一手段 |
+| 没有 seam test                     | seam test 是验证抽象成功的唯一手段                     |
 
 ## 下一步 (Next Steps)
 
-| 下游技能 | 何时使用 |
-|---|---|
-| `eas-dev-plan` | design 已确认，需拆任务 |
-| `eas-dev-implement` | 直接进入实现（小型项目） |
-| `eas-dev-review` | 实现后回检 design 忠实度 |
-| 用户再次讨论 | design 有歧义；回退 `eas-dev-spec` / `eas-dev-align` |
+| 下游技能            | 何时使用                                             |
+| ------------------- | ---------------------------------------------------- |
+| `eas-dev-plan`      | design 已确认，需拆任务                              |
+| `eas-dev-implement` | 直接进入实现（小型项目）                             |
+| `eas-dev-review`    | 实现后回检 design 忠实度                             |
+| 用户再次讨论        | design 有歧义；回退 `eas-dev-spec` / `eas-dev-align` |
 
 ## 参考资料 (References)
 
@@ -242,15 +242,15 @@ test_strategy:
 
 ## 与其他技能的关系 (Relationships)
 
-| 技能 | 关系 |
-|---|---|
-| `eas-dev-spec` | **上游**：spec.md 是 design.md 的输入 |
-| `eas-dev-plan` | **下游**：design.md 是 tasks.md 的输入 |
-| `eas-dev-implement` | **下游**：design.md 是实现依据 |
-| `eas-dev-review` | **下游**：design.md 是评审对照基线 |
-| `eas-dev-loop` | **上游**：loop 第三阶段是本技能 |
+| 技能                | 关系                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| `eas-dev-spec`      | **上游**：spec.md 是 design.md 的输入                        |
+| `eas-dev-plan`      | **下游**：design.md 是 tasks.md 的输入                       |
+| `eas-dev-implement` | **下游**：design.md 是实现依据                               |
+| `eas-dev-review`    | **下游**：design.md 是评审对照基线                           |
+| `eas-dev-loop`      | **上游**：loop 第三阶段是本技能                              |
 | `eas-skill-creator` | **规范基线**：本技能遵循其结构 + 5 大模式 + frontmatter 规范 |
-| `eas-skill-using` | **不重叠**：dev 分类不进索引 |
+| `eas-skill-using`   | **不重叠**：dev 分类不进索引                                 |
 
 ---
 

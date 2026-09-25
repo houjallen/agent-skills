@@ -32,7 +32,7 @@ optional: [comma-separated optional fields]
 
 ### 1. JSON Output Template
 
-```markdown
+````markdown
 ## Output Template
 
 When completing the task, output MUST follow this format:
@@ -47,15 +47,18 @@ When completing the task, output MUST follow this format:
   "message": "optional message"
 }
 ```
+````
 
 ### Example
 
 **Input:**
+
 ```
 User: Summarize this conversation
 ```
 
 **Expected Output:**
+
 ```json
 {
   "status": "success",
@@ -66,7 +69,8 @@ User: Summarize this conversation
   }
 }
 ```
-```
+
+````
 
 ### 2. Markdown Output Template
 
@@ -83,16 +87,18 @@ When completing the task, output MUST follow this format:
 ## Section 2
 
 [Content]
-```
+````
 
 ### Example
 
 **Input:**
+
 ```
 User: Generate a plan for adding dark mode
 ```
 
 **Expected Output:**
+
 ```markdown
 ## Summary
 
@@ -100,10 +106,10 @@ Add dark mode toggle to settings page with theme persistence.
 
 ## Files to Modify
 
-| File | Changes |
-|------|---------|
+| File                        | Changes              |
+| --------------------------- | -------------------- |
 | src/components/Settings.tsx | Add toggle component |
-| src/context/ThemeContext.ts | Add theme state |
+| src/context/ThemeContext.ts | Add theme state      |
 
 ## Steps
 
@@ -116,7 +122,7 @@ Add dark mode toggle to settings page with theme persistence.
 
 Reference: `packages/agent/src/agent/prompt/compaction.txt`
 
-```markdown
+````markdown
 ## Output Template
 
 Analyze this conversation and generate a structured summary for session continuation.
@@ -158,6 +164,7 @@ Analyze this conversation and generate a structured summary for session continua
 
 [What would be the logical next step]
 ```
+````
 
 ### Rules
 
@@ -167,7 +174,8 @@ Analyze this conversation and generate a structured summary for session continua
 - Never omit important details
 - Preserve accuracy (exact paths, names, details)
 - Include context that helps continue the work
-```
+
+````
 
 ## Template Quality Standards
 
@@ -192,4 +200,4 @@ When truncating output:
 ```markdown
 [content truncated...]
 [Remaining: N characters]
-```
+````

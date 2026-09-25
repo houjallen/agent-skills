@@ -11,11 +11,11 @@
 
 **字段**：
 
-| 字段 | 必填 | 说明 |
-|---|---|---|
-| Context | ✓ | 1-2 段背景说明；可引用 alignment.md §1.reasoning |
-| Stakeholders | ✓ | 受影响方列表；可引用 alignment.md §1.stakeholders |
-| Risk of NOT Doing | ✓ | 不做的风险；可引用 alignment.md §1.risk_of_not_doing |
+| 字段              | 必填 | 说明                                                 |
+| ----------------- | ---- | ---------------------------------------------------- |
+| Context           | ✓    | 1-2 段背景说明；可引用 alignment.md §1.reasoning     |
+| Stakeholders      | ✓    | 受影响方列表；可引用 alignment.md §1.stakeholders    |
+| Risk of NOT Doing | ✓    | 不做的风险；可引用 alignment.md §1.risk_of_not_doing |
 
 **校验**：
 
@@ -29,11 +29,11 @@
 
 **字段**：
 
-| 字段 | 必填 | 说明 |
-|---|---|---|
-| Primary Goal | ✓ | 一句话核心目标 |
-| Success Indicator | ✓ | 可观察的成功标志 |
-| Non-Goals | optional | 明确不达成的目标 |
+| 字段              | 必填     | 说明             |
+| ----------------- | -------- | ---------------- |
+| Primary Goal      | ✓        | 一句话核心目标   |
+| Success Indicator | ✓        | 可观察的成功标志 |
+| Non-Goals         | optional | 明确不达成的目标 |
 
 **校验**：
 
@@ -56,16 +56,16 @@ endpoints:
       - name: q
         type: string
         required: true
-        description: "搜索关键词"
+        description: '搜索关键词'
     response:
       200:
         schema:
           type: array
           items:
-            $ref: "#/components/schemas/Ticket"
+            $ref: '#/components/schemas/Ticket'
     errors:
-      - 400: "参数错误"
-      - 500: "服务异常"
+      - 400: '参数错误'
+      - 500: '服务异常'
 ```
 
 ### 3.2 数据结构
@@ -118,21 +118,21 @@ interface SearchBarProps {
 ```yaml
 acceptance_criteria:
   primary:
-    type: metric-defined  # behavior-defined / metric-defined / test-coverage
+    type: metric-defined # behavior-defined / metric-defined / test-coverage
     criteria:
       - id: AC-1
         name: P99 搜索响应时间
         target: < 500ms
-        measurement: "staging 环境跑 1000 条 query，统计 P99"
+        measurement: 'staging 环境跑 1000 条 query，统计 P99'
       - id: AC-2
         name: 搜索准确率
         target: 前 5 结果包含目标工单 ≥ 90%
-        measurement: "100 条人工标注 query 的检索结果"
+        measurement: '100 条人工标注 query 的检索结果'
   secondary:
     - id: AC-3
       name: 单测覆盖率
       target: ≥ 80%
-      measurement: "jest --coverage"
+      measurement: 'jest --coverage'
   done_definition:
     - 所有 primary AC 通过
     - 所有 secondary AC 通过（或显式豁免）
@@ -156,14 +156,14 @@ acceptance_criteria:
 
 ```yaml
 out_of_scope:
-  - item: "时间范围过滤"
-    reason: "已有功能，不重复实现"
-  - item: "状态过滤"
-    reason: "已有功能，不重复实现"
-  - item: "AI 增强搜索"
-    reason: "下一迭代单独规划；本迭代先做基础全文搜索"
-  - item: "搜索结果高亮"
-    reason: "暂不需要；保留接口预留未来扩展"
+  - item: '时间范围过滤'
+    reason: '已有功能，不重复实现'
+  - item: '状态过滤'
+    reason: '已有功能，不重复实现'
+  - item: 'AI 增强搜索'
+    reason: '下一迭代单独规划；本迭代先做基础全文搜索'
+  - item: '搜索结果高亮'
+    reason: '暂不需要；保留接口预留未来扩展'
 ```
 
 **校验**：

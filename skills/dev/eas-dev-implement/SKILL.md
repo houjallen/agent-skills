@@ -11,29 +11,29 @@ behavior:
         name: 加载 tasks.md
         delegate_skill: eas-dev-plan
         gate:
-          rule: "tasks.md MUST 存在且每任务 7 字段齐全"
+          rule: 'tasks.md MUST 存在且每任务 7 字段齐全'
           severity: must
       - id: execute-task
         name: 执行当前任务（按依赖顺序）
         delegate_skill: eas-dev-tdd
         gate:
-          rule: "TDD 3 步 MUST 全部通过（红 → 绿 → 重构）"
+          rule: 'TDD 3 步 MUST 全部通过（红 → 绿 → 重构）'
           severity: must
       - id: review-task
         name: 评审当前任务
         delegate_skill: eas-dev-review
         gate:
-          rule: "P0 = 0 才进入下一任务；P1 修复或显式豁免"
+          rule: 'P0 = 0 才进入下一任务；P1 修复或显式豁免'
           severity: must
       - id: advance-task
         name: 推进到下一任务
         gate:
-          rule: "前 3 步全通过；剩余任务 > 0"
+          rule: '前 3 步全通过；剩余任务 > 0'
           severity: must
   pipeline_gates:
-    entry: "tasks.md 存在且 7 字段齐全"
-    exit: "所有任务执行完成 + 全部 review PASS"
-    failure_strategy: "返回失败任务 ID + 错误详情；状态保存到 tasks.md frontmatter"
+    entry: 'tasks.md 存在且 7 字段齐全'
+    exit: '所有任务执行完成 + 全部 review PASS'
+    failure_strategy: '返回失败任务 ID + 错误详情；状态保存到 tasks.md frontmatter'
 metadata:
   category: dev
   version: 1.0.0
@@ -84,16 +84,16 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项 | 内容 |
-|---|---|
-| 模式 | Pipeline（4 步调度序列） |
-| 输入契约 | `tasks.md`（每任务 7 字段齐全） |
-| 输出契约 | 完整代码 + 测试 + commit + tasks.md 状态更新 |
-| 调度步骤 | load → execute → review → advance（`behavior.sequence.steps`） |
-| 委托技能 | `eas-dev-plan` / `eas-dev-tdd` / `eas-dev-review` |
-| Pipeline Gate | 入口（tasks 存在）/ 出口（全部 PASS）/ 失败（返回错误详情） |
-| 必读 references | [references/pipeline-gates.md](references/pipeline-gates.md) |
-| 失败处理 | 返回失败任务 ID + 错误详情；不静默重试 |
+| 项              | 内容                                                           |
+| --------------- | -------------------------------------------------------------- |
+| 模式            | Pipeline（4 步调度序列）                                       |
+| 输入契约        | `tasks.md`（每任务 7 字段齐全）                                |
+| 输出契约        | 完整代码 + 测试 + commit + tasks.md 状态更新                   |
+| 调度步骤        | load → execute → review → advance（`behavior.sequence.steps`） |
+| 委托技能        | `eas-dev-plan` / `eas-dev-tdd` / `eas-dev-review`              |
+| Pipeline Gate   | 入口（tasks 存在）/ 出口（全部 PASS）/ 失败（返回错误详情）    |
+| 必读 references | [references/pipeline-gates.md](references/pipeline-gates.md)   |
+| 失败处理        | 返回失败任务 ID + 错误详情；不静默重试                         |
 
 ## 第一性原理 (First Principles)
 
@@ -129,7 +129,7 @@ metadata:
 
 ```yaml
 gate:
-  rule: "tasks.md MUST 存在且每任务 7 字段齐全"
+  rule: 'tasks.md MUST 存在且每任务 7 字段齐全'
   severity: must
 ```
 
@@ -149,7 +149,7 @@ gate:
 
 ```yaml
 gate:
-  rule: "TDD 3 步 MUST 全部通过（红 → 绿 → 重构）"
+  rule: 'TDD 3 步 MUST 全部通过（红 → 绿 → 重构）'
   severity: must
 ```
 
@@ -169,7 +169,7 @@ gate:
 
 ```yaml
 gate:
-  rule: "P0 = 0 才进入下一任务；P1 修复或显式豁免"
+  rule: 'P0 = 0 才进入下一任务；P1 修复或显式豁免'
   severity: must
 ```
 
@@ -190,7 +190,7 @@ gate:
 
 ```yaml
 gate:
-  rule: "前 3 步全通过；剩余任务 > 0"
+  rule: '前 3 步全通过；剩余任务 > 0'
   severity: must
 ```
 
@@ -221,24 +221,24 @@ gate:
 
 ## 输入契约 (Input Contract)
 
-| 项 | 要求 |
-|---|---|
-| 必备 | `tasks.md`（每任务 7 字段齐全） |
-| 必备 | `spec.md`（review 阶段必需） |
-| 可选 | `design.md`（review 阶段可选） |
+| 项   | 要求                                  |
+| ---- | ------------------------------------- |
+| 必备 | `tasks.md`（每任务 7 字段齐全）       |
+| 必备 | `spec.md`（review 阶段必需）          |
+| 可选 | `design.md`（review 阶段可选）        |
 | 拒绝 | tasks.md 缺失或 spec.md 缺失（NEVER） |
 
 ## 输出契约 (Output Contract)
 
 **本技能是调度器，不直接产出文档**；通过委托 `eas-dev-tdd` / `eas-dev-review` / `eas-dev-plan` 落地产物：
 
-| 产物 | 路径（由下游技能产出，路径遵循各自 §输出契约） |
-|---|---|
-| **代码变更** | 代码入仓；每任务 1 个 commit（或合并为合规 commit） |
-| **测试** | 每个任务的测试随 commit 落地 |
-| **单任务评审** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/<task-id>-review.md`（由 `eas-dev-review` 产出） |
-| **tasks.md 状态更新** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/tasks.md`（frontmatter `status: complete` + `completed_at`） |
-| **调度状态文件**（可选） | `<cwd>/.easbot/state/dev-implement-<topic>.json` |
+| 产物                     | 路径（由下游技能产出，路径遵循各自 §输出契约）                                                         |
+| ------------------------ | ------------------------------------------------------------------------------------------------------ |
+| **代码变更**             | 代码入仓；每任务 1 个 commit（或合并为合规 commit）                                                    |
+| **测试**                 | 每个任务的测试随 commit 落地                                                                           |
+| **单任务评审**           | `<cwd>/.easbot/knowledge/docs/dev/<topic>/<task-id>-review.md`（由 `eas-dev-review` 产出）             |
+| **tasks.md 状态更新**    | `<cwd>/.easbot/knowledge/docs/dev/<topic>/tasks.md`（frontmatter `status: complete` + `completed_at`） |
+| **调度状态文件**（可选） | `<cwd>/.easbot/state/dev-implement-<topic>.json`                                                       |
 
 **禁止路径**：
 
@@ -247,33 +247,33 @@ gate:
 
 ## 失败处理 (Failure Handling)
 
-| 情况 | 动作 |
-|---|---|
-| tasks.md 缺失 | 报错"无任务清单"；停止 |
-| 任务 7 字段缺失 | 报错 + 返回缺失字段；停止 |
-| TDD 某步失败 | 返回失败步骤 + 错误；停止 |
-| Review P0 > 0 | 返回 review.md；停止 |
-| Review P1 > 0 且未豁免 | 返回 review.md；要求修复 |
-| Review P2 > 0 | 记录到 review.md；继续（不阻止） |
-| 任务循环依赖 | 报错；停止 |
+| 情况                   | 动作                             |
+| ---------------------- | -------------------------------- |
+| tasks.md 缺失          | 报错"无任务清单"；停止           |
+| 任务 7 字段缺失        | 报错 + 返回缺失字段；停止        |
+| TDD 某步失败           | 返回失败步骤 + 错误；停止        |
+| Review P0 > 0          | 返回 review.md；停止             |
+| Review P1 > 0 且未豁免 | 返回 review.md；要求修复         |
+| Review P2 > 0          | 记录到 review.md；继续（不阻止） |
+| 任务循环依赖           | 报错；停止                       |
 
 ## 常见错误 (Common Mistakes)
 
-| ❌ 不要 | ✅ 应该 |
-|---|---|
-| 跳过 review 直接下一任务 | 必走 review；P0 阻止合入 |
-| 失败时静默重试 | 必报错 + 停止；等待用户决策 |
-| 并行执行任务 | 顺序执行；并行 = 拆 sub-agent |
-| 自动修复 review 问题 | 仅记录；修复由用户 / 后续任务处理 |
+| ❌ 不要                    | ✅ 应该                            |
+| -------------------------- | ---------------------------------- |
+| 跳过 review 直接下一任务   | 必走 review；P0 阻止合入           |
+| 失败时静默重试             | 必报错 + 停止；等待用户决策        |
+| 并行执行任务               | 顺序执行；并行 = 拆 sub-agent      |
+| 自动修复 review 问题       | 仅记录；修复由用户 / 后续任务处理  |
 | pipeline 跑超 1 小时无反馈 | 进度回报（每完成 N 任务回报 1 次） |
 
 ## 下一步 (Next Steps)
 
-| 下游技能 / 动作 | 何时使用 |
-|---|---|
+| 下游技能 / 动作  | 何时使用                              |
+| ---------------- | ------------------------------------- |
 | `eas-dev-finish` | 所有任务完成 + review PASS 后进入收尾 |
-| 修复失败任务 | pipeline 停止后；按返回的错误详情修复 |
-| 用户决策豁免 | P1 豁免时由用户裁决 |
+| 修复失败任务     | pipeline 停止后；按返回的错误详情修复 |
+| 用户决策豁免     | P1 豁免时由用户裁决                   |
 
 ## 参考资料 (References)
 
@@ -281,15 +281,15 @@ gate:
 
 ## 与其他技能的关系 (Relationships)
 
-| 技能 | 关系 |
-|---|---|
-| `eas-dev-plan` | **委托**：execute-task 前加载任务 |
-| `eas-dev-tdd` | **委托**：每个任务的实现 |
-| `eas-dev-review` | **委托**：每个任务的评审 |
-| `eas-dev-finish` | **下游**：所有任务完成后进入收尾 |
-| `eas-dev-loop` | **上游**：loop 内调度 implement |
+| 技能                | 关系                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| `eas-dev-plan`      | **委托**：execute-task 前加载任务                            |
+| `eas-dev-tdd`       | **委托**：每个任务的实现                                     |
+| `eas-dev-review`    | **委托**：每个任务的评审                                     |
+| `eas-dev-finish`    | **下游**：所有任务完成后进入收尾                             |
+| `eas-dev-loop`      | **上游**：loop 内调度 implement                              |
 | `eas-skill-creator` | **规范基线**：本技能遵循其结构 + 5 大模式 + frontmatter 规范 |
-| `eas-skill-using` | **不重叠**：dev 分类不进索引 |
+| `eas-skill-using`   | **不重叠**：dev 分类不进索引                                 |
 
 ---
 

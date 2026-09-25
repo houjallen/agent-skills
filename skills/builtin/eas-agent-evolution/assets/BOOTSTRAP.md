@@ -12,11 +12,11 @@ Agent 运行时会在 `{{workspace}}/.easbot/` 目录下查找 `protocol.json` �
 
 ### 关键概念
 
-| 概念 | 说明 | 示例 |
-|------|------|------|
-| **workspace** | Agent 的工作目录（`Instance.directory`） | `E:\work\apps\eas\easbot\packages\agent` |
-| **worktree** | Git 工作区根目录（`Instance.worktree`） | `E:\work\apps\eas\easbot` |
-| **.easbot 目录** | 必须在 workspace 下，不能在 worktree 下 | `{{workspace}}/.easbot` |
+| 概念             | 说明                                     | 示例                                     |
+| ---------------- | ---------------------------------------- | ---------------------------------------- |
+| **workspace**    | Agent 的工作目录（`Instance.directory`） | `E:\work\apps\eas\easbot\packages\agent` |
+| **worktree**     | Git 工作区根目录（`Instance.worktree`）  | `E:\work\apps\eas\easbot`                |
+| **.easbot 目录** | 必须在 workspace 下，不能在 worktree 下  | `{{workspace}}/.easbot`                  |
 
 ### 为什么必须传 workspace？
 
@@ -38,6 +38,7 @@ worktree: E:\work\apps\eas\easbot
 > **作用域说明**：在技能内部调用脚本时，基于技能作用域使用**相对路径** `scripts/init-agent.ts`，绝对不能使用 `skills/builtin/eas-agent-evolution/scripts/init-agent.ts` 这种绝对路径。
 
 **正确做法** ✅：
+
 ```bash
 npx tsx scripts/init-agent.ts \
   --workspace E:\work\apps\eas\easbot\packages\agent \
@@ -52,6 +53,7 @@ npx tsx scripts/init-agent.ts \
 ```
 
 **错误示例** ❌：
+
 ```bash
 # 没有传 --workspace，脚本会报错
 npx tsx scripts/init-agent.ts --output .easbot
@@ -153,24 +155,26 @@ npx tsx skills/builtin/eas-agent-evolution/scripts/init-agent.ts --output .easbo
 
 **命令行参数（9个核心参数）**：
 
-| 参数 | 必填 | 说明 |
-|------|------|------|
-| `--workspace` | ✅ | Agent 的 workspace 路径 |
-| `--output` | 否 | 输出目录，默认 `.easbot`（相对于 workspace） |
-| `--non-interactive` | 否 | 非交互模式 |
-| `--agent-name` | ✅ | Agent 身份名称 |
-| `--user-name` | ✅ | 用户姓名 |
-| `--preferred-name` | 否 | 用户称呼偏好 |
-| `--mission` | ✅ | 核心使命 |
-| `--core-relationship` | 否 | 核心关系 |
-| `--core-values` | 否 | 核心价值观（逗号分隔） |
-| `--behavior-style` | 否 | 行为风格 |
-| `--decision-principles` | 否 | 决策原则（逗号分隔） |
+| 参数                    | 必填 | 说明                                         |
+| ----------------------- | ---- | -------------------------------------------- |
+| `--workspace`           | ✅   | Agent 的 workspace 路径                      |
+| `--output`              | 否   | 输出目录，默认 `.easbot`（相对于 workspace） |
+| `--non-interactive`     | 否   | 非交互模式                                   |
+| `--agent-name`          | ✅   | Agent 身份名称                               |
+| `--user-name`           | ✅   | 用户姓名                                     |
+| `--preferred-name`      | 否   | 用户称呼偏好                                 |
+| `--mission`             | ✅   | 核心使命                                     |
+| `--core-relationship`   | 否   | 核心关系                                     |
+| `--core-values`         | 否   | 核心价值观（逗号分隔）                       |
+| `--behavior-style`      | 否   | 行为风格                                     |
+| `--decision-principles` | 否   | 决策原则（逗号分隔）                         |
 
 **生成的配置文件**：
+
 - `.easbot/protocol.json` - 协议元数据文件
 
 **完整示例（9个参数，包括 --workspace）**：
+
 ```bash
 npx tsx scripts/init-agent.ts \
   --workspace E:\work\apps\eas\easbot\packages\agent \
@@ -187,6 +191,7 @@ npx tsx scripts/init-agent.ts \
 ```
 
 **说明**：
+
 - `--workspace` 必须传入，Agent 会通过 `Instance.directory` 获取
 - `--core-values` 和 `--decision-principles` 为多选参数，使用逗号分隔
 - 所有参数值会自动去除单双引号

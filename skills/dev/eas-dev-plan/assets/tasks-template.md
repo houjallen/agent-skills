@@ -12,7 +12,7 @@ granularity: 2-5 minutes per task
 # <主题> - 任务清单 (Task List)
 
 > **生成方式**：通过 [`eas-dev-plan`](../SKILL.md) 技能产出
-> **上游输入**：[`<path-to-spec.md>`](<path-to-spec.md>) + [`<path-to-design.md>`](<path-to-design.md>)
+> **上游输入**：[`<path-to-spec.md>`](path-to-spec.md) + [`<path-to-design.md>`](path-to-design.md)
 > **下游消费者**：`eas-dev-tdd` / `eas-dev-implement` / `eas-dev-review`
 > **颗粒度约束**：2-5 分钟 / 任务（MUST）
 
@@ -41,7 +41,7 @@ T-004 (API 端点)  T-005 (集成测试)
 ```yaml
 id: T-001
 title: <动宾结构标题>
-prerequisites: []              # 或 [T-XXX]
+prerequisites: [] # 或 [T-XXX]
 acceptance_steps:
   - <可执行步骤 1>
   - <可执行步骤 2>
@@ -73,6 +73,7 @@ risks: []
 ### T-NNN: <任务标题>
 
 ```yaml
+
 ...
 ```
 
@@ -92,15 +93,15 @@ risks: []
 
 ## 元数据 (Metadata)
 
-| 项 | 值 |
-|---|---|
-| 创建时间 | <YYYY-MM-DD> |
-| 更新时间 | <YYYY-MM-DD> |
-| 上游输入 | spec.md + design.md |
-| 任务总数 | <N> |
-| 总估计时间 | <N × 平均> 分钟 |
+| 项         | 值                                                     |
+| ---------- | ------------------------------------------------------ |
+| 创建时间   | <YYYY-MM-DD>                                           |
+| 更新时间   | <YYYY-MM-DD>                                           |
+| 上游输入   | spec.md + design.md                                    |
+| 任务总数   | <N>                                                    |
+| 总估计时间 | <N × 平均> 分钟                                        |
 | 下游消费者 | `eas-dev-tdd` / `eas-dev-implement` / `eas-dev-review` |
-| 用户确认 | `<pending | confirmed @ YYYY-MM-DD>` |
+| 用户确认   | `<pending                                              | confirmed @ YYYY-MM-DD>` |
 
 ---
 

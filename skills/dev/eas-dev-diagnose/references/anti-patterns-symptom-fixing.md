@@ -13,8 +13,8 @@
 try {
   await esClient.search(query);
 } catch (e) {
-  logger.error("ES search failed", e);
-  throw new InternalServerError("search failed");
+  logger.error('ES search failed', e);
+  throw new InternalServerError('search failed');
 }
 ```
 
@@ -23,7 +23,7 @@ try {
 **修复**：转义 query（消除 ES 解析失败）
 
 ```typescript
-const safeQuery = escapeQuery(query);  // 根因修复
+const safeQuery = escapeQuery(query); // 根因修复
 await esClient.search(safeQuery);
 ```
 
@@ -52,7 +52,7 @@ kubectl rollout restart deployment/api
 
 ```typescript
 // "超时了？那就调大点"
-const result = await queryDatabase({ timeout: 60000 });  // 60s
+const result = await queryDatabase({ timeout: 60000 }); // 60s
 ```
 
 **问题**：未解决"为什么慢"；下次仍可能超时。
@@ -105,7 +105,7 @@ const searchService = {
 try {
   return await primaryService.search(query);
 } catch {
-  return await fallbackService.search(query);  // 用旧实现兜底
+  return await fallbackService.search(query); // 用旧实现兜底
 }
 ```
 
@@ -143,7 +143,7 @@ while (true) {
 **症状代码**：
 
 ```typescript
-test.skip("flaky test", () => {
+test.skip('flaky test', () => {
   // 跳过
 });
 ```
@@ -191,18 +191,18 @@ if (featureFlags.newSearchEnabled) {
 
 ## 反模式速查表 (Quick Reference)
 
-| 反模式 | 一句话识别 | 修复 |
-|---|---|---|
-| Catch and Log | try/catch 转 InternalError | 消除错误原因 |
-| Restart | "重启就好了" | 找根因 |
-| Increase Timeout | 超时 → 调大 | 找为什么慢 |
-| Disable Validation | validateInput: false | 修校验逻辑 |
-| Mock Away | mock 掉坏路径 | 修真实实现 |
-| Add Fallback | 加 try/catch fallback | 修主路径 |
-| Retry Forever | while(true) retry | 限重试 + 修根因 |
-| Skip Test | test.skip | 修测试或代码 |
-| Comment Out | `// if (...)` | 修逻辑 |
-| Feature Flag Off | 加 flag 跳过 | 修 bug + 删 legacy |
+| 反模式             | 一句话识别                 | 修复               |
+| ------------------ | -------------------------- | ------------------ |
+| Catch and Log      | try/catch 转 InternalError | 消除错误原因       |
+| Restart            | "重启就好了"               | 找根因             |
+| Increase Timeout   | 超时 → 调大                | 找为什么慢         |
+| Disable Validation | validateInput: false       | 修校验逻辑         |
+| Mock Away          | mock 掉坏路径              | 修真实实现         |
+| Add Fallback       | 加 try/catch fallback      | 修主路径           |
+| Retry Forever      | while(true) retry          | 限重试 + 修根因    |
+| Skip Test          | test.skip                  | 修测试或代码       |
+| Comment Out        | `// if (...)`              | 修逻辑             |
+| Feature Flag Off   | 加 flag 跳过               | 修 bug + 删 legacy |
 
 ## 红旗信号 (Red Flags)
 

@@ -5,16 +5,16 @@ mode: Pattern
 composition: orchestrator
 behavior:
   thinking_framework:
-    name: "Research Conductor (源-证据-路由-冲突解决)"
+    name: 'Research Conductor (源-证据-路由-冲突解决)'
     core_principles:
       - id: source-hierarchy
-        text: "P0 官方原始 > P1 权威二手 > P2 专业社区 > P3 一般参考"
+        text: 'P0 官方原始 > P1 权威二手 > P2 专业社区 > P3 一般参考'
       - id: cross-validation
-        text: "核心声明 MUST ≥3 独立源相互佐证"
+        text: '核心声明 MUST ≥3 独立源相互佐证'
       - id: conflict-resolution
-        text: "源冲突 MUST 呈现两边 + 差异根因，不武断取舍"
+        text: '源冲突 MUST 呈现两边 + 差异根因，不武断取舍'
       - id: no-fabrication
-        text: "MUST NOT 编造数据；未知即声明"
+        text: 'MUST NOT 编造数据；未知即声明'
 metadata:
   category: builtin
   version: 3.0.0
@@ -80,21 +80,21 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项 | 内容 |
-|---|---|
-| 模式 | **Pattern**（思维框架）+ **orchestrator**（调度 2 个子 reference） |
-| 6 大场景 | 商业调研 / 技术调研 / 学术文献 / 政策分析 / 趋势预测 / 竞品对比 / 根因调研 |
-| 核心思维框架 | Research Conductor（源层级 + 证据收集 + 路由 + 冲突解决） |
-| 4 项核心原则 | source-hierarchy / cross-validation / conflict-resolution / no-fabrication |
-| 子 reference | `references/research-report.md`（默认）/ `references/comparison-analysis.md`（多实体对比） |
-| 路由决策 | 简单事实查询 → 父技能直接答；需产出报告 → 路由到 `research-report`；多实体对比 → 路由到 `comparison-analysis` |
-| 源层级 | P0 官方原始 → P1 权威二手 → P2 专业社区 → P3 一般参考 |
-| 引用规范 | `[cite:N]` inline；1-3 引用 / 实质性声明；≥3 独立源 / 核心声明 |
-| 红线 | 不编造数据 / 不第一人称 / 不武断取舍 / 不虚构引用 |
-| 必读 references | [research-report.md](references/research-report.md)（默认路由） / [comparison-analysis.md](references/comparison-analysis.md)（多实体对比） |
-| 必含 assets | [research-report-template.md](assets/research-report-template.md) / [comparison-analysis-template.md](assets/comparison-analysis-template.md) |
-| 无前置依赖 | 独立 builtin 技能；不依赖 dev 包任何技能 |
-| 落地路径 | `<cwd>/.easbot/knowledge/docs/research/<topic>/research-report.md` 或 `comparison-analysis.md` |
+| 项              | 内容                                                                                                                                          |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| 模式            | **Pattern**（思维框架）+ **orchestrator**（调度 2 个子 reference）                                                                            |
+| 6 大场景        | 商业调研 / 技术调研 / 学术文献 / 政策分析 / 趋势预测 / 竞品对比 / 根因调研                                                                    |
+| 核心思维框架    | Research Conductor（源层级 + 证据收集 + 路由 + 冲突解决）                                                                                     |
+| 4 项核心原则    | source-hierarchy / cross-validation / conflict-resolution / no-fabrication                                                                    |
+| 子 reference    | `references/research-report.md`（默认）/ `references/comparison-analysis.md`（多实体对比）                                                    |
+| 路由决策        | 简单事实查询 → 父技能直接答；需产出报告 → 路由到 `research-report`；多实体对比 → 路由到 `comparison-analysis`                                 |
+| 源层级          | P0 官方原始 → P1 权威二手 → P2 专业社区 → P3 一般参考                                                                                         |
+| 引用规范        | `[cite:N]` inline；1-3 引用 / 实质性声明；≥3 独立源 / 核心声明                                                                                |
+| 红线            | 不编造数据 / 不第一人称 / 不武断取舍 / 不虚构引用                                                                                             |
+| 必读 references | [research-report.md](references/research-report.md)（默认路由） / [comparison-analysis.md](references/comparison-analysis.md)（多实体对比）   |
+| 必含 assets     | [research-report-template.md](assets/research-report-template.md) / [comparison-analysis-template.md](assets/comparison-analysis-template.md) |
+| 无前置依赖      | 独立 builtin 技能；不依赖 dev 包任何技能                                                                                                      |
+| 落地路径        | `<cwd>/.easbot/knowledge/docs/research/<topic>/research-report.md` 或 `comparison-analysis.md`                                                |
 
 ## 第一性原理 (First Principles)
 
@@ -150,25 +150,25 @@ Hypothesize → Search → Validate → Refine → (重复或终止)
 
 ## 输入契约 (Input Contract)
 
-| 项 | 要求 |
-|---|---|
-| 必备 | 用户研究意图（自然语言描述：调研主题 / 范围 / 深度期望） |
-| 可选 | 已知候选实体清单（如 "对比 A / B / C"） |
-| 可选 | 行业背景 / 时效要求 |
-| 可选 | 已有参考资料 / 链接 |
+| 项   | 要求                                                            |
+| ---- | --------------------------------------------------------------- |
+| 必备 | 用户研究意图（自然语言描述：调研主题 / 范围 / 深度期望）        |
+| 可选 | 已知候选实体清单（如 "对比 A / B / C"）                         |
+| 可选 | 行业背景 / 时效要求                                             |
+| 可选 | 已有参考资料 / 链接                                             |
 | 拒绝 | 纯技术语法问题 / 编程 API 用法 / 软件代码 bug —— 走对应领域技能 |
-| 拒绝 | 项目级软件决策（"该不该引入 Kafka"）—— 走项目级需求 / 决策流程 |
+| 拒绝 | 项目级软件决策（"该不该引入 Kafka"）—— 走项目级需求 / 决策流程  |
 
 ## 输出契约 (Output Contract)
 
 **本技能是调度器**，直接产出仅限**简答型 L1 事实查询**；结构化研究报告 MUST 由子 reference 产出。落地路径规范（builtin 技能通用默认；宿主项目可在自有 `.easbot/AGENTS.md` 声明覆盖）：
 
-| 场景 | 路径 |
-|---|---|
-| **研究报告（默认）** | `<cwd>/.easbot/knowledge/docs/research/<topic>/research-report.md` |
-| **对比分析（多实体）** | `<cwd>/.easbot/knowledge/docs/research/<topic>/comparison-analysis.md` |
-| **探索性速答（L1 直接答）** | （不落档；chat 内直接答复） |
-| **临时 / 实验性** | `<cwd>/.easbot/state/scratch-research-<topic>.md` |
+| 场景                        | 路径                                                                   |
+| --------------------------- | ---------------------------------------------------------------------- |
+| **研究报告（默认）**        | `<cwd>/.easbot/knowledge/docs/research/<topic>/research-report.md`     |
+| **对比分析（多实体）**      | `<cwd>/.easbot/knowledge/docs/research/<topic>/comparison-analysis.md` |
+| **探索性速答（L1 直接答）** | （不落档；chat 内直接答复）                                            |
+| **临时 / 实验性**           | `<cwd>/.easbot/state/scratch-research-<topic>.md`                      |
 
 **禁止路径**（会污染版本控制或与既有规范冲突）：
 
@@ -189,29 +189,29 @@ Hypothesize → Search → Validate → Refine → (重复或终止)
 
 ## 失败处理 (Failure Handling)
 
-| 情况 | 动作 |
-|---|---|
-| 用户意图不清 | 退回 Step 1；询问研究主题 + 深度期望 + 交付物期望 |
-| 源不足（<3 独立源） | 继续迭代证据循环；如工具边界已达 → 标 `[INSUFFICIENT DATA]` |
-| 路由歧义（"调研 + 对比"混合） | 按**主交付物**路由；副意图作分析修饰 |
-| 多交付物（"市场报告 + 竞品对比"） | 各自路由独立产出（每个产物 1 个独立文件） |
-| 用户拒绝子 reference 路由 | 退回父技能直接产出；显式声明"未经子 reference 完整流程" |
-| 数据时效 > 6 个月 | 标 `(data aged)`；提醒用户重新核实 |
-| 用户原意是软件代码内部调研 | 拒绝；引导至代码层面的设计 / 诊断 / 评审流程 |
+| 情况                              | 动作                                                        |
+| --------------------------------- | ----------------------------------------------------------- |
+| 用户意图不清                      | 退回 Step 1；询问研究主题 + 深度期望 + 交付物期望           |
+| 源不足（<3 独立源）               | 继续迭代证据循环；如工具边界已达 → 标 `[INSUFFICIENT DATA]` |
+| 路由歧义（"调研 + 对比"混合）     | 按**主交付物**路由；副意图作分析修饰                        |
+| 多交付物（"市场报告 + 竞品对比"） | 各自路由独立产出（每个产物 1 个独立文件）                   |
+| 用户拒绝子 reference 路由         | 退回父技能直接产出；显式声明"未经子 reference 完整流程"     |
+| 数据时效 > 6 个月                 | 标 `(data aged)`；提醒用户重新核实                          |
+| 用户原意是软件代码内部调研        | 拒绝；引导至代码层面的设计 / 诊断 / 评审流程                |
 
 ## 常见错误 (Common Mistakes)
 
-| ❌ 不要 | ✅ 应该 |
-|---|---|
-| 跳过 Step 1 意图分类 | MUST 先分类 + 标定深度 + 路由 |
-| 单源支撑核心声明 | MUST ≥3 独立源；否则标 `[SINGLE-SOURCE]` |
-| 武断取舍冲突源 | MUST 呈现两边 + 差异根因 |
-| 编造数据填空白 | 未知 = 已知未知；MUST 声明 |
-| 报告 + 直接答混在一起 | chat 答 + 文件落地报告（解耦） |
-| 走完所有 4 步才发现是 L1 速答 | Step 1 先判深度；L1 直接答无需 4 步 |
-| 引用编号对不上 | MUST 与工具返回的真实索引对齐 |
-| 用第一人称写报告 | MUST 第三人称；"研究发现" / "数据显示" |
-| 把"代码内部调研"当 research | 走代码层面的设计 / 诊断 / 评审流程（不是调研类技能职责） |
+| ❌ 不要                       | ✅ 应该                                                  |
+| ----------------------------- | -------------------------------------------------------- |
+| 跳过 Step 1 意图分类          | MUST 先分类 + 标定深度 + 路由                            |
+| 单源支撑核心声明              | MUST ≥3 独立源；否则标 `[SINGLE-SOURCE]`                 |
+| 武断取舍冲突源                | MUST 呈现两边 + 差异根因                                 |
+| 编造数据填空白                | 未知 = 已知未知；MUST 声明                               |
+| 报告 + 直接答混在一起         | chat 答 + 文件落地报告（解耦）                           |
+| 走完所有 4 步才发现是 L1 速答 | Step 1 先判深度；L1 直接答无需 4 步                      |
+| 引用编号对不上                | MUST 与工具返回的真实索引对齐                            |
+| 用第一人称写报告              | MUST 第三人称；"研究发现" / "数据显示"                   |
+| 把"代码内部调研"当 research   | 走代码层面的设计 / 诊断 / 评审流程（不是调研类技能职责） |
 
 ## 参考资料 (References)
 
@@ -220,15 +220,15 @@ Hypothesize → Search → Validate → Refine → (重复或终止)
 
 ## 与其他技能的关系 (Relationships)
 
-| 技能 | 关系 |
-|---|---|
-| `eas-skill-using` | **导航前置** —— 本技能被 `eas-skill-using` 能力索引收录 |
-| `eas-skill-creator` | **规范基线** —— 本技能遵循其结构 + 5 大模式 + frontmatter 规范 |
-| `eas-skill-find` | **互补** —— 用户可先 `eas-skill-find` 找现成技能（市场 / 本地），再用本技能做信息综合 |
-| `eas-planning-writer` | **不重叠** —— planning-writer 是项目级长任务（三件套 task_plan/findings/progress）；本技能是单次调研产物 |
-| `eas-agent-creation` / `eas-agent-evolution` / `eas-prompt-creator` | **不重叠** —— 三个 builtin 服务 Agent 自身管理；本技能服务研究 / 分析 |
-| 软件开发类技能（如 spec / design / code review / debugging 等） | **互补 / 边界清晰** —— 开发类技能产出实现 / 规格 / 评审报告；本技能产出**调研报告**（不与开发流程互斥） |
-| `eas-chinese-writer` / `eas-docx` / `eas-pdf` / `eas-pptx` / `eas-xlsx` | **互补** —— tools 包负责最终产出格式（Word / PDF / PPT / Excel）；本技能只出 Markdown 内容 |
+| 技能                                                                    | 关系                                                                                                     |
+| ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `eas-skill-using`                                                       | **导航前置** —— 本技能被 `eas-skill-using` 能力索引收录                                                  |
+| `eas-skill-creator`                                                     | **规范基线** —— 本技能遵循其结构 + 5 大模式 + frontmatter 规范                                           |
+| `eas-skill-find`                                                        | **互补** —— 用户可先 `eas-skill-find` 找现成技能（市场 / 本地），再用本技能做信息综合                    |
+| `eas-planning-writer`                                                   | **不重叠** —— planning-writer 是项目级长任务（三件套 task_plan/findings/progress）；本技能是单次调研产物 |
+| `eas-agent-creation` / `eas-agent-evolution` / `eas-prompt-creator`     | **不重叠** —— 三个 builtin 服务 Agent 自身管理；本技能服务研究 / 分析                                    |
+| 软件开发类技能（如 spec / design / code review / debugging 等）         | **互补 / 边界清晰** —— 开发类技能产出实现 / 规格 / 评审报告；本技能产出**调研报告**（不与开发流程互斥）  |
+| `eas-chinese-writer` / `eas-docx` / `eas-pdf` / `eas-pptx` / `eas-xlsx` | **互补** —— tools 包负责最终产出格式（Word / PDF / PPT / Excel）；本技能只出 Markdown 内容               |
 
 ---
 

@@ -64,24 +64,24 @@ unpacked/
 <w:t>Here&#x2019;s a quote: &#x201C;Hello&#x201D;</w:t>
 ```
 
-| Entity | 字符 |
-| --- | --- |
-| `&#x2018;` | ‘ (left single) |
+| Entity     | 字符                          |
+| ---------- | ----------------------------- |
+| `&#x2018;` | ‘ (left single)               |
 | `&#x2019;` | ’ (right single / apostrophe) |
-| `&#x201C;` | “ (left double) |
-| `&#x201D;` | ” (right double) |
+| `&#x201C;` | “ (left double)               |
+| `&#x201D;` | ” (right double)              |
 
 **XML Schema Compliance**：
 
-| 父节点 | 元素顺序（属性优先） |
-| --- | --- |
-| `<w:pPr>` | `pStyle` → `numPr` → `spacing` → `ind` → `jc` → `rPr`（最末） |
-| `<w:p>` | `pPr` → runs |
-| `<w:r>` | `rPr` → `t` / `br` / `tab` |
-| `<w:tbl>` | `tblPr` → `tblGrid` → `tr` |
-| `<w:tr>` | `trPr` → `tc` |
-| `<w:tc>` | `tcPr` → `p`（至少 1 个 `<w:p/>`） |
-| `<w:body>` | 块内容 → `sectPr`（**最末子节点**） |
+| 父节点     | 元素顺序（属性优先）                                          |
+| ---------- | ------------------------------------------------------------- |
+| `<w:pPr>`  | `pStyle` → `numPr` → `spacing` → `ind` → `jc` → `rPr`（最末） |
+| `<w:p>`    | `pPr` → runs                                                  |
+| `<w:r>`    | `rPr` → `t` / `br` / `tab`                                    |
+| `<w:tbl>`  | `tblPr` → `tblGrid` → `tr`                                    |
+| `<w:tr>`   | `trPr` → `tc`                                                 |
+| `<w:tc>`   | `tcPr` → `p`（至少 1 个 `<w:p/>`）                            |
+| `<w:body>` | 块内容 → `sectPr`（**最末子节点**）                           |
 
 **空白处理**：`<w:t>` 含首尾空白 MUST 加 `xml:space="preserve"`。
 
@@ -134,16 +134,19 @@ python3 <skillPath>/scripts/comment.py unpacked/ 0 "Text" --author "Custom Autho
 **4 处必须同步**：
 
 1. **文件放 `word/media/`**：
+
    ```bash
    cp image.png unpacked/word/media/image1.png
    ```
 
 2. **加关系到 `word/_rels/document.xml.rels`**：
+
    ```xml
    <Relationship Id="rId5" Type=".../image" Target="media/image1.png"/>
    ```
 
 3. **加 Content Type 到 `[Content_Types].xml`**：
+
    ```xml
    <Default Extension="png" ContentType="image/png"/>
    ```

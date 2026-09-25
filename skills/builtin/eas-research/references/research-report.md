@@ -50,18 +50,18 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项 | 内容 |
-|---|---|
-| 模式 | Generator（产出研究报告）+ 父技能 Pattern（思维框架）+ orchestrator |
-| 路由 | `eas-research` 默认路由；多实体对比场景 MUST 路由到 `comparison-analysis` |
-| 默认格式 | Markdown（GFM）+ 引用规范 `[cite:N]` |
+| 项       | 内容                                                                                                                |
+| -------- | ------------------------------------------------------------------------------------------------------------------- |
+| 模式     | Generator（产出研究报告）+ 父技能 Pattern（思维框架）+ orchestrator                                                 |
+| 路由     | `eas-research` 默认路由；多实体对比场景 MUST 路由到 `comparison-analysis`                                           |
+| 默认格式 | Markdown（GFM）+ 引用规范 `[cite:N]`                                                                                |
 | 必含章节 | Executive Summary / Scope & Methodology / Key Findings / Conflict & Uncertainty / Discussion / Conclusion / Sources |
-| 可选章节 | 领域特定结构（学术 / 投资 / 技术 / 政策）/ Appendix |
-| 源层级 | P0 官方原始 → P1 权威二手 → P2专业社区 → P3一般参考 |
-| 引用规范 | `[cite:N]` inline；1-3 引用 / 实质性声明；≥3 独立源 / 核心声明 |
-| 红线 | 不编造数据 / 不第一人称 / 不武断取舍 / 不虚构引用 |
-| 模板 | [research-report-template.md](../assets/research-report-template.md) |
-| 落地路径 | `<cwd>/.easbot/knowledge/docs/dev/<topic>/research-report.md` |
+| 可选章节 | 领域特定结构（学术 / 投资 / 技术 / 政策）/ Appendix                                                                 |
+| 源层级   | P0 官方原始 → P1 权威二手 → P2专业社区 → P3一般参考                                                                 |
+| 引用规范 | `[cite:N]` inline；1-3 引用 / 实质性声明；≥3 独立源 / 核心声明                                                      |
+| 红线     | 不编造数据 / 不第一人称 / 不武断取舍 / 不虚构引用                                                                   |
+| 模板     | [research-report-template.md](../assets/research-report-template.md)                                                |
+| 落地路径 | `<cwd>/.easbot/knowledge/docs/dev/<topic>/research-report.md`                                                       |
 
 ## 第一性原理 (First Principles)
 
@@ -132,24 +132,24 @@ metadata:
 
 ### 3.1 通用组件 (Common Components)
 
-| 组件 | 用途 |
-|---|---|
-| **Title（标题）**（H1） | 清晰描述性报告标题 |
-| **Executive Summary / Overview（执行摘要）** | 关键发现简要综合 |
-| **Body sections（正文）**（H2/H3） | 按主题 / 论点 / 时间组织 |
-| **Analysis / Discussion（分析 / 讨论）** | 解读 / 取舍 / 含义 |
-| **Conclusion（结论）** | 发现总结 + 可执行要点 |
+| 组件                                         | 用途                     |
+| -------------------------------------------- | ------------------------ |
+| **Title（标题）**（H1）                      | 清晰描述性报告标题       |
+| **Executive Summary / Overview（执行摘要）** | 关键发现简要综合         |
+| **Body sections（正文）**（H2/H3）           | 按主题 / 论点 / 时间组织 |
+| **Analysis / Discussion（分析 / 讨论）**     | 解读 / 取舍 / 含义       |
+| **Conclusion（结论）**                       | 发现总结 + 可执行要点    |
 
 ### 3.2 领域特定结构 (Domain-Specific Structures)
 
 适用领域使用领域惯例：
 
-| 领域 | 结构 |
-|---|---|
-| **学术 (Academic)** | Introduction → Literature Review → Methodology → Analysis → Discussion → Conclusion |
+| 领域                                  | 结构                                                                                                    |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **学术 (Academic)**                   | Introduction → Literature Review → Methodology → Analysis → Discussion → Conclusion                     |
 | **投资 / 市场 (Investment / Market)** | Executive Summary → Industry Overview → Competitive Landscape → Financial Analysis → Risks → Conclusion |
-| **技术 (Technical)** | Overview → Architecture / Methodology → Analysis / Results → Discussion |
-| **政策 / 法律 (Policy / Legal)** | Summary → Context → Stakeholder Analysis → Evidence Review → Implications → Recommendations |
+| **技术 (Technical)**                  | Overview → Architecture / Methodology → Analysis / Results → Discussion                                 |
+| **政策 / 法律 (Policy / Legal)**      | Summary → Context → Stakeholder Analysis → Evidence Review → Implications → Recommendations             |
 
 **MUST 按查询实际需要适配结构**——不为简单查询强套模板。
 
@@ -188,10 +188,10 @@ Climate change impacts are accelerating globally. Temperature increases exceed p
 **表格引用示例**：
 
 ```markdown
-| Method | Accuracy | Source |
-|--------|----------|--------|
-| Method A | 95.2% | [cite:8] |
-| Method B | 93.8% | [cite:9] |
+| Method   | Accuracy | Source   |
+| -------- | -------- | -------- |
+| Method A | 95.2%    | [cite:8] |
+| Method B | 93.8%    | [cite:9] |
 ```
 
 ### 4.3 引用规则 (Citation Rules)
@@ -270,11 +270,11 @@ Climate change impacts are accelerating globally. Temperature increases exceed p
 
 写作前评估用户知识水平：
 
-| 水平 | 处理 |
-|---|---|
-| **Expert（专家）** | 用精确领域术语，不解释 |
+| 水平                     | 处理                            |
+| ------------------------ | ------------------------------- |
+| **Expert（专家）**       | 用精确领域术语，不解释          |
 | **Intermediate（中等）** | 用技术术语 + 简短 inline 上下文 |
-| **General（一般）** | 首次出现时定义 jargon |
+| **General（一般）**      | 首次出现时定义 jargon           |
 
 ---
 
@@ -282,14 +282,14 @@ Climate change impacts are accelerating globally. Temperature increases exceed p
 
 研究过程始终综合。输出长度匹配用户意图：
 
-| 请求类型 | 长度 | 注 |
-|---|---|---|
-| **简洁 / 摘要**（"简要概述…" / "总结…"） | 5-10 段 | 提炼最核心要点 |
-| **事实查询**（"什么是 X？" / "Y 何时发生？"） | 5-10 段 | 直接答案 + 丰富上下文 |
+| 请求类型                                       | 长度      | 注                     |
+| ---------------------------------------------- | --------- | ---------------------- |
+| **简洁 / 摘要**（"简要概述…" / "总结…"）       | 5-10 段   | 提炼最核心要点         |
+| **事实查询**（"什么是 X？" / "Y 何时发生？"）  | 5-10 段   | 直接答案 + 丰富上下文  |
 | **对比 / 排名**（"对比前 5…" / "最佳选项是…"） | 20-40+ 段 | 结构化分析；优先用表格 |
-| **开放式研究**（"分析…" / "解释历史和含义…"） | 20-40+ 段 | 全分析深度 |
-| **明确深度**（"综合报告…" / "深度研究…"） | 无上限 | 长度由主题范围决定 |
-| **所有其他查询** | 默认综合 | 拿不准时多给而非少给 |
+| **开放式研究**（"分析…" / "解释历史和含义…"）  | 20-40+ 段 | 全分析深度             |
+| **明确深度**（"综合报告…" / "深度研究…"）      | 无上限    | 长度由主题范围决定     |
+| **所有其他查询**                               | 默认综合  | 拿不准时多给而非少给   |
 
 ---
 
@@ -297,10 +297,10 @@ Climate change impacts are accelerating globally. Temperature increases exceed p
 
 优先主要和权威源。偏好顺序：官方文档 / 同行评审研究 / 权威媒体 / 政府源 / 公认行业专家 —— 优于博客 / 论坛 / 未验证源。
 
-| 查询复杂度 | 要求 |
-|---|---|
-| **简单事实** | 搜索直到多个源一致权威 —— 不止步首个结果 |
-| **中等研究** | 多视角实质性分析；关键声明 3+ 独立源 |
+| 查询复杂度                                 | 要求                                                                     |
+| ------------------------------------------ | ------------------------------------------------------------------------ |
+| **简单事实**                               | 搜索直到多个源一致权威 —— 不止步首个结果                                 |
+| **中等研究**                               | 多视角实质性分析；关键声明 3+ 独立源                                     |
 | **复杂研究**（报告 / 对比分析 / 文献综述） | 覆盖所有主要观点和子主题；用证据支撑推荐；识别局限；追溯关键声明到原始源 |
 
 - 跨多源交叉验证重要声明
@@ -345,19 +345,19 @@ Climate change impacts are accelerating globally. Temperature increases exceed p
 
 ## 输入契约 (Input Contract)
 
-| 项 | 要求 |
-|---|---|
+| 项   | 要求                                                     |
+| ---- | -------------------------------------------------------- |
 | 必备 | 用户研究意图（自然语言描述：调研主题 / 范围 / 深度期望） |
-| 可选 | 行业背景 / 时效要求 / 参考资料链接 |
-| 拒绝 | 多实体对比（走 `comparison-analysis`） |
-| 拒绝 | 简单事实查询（L1 速答） |
+| 可选 | 行业背景 / 时效要求 / 参考资料链接                       |
+| 拒绝 | 多实体对比（走 `comparison-analysis`）                   |
+| 拒绝 | 简单事实查询（L1 速答）                                  |
 
 ## 输出契约 (Output Contract)
 
-| 路径 | 用途 |
-|---|---|
+| 路径                                                          | 用途                       |
+| ------------------------------------------------------------- | -------------------------- |
 | `<cwd>/.easbot/knowledge/docs/dev/<topic>/research-report.md` | 主交付物（按 §3 默认结构） |
-| `<cwd>/.easbot/state/dev-scratch-<topic>-research.md` | 临时 / 实验性场景 |
+| `<cwd>/.easbot/state/dev-scratch-<topic>-research.md`         | 临时 / 实验性场景          |
 
 **`<topic>` 命名**：kebab-case，≤ 64 字符；如 `research-grpc-trends-2026` / `investigate-flaky-test`。
 
@@ -365,35 +365,35 @@ Climate change impacts are accelerating globally. Temperature increases exceed p
 
 ## 失败处理 (Failure Handling)
 
-| 情况 | 动作 |
-|---|---|
-| 用户意图不清 | 退回 Step 1；询问研究主题 / 深度 / 交付物期望 |
+| 情况                | 动作                                                        |
+| ------------------- | ----------------------------------------------------------- |
+| 用户意图不清        | 退回 Step 1；询问研究主题 / 深度 / 交付物期望               |
 | 源不足（<3 独立源） | 继续迭代证据循环；如工具边界已达 → 标 `[INSUFFICIENT DATA]` |
-| 用户要求多实体对比 | 退回父技能 → 路由到 `comparison-analysis` |
-| 数据时效 > 6 个月 | 标 `(data aged)`；提醒用户重新核实 |
-| 用户要求 PPTX 输出 | 路由到 `eas-pptx` 技能；本 reference 仅出 Markdown 内容 |
+| 用户要求多实体对比  | 退回父技能 → 路由到 `comparison-analysis`                   |
+| 数据时效 > 6 个月   | 标 `(data aged)`；提醒用户重新核实                          |
+| 用户要求 PPTX 输出  | 路由到 `eas-pptx` 技能；本 reference 仅出 Markdown 内容     |
 
 ## 常见错误 (Common Mistakes)
 
-| ❌ 不要 | ✅ 应该 |
-|---|---|
-| 在报告中含 chat 直接回答 | chat 答 + 文件落地报告（解耦） |
-| 用第一人称写报告 | MUST 第三人称；"研究发现" / "数据显示" |
-| 编造数据填空白 | 未知 = 已知未知；MUST 声明 |
-| 单源支撑核心声明 | MUST ≥3 独立源；否则标 `[SINGLE-SOURCE]` |
-| 武断取舍冲突源 | MUST 呈现两边 + 差异根因 |
-| 报告无 Sources 节（长报告） | MUST 含 "Sources" 节列出引用 URL |
-| 引用编号对不上工具返回 | MUST 与工具返回的真实索引对齐 |
-| 多实体对比也用此 reference | 多实体走 `comparison-analysis`；本 reference 仅单交付物 |
+| ❌ 不要                     | ✅ 应该                                                 |
+| --------------------------- | ------------------------------------------------------- |
+| 在报告中含 chat 直接回答    | chat 答 + 文件落地报告（解耦）                          |
+| 用第一人称写报告            | MUST 第三人称；"研究发现" / "数据显示"                  |
+| 编造数据填空白              | 未知 = 已知未知；MUST 声明                              |
+| 单源支撑核心声明            | MUST ≥3 独立源；否则标 `[SINGLE-SOURCE]`                |
+| 武断取舍冲突源              | MUST 呈现两边 + 差异根因                                |
+| 报告无 Sources 节（长报告） | MUST 含 "Sources" 节列出引用 URL                        |
+| 引用编号对不上工具返回      | MUST 与工具返回的真实索引对齐                           |
+| 多实体对比也用此 reference  | 多实体走 `comparison-analysis`；本 reference 仅单交付物 |
 
 ## 下一步 (Next Steps)
 
-| 场景 | 动作 |
-|---|---|
-| 研究报告完成 | 落地到 `<cwd>/.easbot/knowledge/docs/research/<topic>/research-report.md` |
-| 用户要求进入开发实施 | 路由到对应领域的规格 / 架构设计流程（与本研究技能的下游对接） |
-| 多实体对比需求 | 加载本 reference 重路由 → `comparison-analysis` |
-| 重做 / 反驳 | 加载本 reference 重做；增量更新产物 frontmatter `updated_at` |
+| 场景                 | 动作                                                                      |
+| -------------------- | ------------------------------------------------------------------------- |
+| 研究报告完成         | 落地到 `<cwd>/.easbot/knowledge/docs/research/<topic>/research-report.md` |
+| 用户要求进入开发实施 | 路由到对应领域的规格 / 架构设计流程（与本研究技能的下游对接）             |
+| 多实体对比需求       | 加载本 reference 重路由 → `comparison-analysis`                           |
+| 重做 / 反驳          | 加载本 reference 重做；增量更新产物 frontmatter `updated_at`              |
 
 ---
 

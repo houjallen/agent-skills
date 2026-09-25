@@ -24,12 +24,12 @@ easbot skills find [query] --local --path <dir>
 easbot skills find xlsx --local --json
 ```
 
-| Flag | 作用 | 互斥 |
-|---|---|---|
-| `--local` | 切换到本地模式 | 与远程互斥（同时无） |
+| Flag           | 作用                                               | 互斥                                               |
+| -------------- | -------------------------------------------------- | -------------------------------------------------- |
+| `--local`      | 切换到本地模式                                     | 与远程互斥（同时无）                               |
 | `--path <dir>` | 扫 `<dir>` 下所有 SKILL.md（filesystem scan 模式） | 与 store 模式互斥（不传走 store，传走 filesystem） |
-| `--json` | 输出结构化 JSON | 与 TTY 互斥（脚本场景） |
-| `--owner` | **本地模式忽略**（仅远程有效） |  |
+| `--json`       | 输出结构化 JSON                                    | 与 TTY 互斥（脚本场景）                            |
+| `--owner`      | **本地模式忽略**（仅远程有效）                     |                                                    |
 
 ## Store 模式 vs Filesystem 模式 (Store Mode vs Filesystem Mode)
 
@@ -57,6 +57,7 @@ eas-xlsx
 ```
 
 **两套输出的差异**：
+
 - Store 模式按"来源（market → plugin）"分组 —— 适合看"这个 source 有哪些 skill"
 - Filesystem 模式按"skill 名"分组（同名 skill 合并到同一组）—— 适合看"哪些路径下有这个 skill"
 
@@ -66,14 +67,14 @@ eas-xlsx
 
 ## 与远程模式的区别 (Differences from Remote)
 
-| 维度 | 远程 | 本地（`--local`） |
-|---|---|---|
-| 数据源 | skills.sh `/api/search` | `<data>/easbot/skills/store/index.json` |
-| 联网 | 必须 | 不必须 |
-| 排序 | install 数倒序 | 按 skillName 字母序 |
-| 结果数 | top 10（API 限） | 全部匹配 |
-| 安装命令 | `easbot skills add <owner>/<repo>@<skill>` | 该 skill 已登记在 store（`easbot skills add <source>` 重新 add） |
-| Owner 过滤 | 支持 `--owner` | **不支持**（store 内是已登记的，owner 信息在 market 层） |
+| 维度       | 远程                                       | 本地（`--local`）                                                |
+| ---------- | ------------------------------------------ | ---------------------------------------------------------------- |
+| 数据源     | skills.sh `/api/search`                    | `<data>/easbot/skills/store/index.json`                          |
+| 联网       | 必须                                       | 不必须                                                           |
+| 排序       | install 数倒序                             | 按 skillName 字母序                                              |
+| 结果数     | top 10（API 限）                           | 全部匹配                                                         |
+| 安装命令   | `easbot skills add <owner>/<repo>@<skill>` | 该 skill 已登记在 store（`easbot skills add <source>` 重新 add） |
+| Owner 过滤 | 支持 `--owner`                             | **不支持**（store 内是已登记的，owner 信息在 market 层）         |
 
 ## Store 物理结构补充 (Store Layout Hint)
 

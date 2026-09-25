@@ -10,12 +10,12 @@ Agent 运行时会在 `{{workspace}}/.easbot/` 目录下查找 `protocol.json` �
 
 ## 关键概念 (Key Concepts)
 
-| 概念 | 说明 | 示例 |
-|------|------|------|
-| **agentId** | Agent 唯一标识符（peer-uuid 格式） | `peer-550e8400-e29b-41d4-a716-446655440000` |
-| **workspace** | Agent 的工作目录（`Instance.directory`） | `E:\work\apps\eas\easbot\packages\agent` |
-| **worktree** | Git 工作区根目录（`Instance.worktree`） | `E:\work\apps\eas\easbot` |
-| **.easbot 目录** | 必须在 workspace 下，不能在 worktree 下 | `{{workspace}}/.easbot` |
+| 概念             | 说明                                     | 示例                                        |
+| ---------------- | ---------------------------------------- | ------------------------------------------- |
+| **agentId**      | Agent 唯一标识符（peer-uuid 格式）       | `peer-550e8400-e29b-41d4-a716-446655440000` |
+| **workspace**    | Agent 的工作目录（`Instance.directory`） | `E:\work\apps\eas\easbot\packages\agent`    |
+| **worktree**     | Git 工作区根目录（`Instance.worktree`）  | `E:\work\apps\eas\easbot`                   |
+| **.easbot 目录** | 必须在 workspace 下，不能在 worktree 下  | `{{workspace}}/.easbot`                     |
 
 ## agentId 说明 (Agent ID)
 

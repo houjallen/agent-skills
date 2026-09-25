@@ -11,7 +11,7 @@ upstream: <path-to-alignment.md>
 # <主题> - 规格说明书 (Specification)
 
 > **生成方式**：通过 [`eas-dev-spec`](../SKILL.md) 技能产出
-> **上游输入**：[`<path-to-alignment.md>`](<path-to-alignment.md>)
+> **上游输入**：[`<path-to-alignment.md>`](path-to-alignment.md)
 > **下游消费者**：`eas-dev-design` / `eas-dev-plan` / `eas-dev-review`
 > **状态**：`draft`（待确认）→ `confirmed`（用户已确认）
 
@@ -100,17 +100,17 @@ components:
 
 **Type**: `<behavior-defined | metric-defined | test-coverage>`
 
-| AC ID | Name | Target | Measurement |
-|---|---|---|---|
-| AC-1 | <验收项 1> | <目标值> | <如何测量> |
-| AC-2 | <验收项 2> | <目标值> | <如何测量> |
-| ... | | | |
+| AC ID | Name       | Target   | Measurement |
+| ----- | ---------- | -------- | ----------- |
+| AC-1  | <验收项 1> | <目标值> | <如何测量>  |
+| AC-2  | <验收项 2> | <目标值> | <如何测量>  |
+| ...   |            |          |             |
 
 ### Secondary Acceptance（副验收，可选）
 
-| AC ID | Name | Target | Measurement |
-|---|---|---|---|
-| AC-N | <附加验收> | <目标值> | <如何测量> |
+| AC ID | Name       | Target   | Measurement |
+| ----- | ---------- | -------- | ----------- |
+| AC-N  | <附加验收> | <目标值> | <如何测量>  |
 
 ### Done Definition（完成判定）
 
@@ -126,25 +126,25 @@ components:
 
 > 来源：alignment.md §3 范围（out_of_scope）
 
-| Item | Reason |
-|---|---|
+| Item           | Reason |
+| -------------- | ------ |
 | <不做的功能 1> | <理由> |
 | <不做的功能 2> | <理由> |
 | <不做的功能 3> | <理由> |
-| ... | |
+| ...            |        |
 
 ---
 
 ## 元数据 (Metadata)
 
-| 项 | 值 |
-|---|---|
-| 创建时间 | <YYYY-MM-DD> |
-| 更新时间 | <YYYY-MM-DD> |
-| 上游输入 | <path-to-alignment.md> |
+| 项       | 值                                                   |
+| -------- | ---------------------------------------------------- |
+| 创建时间 | <YYYY-MM-DD>                                         |
+| 更新时间 | <YYYY-MM-DD>                                         |
+| 上游输入 | <path-to-alignment.md>                               |
 | 适用技能 | `eas-dev-design` / `eas-dev-plan` / `eas-dev-review` |
-| 用户确认 | `<pending | confirmed @ YYYY-MM-DD>` |
-| 关联决策 | <link to docs/decisions/...> |
+| 用户确认 | `<pending                                            | confirmed @ YYYY-MM-DD>` |
+| 关联决策 | <link to docs/decisions/...>                         |
 
 ---
 

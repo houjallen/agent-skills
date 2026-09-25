@@ -1,6 +1,6 @@
 ---
 name: requirements-gathering
-description: "eas-planning-writer 阶段 1 需求收集方法论 —— 苏格拉底式六维度 + 领域分支问句库 + 轮次策略 + 退出条件 + task_profile 产出。"
+description: 'eas-planning-writer 阶段 1 需求收集方法论 —— 苏格拉底式六维度 + 领域分支问句库 + 轮次策略 + 退出条件 + task_profile 产出。'
 category: reference
 ---
 
@@ -30,16 +30,17 @@ category: reference
 
 ### 六维度定义（顶层骨架）
 
-| # | 维度 | 核心动作 | 在本技能阶段 1 中的目标 |
-|---|---|---|---|
-| 1 | **澄清问题 (Clarify)** | 明确概念边界 | 用 1 句话定义任务 + 列出具体使用场景 |
-| 2 | **探究假设 (Probe Assumptions)** | 检验前提 | 暴露硬约束（时间/资源/技术/合规）+ 必要性论证 |
-| 3 | **挖掘证据 (Evidence)** | 收集具体例子 | 得到 5+ 触发短语（用户原话）+ 标注对应场景 |
-| 4 | **视角探索 (Perspectives)** | 换位思考 | 发现边界用例（不应纳入）+ 相关方清单（谁参与/谁 Review） |
-| 5 | **后果分析 (Consequences)** | 推演影响 | 定义失败兜底策略 + 估算阶段数与跨 session 次数 |
-| 6 | **反思完整性 (Reflection)** | 自我审视 | 跨领域相关方清单 + 遗漏检查（"还有什么没说但重要"） |
+| #   | 维度                             | 核心动作     | 在本技能阶段 1 中的目标                                  |
+| --- | -------------------------------- | ------------ | -------------------------------------------------------- |
+| 1   | **澄清问题 (Clarify)**           | 明确概念边界 | 用 1 句话定义任务 + 列出具体使用场景                     |
+| 2   | **探究假设 (Probe Assumptions)** | 检验前提     | 暴露硬约束（时间/资源/技术/合规）+ 必要性论证            |
+| 3   | **挖掘证据 (Evidence)**          | 收集具体例子 | 得到 5+ 触发短语（用户原话）+ 标注对应场景               |
+| 4   | **视角探索 (Perspectives)**      | 换位思考     | 发现边界用例（不应纳入）+ 相关方清单（谁参与/谁 Review） |
+| 5   | **后果分析 (Consequences)**      | 推演影响     | 定义失败兜底策略 + 估算阶段数与跨 session 次数           |
+| 6   | **反思完整性 (Reflection)**      | 自我审视     | 跨领域相关方清单 + 遗漏检查（"还有什么没说但重要"）      |
 
 **关键原则**：
+
 - 六维度**不必每轮都全用**，按需选 1-2 个维度
 - 维度顺序可灵活调整，但**澄清问题必须先于其他维度**
 - 每个维度至少产出**一个可验证的产物**（场景列表 / 约束清单 / 触发短语集 等）
@@ -54,14 +55,14 @@ category: reference
 
 进入提问前，先用一句话判断领域（影响后续问题模板）：
 
-| 领域 | 识别信号 | 典型任务示例 |
-|---|---|---|
-| **Code / 工程** | 用户提到 API、库、SDK、构建、测试 | 重构支付模块、接入新 SDK |
-| **Design / 体验** | 用户提到界面、交互、视觉、可用性 | 重设计仪表盘、暗色模式 |
-| **Writing / 创作** | 用户提到文档、报告、文案、内容 | 写产品白皮书、技术博客 |
-| **Business / 流程** | 用户提到合规、审查、决策、运营 | 合规改造、SOP 梳理 |
-| **Data / 分析** | 用户提到数据、指标、报表、查询 | 报表重构、数据迁移 |
-| **Hybrid** | 跨领域，需要多模板组合 | 全栈改造（code + writing） |
+| 领域                | 识别信号                          | 典型任务示例               |
+| ------------------- | --------------------------------- | -------------------------- |
+| **Code / 工程**     | 用户提到 API、库、SDK、构建、测试 | 重构支付模块、接入新 SDK   |
+| **Design / 体验**   | 用户提到界面、交互、视觉、可用性  | 重设计仪表盘、暗色模式     |
+| **Writing / 创作**  | 用户提到文档、报告、文案、内容    | 写产品白皮书、技术博客     |
+| **Business / 流程** | 用户提到合规、审查、决策、运营    | 合规改造、SOP 梳理         |
+| **Data / 分析**     | 用户提到数据、指标、报表、查询    | 报表重构、数据迁移         |
+| **Hybrid**          | 跨领域，需要多模板组合            | 全栈改造（code + writing） |
 
 **判断时机**：在维度 1（澄清问题）的第一题 MUST 调用宿主 Agent 的「结构化提问工具」询问领域。
 
@@ -154,11 +155,11 @@ D6+：是否需要版本化、可复现、追溯？
 
 **核心原则**：轮次与任务复杂度正相关，不要一刀切。
 
-| 任务复杂度 | 判据 | 推荐轮次 | 每轮题数 |
-|---|---|---|---|
-| **简单**（单领域、<5 阶段） | 1 个明确场景、<5 个触发短语 | **1 轮** | 3-4 题 |
-| **中等**（多领域 / 跨部门） | 2-3 个场景、需明确边界 | **2 轮** | 3-4 题/轮 |
-| **复杂**（跨领域 / 跨 session） | 多角色、多边界、需持久化 | **3+ 轮** | 4 题/轮，第二轮起聚焦边界 |
+| 任务复杂度                      | 判据                        | 推荐轮次  | 每轮题数                  |
+| ------------------------------- | --------------------------- | --------- | ------------------------- |
+| **简单**（单领域、<5 阶段）     | 1 个明确场景、<5 个触发短语 | **1 轮**  | 3-4 题                    |
+| **中等**（多领域 / 跨部门）     | 2-3 个场景、需明确边界      | **2 轮**  | 3-4 题/轮                 |
+| **复杂**（跨领域 / 跨 session） | 多角色、多边界、需持久化    | **3+ 轮** | 4 题/轮，第二轮起聚焦边界 |
 
 **轮次结构**：
 
@@ -188,21 +189,21 @@ D6+：是否需要版本化、可复现、追溯？
 
 不同 Agent 框架下，结构化提问工具的名称与签名不同。Agent MUST 按本机环境识别后调用，调用参数 MUST 包含：
 
-| 参数 | 必填 | 说明 |
-|---|---|---|
-| `question` / `prompt` / `text` | MUST | 问题文本 |
-| `options` / `choices` | MUST | 2-4 个互斥选项 |
-| `recommended` / `default` | SHOULD | 推荐项索引或标签 |
-| `multi_select` | MAY | 是否允许多选 |
+| 参数                           | 必填   | 说明             |
+| ------------------------------ | ------ | ---------------- |
+| `question` / `prompt` / `text` | MUST   | 问题文本         |
+| `options` / `choices`          | MUST   | 2-4 个互斥选项   |
+| `recommended` / `default`      | SHOULD | 推荐项索引或标签 |
+| `multi_select`                 | MAY    | 是否允许多选     |
 
 **主流 Agent 框架的别名映射**（Agent MUST 按本机识别）：
 
-| 框架 / 平台 | 工具名 | 备注 |
-|---|---|---|
-| Trae IDE / Claude Code / Cursor | `AskUserQuestion` | 本仓库当前主流 |
-| OpenAI Agents SDK | `AskUserChoice` / `input_required` | 参数命名略不同 |
-| 自研 Agent 框架 | `request_user_input` / `user_confirm` | 视框架而定 |
-| LangGraph / CrewAI | 通常以 `Tool` 形式暴露，名称 `ask_user` 或类似 | 视实现而定 |
+| 框架 / 平台                     | 工具名                                         | 备注           |
+| ------------------------------- | ---------------------------------------------- | -------------- |
+| Trae IDE / Claude Code / Cursor | `AskUserQuestion`                              | 本仓库当前主流 |
+| OpenAI Agents SDK               | `AskUserChoice` / `input_required`             | 参数命名略不同 |
+| 自研 Agent 框架                 | `request_user_input` / `user_confirm`          | 视框架而定     |
+| LangGraph / CrewAI              | 通常以 `Tool` 形式暴露，名称 `ask_user` 或类似 | 视实现而定     |
 
 **退化策略**：若宿主环境未提供结构化提问工具，MUST 退化为"分段对话 + 主动声明每段答案"，但仍 MUST 遵守下方选项设计与轮次策略（即每段必须显式给出 2-4 个候选答案 + 1 个推荐）。
 
@@ -247,21 +248,21 @@ D6+：是否需要版本化、可复现、追溯？
 
 满足以下任一条件时，可压缩（如从多轮压到 1 轮内一次性抛出 3-4 题）但 MUST NOT 完全跳过：
 
-| 条件 | 证据形式 |
-|---|---|
-| 用户提供完整 PRD/Spec | 文件链接或内联内容 |
-| 用户明确说"照这个文档做" | 直接引用既有规范 |
+| 条件                     | 证据形式              |
+| ------------------------ | --------------------- |
+| 用户提供完整 PRD/Spec    | 文件链接或内联内容    |
+| 用户明确说"照这个文档做" | 直接引用既有规范      |
 | 任务是已有任务的小幅修改 | 引用原任务名 + 变更点 |
 
 ### 6.3 [MUST] 暂停规则
 
 遇到以下情况，Agent MUST 暂停流程并退出，等待下次触发：
 
-| 用户响应 | Agent 动作 |
-|---|---|
-| "我再想想" / "等一下" | MUST 退出，等待下次触发 |
-| "我也不知道" | MUST 给出 2-3 个常见模式作为默认假设，让用户挑 |
-| "你建议" | MUST 用 JTBD 视角给出 1-2 个候选场景，让用户确认 |
+| 用户响应              | Agent 动作                                       |
+| --------------------- | ------------------------------------------------ |
+| "我再想想" / "等一下" | MUST 退出，等待下次触发                          |
+| "我也不知道"          | MUST 给出 2-3 个常见模式作为默认假设，让用户挑   |
+| "你建议"              | MUST 用 JTBD 视角给出 1-2 个候选场景，让用户确认 |
 
 **[MUST]** 用户响应属于暂停类时，Agent MUST 暂停而非强行推进；MUST NOT 在需求不清时强行进入阶段 2。
 
@@ -276,23 +277,23 @@ D6+：是否需要版本化、可复现、追溯？
 ```yaml
 # 任务画像（仅 Agent 内部使用，可选择性写入 findings.md 顶部）
 task_profile:
-  domain: code | design | writing | business | data | hybrid   # [MUST]
-  scenarios: [<3+ 具体使用场景>]                                # [MUST]
-  triggers: [<5+ 触发短语>]                                    # [MUST]
-  boundaries: [<不应纳入本任务的场景>]                          # [MUST]
-  constraints:                                                  # [SHOULD]
+  domain: code | design | writing | business | data | hybrid # [MUST]
+  scenarios: [<3+ 具体使用场景>] # [MUST]
+  triggers: [<5+ 触发短语>] # [MUST]
+  boundaries: [<不应纳入本任务的场景>] # [MUST]
+  constraints: # [SHOULD]
     - <硬约束，如"必须支持 Windows">
-  assumptions:                                                  # [SHOULD]
+  assumptions: # [SHOULD]
     - <已验证的假设>
-  fallback_strategy:                                            # [MUST]
+  fallback_strategy: # [MUST]
     data_missing: <数据缺失时如何兜底>
     tool_failure: <工具调用失败时如何兜底>
     context_overflow: <上下文爆炸时如何兜底>
-  estimated_phases: <3-15>                                     # [MUST]
-  cross_session: <true | false>                                 # [MUST]
-  rounds_used: <实际提问轮次>                                   # [MUST]
-  compressed: <true | false>                                    # [MUST]
-  compressed_reason: <若压缩，引用 PRD/Spec/原任务名>            # [MAY]
+  estimated_phases: <3-15> # [MUST]
+  cross_session: <true | false> # [MUST]
+  rounds_used: <实际提问轮次> # [MUST]
+  compressed: <true | false> # [MUST]
+  compressed_reason: <若压缩，引用 PRD/Spec/原任务名> # [MAY]
 ```
 
 ### 7.2 [MUST] 自检清单（阶段 1 → 阶段 2 切换前）
@@ -314,14 +315,14 @@ Agent MUST 在切换前逐项校验，全部满足方可推进：
 
 ## 八、与阶段 2-5 的衔接 (Handoff)
 
-| 阶段 1 产出 | 阶段 2 输入 | 阶段 3-5 输入 |
-|---|---|---|
-| `domain` | 选择对应阶段模板 | 选择实施工具与脚本 |
-| `scenarios` + `triggers` | task_plan 阶段草案 | 阶段特定内容填充 |
-| `boundaries` | 排除清单 | 反模式/边界检查 |
-| `constraints` | 自由度级别选择 | 脚本与模板设计 |
-| `fallback_strategy` | 失败处理三要素 | 阶段 4 测试与验证 |
-| `estimated_phases` + `cross_session` | 阶段切分粒度 | task_plan.md 阶段定义 |
+| 阶段 1 产出                          | 阶段 2 输入        | 阶段 3-5 输入         |
+| ------------------------------------ | ------------------ | --------------------- |
+| `domain`                             | 选择对应阶段模板   | 选择实施工具与脚本    |
+| `scenarios` + `triggers`             | task_plan 阶段草案 | 阶段特定内容填充      |
+| `boundaries`                         | 排除清单           | 反模式/边界检查       |
+| `constraints`                        | 自由度级别选择     | 脚本与模板设计        |
+| `fallback_strategy`                  | 失败处理三要素     | 阶段 4 测试与验证     |
+| `estimated_phases` + `cross_session` | 阶段切分粒度       | task_plan.md 阶段定义 |
 
 **铁律**：**阶段 1 的产出是后续所有阶段的唯一可信输入**。若阶段 2 发现阶段 1 产出不足，**必须回退到阶段 1 补问**，不得"先做着试试"。
 
@@ -423,13 +424,13 @@ Q9 [维度5 后果 · 阶段切分]
 
 ## 十、与其他参考文件的关系 (Related References)
 
-| 文件 | 何时阅读 |
-|---|---|
-| [task_plan.md 模板](templates/task_plan.md) | 阶段 1 勾选清单与状态机 |
-| [00NN-requirement.md 模板](templates/decisions/00NN-requirement.md) | 决策文档落地结构 |
-| [requirement-decision-guide.md](requirement-decision-guide.md) | 决策模板使用流程 |
-| [findings.md 模板](templates/findings.md) | 调研发现落地（顶部固化 task_profile） |
-| [progress.md 模板](templates/progress.md) | 阶段进度日志 |
+| 文件                                                                | 何时阅读                              |
+| ------------------------------------------------------------------- | ------------------------------------- |
+| [task_plan.md 模板](templates/task_plan.md)                         | 阶段 1 勾选清单与状态机               |
+| [00NN-requirement.md 模板](templates/decisions/00NN-requirement.md) | 决策文档落地结构                      |
+| [requirement-decision-guide.md](requirement-decision-guide.md)      | 决策模板使用流程                      |
+| [findings.md 模板](templates/findings.md)                           | 调研发现落地（顶部固化 task_profile） |
+| [progress.md 模板](templates/progress.md)                           | 阶段进度日志                          |
 
 ---
 

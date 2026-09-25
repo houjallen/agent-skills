@@ -13,11 +13,11 @@ metadata:
     - macos
     - linux
   dependencies:
-    - docx (npm)            # CREATE 路径
-    - defusedxml (pip)      # EDIT/ACCEPT-CHANGES 路径
-    - soffice (optional)    # ACCEPT-CHANGES + .doc 转换
-    - pandoc (optional)     # 文本抽取
-    - poppler (optional)    # .docx → .pdf 预览
+    - docx (npm) # CREATE 路径
+    - defusedxml (pip) # EDIT/ACCEPT-CHANGES 路径
+    - soffice (optional) # ACCEPT-CHANGES + .doc 转换
+    - pandoc (optional) # 文本抽取
+    - poppler (optional) # .docx → .pdf 预览
   sources:
     - ECMA-376 Office Open XML File Formats
     - docx-js API reference
@@ -59,17 +59,17 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项目 | 取值 / 说明 |
-| --- | --- |
-| 模式组合 | Tool Wrapper + Pipeline + Generator + Reviewer |
-| 三大任务路由 | CREATE（A）/ EDIT（B）/ ACCEPT-CHANGES（C） |
-| 工具栈 | docx-js（Node.js）+ Python 助手脚本 + defusedxml |
-| CREATE 主入口 | Node.js + `docx-js`，生成后**必跑** `sanitize.py` |
-| EDIT 主入口 | `unpack.py` → Edit 工具 → `pack.py`（含 schema 校验） |
-| ACCEPT-CHANGES | `accept_changes.py`（需 LibreOffice） |
-| 核心脚本 | `scripts/unpack.py` / `pack.py` / `sanitize.py` / `comment.py` / `accept_changes.py` + `helpers/merge_runs.py` + `helpers/simplify_redlines.py` |
-| 依赖 | `npm install docx` / `pip install defusedxml` / 可选 LibreOffice |
-| 脚本调用约定 | `python3 <skillPath>/scripts/xxx.py ...` / `node ...` |
+| 项目           | 取值 / 说明                                                                                                                                     |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| 模式组合       | Tool Wrapper + Pipeline + Generator + Reviewer                                                                                                  |
+| 三大任务路由   | CREATE（A）/ EDIT（B）/ ACCEPT-CHANGES（C）                                                                                                     |
+| 工具栈         | docx-js（Node.js）+ Python 助手脚本 + defusedxml                                                                                                |
+| CREATE 主入口  | Node.js + `docx-js`，生成后**必跑** `sanitize.py`                                                                                               |
+| EDIT 主入口    | `unpack.py` → Edit 工具 → `pack.py`（含 schema 校验）                                                                                           |
+| ACCEPT-CHANGES | `accept_changes.py`（需 LibreOffice）                                                                                                           |
+| 核心脚本       | `scripts/unpack.py` / `pack.py` / `sanitize.py` / `comment.py` / `accept_changes.py` + `helpers/merge_runs.py` + `helpers/simplify_redlines.py` |
+| 依赖           | `npm install docx` / `pip install defusedxml` / 可选 LibreOffice                                                                                |
+| 脚本调用约定   | `python3 <skillPath>/scripts/xxx.py ...` / `node ...`                                                                                           |
 
 ## 任务路由 (Task Routing)
 
@@ -99,14 +99,14 @@ User task
 **最小可运行骨架**：
 
 ```javascript
-const fs = require("fs");
-const { Document, Packer, Paragraph, TextRun } = require("docx");
+const fs = require('fs');
+const { Document, Packer, Paragraph, TextRun } = require('docx');
 
 const doc = new Document({
-  sections: [{ children: [/* 所有内容放这里 */] }]
+  sections: [{ children: [/* 所有内容放这里 */] }],
 });
 
-Packer.toBuffer(doc).then(buf => fs.writeFileSync("out.docx", buf));
+Packer.toBuffer(doc).then((buf) => fs.writeFileSync('out.docx', buf));
 ```
 
 **完成后 MUST 跑 Reviewer**：
@@ -134,12 +134,12 @@ python3 <skillPath>/scripts/sanitize.py out.docx
 
 **CJK 字体推荐组合**：
 
-| 平台 | ASCII/Latin | East Asian |
-| --- | --- | --- |
-| Cross-platform | Arial | Microsoft YaHei |
-| macOS | Arial | PingFang SC |
-| Windows | Arial | SimSun 或 SimHei |
-| Linux | DejaVu Sans | Noto Sans CJK SC |
+| 平台           | ASCII/Latin | East Asian       |
+| -------------- | ----------- | ---------------- |
+| Cross-platform | Arial       | Microsoft YaHei  |
+| macOS          | Arial       | PingFang SC      |
+| Windows        | Arial       | SimSun 或 SimHei |
+| Linux          | DejaVu Sans | Noto Sans CJK SC |
 
 **Pages 与字体完整范例**（含 H1/H2、CJK、分页）见 [create-with-docx-js.md](references/create-with-docx-js.md)。
 
@@ -249,12 +249,12 @@ python3 <skillPath>/scripts/accept_changes.py in.docx out.docx         # 接受�
 
 > **按需加载**：不要一次性全读，按当前任务挑最相关的文件。
 
-| 文件 | 何时读 |
-| --- | --- |
+| 文件                                                        | 何时读                                                                              |
+| ----------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | [create-with-docx-js.md](references/create-with-docx-js.md) | 路径 A：CREATE —— docx-js API + page size + 字体 + 列表 + 表格 + 图片 + 分页 + 头脚 |
-| [edit-xml.md](references/edit-xml.md) | 路径 B：EDIT —— unpack/pack 三步流程 + XML 规则 + images |
-| [tracked-changes.md](references/tracked-changes.md) | 路径 B 子话题：跟踪修订的 XML 模式 + 接受 / 拒绝 / 嵌套 |
-| [comments.md](references/comments.md) | 路径 B 子话题：评论的 4 文件系统 + 范围标记 + 回复 |
-| [dependencies.md](references/dependencies.md) | 外部依赖列表（pandoc / docx / LibreOffice / Poppler） |
+| [edit-xml.md](references/edit-xml.md)                       | 路径 B：EDIT —— unpack/pack 三步流程 + XML 规则 + images                            |
+| [tracked-changes.md](references/tracked-changes.md)         | 路径 B 子话题：跟踪修订的 XML 模式 + 接受 / 拒绝 / 嵌套                             |
+| [comments.md](references/comments.md)                       | 路径 B 子话题：评论的 4 文件系统 + 范围标记 + 回复                                  |
+| [dependencies.md](references/dependencies.md)               | 外部依赖列表（pandoc / docx / LibreOffice / Poppler）                               |
 
 > **设计选择归档**：本技能的设计取舍（CREATE/EDIT 路径拆分、sanitize.py 兜底、模式组合等）已迁出至 [docs/decisions/0008-decision-sediment-tools-office.md § 1](file:///e:/work/apps/eas/agent-skills/docs/decisions/0008-decision-sediment-tools-office.md)，不在 SKILL.md 末尾重复。

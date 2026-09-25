@@ -12,15 +12,18 @@
 # 任务计划：晨练益处研究
 
 ## 目标
+
 创建一份关于晨练益处的研究总结。
 
 ## 阶段
+
 - [x] 阶段 1：创建此计划 ✓
 - [ ] 阶段 2：搜索并收集来源
 - [ ] 阶段 3：综合发现（输出 morning_exercise_summary.md）
 - [ ] 阶段 4：交付总结
 
 ## 关键问题
+
 1. 身体健康方面有哪些益处？
 2. 心理健康方面有哪些益处？
 3. 有哪些科学研究支持这些观点？
@@ -40,6 +43,7 @@
 # 任务计划：修复登录 Bug
 
 ## 阶段
+
 - [x] 阶段 1：理解 Bug 报告 ✓
 - [x] 阶段 2：定位相关代码 ✓
 - [ ] 阶段 3：确定根本原因 (当前)
@@ -47,10 +51,12 @@
 - [ ] 阶段 5：测试和验证
 
 ## 已做决策
+
 - Auth 处理程序位于 src/auth/login.ts
 - 错误发生在 validateToken() 函数中
 
 ## 遇到的错误
+
 - [Initial] TypeError: Cannot read property 'token' of undefined
   → 根本原因：未正确等待 user 对象 (await)
 ```
@@ -67,12 +73,14 @@
 # findings.md：暗黑模式实现
 
 ## 受影响的文件
+
 1. src/styles/theme.ts - 添加暗色主题颜色
 2. src/components/SettingsPage.tsx - 添加切换开关
 3. src/hooks/useTheme.ts - 创建新 Hook
 4. src/App.tsx - 使用 ThemeProvider 包裹
 
 ## 颜色决策
+
 - 暗色背景：#1a1a2e
 - 暗色表面：#16213e
 - 暗色文本：#eaeaea
@@ -85,6 +93,7 @@
 当事情失败时，**不要**隐藏它：
 
 ### ❌ 错误做法
+
 ```
 Action: Read config.json
 Error: File not found
@@ -93,6 +102,7 @@ Action: Read config.json  # 又一次重试
 ```
 
 ### ✅ 正确做法
+
 ```
 Action: Read config.json
 Error: File not found

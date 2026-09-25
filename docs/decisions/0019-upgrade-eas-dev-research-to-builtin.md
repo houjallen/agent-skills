@@ -1,12 +1,12 @@
 ---
 name: 0019-upgrade-eas-dev-research-to-builtin
-description: "0019: 架构决策 —— 将 eas-dev-research 从 dev 包升级到 builtin/eas-research（v3.0.0）；去 dev 耦合；明确通用研究 / 代码内部调研边界；不单独加代码 research 分支"
+description: '0019: 架构决策 —— 将 eas-dev-research 从 dev 包升级到 builtin/eas-research（v3.0.0）；去 dev 耦合；明确通用研究 / 代码内部调研边界；不单独加代码 research 分支'
 category: architecture
 author: Agent (EASBot)
 version: 1.0.0
-date: "2026-08-08"
+date: '2026-08-08'
 keywords:
-  - "0019"
+  - '0019'
   - upgrade
   - eas-research
   - builtin
@@ -15,19 +15,19 @@ keywords:
   - host-project
 supersedes: docs/decisions/0014-dev-skills-pack-architecture.md §C9（部分修订）
 related:
-  - "0014-dev-skills-pack-architecture.md"
-  - "0016-review-dev-skills-pack-round2.md"
-  - "0018-review-eas-dev-research.md"
+  - '0014-dev-skills-pack-architecture.md'
+  - '0016-review-dev-skills-pack-round2.md'
+  - '0018-review-eas-dev-research.md'
 related_paths:
-  - "skills/builtin/eas-research/SKILL.md"
-  - "skills/builtin/eas-research/references/research-report.md"
-  - "skills/builtin/eas-research/references/comparison-analysis.md"
-  - "skills/builtin/eas-research/assets/research-report-template.md"
-  - "skills/builtin/eas-research/assets/comparison-analysis-template.md"
-  - "AGENTS.md"
-  - "README.md"
-  - "README.en.md"
-  - ".claude-plugin/marketplace.json"
+  - 'skills/builtin/eas-research/SKILL.md'
+  - 'skills/builtin/eas-research/references/research-report.md'
+  - 'skills/builtin/eas-research/references/comparison-analysis.md'
+  - 'skills/builtin/eas-research/assets/research-report-template.md'
+  - 'skills/builtin/eas-research/assets/comparison-analysis-template.md'
+  - 'AGENTS.md'
+  - 'README.md'
+  - 'README.en.md'
+  - '.claude-plugin/marketplace.json'
 status: active
 ---
 
@@ -38,13 +38,14 @@ status: active
 > **状态**：✅ active（已落地）
 > **类型**：架构型
 > **影响范围**：
+>
 > - 技能从 `skills/dev/eas-dev-research/` → `skills/builtin/eas-research/`（路径迁移 + 重命名）
 > - SKILL.md / 2 个 references / 2 个 assets 内容去 dev 耦合（v2.0.0 → v3.0.0）
 > - AGENTS.md §3 目录树 + 内置技能从 7 → 8 个
 > - `eas-skill-using` 能力索引新增一条（条目 7）+ 决策辅助第 8 步 + 场景映射加 1 条
 > - README.md / README.en.md 内置技能一览表各加一行
 > - `.claude-plugin/marketplace.json` plugins[] 加 1 条（22 → 23）
-> **关联决策**：0014-dev-skills-pack-architecture.md（dev 包 10 技能架构；本决策对 §C9 部分修订）
+>   **关联决策**：0014-dev-skills-pack-architecture.md（dev 包 10 技能架构；本决策对 §C9 部分修订）
 
 ---
 
@@ -52,11 +53,11 @@ status: active
 
 EASBot agent-skills 仓库当前架构（0014 决策后）：
 
-| 分类 | 数量 | 定位 | 选入标准 |
-|---|---|---|---|
-| `builtin/` | 7 | EASBot 核心管理技能 | 服务 Agent 自身管理（find / creator / creation / evolution / prompt-creator / planning-writer / using） |
-| `tools/` | 5 | 通用工具类技能 | 服务内容产出格式（docx / pdf / pptx / xlsx / chinese-writer） |
-| `dev/` | 10 | 开发流程技能 | 服务软件开发流程（align / spec / design / plan / tdd / implement / review / diagnose / finish / loop） |
+| 分类       | 数量 | 定位                | 选入标准                                                                                                |
+| ---------- | ---- | ------------------- | ------------------------------------------------------------------------------------------------------- |
+| `builtin/` | 7    | EASBot 核心管理技能 | 服务 Agent 自身管理（find / creator / creation / evolution / prompt-creator / planning-writer / using） |
+| `tools/`   | 5    | 通用工具类技能      | 服务内容产出格式（docx / pdf / pptx / xlsx / chinese-writer）                                           |
+| `dev/`     | 10   | 开发流程技能        | 服务软件开发流程（align / spec / design / plan / tdd / implement / review / diagnose / finish / loop）  |
 
 **问题发现**：用户在第三轮评审（0018）后提出疑问——
 
@@ -77,30 +78,30 @@ EASBot agent-skills 仓库当前架构（0014 决策后）：
 
 ### 方案 A：保持 `skills/dev/eas-dev-research/`，仅修边界描述
 
-| 维度 | 评估 |
-|---|---|
-| 优点 | 最小变更；不动项目级文件 |
+| 维度 | 评估                                                                                              |
+| ---- | ------------------------------------------------------------------------------------------------- |
+| 优点 | 最小变更；不动项目级文件                                                                          |
 | 缺点 | 命名（`eas-dev-`）与位置（`dev/`）持续暗示"dev 专属"；**未填 builtin 空白点**；用户原话诉求未满足 |
-| 风险 | 长期错位；后续引用 / 查找时混淆 |
-| 成本 | 极低（仅 SKILL.md 改 description） |
+| 风险 | 长期错位；后续引用 / 查找时混淆                                                                   |
+| 成本 | 极低（仅 SKILL.md 改 description）                                                                |
 
 ### 方案 B：升到 `skills/builtin/eas-research/`（重命名 + 去 dev 耦合）—— **本决策选择**
 
-| 维度 | 评估 |
-|---|---|
+| 维度 | 评估                                                                                                                                                                                |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 优点 | 命名 / 位置 / 实际能力完全一致；填 builtin 空白点（`eas-skill-using` 能力索引无 research 类）；清晰边界（vs dev 包）；与 builtin 命名风格统一（`eas-research` vs `eas-skill-find`） |
-| 缺点 | 触发决策文档（0019）+ 项目级同步 6 个文件；需 1 个 `[repo]` commit + 1 个 `[skill: eas-research]` commit |
-| 风险 | 误用（用户期望 research 一定能产出真实数据 —— 实际依赖 Agent 工具能力；SKILL.md 已显式说明） |
-| 成本 | 中（5 个技能文件重写 + 4 个项目级文件同步） |
+| 缺点 | 触发决策文档（0019）+ 项目级同步 6 个文件；需 1 个 `[repo]` commit + 1 个 `[skill: eas-research]` commit                                                                            |
+| 风险 | 误用（用户期望 research 一定能产出真实数据 —— 实际依赖 Agent 工具能力；SKILL.md 已显式说明）                                                                                        |
+| 成本 | 中（5 个技能文件重写 + 4 个项目级文件同步）                                                                                                                                         |
 
 ### 方案 C：升到 builtin 但保留 `eas-dev-research` 名字（兼容命名）
 
-| 维度 | 评估 |
-|---|---|
-| 优点 | 兼容历史引用；旧脚本 / 文档无需更新 |
+| 维度 | 评估                                                           |
+| ---- | -------------------------------------------------------------- |
+| 优点 | 兼容历史引用；旧脚本 / 文档无需更新                            |
 | 缺点 | 命名（`eas-dev-`）仍暗示"dev 专属"——**与升级目的矛盾**；不一致 |
-| 风险 | 长期错位；用户引用时仍以为 dev 专用 |
-| 成本 | 低（路径迁移 + 命名保留） |
+| 风险 | 长期错位；用户引用时仍以为 dev 专用                            |
+| 成本 | 低（路径迁移 + 命名保留）                                      |
 
 ---
 
@@ -108,14 +109,14 @@ EASBot agent-skills 仓库当前架构（0014 决策后）：
 
 **本决策选择：方案 B** —— 升级到 `builtin/eas-research`（v3.0.0；路径迁移 + 重命名 + 去 dev 耦合）。
 
-| 项 | 内容 |
-|---|---|
-| 选了什么 | `skills/dev/eas-dev-research/` → `skills/builtin/eas-research/`（重命名 + 路径迁移） |
-| 版本 | v2.0.0 → **v3.0.0**（架构升级：分类从 dev → builtin） |
-| `metadata.category` | `dev` → **`builtin`** |
-| 路径根 | `<cwd>/.easbot/knowledge/docs/dev/<topic>/` → `<cwd>/.easbot/knowledge/docs/research/<topic>/` |
-| 适用日期 | 2026-08-08 |
-| 审批状态 | ✅ active |
+| 项                  | 内容                                                                                           |
+| ------------------- | ---------------------------------------------------------------------------------------------- |
+| 选了什么            | `skills/dev/eas-dev-research/` → `skills/builtin/eas-research/`（重命名 + 路径迁移）           |
+| 版本                | v2.0.0 → **v3.0.0**（架构升级：分类从 dev → builtin）                                          |
+| `metadata.category` | `dev` → **`builtin`**                                                                          |
+| 路径根              | `<cwd>/.easbot/knowledge/docs/dev/<topic>/` → `<cwd>/.easbot/knowledge/docs/research/<topic>/` |
+| 适用日期            | 2026-08-08                                                                                     |
+| 审批状态            | ✅ active                                                                                      |
 
 ---
 
@@ -127,10 +128,10 @@ EASBot agent-skills 仓库当前架构（0014 决策后）：
 
 **分析结论**：**不需要**。代码相关调研分两类：
 
-| 类型 | 示例 | 本技能处理 |
-|---|---|---|
-| **代码外部调研**（开源 / 选型 / 趋势） | "Rust 异步运行时有哪些" / "PostgreSQL vs MySQL" / "2025 年 React 趋势" | ✅ 本技能 `research-report`（用 `research_type: technical`） |
-| **代码内部调研**（已有 codebase） | "现有 codebase 怎么调用 X API" / "这个 bug 的根因" | ❌ 走 `eas-dev-spec` / `eas-dev-design` / `eas-dev-diagnose` / `eas-dev-review`（dev 闭环已覆盖） |
+| 类型                                   | 示例                                                                   | 本技能处理                                                                                        |
+| -------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| **代码外部调研**（开源 / 选型 / 趋势） | "Rust 异步运行时有哪些" / "PostgreSQL vs MySQL" / "2025 年 React 趋势" | ✅ 本技能 `research-report`（用 `research_type: technical`）                                      |
+| **代码内部调研**（已有 codebase）      | "现有 codebase 怎么调用 X API" / "这个 bug 的根因"                     | ❌ 走 `eas-dev-spec` / `eas-dev-design` / `eas-dev-diagnose` / `eas-dev-review`（dev 闭环已覆盖） |
 
 **理由**：
 
@@ -273,8 +274,8 @@ EASBot 设计哲学（0014 §C8）："不与既有 builtin 冲突"。`eas-resear
 
 ## 11. 修订记录 (Revision History)
 
-| 版本 | 日期 | 修订内容 | 修订人 |
-|---|---|---|---|
+| 版本  | 日期       | 修订内容                                                                                                                                       | 修订人         |
+| ----- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
 | 1.0.0 | 2026-08-08 | 初版：决策落地 `eas-dev-research` → `builtin/eas-research`（v3.0.0）；去 dev 耦合；明确通用研究 / 代码内部调研边界；不单独加代码 research 分支 | Agent (EASBot) |
 
 ---

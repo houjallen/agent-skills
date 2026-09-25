@@ -8,7 +8,21 @@ metadata:
   category: tools
   version: 0.4.0
   author: EASBot
-  tags: [easbot, knowledge-base, codebase, note, memory, cli, init, doctor, status, sync, agent-cli, standalone-cli]
+  tags:
+    [
+      easbot,
+      knowledge-base,
+      codebase,
+      note,
+      memory,
+      cli,
+      init,
+      doctor,
+      status,
+      sync,
+      agent-cli,
+      standalone-cli,
+    ]
 behavior:
   sequence:
     steps:

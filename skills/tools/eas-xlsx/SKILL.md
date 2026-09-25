@@ -13,11 +13,11 @@ metadata:
     - macos
     - linux
   dependencies:
-    - python3 (system)          # 全部 .py 脚本
-    - pandas (pip)              # READ 路径数据分析
-    - lxml (pip)                # XML 直编（unpack/edit/pack）
-    - openpyxl (pip)            # 仅用于结构发现（**禁止**对既有 .xlsx round-trip）
-    - soffice (optional)        # VALIDATE 动态重算
+    - python3 (system) # 全部 .py 脚本
+    - pandas (pip) # READ 路径数据分析
+    - lxml (pip) # XML 直编（unpack/edit/pack）
+    - openpyxl (pip) # 仅用于结构发现（**禁止**对既有 .xlsx round-trip）
+    - soffice (optional) # VALIDATE 动态重算
   sources:
     - ECMA-376 Office Open XML File Formats
     - Microsoft Open XML SDK documentation
@@ -53,28 +53,28 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项目 | 取值 / 说明 |
-| --- | --- |
-| 模式组合 | Tool Wrapper + Pipeline + Generator + Reviewer |
-| 五大任务路由 | READ / CREATE / EDIT / FIX / VALIDATE |
-| 默认写策略 | XML 直接编辑（unpack → edit → pack），**禁用** openpyxl round-trip |
-| 公式优先 | 所有派生单元格 MUST 使用 `<f>...</f>`，禁止硬编码计算结果 |
-| 核心脚本 | `scripts/xlsx_reader.py` / `scripts/xlsx_unpack.py` / `scripts/xlsx_pack.py` / `scripts/xlsx_add_column.py` / `scripts/xlsx_insert_row.py` / `scripts/xlsx_shift_rows.py` / `scripts/formula_check.py` / `scripts/libreoffice_recalc.py` |
-| 最小模板 | `assets/xlsx_template/`（CREATE 路径起点） |
-| 财务配色 | 输入蓝 `0000FF` / 公式黑 `000000` / 跨表绿 `00B050` |
-| 脚本调用约定 | `python3 <skillPath>/scripts/xxx.py ...` |
+| 项目         | 取值 / 说明                                                                                                                                                                                                                              |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 模式组合     | Tool Wrapper + Pipeline + Generator + Reviewer                                                                                                                                                                                           |
+| 五大任务路由 | READ / CREATE / EDIT / FIX / VALIDATE                                                                                                                                                                                                    |
+| 默认写策略   | XML 直接编辑（unpack → edit → pack），**禁用** openpyxl round-trip                                                                                                                                                                       |
+| 公式优先     | 所有派生单元格 MUST 使用 `<f>...</f>`，禁止硬编码计算结果                                                                                                                                                                                |
+| 核心脚本     | `scripts/xlsx_reader.py` / `scripts/xlsx_unpack.py` / `scripts/xlsx_pack.py` / `scripts/xlsx_add_column.py` / `scripts/xlsx_insert_row.py` / `scripts/xlsx_shift_rows.py` / `scripts/formula_check.py` / `scripts/libreoffice_recalc.py` |
+| 最小模板     | `assets/xlsx_template/`（CREATE 路径起点）                                                                                                                                                                                               |
+| 财务配色     | 输入蓝 `0000FF` / 公式黑 `000000` / 跨表绿 `00B050`                                                                                                                                                                                      |
+| 脚本调用约定 | `python3 <skillPath>/scripts/xxx.py ...`                                                                                                                                                                                                 |
 
 ## 任务路由 (Task Routing)
 
 > **直接执行模式**：本技能不需要 spawn 子 Agent；按路由表选定路径后，由主 Agent 自己走完 XML 编辑流程，并**始终产出最终 `.xlsx`**。
 
-| 任务 | 方法 | 必读参考 |
-| --- | --- | --- |
-| **READ** —— 分析既有数据 | `xlsx_reader.py` + pandas | [read-analyze.md](references/read-analyze.md) |
-| **CREATE** —— 从零新建 | 拷贝最小模板 → 直接编辑 XML → `xlsx_pack.py` | [create.md](references/create.md) + [format.md](references/format.md) |
-| **EDIT** —— 修改既有文件 | XML unpack → helper 脚本或 Edit 工具 → pack | [edit.md](references/edit.md)（如需样式追加 [format.md](references/format.md)） |
-| **FIX** —— 修复损坏公式 | XML unpack → 改 `<f>` 节点 → pack | [fix.md](references/fix.md) |
-| **VALIDATE** —— 公式校验 | `formula_check.py`（静态） + 可选 `libreoffice_recalc.py`（动态） | [validate.md](references/validate.md) |
+| 任务                     | 方法                                                              | 必读参考                                                                        |
+| ------------------------ | ----------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| **READ** —— 分析既有数据 | `xlsx_reader.py` + pandas                                         | [read-analyze.md](references/read-analyze.md)                                   |
+| **CREATE** —— 从零新建   | 拷贝最小模板 → 直接编辑 XML → `xlsx_pack.py`                      | [create.md](references/create.md) + [format.md](references/format.md)           |
+| **EDIT** —— 修改既有文件 | XML unpack → helper 脚本或 Edit 工具 → pack                       | [edit.md](references/edit.md)（如需样式追加 [format.md](references/format.md)） |
+| **FIX** —— 修复损坏公式  | XML unpack → 改 `<f>` 节点 → pack                                 | [fix.md](references/fix.md)                                                     |
+| **VALIDATE** —— 公式校验 | `formula_check.py`（静态） + 可选 `libreoffice_recalc.py`（动态） | [validate.md](references/validate.md)                                           |
 
 ## 路径 A：READ —— 分析数据 (Read & Analyze)
 
@@ -154,11 +154,11 @@ python3 <skillPath>/scripts/xlsx_pack.py /tmp/xlsx_work/ output.xlsx
 
 ## 财务配色规范 (Financial Color Standard)
 
-| 单元格角色 | 字体色 | Hex |
-| --- | --- | --- |
-| 硬编码输入 / 假设 | 蓝 | `0000FF` |
-| 公式 / 计算结果 | 黑 | `000000` |
-| 跨表引用公式 | 绿 | `00B050` |
+| 单元格角色        | 字体色 | Hex      |
+| ----------------- | ------ | -------- |
+| 硬编码输入 / 假设 | 蓝     | `0000FF` |
+| 公式 / 计算结果   | 黑     | `000000` |
+| 跨表引用公式      | 绿     | `00B050` |
 
 ## 核心红线 (Key Rules)
 

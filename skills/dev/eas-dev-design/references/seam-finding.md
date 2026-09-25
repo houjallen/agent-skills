@@ -60,15 +60,15 @@ clusters:
 ```yaml
 seams:
   - name: SearchService
-    seam: "search(query: string) → SearchResult[]"
+    seam: 'search(query: string) → SearchResult[]'
     exposes: [1 方法, 1 返回类型]
     hides: [索引, 评分, 缓存, i18n]
-    testable: "mock search index; verify query → result mapping"
+    testable: 'mock search index; verify query → result mapping'
   - name: SearchIndex
-    seam: "index(doc: Document) → void; remove(id: string) → void"
+    seam: 'index(doc: Document) → void; remove(id: string) → void'
     exposes: [2 方法]
     hides: [ES 内部 / 分片 / 副本]
-    testable: "用 testcontainers 跑真实 ES"
+    testable: '用 testcontainers 跑真实 ES'
 ```
 
 ### Step 5：验证（4 个核心问题）
@@ -80,12 +80,12 @@ seams:
 
 ## 接缝反模式 (Seam Anti-Patterns)
 
-| 反模式 | 问题 | 修复 |
-|---|---|---|
-| **暴露实现类** | 调用方被迫依赖具体类（`ESEngine` / `RedisCache`） | 暴露抽象接口（`SearchIndex` / `Cache`） |
-| **暴露配置对象** | 调用方需懂所有配置项 | 配置收敛到模块内部 |
-| **暴露状态** | 模块状态被外部修改 | 状态 MUST 私有；外部只能通过方法触发 |
-| **多层 pass-through** | A → B → C 但 A 和 C 是同一概念 | 合并 A 和 C；B 作为内部实现 |
+| 反模式                | 问题                                              | 修复                                    |
+| --------------------- | ------------------------------------------------- | --------------------------------------- |
+| **暴露实现类**        | 调用方被迫依赖具体类（`ESEngine` / `RedisCache`） | 暴露抽象接口（`SearchIndex` / `Cache`） |
+| **暴露配置对象**      | 调用方需懂所有配置项                              | 配置收敛到模块内部                      |
+| **暴露状态**          | 模块状态被外部修改                                | 状态 MUST 私有；外部只能通过方法触发    |
+| **多层 pass-through** | A → B → C 但 A 和 C 是同一概念                    | 合并 A 和 C；B 作为内部实现             |
 
 ## 接缝测试 (Seam Testing)
 
@@ -103,20 +103,20 @@ seams:
 
 ```typescript
 // Interface Test（调用方视角）
-describe("TicketAPI", () => {
-  it("returns 200 on search", async () => {
+describe('TicketAPI', () => {
+  it('returns 200 on search', async () => {
     const mockSearch = mock(SearchService).search.mockResolvedValue([]);
-    const res = await TicketAPI.searchTickets("foo");
+    const res = await TicketAPI.searchTickets('foo');
     expect(res.status).toBe(200);
   });
 });
 
 // Seam Test（模块自身视角）
-describe("SearchService", () => {
-  it("returns relevance-sorted results", async () => {
+describe('SearchService', () => {
+  it('returns relevance-sorted results', async () => {
     const realIndex = await new TestES().start();
     const service = new SearchService(realIndex);
-    const results = await service.search("foo");
+    const results = await service.search('foo');
     expect(results[0].score).toBeGreaterThan(results[1].score);
   });
 });

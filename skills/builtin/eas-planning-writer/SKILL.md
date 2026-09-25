@@ -44,16 +44,16 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项目 | 取值 / 说明 |
-| --- | --- |
-| 核心职责 | 项目级长任务的物理实现：跨 session 持久化 + 事后 Review + 文档化 |
-| 三件套落地路径 | `<cwd>/.easbot/knowledge/tasks/{task-name}/`（`{task-name}` 用 kebab-case） |
-| 三件套文件 | `task_plan.md`（任务计划）/ `findings.md`（调研发现）/ `progress.md`（进度记录） |
-| 核心脚本 | `scripts/init-planning-session.ts`（初始化） / `scripts/check-complete.ts`（完成度检查） |
-| 触发场景 | 跨 session + 需 Review / 文档化的复杂任务；多日推进 / 多阶段实施 / 决策追溯 |
-| 不适用场景 | 单次工具调用可完成的简单任务；Agent 内部 `todo` 工具即可管理的子任务 |
-| 决策文档落档 | 跨技能决策 → `docs/decisions/00NN-{topic}.md`（按 §11） |
-| 路径放置禁忌 | 严禁放入 `docs/`（避免污染项目级发布文档） |
+| 项目           | 取值 / 说明                                                                                                      |
+| -------------- | ---------------------------------------------------------------------------------------------------------------- |
+| 核心职责       | 项目级长任务的物理实现：跨 session 持久化 + 事后 Review + 文档化                                                 |
+| 三件套落地路径 | `<cwd>/.easbot/knowledge/tasks/{task-name}/`（`{task-name}` 用 kebab-case）                                      |
+| 三件套文件     | `task_plan.md`（任务计划）/ `findings.md`（调研发现）/ `progress.md`（进度记录）                                 |
+| 核心脚本       | `scripts/init-planning-session.ts`（初始化） / `scripts/check-complete.ts`（完成度检查）                         |
+| 触发场景       | 跨 session + 需 Review / 文档化的复杂任务；多日推进 / 多阶段实施 / 决策追溯                                      |
+| 不适用场景     | 单次工具调用可完成的简单任务；Agent 内部 `todo` 工具即可管理的子任务                                             |
+| 决策文档落档   | 跨技能决策 → `docs/decisions/00NN-{topic}.md`（按 §11）                                                          |
+| 路径放置禁忌   | 严禁放入 `docs/`（避免污染项目级发布文档）                                                                       |
 | 与其它工具边界 | 不替代 `task` / `scheduler.*` / Agent 内部 `todo` 工具；仅当满足"跨 session + Review + 文档化"三要素时使用本技能 |
 
 ## 快速开始 (Quick Start)
@@ -169,39 +169,39 @@ if action_failed:
 
 如果 Agent 能回答以下问题，说明上下文管理稳固：
 
-| # | 问题 | 答案来源 |
-|---|------|----------|
-| 1 | 我在哪？ | `task_plan.md` 中的当前阶段 |
-| 2 | 我要去哪？ | 剩余阶段 |
-| 3 | 目标是什么？ | 计划中的目标声明 |
-| 4 | 我学到了什么？ | `findings.md` |
-| 5 | 我做了什么？ | `progress.md` |
-| 6 | 是否需要拆子任务目录？ | `progress.md` 中的「子任务拆分判断」节 |
+| #   | 问题                   | 答案来源                               |
+| --- | ---------------------- | -------------------------------------- |
+| 1   | 我在哪？               | `task_plan.md` 中的当前阶段            |
+| 2   | 我要去哪？             | 剩余阶段                               |
+| 3   | 目标是什么？           | 计划中的目标声明                       |
+| 4   | 我学到了什么？         | `findings.md`                          |
+| 5   | 我做了什么？           | `progress.md`                          |
+| 6   | 是否需要拆子任务目录？ | `progress.md` 中的「子任务拆分判断」节 |
 
 > **与模板对齐**：本节与 `progress.md` 模板中的「6-Question Reboot Check」一致（含「是否需要拆子任务目录」）。
 
 ## 读 vs 写 决策矩阵
 
-| 情况 | 动作 | 原因 |
-|------|------|------|
-| 刚写了一个文件 | **不要**读 | 内容还在上下文中 |
-| 查看了图片/PDF | **立即**写 findings | 多模态 → 文本，防止丢失 |
-| 浏览器返回数据 | 写入文件 | 截图不会持久保存 |
-| 开始新阶段 | 阅读 plan/findings | 如果上下文陈旧，重新定位 |
-| 发生错误 | 阅读相关文件 | 需要当前状态来修复 |
-| session 间隔后恢复 | 阅读所有规划文件 | 恢复状态 |
+| 情况               | 动作                | 原因                     |
+| ------------------ | ------------------- | ------------------------ |
+| 刚写了一个文件     | **不要**读          | 内容还在上下文中         |
+| 查看了图片/PDF     | **立即**写 findings | 多模态 → 文本，防止丢失  |
+| 浏览器返回数据     | 写入文件            | 截图不会持久保存         |
+| 开始新阶段         | 阅读 plan/findings  | 如果上下文陈旧，重新定位 |
+| 发生错误           | 阅读相关文件        | 需要当前状态来修复       |
+| session 间隔后恢复 | 阅读所有规划文件    | 恢复状态                 |
 
 ## 反模式 (Anti-Patterns)
 
-| ❌ 不要 | ✅ 应该 |
-|---------|---------|
-| 用 `todo` 工具跟踪跨 session 长任务 | 用本技能创建项目级任务目录 |
-| 把任务文件放 `docs/` | 放 `.easbot/knowledge/tasks/{task-name}/` |
-| 陈述目标一次后就忘记 | 决策前重读计划 |
-| 隐藏错误并默默重试 | 记录到 `task_plan.md` 错误表 |
-| 把所有内容塞进上下文 | 大内容存储到文件中 |
-| 立即开始执行 | **先**创建 `task_plan.md` |
-| 重复失败的动作 | 追踪尝试，改变方法 |
+| ❌ 不要                             | ✅ 应该                                   |
+| ----------------------------------- | ----------------------------------------- |
+| 用 `todo` 工具跟踪跨 session 长任务 | 用本技能创建项目级任务目录                |
+| 把任务文件放 `docs/`                | 放 `.easbot/knowledge/tasks/{task-name}/` |
+| 陈述目标一次后就忘记                | 决策前重读计划                            |
+| 隐藏错误并默默重试                  | 记录到 `task_plan.md` 错误表              |
+| 把所有内容塞进上下文                | 大内容存储到文件中                        |
+| 立即开始执行                        | **先**创建 `task_plan.md`                 |
+| 重复失败的动作                      | 追踪尝试，改变方法                        |
 
 ## 进阶参考 (Advanced References)
 
@@ -223,10 +223,10 @@ if action_failed:
 
 ### 沉淀路径（按影响范围二选一）
 
-| 影响范围 | 落地路径 | 模板 | 适用场景 |
-|----------|----------|------|----------|
-| **单任务内** | `<task-dir>/0001-{topic}.md`（与三件套同目录） | [`00NN-requirement.md`](references/templates/decisions/00NN-requirement.md) | 阶段划分、模式选择、字段约定等单任务内的设计判断（最常见） |
-| **跨任务 / 跨模块** | `<cwd>/docs/decisions/00NN-{topic}.md`（宿主项目级 ADR 目录） | [`00NN-architecture.md`](references/templates/decisions/00NN-architecture.md) / [`00NN-execution.md`](references/templates/decisions/00NN-execution.md) | 影响 ≥ 2 个任务、改变调用协议、需跨模块 Review 的判断 |
+| 影响范围            | 落地路径                                                      | 模板                                                                                                                                                    | 适用场景                                                   |
+| ------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| **单任务内**        | `<task-dir>/0001-{topic}.md`（与三件套同目录）                | [`00NN-requirement.md`](references/templates/decisions/00NN-requirement.md)                                                                             | 阶段划分、模式选择、字段约定等单任务内的设计判断（最常见） |
+| **跨任务 / 跨模块** | `<cwd>/docs/decisions/00NN-{topic}.md`（宿主项目级 ADR 目录） | [`00NN-architecture.md`](references/templates/decisions/00NN-architecture.md) / [`00NN-execution.md`](references/templates/decisions/00NN-execution.md) | 影响 ≥ 2 个任务、改变调用协议、需跨模块 Review 的判断      |
 
 > **不要混淆**：`findings.md` 模板中的「决策沉淀」节只做**引用登记**（指向真正的决策归档文件），不是决策本身；本节给出真正落地的路径与模板。完整判定速查与反模式见 [requirement-decision-guide.md](references/requirement-decision-guide.md)。
 
@@ -234,12 +234,12 @@ if action_failed:
 
 为支持技能在任意宿主项目下复用，统一采用 `<cwd>` 前缀约定：
 
-| 占位符 | 含义 |
-|--------|------|
-| `<cwd>` | 宿主项目根目录（Agent 调用本技能时的当前工作目录） |
-| `<cwd>/.easbot/knowledge/tasks/{task-name}/` | 宿主项目级任务文件目录（本技能三件套落地路径） |
-| `<cwd>/docs/decisions/` | 宿主项目级 ADR 目录（由宿主项目维护，遵循 Michael Nygard 约定） |
-| `<cwd>/docs/decisions/references/decision-template-guide.md` | 宿主项目 ADR 规范文档（可能存在） |
+| 占位符                                                       | 含义                                                            |
+| ------------------------------------------------------------ | --------------------------------------------------------------- |
+| `<cwd>`                                                      | 宿主项目根目录（Agent 调用本技能时的当前工作目录）              |
+| `<cwd>/.easbot/knowledge/tasks/{task-name}/`                 | 宿主项目级任务文件目录（本技能三件套落地路径）                  |
+| `<cwd>/docs/decisions/`                                      | 宿主项目级 ADR 目录（由宿主项目维护，遵循 Michael Nygard 约定） |
+| `<cwd>/docs/decisions/references/decision-template-guide.md` | 宿主项目 ADR 规范文档（可能存在）                               |
 
 > **路径回退规则**：宿主项目若有自有决策目录（如 `<cwd>/.easbot/decisions/`、`<cwd>/adr/` 等），Agent 应优先遵循宿主项目规范。
 
@@ -247,10 +247,10 @@ if action_failed:
 
 按"影响范围"选择模板（自包含于本技能目录内）：
 
-| 类型 | 适用场景 | 章节数 | 模板 |
-|------|----------|--------|------|
-| **架构型** | 跨模块、影响 API/数据流、需 Review | 11 章 | [`00NN-architecture.md`](references/templates/decisions/00NN-architecture.md) |
-| **执行型** | 心跳动作、阶段收尾、单模块修复 | 8 章 | [`00NN-execution.md`](references/templates/decisions/00NN-execution.md) |
+| 类型       | 适用场景                           | 章节数 | 模板                                                                          |
+| ---------- | ---------------------------------- | ------ | ----------------------------------------------------------------------------- |
+| **架构型** | 跨模块、影响 API/数据流、需 Review | 11 章  | [`00NN-architecture.md`](references/templates/decisions/00NN-architecture.md) |
+| **执行型** | 心跳动作、阶段收尾、单模块修复     | 8 章   | [`00NN-execution.md`](references/templates/decisions/00NN-execution.md)       |
 
 > **模板定位**：本技能自包含这两份模板副本（精简自 ADR 行业规范 + 项目级实践）。完整规范、frontmatter 规范、修订与废弃流程以宿主项目 `<cwd>/docs/decisions/references/decision-template-guide.md` 为准（如存在）；不存在时按本目录模板自包含版本落地。
 >

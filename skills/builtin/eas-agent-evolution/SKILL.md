@@ -30,20 +30,23 @@ metadata:
 ## 快速参考 (Quick Reference)
 
 **核心脚本**：
+
 - `scripts/init-agent.ts` - 初始化 Agent，生成核心配置文件
 - `scripts/validate-config.ts` - 验证配置文件格式和完整性
 - `scripts/update-agent.ts` - 更新 Agent 配置，支持增量更新
 - `scripts/backup-config.ts` - 备份配置文件，支持恢复
 
 **文件优先级**：
-| Priority | 文件 | 说明 |
-|----------|------|------|
-| 1 | BOOT.md | 第一性原则 |
-| 20 | IDENTITY.md | 身份定义 |
-| 40 | SOUL.md | 行为准则 |
-| 50 | USER.md | 用户信息 |
+
+| Priority | 文件        | 说明       |
+| -------- | ----------- | ---------- |
+| 1        | BOOT.md     | 第一性原则 |
+| 20       | IDENTITY.md | 身份定义   |
+| 40       | SOUL.md     | 行为准则   |
+| 50       | USER.md     | 用户信息   |
 
 **关键前置阅读**：
+
 - 调用 `init-agent.ts` 前必须先读 [workspace 与 agentId 说明](references/workspace-and-agent-id.md)，了解 `workspace` 与 `agentId` 的语义与硬约束。
 
 ## 核心功能 (Core Functions)
@@ -58,19 +61,19 @@ npx tsx scripts/init-agent.ts --output .easbot
 
 **命令行参数（9个核心参数）**：
 
-| 参数 | 必填 | 说明 |
-|------|------|------|
-| `--workspace` | ✅ 必填 | Agent 的 workspace 路径 |
-| `--output` | 否 | 输出目录，默认 `.easbot`（相对于 workspace） |
-| `--non-interactive` | 否 | 非交互模式 |
-| `--agent-name` | ✅ 必填 | Agent 身份名称 |
-| `--user-name` | ✅ 必填 | 用户姓名 |
-| `--preferred-name` | 否 | 用户称呼偏好 |
-| `--mission` | ✅ 必填 | 核心使命 |
-| `--core-relationship` | 否 | 核心关系 |
-| `--core-values` | 否 | 核心价值观（逗号分隔） |
-| `--behavior-style` | 否 | 行为风格 |
-| `--decision-principles` | 否 | 决策原则（逗号分隔） |
+| 参数                    | 必填    | 说明                                         |
+| ----------------------- | ------- | -------------------------------------------- |
+| `--workspace`           | ✅ 必填 | Agent 的 workspace 路径                      |
+| `--output`              | 否      | 输出目录，默认 `.easbot`（相对于 workspace） |
+| `--non-interactive`     | 否      | 非交互模式                                   |
+| `--agent-name`          | ✅ 必填 | Agent 身份名称                               |
+| `--user-name`           | ✅ 必填 | 用户姓名                                     |
+| `--preferred-name`      | 否      | 用户称呼偏好                                 |
+| `--mission`             | ✅ 必填 | 核心使命                                     |
+| `--core-relationship`   | 否      | 核心关系                                     |
+| `--core-values`         | 否      | 核心价值观（逗号分隔）                       |
+| `--behavior-style`      | 否      | 行为风格                                     |
+| `--decision-principles` | 否      | 决策原则（逗号分隔）                         |
 
 **完整示例（9个参数，包括 --workspace）**：
 
@@ -90,22 +93,26 @@ npx tsx scripts/init-agent.ts \
 ```
 
 **参数说明**：
+
 - `--core-values` 和 `--decision-principles` 为多选参数，使用逗号分隔，无需引号
 - 所有参数值会自动去除单双引号
 
 **参数验证规则**：
 
 在 `--non-interactive` 模式下，以下参数为必填：
+
 - `workspace` - Agent 的 workspace 路径（必须传入）
 - `agentName` - Agent 身份名称
 - `userName` - 用户姓名
 - `mission` - 核心使命
 
 **交互式信息收集（默认模式）**：
+
 - 第一轮（核心确定）：Agent 名称、用户姓名、称呼偏好、核心使命
 - 第二轮（行为准则）：核心关系、核心价值观、行为风格、决策原则
 
 **初始化输出文件**：
+
 - `protocol.json` - 协议元数据文件，包含版本、时间和核心元数据
 
 ### 2. 配置验证 (Config Validation)
@@ -133,14 +140,15 @@ npx tsx scripts/update-agent.ts --config-path .easbot --field name --value "新�
 
 **命令行参数**：
 
-| 参数 | 必填 | 说明 |
-|------|------|------|
-| `--config-path` | 否 | 配置目录，默认 `.easbot` |
-| `--field` | ✅ | 要更新的字段名 |
-| `--value` | 否 | 字段值（字符串） |
-| `--json` | 否 | 字段值（JSON 格式，用于数组） |
+| 参数            | 必填 | 说明                          |
+| --------------- | ---- | ----------------------------- |
+| `--config-path` | 否   | 配置目录，默认 `.easbot`      |
+| `--field`       | ✅   | 要更新的字段名                |
+| `--value`       | 否   | 字段值（字符串）              |
+| `--json`        | 否   | 字段值（JSON 格式，用于数组） |
 
 **使用说明**：
+
 - 使用 `--value` 更新字符串字段
 - 使用 `--json` 更新数组字段（需要传入 JSON 格式）
 - `--value` 和 `--json` 互斥，只能使用其中一个

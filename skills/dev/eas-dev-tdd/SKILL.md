@@ -10,17 +10,17 @@ behavior:
       - id: red-write-failing-test
         name: 红灯：写失败测试
         gate:
-          rule: "测试 MUST 失败才能进入下一步；不许写实现前让测试通过"
+          rule: '测试 MUST 失败才能进入下一步；不许写实现前让测试通过'
           severity: must
       - id: green-minimal-implementation
         name: 绿灯：写最小实现
         gate:
-          rule: "实现 MUST 最小；不许写超出测试范围的代码"
+          rule: '实现 MUST 最小；不许写超出测试范围的代码'
           severity: must
       - id: refactor-improve
         name: 重构：改进代码
         gate:
-          rule: "重构 MUST 不破坏测试；测试必须全绿"
+          rule: '重构 MUST 不破坏测试；测试必须全绿'
           severity: must
 metadata:
   category: dev
@@ -72,15 +72,15 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项 | 内容 |
-|---|---|
-| 模式 | Technique（3 步固定序列） |
-| 输入契约 | `tasks.md` 中单个任务（7 字段齐全） |
-| 输出契约 | 测试代码 + 实现代码 + commit 历史 |
-| 序列步骤 | 红 → 绿 → 重构（`behavior.sequence.steps`） |
-| Gate 数量 | 3 道 must（每步 1 道） |
+| 项              | 内容                                                                                                                                              |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 模式            | Technique（3 步固定序列）                                                                                                                         |
+| 输入契约        | `tasks.md` 中单个任务（7 字段齐全）                                                                                                               |
+| 输出契约        | 测试代码 + 实现代码 + commit 历史                                                                                                                 |
+| 序列步骤        | 红 → 绿 → 重构（`behavior.sequence.steps`）                                                                                                       |
+| Gate 数量       | 3 道 must（每步 1 道）                                                                                                                            |
 | 必读 references | [references/red-green-refactor.md](references/red-green-refactor.md) / [references/testing-anti-patterns.md](references/testing-anti-patterns.md) |
-| 失败处理 | Gate 失败 → MUST 报错并指出当前步骤 |
+| 失败处理        | Gate 失败 → MUST 报错并指出当前步骤                                                                                                               |
 
 ## 第一性原理 (First Principles)
 
@@ -113,7 +113,7 @@ metadata:
 
 ```yaml
 gate:
-  rule: "测试 MUST 失败才能进入下一步"
+  rule: '测试 MUST 失败才能进入下一步'
   severity: must
 ```
 
@@ -135,7 +135,7 @@ gate:
 
 ```yaml
 gate:
-  rule: "实现 MUST 最小；不许写超出测试范围的代码"
+  rule: '实现 MUST 最小；不许写超出测试范围的代码'
   severity: must
 ```
 
@@ -157,7 +157,7 @@ gate:
 
 ```yaml
 gate:
-  rule: "重构 MUST 不破坏测试"
+  rule: '重构 MUST 不破坏测试'
   severity: must
 ```
 
@@ -169,10 +169,10 @@ gate:
 
 ## 输入契约 (Input Contract)
 
-| 项 | 要求 |
-|---|---|
-| 必备 | `tasks.md` 中单个任务（含 7 字段） |
-| 可选 | spec.md（参考验收标准） |
+| 项   | 要求                                         |
+| ---- | -------------------------------------------- |
+| 必备 | `tasks.md` 中单个任务（含 7 字段）           |
+| 可选 | spec.md（参考验收标准）                      |
 | 拒绝 | 任务超 5 分钟（MUST 回 `eas-dev-plan` 拆分） |
 
 ## 输出契约 (Output Contract)
@@ -212,30 +212,30 @@ refactor(<scope>): <description>
 
 ## 失败处理 (Failure Handling)
 
-| 情况 | 动作 |
-|---|---|
-| 红灯阶段测试不失败 | 报错"测试无法失败 = 无法进入 TDD 循环" |
-| 绿灯阶段超出最小 | 报错"实现超出测试范围" |
-| 重构阶段破坏测试 | 报错"重构改变了行为；回滚逻辑改动" |
-| 任务超 5 分钟 | 报错"颗粒度过粗；回 `eas-dev-plan` 拆分" |
+| 情况               | 动作                                     |
+| ------------------ | ---------------------------------------- |
+| 红灯阶段测试不失败 | 报错"测试无法失败 = 无法进入 TDD 循环"   |
+| 绿灯阶段超出最小   | 报错"实现超出测试范围"                   |
+| 重构阶段破坏测试   | 报错"重构改变了行为；回滚逻辑改动"       |
+| 任务超 5 分钟      | 报错"颗粒度过粗；回 `eas-dev-plan` 拆分" |
 
 ## 常见错误 (Common Mistakes)
 
-| ❌ 不要 | ✅ 应该 |
-|---|---|
-| 跳过红灯阶段 | TDD 价值 = 红灯验证测试有效性 |
-| 绿灯阶段"顺便"加功能 | YAGNI；下个迭代再说 |
-| 重构阶段改逻辑 | 重构 = 不改逻辑；改逻辑 = 新功能 |
-| 测试覆盖 100% | 测试覆盖 = 行为覆盖；100% 行覆盖 ≠ 100% 行为 |
-| 测试用真实 DB | 用 testcontainers / 内存数据库 |
+| ❌ 不要              | ✅ 应该                                      |
+| -------------------- | -------------------------------------------- |
+| 跳过红灯阶段         | TDD 价值 = 红灯验证测试有效性                |
+| 绿灯阶段"顺便"加功能 | YAGNI；下个迭代再说                          |
+| 重构阶段改逻辑       | 重构 = 不改逻辑；改逻辑 = 新功能             |
+| 测试覆盖 100%        | 测试覆盖 = 行为覆盖；100% 行覆盖 ≠ 100% 行为 |
+| 测试用真实 DB        | 用 testcontainers / 内存数据库               |
 
 ## 下一步 (Next Steps)
 
-| 下游技能 | 何时使用 |
-|---|---|
-| `eas-dev-review` | 单个任务完成后，进入 PR review |
-| `eas-dev-implement` | 多任务 TDD 自动调度 |
-| `eas-dev-finish` | 所有任务完成，进入收尾发布 |
+| 下游技能            | 何时使用                       |
+| ------------------- | ------------------------------ |
+| `eas-dev-review`    | 单个任务完成后，进入 PR review |
+| `eas-dev-implement` | 多任务 TDD 自动调度            |
+| `eas-dev-finish`    | 所有任务完成，进入收尾发布     |
 
 ## 参考资料 (References)
 
@@ -244,15 +244,15 @@ refactor(<scope>): <description>
 
 ## 与其他技能的关系 (Relationships)
 
-| 技能 | 关系 |
-|---|---|
-| `eas-dev-plan` | **上游**：tasks.md 是 TDD 的输入 |
-| `eas-dev-review` | **下游**：TDD 完成后进入 review |
-| `eas-dev-implement` | **平行**：implement 内部调用 tdd |
-| `eas-dev-finish` | **下游**：所有 TDD 完成后进入收尾 |
-| `eas-dev-loop` | **上游**：loop 内每任务实现 = tdd |
+| 技能                | 关系                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| `eas-dev-plan`      | **上游**：tasks.md 是 TDD 的输入                             |
+| `eas-dev-review`    | **下游**：TDD 完成后进入 review                              |
+| `eas-dev-implement` | **平行**：implement 内部调用 tdd                             |
+| `eas-dev-finish`    | **下游**：所有 TDD 完成后进入收尾                            |
+| `eas-dev-loop`      | **上游**：loop 内每任务实现 = tdd                            |
 | `eas-skill-creator` | **规范基线**：本技能遵循其结构 + 5 大模式 + frontmatter 规范 |
-| `eas-skill-using` | **不重叠**：dev 分类不进索引 |
+| `eas-skill-using`   | **不重叠**：dev 分类不进索引                                 |
 
 ---
 

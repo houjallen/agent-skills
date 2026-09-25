@@ -6,12 +6,12 @@
 
 docx 评论由 4 个 XML 文件协同：
 
-| 文件 | 作用 |
-| --- | --- |
-| `word/comments.xml` | 评论主体（id + author + date + text） |
-| `word/commentsExtended.xml` | 扩展元数据（done 标记 / parentId） |
-| `word/commentsIds.xml` | 持久化 ID（durableId，跨会话稳定） |
-| `word/commentsExtensible.xml` | 扩展本地化（可选） |
+| 文件                          | 作用                                  |
+| ----------------------------- | ------------------------------------- |
+| `word/comments.xml`           | 评论主体（id + author + date + text） |
+| `word/commentsExtended.xml`   | 扩展元数据（done 标记 / parentId）    |
+| `word/commentsIds.xml`        | 持久化 ID（durableId，跨会话稳定）    |
+| `word/commentsExtensible.xml` | 扩展本地化（可选）                    |
 
 外加 `word/_rels/document.xml.rels` 加 4 个 relationship + `[Content_Types].xml` 加 4 个 Content Type。
 

@@ -10,30 +10,30 @@ behavior:
       - id: reproduce
         name: 复现：最小重现用例
         gate:
-          rule: "MUST 有可重现的最小用例；无复现 = 不可修复"
+          rule: 'MUST 有可重现的最小用例；无复现 = 不可修复'
           severity: must
         strong_constraints:
           - id: never-skip-reproduce
-            text: "NEVER 跳过复现阶段"
+            text: 'NEVER 跳过复现阶段'
             severity: must
       - id: locate
         name: 定位：找根因（不是症状）
         gate:
-          rule: "MUST 找到根因；不许只解释症状"
+          rule: 'MUST 找到根因；不许只解释症状'
           severity: must
         strong_constraints:
           - id: never-direct-fix
-            text: "NEVER 未定位根因直接给修复方案"
+            text: 'NEVER 未定位根因直接给修复方案'
             severity: must
       - id: fix
         name: 修复：最小变更 + 解释
         gate:
-          rule: "MUST 最小变更；MUST 解释为什么这是根因而非症状修复"
+          rule: 'MUST 最小变更；MUST 解释为什么这是根因而非症状修复'
           severity: must
       - id: regression
         name: 回归：加测试防止再犯
         gate:
-          rule: "MUST 加回归测试；MUST 验证修复前后行为差异"
+          rule: 'MUST 加回归测试；MUST 验证修复前后行为差异'
           severity: must
 metadata:
   category: dev
@@ -87,13 +87,13 @@ metadata:
 
 ## 快速参考 (Quick Reference)
 
-| 项 | 内容 |
-|---|---|
-| 模式 | Technique（4 阶段固定序列） |
-| 输入契约 | bug 报告（现象 / 触发条件 / 期望行为 / 实际行为） |
-| 输出契约 | `diagnose.md`（复现 / 定位 / 修复 / 回归 4 章节） |
-| 序列步骤 | reproduce → locate → fix → regression（`behavior.sequence.steps`） |
-| 强约束 | 2 条 NEVER：`NEVER 跳过复现` / `NEVER 直接给方案` |
+| 项              | 内容                                                                                                                                        |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| 模式            | Technique（4 阶段固定序列）                                                                                                                 |
+| 输入契约        | bug 报告（现象 / 触发条件 / 期望行为 / 实际行为）                                                                                           |
+| 输出契约        | `diagnose.md`（复现 / 定位 / 修复 / 回归 4 章节）                                                                                           |
+| 序列步骤        | reproduce → locate → fix → regression（`behavior.sequence.steps`）                                                                          |
+| 强约束          | 2 条 NEVER：`NEVER 跳过复现` / `NEVER 直接给方案`                                                                                           |
 | 必读 references | [references/4-phases.md](references/4-phases.md) / [references/anti-patterns-symptom-fixing.md](references/anti-patterns-symptom-fixing.md) |
 
 ## 第一性原理 (First Principles)
@@ -130,7 +130,7 @@ metadata:
 
 ```yaml
 gate:
-  rule: "MUST 有可重现的最小用例"
+  rule: 'MUST 有可重现的最小用例'
   severity: must
 ```
 
@@ -172,7 +172,7 @@ mrc:
 
 ```yaml
 gate:
-  rule: "MUST 找到根因"
+  rule: 'MUST 找到根因'
   severity: must
 ```
 
@@ -202,7 +202,7 @@ root_cause:
 
 ```yaml
 gate:
-  rule: "MUST 最小变更；MUST 解释根因修复"
+  rule: 'MUST 最小变更；MUST 解释根因修复'
   severity: must
 ```
 
@@ -231,7 +231,7 @@ fix:
 
 ```yaml
 gate:
-  rule: "MUST 加回归测试；MUST 验证修复前后行为差异"
+  rule: 'MUST 加回归测试；MUST 验证修复前后行为差异'
   severity: must
 ```
 
@@ -248,22 +248,22 @@ regression_test:
 
 ## 输入契约 (Input Contract)
 
-| 项 | 要求 |
-|---|---|
+| 项   | 要求                                |
+| ---- | ----------------------------------- |
 | 必备 | bug 现象描述（用户原话 / 错误信息） |
-| 必备 | 触发条件（何时发生 / 频率） |
-| 必备 | 期望行为 vs 实际行为 |
-| 可选 | 日志 / 调用栈 / 截图 |
-| 可选 | 已有的修复尝试 |
+| 必备 | 触发条件（何时发生 / 频率）         |
+| 必备 | 期望行为 vs 实际行为                |
+| 可选 | 日志 / 调用栈 / 截图                |
+| 可选 | 已有的修复尝试                      |
 
 ## 输出契约 (Output Contract)
 
 **必须产出 `diagnose.md`**，落地路径规范（dev 技能通用默认；宿主项目可在自有 `.easbot/AGENTS.md` 中声明覆盖）：
 
-| 场景 | 路径 |
-|---|---|
+| 场景               | 路径                                                   |
+| ------------------ | ------------------------------------------------------ |
 | **项目级（推荐）** | `<cwd>/.easbot/knowledge/docs/dev/<topic>/diagnose.md` |
-| **临时 / 探索性** | `<cwd>/.easbot/state/dev-scratch-<topic>-diagnose.md` |
+| **临时 / 探索性**  | `<cwd>/.easbot/state/dev-scratch-<topic>-diagnose.md`  |
 
 **禁止路径**（会污染版本控制）：
 
@@ -283,29 +283,29 @@ regression_test:
 
 ## 失败处理 (Failure Handling)
 
-| 情况 | 动作 |
-|---|---|
-| 无法复现 | 报错"无可重现 = 不可修复"；NEVER 跳过 |
-| 根因不明确 | 继续 Phase 2；NEVER 猜根因 |
-| 修复无效 | 回 Phase 2 重新定位 |
-| 回归测试在修复前已通过 | 测试无效；NEVER commit |
+| 情况                   | 动作                                  |
+| ---------------------- | ------------------------------------- |
+| 无法复现               | 报错"无可重现 = 不可修复"；NEVER 跳过 |
+| 根因不明确             | 继续 Phase 2；NEVER 猜根因            |
+| 修复无效               | 回 Phase 2 重新定位                   |
+| 回归测试在修复前已通过 | 测试无效；NEVER commit                |
 
 ## 常见错误 (Common Mistakes)
 
-| ❌ 不要 | ✅ 应该 |
-|---|---|
-| 跳过复现直接猜根因 | 先复现；无可重现 = 不可修复 |
-| 把症状当根因 | 区分症状 vs 根因；逐层排查 |
-| 大范围改动 | 最小变更；不动无关代码 |
-| 修复不加测试 | MUST 加回归测试 |
-| 修复后未验证复现用例 | 修复后 MUST 跑复现用例确认 |
+| ❌ 不要              | ✅ 应该                     |
+| -------------------- | --------------------------- |
+| 跳过复现直接猜根因   | 先复现；无可重现 = 不可修复 |
+| 把症状当根因         | 区分症状 vs 根因；逐层排查  |
+| 大范围改动           | 最小变更；不动无关代码      |
+| 修复不加测试         | MUST 加回归测试             |
+| 修复后未验证复现用例 | 修复后 MUST 跑复现用例确认  |
 
 ## 下一步 (Next Steps)
 
-| 下游技能 | 何时使用 |
-|---|---|
-| `eas-dev-tdd` | 修复需要新建模块 / 大量改动 |
-| `eas-dev-review` | 修复完成后进入 review |
+| 下游技能         | 何时使用                      |
+| ---------------- | ----------------------------- |
+| `eas-dev-tdd`    | 修复需要新建模块 / 大量改动   |
+| `eas-dev-review` | 修复完成后进入 review         |
 | `eas-dev-finish` | 修复 + review PASS 后进入收尾 |
 
 ## 参考资料 (References)
@@ -315,14 +315,14 @@ regression_test:
 
 ## 与其他技能的关系 (Relationships)
 
-| 技能 | 关系 |
-|---|---|
-| `eas-dev-tdd` | **下游**：修复如需新建模块 / 大量改动走 TDD |
-| `eas-dev-review` | **下游**：修复完成后 review |
-| `eas-dev-finish` | **下游**：修复 + review 后收尾 |
-| `eas-dev-loop` | **平行**：loop 不自动触发 diagnose（bug 需人工启动） |
+| 技能                | 关系                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| `eas-dev-tdd`       | **下游**：修复如需新建模块 / 大量改动走 TDD                  |
+| `eas-dev-review`    | **下游**：修复完成后 review                                  |
+| `eas-dev-finish`    | **下游**：修复 + review 后收尾                               |
+| `eas-dev-loop`      | **平行**：loop 不自动触发 diagnose（bug 需人工启动）         |
 | `eas-skill-creator` | **规范基线**：本技能遵循其结构 + 5 大模式 + frontmatter 规范 |
-| `eas-skill-using` | **不重叠**：dev 分类不进索引 |
+| `eas-skill-using`   | **不重叠**：dev 分类不进索引                                 |
 
 ---
 

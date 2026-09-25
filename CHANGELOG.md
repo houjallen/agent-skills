@@ -54,8 +54,6 @@ _2026-08-08_
 - **[skill:eas-agent-evolution]** chore(refactor): move frontmatter fields into metadata block ([7855df4](https://github.com/houjallen/agent-skills/commit/7855df4))
 - **[skill:eas-agent-creation]** chore(refactor): move frontmatter fields into metadata block ([900a102](https://github.com/houjallen/agent-skills/commit/900a102))
 
-
-
 ## 0.3.13
 
 _2026-08-08_
@@ -100,8 +98,6 @@ _2026-08-08_
 
 - **[repo]** chore(deps): lock @easbot/utils@^0.3.12 added in 3d5b283 ([142ad8f](https://github.com/houjallen/agent-skills/commit/142ad8f))
 
-
-
 ## 0.3.12
 
 _2026-08-04_
@@ -132,8 +128,6 @@ _2026-08-04_
 ### 🔧 构建/工具
 
 - **[repo]** chore(gitignore): add local IDE / agent tool config dirs ([ea541b2](https://github.com/houjallen/agent-skills/commit/ea541b2))
-
-
 
 ## 0.3.11
 
@@ -179,8 +173,6 @@ _2026-07-30_
 - **[repo]** chore: ignore skills-lock.json ([a63c5d2](https://github.com/houjallen/agent-skills/commit/a63c5d2))
 - **[repo]** chore: add tsconfig and refresh pnpm-workspace allowlist ([421da75](https://github.com/houjallen/agent-skills/commit/421da75))
 
-
-
 ## 0.3.10
 
 _2026-07-26_
@@ -217,4 +209,3 @@ _2026-07-26_
 - **[repo]** ci: 引入 pnpm-workspace.yaml 显式声明 native build 白名单 ([5af2bd6](https://github.com/houjallen/agent-skills/commit/5af2bd6))
 - **[repo]** ci: 引入 husky hooks（pre-commit 版本管理、commit-msg 格式校验） ([b630d9a](https://github.com/houjallen/agent-skills/commit/b630d9a))
 - **[repo]** ci: 引入 GitHub Actions 工作流（CI 与发布） ([54b4fb3](https://github.com/houjallen/agent-skills/commit/54b4fb3))
-

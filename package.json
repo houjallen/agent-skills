@@ -11,7 +11,7 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "lint:report": "biome check --reporter=summary .",
-    "format": "biome format ./packages",
+    "format": "biome format . && prettier --check **/*.{md,mdx}",
     "format:fix": "biome format --write . && prettier --write **/*.{md,mdx}",
     "prepare": "husky",
     "type-check": "tsc --noEmit",
