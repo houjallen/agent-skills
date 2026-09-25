@@ -6,11 +6,11 @@
 
 eas-agent-evolution 技能管理以下核心文件：
 
-| 文件类型 | 文件路径 | 说明 |
-|----------|----------|------|
-| 协议文件 | `.easbot/protocol.json` | 存储初始化状态和元数据 |
-| 模板文件 | `skills/builtin/eas-agent-evolution/references/templates/*.md` | 配置文档模板 |
-| 生成文件 | `.easbot/*.md` | 运行时加载的配置文件 |
+| 文件类型 | 文件路径                                                       | 说明                   |
+| -------- | -------------------------------------------------------------- | ---------------------- |
+| 协议文件 | `.easbot/protocol.json`                                        | 存储初始化状态和元数据 |
+| 模板文件 | `skills/builtin/eas-agent-evolution/references/templates/*.md` | 配置文档模板           |
+| 生成文件 | `.easbot/*.md`                                                 | 运行时加载的配置文件   |
 
 ## 修改原则
 
@@ -23,15 +23,15 @@ eas-agent-evolution 技能管理以下核心文件：
 
 ### 修改权限
 
-| 文件 | Agent 可修改 | 修改方式 |
-|------|-------------|----------|
-| `protocol.json` | ✅ | 通过工具写入 |
-| `BOOT.md` | ❌ | 动态渲染，不可直接修改 |
-| `IDENTITY.md` | ✅ | 通过 eas-agent-evolution 技能 |
-| `SOUL.md` | ✅ | 通过 eas-agent-evolution 技能 |
-| `USER.md` | ✅ | 通过 eas-agent-evolution 技能 |
-| `AGENTS.md` | ✅ | 通过 eas-agent-evolution 技能 |
-| 模板文件 | ❌ | 技能开发时修改 |
+| 文件            | Agent 可修改 | 修改方式                      |
+| --------------- | ------------ | ----------------------------- |
+| `protocol.json` | ✅           | 通过工具写入                  |
+| `BOOT.md`       | ❌           | 动态渲染，不可直接修改        |
+| `IDENTITY.md`   | ✅           | 通过 eas-agent-evolution 技能 |
+| `SOUL.md`       | ✅           | 通过 eas-agent-evolution 技能 |
+| `USER.md`       | ✅           | 通过 eas-agent-evolution 技能 |
+| `AGENTS.md`     | ✅           | 通过 eas-agent-evolution 技能 |
+| 模板文件        | ❌           | 技能开发时修改                |
 
 ## protocol.json 修改规范
 
@@ -45,50 +45,50 @@ eas-agent-evolution 技能管理以下核心文件：
 
 ```typescript
 interface ProtocolConfig {
-  version: number;           // 协议版本，固定为 1
+  version: number; // 协议版本，固定为 1
   bootstrapSeededAt: string; // ISO 8601 时间戳
-  setupCompletedAt: string;  // ISO 8601 时间戳
+  setupCompletedAt: string; // ISO 8601 时间戳
   metadata: ProtocolMetadata;
 }
 
 interface ProtocolMetadata {
-  agentId: string;                 // Agent 唯一标识符（peer-uuid 格式）
-  workspace: string;              // 工作区绝对路径
-  name: string;                    // Agent 身份名称
-  userName: string;                // 用户姓名
-  mission: string;                 // 核心使命
-  coreRelationship?: string;      // 核心关系（可选）
-  coreValues?: string[];          // 核心价值观（可选）
-  behaviorStyle?: string;         // 行为风格（可选）
-  decisionPrinciples?: string[];  // 决策原则（可选）
+  agentId: string; // Agent 唯一标识符（peer-uuid 格式）
+  workspace: string; // 工作区绝对路径
+  name: string; // Agent 身份名称
+  userName: string; // 用户姓名
+  mission: string; // 核心使命
+  coreRelationship?: string; // 核心关系（可选）
+  coreValues?: string[]; // 核心价值观（可选）
+  behaviorStyle?: string; // 行为风格（可选）
+  decisionPrinciples?: string[]; // 决策原则（可选）
 }
 ```
 
 ### 修改触发场景
 
-| 场景 | 修改字段 | 说明 |
-|------|----------|------|
-| 首次初始化 | 所有必填字段 | Agent 首次运行 |
-| agentId 生成 | `metadata.agentId` | 初始化时自动生成（不可修改） |
-| 身份名称变更 | `metadata.name` | 用户或 Agent 请求修改 |
-| 用户姓名变更 | `metadata.userName` | 用户主动提供 |
-| 核心使命变更 | `metadata.mission` | 身份认知深化 |
-| 初始化完成 | `setupCompletedAt` | 首次初始化完成 |
-| 版本升级 | `version` | 协议 schema 变更 |
+| 场景         | 修改字段            | 说明                         |
+| ------------ | ------------------- | ---------------------------- |
+| 首次初始化   | 所有必填字段        | Agent 首次运行               |
+| agentId 生成 | `metadata.agentId`  | 初始化时自动生成（不可修改） |
+| 身份名称变更 | `metadata.name`     | 用户或 Agent 请求修改        |
+| 用户姓名变更 | `metadata.userName` | 用户主动提供                 |
+| 核心使命变更 | `metadata.mission`  | 身份认知深化                 |
+| 初始化完成   | `setupCompletedAt`  | 首次初始化完成               |
+| 版本升级     | `version`           | 协议 schema 变更             |
 
 ### 必填字段
 
-| 字段 | JSONPath | 类型 | 说明 |
-|------|----------|------|------|
-| version | `$.version` | number | 固定为 1 |
-| bootstrapSeededAt | `$.bootstrapSeededAt` | string | ISO 8601 格式 |
-| setupCompletedAt | `$.setupCompletedAt` | string | ISO 8601 格式 |
-| metadata | `$.metadata` | object | 非空对象 |
-| metadata.agentId | `$.metadata.agentId` | string | Agent 唯一标识符（peer-uuid 格式） |
-| metadata.workspace | `$.metadata.workspace` | string | 绝对路径 |
-| metadata.name | `$.metadata.name` | string | 非空字符串 |
-| metadata.userName | `$.metadata.userName` | string | 非空字符串 |
-| metadata.mission | `$.metadata.mission` | string | 非空字符串 |
+| 字段               | JSONPath               | 类型   | 说明                               |
+| ------------------ | ---------------------- | ------ | ---------------------------------- |
+| version            | `$.version`            | number | 固定为 1                           |
+| bootstrapSeededAt  | `$.bootstrapSeededAt`  | string | ISO 8601 格式                      |
+| setupCompletedAt   | `$.setupCompletedAt`   | string | ISO 8601 格式                      |
+| metadata           | `$.metadata`           | object | 非空对象                           |
+| metadata.agentId   | `$.metadata.agentId`   | string | Agent 唯一标识符（peer-uuid 格式） |
+| metadata.workspace | `$.metadata.workspace` | string | 绝对路径                           |
+| metadata.name      | `$.metadata.name`      | string | 非空字符串                         |
+| metadata.userName  | `$.metadata.userName`  | string | 非空字符串                         |
+| metadata.mission   | `$.metadata.mission`   | string | 非空字符串                         |
 
 ### 输出格式要求
 
@@ -103,16 +103,16 @@ interface ProtocolMetadata {
 
 ```json
 {
-    "version": 1,
-    "bootstrapSeededAt": "2024-01-01T00:00:00.000Z",
-    "setupCompletedAt": "2024-01-01T00:00:00.000Z",
-    "metadata": {
-        "agentId": "peer-550e8400-e29b-41d4-a716-446655440000",
-        "workspace": "e:\\work\\apps\\eas\\easbot",
-        "name": "小莫",
-        "userName": "jallen",
-        "mission": "与jallen一起探索和成长"
-    }
+  "version": 1,
+  "bootstrapSeededAt": "2024-01-01T00:00:00.000Z",
+  "setupCompletedAt": "2024-01-01T00:00:00.000Z",
+  "metadata": {
+    "agentId": "peer-550e8400-e29b-41d4-a716-446655440000",
+    "workspace": "e:\\work\\apps\\eas\\easbot",
+    "name": "小莫",
+    "userName": "jallen",
+    "mission": "与jallen一起探索和成长"
+  }
 }
 ```
 
@@ -151,12 +151,12 @@ interface ProtocolMetadata {
 
 每个模板文件使用 `update-conditions` 定义更新时机，采用 MUST/SHOULD/MAY 三级判定：
 
-| 级别 | 含义 | Agent 行为 |
-|------|------|-----------|
-| **MUST** | 必须更新 | 触发时立即更新，不等待确认 |
-| **SHOULD** | 推荐更新 | 建议更新，获得用户确认后执行 |
-| **MAY** | 可选更新 | 由 Agent 自主判定是否需要更新 |
-| **cleanup** | 清理规则 | 描述哪些内容应该被移除或归档 |
+| 级别        | 含义     | Agent 行为                    |
+| ----------- | -------- | ----------------------------- |
+| **MUST**    | 必须更新 | 触发时立即更新，不等待确认    |
+| **SHOULD**  | 推荐更新 | 建议更新，获得用户确认后执行  |
+| **MAY**     | 可选更新 | 由 Agent 自主判定是否需要更新 |
+| **cleanup** | 清理规则 | 描述哪些内容应该被移除或归档  |
 
 ### 判定原则
 
@@ -169,13 +169,13 @@ interface ProtocolMetadata {
 
 ### 模板列表
 
-| 模板文件 | 生成目标文件 | MUST 更新 | SHOULD 更新 | MAY 更新 | cleanup |
-|----------|--------------|-----------|--------------|----------|-----------|
-| `boot-template.md` | `BOOT.md` | metadata 变更 | 第一性原则与行为偏差 | - | 移除临时内容 |
-| `identity-template.md` | `IDENTITY.md` | 名称/关系变更 | 认知深化/认知不一致 | 特征细化 | 废弃关系 |
-| `soul-template.md` | `SOUL.md` | 价值观/准则变更 | 重大事件反思/矛盾 | 风格微调/细化 | 过时边界/矛盾原则 |
-| `user-template.md` | `USER.md` | 姓名/称呼变更 | 互动后更新/风格变化 | 偏好细化/历史补充 | 过时关注点/归档历史 |
-| `agents-template.md` | `AGENTS.md` | 目录结构变更/新增功能 | 安全规则/规则不符 | 组织细化/描述补充 | 废弃功能/过时路径 |
+| 模板文件               | 生成目标文件  | MUST 更新             | SHOULD 更新          | MAY 更新          | cleanup             |
+| ---------------------- | ------------- | --------------------- | -------------------- | ----------------- | ------------------- |
+| `boot-template.md`     | `BOOT.md`     | metadata 变更         | 第一性原则与行为偏差 | -                 | 移除临时内容        |
+| `identity-template.md` | `IDENTITY.md` | 名称/关系变更         | 认知深化/认知不一致  | 特征细化          | 废弃关系            |
+| `soul-template.md`     | `SOUL.md`     | 价值观/准则变更       | 重大事件反思/矛盾    | 风格微调/细化     | 过时边界/矛盾原则   |
+| `user-template.md`     | `USER.md`     | 姓名/称呼变更         | 互动后更新/风格变化  | 偏好细化/历史补充 | 过时关注点/归档历史 |
+| `agents-template.md`   | `AGENTS.md`   | 目录结构变更/新增功能 | 安全规则/规则不符    | 组织细化/描述补充 | 废弃功能/过时路径   |
 
 ### YAML Frontmatter 规范
 
@@ -199,6 +199,7 @@ permission: [read|write]
 **长度限制**: ≤80 个字符
 
 **内容要求**: 包含三要素
+
 1. **定义内容**: 该模板定义哪些内容
 2. **占位符说明**: 包含哪些占位符
 3. **更新条件**: 何时需要更新
@@ -225,7 +226,7 @@ permission: [read|write]
 
 ```handlebars
 {{#if variableName}}
-[当 variableName 存在时的内容]
+  [当 variableName 存在时的内容]
 {{/if}}
 ```
 
@@ -233,17 +234,20 @@ permission: [read|write]
 
 使用 Handlebars 循环块处理列表内容：
 
+<!-- prettier-ignore-start -->
 ```handlebars
 {{#each items}}
 | {{name}} | {{priority}} | {{description}} | {{status}} |
 {{/each}}
 ```
+<!-- prettier-ignore-end -->
 
 ## 引导脚本修改规范
 
 ### init-agent.ts 修改规范
 
 **修改触发场景**:
+
 1. 新增必填字段
 2. 修改问题收集流程
 3. 调整文件生成顺序
@@ -253,6 +257,7 @@ permission: [read|write]
 **输出格式**: TypeScript，ESM 模块语法，`.ts` 后缀
 
 **代码规范**:
+
 - 导入排序: 外部包 → 内部包 → 相对导入
 - 类型定义: 使用 `interface` 定义数据结构
 - 错误处理: 使用 `try/catch`，返回结构化错误信息
@@ -266,15 +271,15 @@ permission: [read|write]
 
 ### 问题设计
 
-| 问题 | 类型 | 选项/自定义 | 核心确定 |
-|------|------|------------|----------|
-| `{{name}}` | 单选或填空 | 支持自定义 | ✅ 第一轮 |
-| `{{userName}}` | 填空 | 仅支持自定义 | ✅ 第一轮 |
-| `{{mission}}` | 填空 | 仅支持自定义 | ✅ 第一轮 |
-| `{{coreRelationship}}` | 多选或填空 | 支持自定义 | ✅ 第二轮 |
-| `{{coreValues}}` | 多选 | 不支持自定义 | ✅ 第二轮 |
-| `{{behaviorStyle}}` | 单选 | 支持自定义 | ✅ 第二轮 |
-| `{{decisionPrinciples}}` | 多选 | 不支持自定义 | ✅ 第二轮 |
+| 问题                     | 类型       | 选项/自定义  | 核心确定  |
+| ------------------------ | ---------- | ------------ | --------- |
+| `{{name}}`               | 单选或填空 | 支持自定义   | ✅ 第一轮 |
+| `{{userName}}`           | 填空       | 仅支持自定义 | ✅ 第一轮 |
+| `{{mission}}`            | 填空       | 仅支持自定义 | ✅ 第一轮 |
+| `{{coreRelationship}}`   | 多选或填空 | 支持自定义   | ✅ 第二轮 |
+| `{{coreValues}}`         | 多选       | 不支持自定义 | ✅ 第二轮 |
+| `{{behaviorStyle}}`      | 单选       | 支持自定义   | ✅ 第二轮 |
+| `{{decisionPrinciples}}` | 多选       | 不支持自定义 | ✅ 第二轮 |
 
 ### 第一轮问题设计
 
@@ -283,26 +288,26 @@ permission: [read|write]
 ```typescript
 const round1Questions = [
   {
-    question: "你希望被称为什么名字？",
-    header: "身份名称",
+    question: '你希望被称为什么名字？',
+    header: '身份名称',
     options: [
-      { label: "小莫", description: "简洁优雅的名字" },
-      { label: "小爱", description: "友好亲切的名字" },
-      { label: "小明", description: "经典常见的名字" }
+      { label: '小莫', description: '简洁优雅的名字' },
+      { label: '小爱', description: '友好亲切的名字' },
+      { label: '小明', description: '经典常见的名字' },
     ],
     multiple: false,
-    custom: true
+    custom: true,
   },
   {
-    question: "请问你的名字是什么？",
-    header: "用户姓名",
-    custom: true
+    question: '请问你的名字是什么？',
+    header: '用户姓名',
+    custom: true,
   },
   {
-    question: "你的核心使命是什么？你为什么而存在？",
-    header: "核心使命",
-    custom: true
-  }
+    question: '你的核心使命是什么？你为什么而存在？',
+    header: '核心使命',
+    custom: true,
+  },
 ];
 ```
 
@@ -313,42 +318,42 @@ const round1Questions = [
 ```typescript
 const round2Questions = [
   {
-    question: "你最重要的关系是什么？",
-    header: "核心关系",
+    question: '你最重要的关系是什么？',
+    header: '核心关系',
     options: [
-      { label: "合作伙伴", description: "共同协作完成目标" },
-      { label: "朋友", description: "真诚友好的陪伴" },
-      { label: "导师", description: "指导和学习的关系" },
-      { label: "助手", description: "帮助完成任务" }
+      { label: '合作伙伴', description: '共同协作完成目标' },
+      { label: '朋友', description: '真诚友好的陪伴' },
+      { label: '导师', description: '指导和学习的关系' },
+      { label: '助手', description: '帮助完成任务' },
     ],
     multiple: false,
-    custom: true
+    custom: true,
   },
   {
-    question: "你信奉哪些核心价值观？（可多选）",
-    header: "核心价值观",
+    question: '你信奉哪些核心价值观？（可多选）',
+    header: '核心价值观',
     options: [
-      { label: "真诚", description: "保持真实和诚实" },
-      { label: "信任", description: "建立相互信任" },
-      { label: "成长", description: "持续学习和进步" },
-      { label: "专业", description: "追求专业能力" },
-      { label: "创新", description: "鼓励创新思维" }
+      { label: '真诚', description: '保持真实和诚实' },
+      { label: '信任', description: '建立相互信任' },
+      { label: '成长', description: '持续学习和进步' },
+      { label: '专业', description: '追求专业能力' },
+      { label: '创新', description: '鼓励创新思维' },
     ],
     multiple: true,
-    custom: false
+    custom: false,
   },
   {
-    question: "你倾向哪种行为风格？",
-    header: "行为风格",
+    question: '你倾向哪种行为风格？',
+    header: '行为风格',
     options: [
-      { label: "正式专业", description: "严谨专业的表达方式" },
-      { label: "轻松友好", description: "轻松愉快的交流氛围" },
-      { label: "简洁直接", description: "简洁明了的表达" },
-      { label: "详细深入", description: "详细全面的解答" }
+      { label: '正式专业', description: '严谨专业的表达方式' },
+      { label: '轻松友好', description: '轻松愉快的交流氛围' },
+      { label: '简洁直接', description: '简洁明了的表达' },
+      { label: '详细深入', description: '详细全面的解答' },
     ],
     multiple: false,
-    custom: true
-  }
+    custom: true,
+  },
 ];
 ```
 
@@ -379,8 +384,8 @@ const round2Questions = [
 
 ## 修改历史
 
-| 版本 | 时间 | 修改理由 |
-|------|------|----------|
+| 版本  | 时间       | 修改理由 |
+| ----- | ---------- | -------- |
 | 1.0.0 | 2024-01-01 | 初始版本 |
 ```
 
@@ -394,11 +399,11 @@ const round2Questions = [
 
 ### 渲染变量来源
 
-| 变量 | 来源 | 更新方式 |
-|------|------|----------|
-| `{{name}}` | `protocol.json.metadata.name` | 更新协议 JSON |
-| `{{mission}}` | `protocol.json.metadata.mission` | 更新协议 JSON |
-| `{{userName}}` | `protocol.json.metadata.userName` | 更新协议 JSON |
+| 变量             | 来源                                | 更新方式      |
+| ---------------- | ----------------------------------- | ------------- |
+| `{{name}}`       | `protocol.json.metadata.name`       | 更新协议 JSON |
+| `{{mission}}`    | `protocol.json.metadata.mission`    | 更新协议 JSON |
+| `{{userName}}`   | `protocol.json.metadata.userName`   | 更新协议 JSON |
 | `{{coreValues}}` | `protocol.json.metadata.coreValues` | 更新协议 JSON |
 
 ### 渲染原则
@@ -410,11 +415,13 @@ const round2Questions = [
 ### 渲染示例
 
 **输入 (boot-template.md)**:
+
 ```markdown
 我是 {{name}}，我的核心使命是 {{mission}}。
 ```
 
 **输入 (protocol.json.metadata)**:
+
 ```json
 {
   "name": "小莫",
@@ -423,6 +430,7 @@ const round2Questions = [
 ```
 
 **输出 (BOOT.md)**:
+
 ```markdown
 我是 小莫，我的核心使命是 与jallen一起探索和成长。
 ```
