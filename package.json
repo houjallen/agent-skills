@@ -1,6 +1,6 @@
 {
   "name": "@easbot/agent-skills",
-  "version": "0.3.17",
+  "version": "0.3.24",
   "description": "EASBot Agent Skills — the EASBot agent-skills management repository.",
   "type": "module",
   "bin": {
@@ -53,8 +53,8 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@easbot/skills": "^0.3.17",
-    "@easbot/utils": "^0.3.17"
+    "@easbot/skills": "^0.3.24",
+    "@easbot/utils": "^0.3.24"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.5",
@@ -64,6 +64,7 @@
     "dotenv": "^17.4.2",
     "esbuild": "0.28.2",
     "lint-staged": "^17.3.0",
+    "prettier": "^3.9.9",
     "tsup": "^8.5.1",
     "typescript": "6.0.3",
     "vitest": "^4.1.6",
@@ -73,7 +74,7 @@
     "tsx": "4.23.12"
   },
   "peerDependencies": {
-    "@easbot/agent": "^0.3.17"
+    "@easbot/agent": "^0.3.24"
   },
   "peerDependenciesMeta": {
     "@easbot/agent": {
@@ -89,12 +90,15 @@
     "pnpm": ">=10.0.0"
   },
   "lint-staged": {
-    "*.{mjs,ts,tsx}": [
-      "biome check --write .",
-      "biome format --write ."
+    "*.{ts,tsx,js,jsx,mjs,cjs}": [
+      "biome check --write --no-errors-on-unmatched",
+      "biome format --write --no-errors-on-unmatched"
     ],
-    "*.{json,md}": [
-      "biome format --write ."
+    "*.{json,jsonc}": [
+      "biome format --write --no-errors-on-unmatched"
+    ],
+    "*.{md,mdx}": [
+      "prettier --write"
     ]
   }
 }
