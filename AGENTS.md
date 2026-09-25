@@ -549,7 +549,7 @@ return ReactDOMServer.renderToStaticMarkup(
 # 单文件
 npx prettier --check skills/builtin/<name>/SKILL.md
 
-# 全量
+# 全量（分开两个 pattern + 单引号，PowerShell / bash 通用）
 npx prettier --check '**/*.md' '**/*.mdx'
 
 # 发现合并破坏时定位（找出"删除空行"的真正合并点）
@@ -557,6 +557,28 @@ git diff HEAD -- <file>.md | grep -E '^-[^-].*$' | head -50
 ```
 
 > **改动后 MUST 跑自检**——若 `prettier --check` 通过但视觉上仍有"段落被合并"——回看 §12.1.1 加空行。
+
+#### 12.1.10 `package.json` scripts 中的 glob 写法
+
+`npm run` 会把脚本字符串原样传给 shell + 命令进程，但**brace expansion `**/*.{md,mdx}` 在不同 shell 下行为不一致**：
+
+| Shell / 进程       | `**/*.{md,mdx}` 行为                                 |
+| ------------------ | ----------------------------------------------------- |
+| bash (Unix)        | brace expansion 生效 → 等价于 `**/*.md` + `**/*.mdx`  |
+| PowerShell         | brace expansion **部分生效**，双星 `**` 常被退化为 `*` |
+| globby (prettier)  | brace expansion 生效                                  |
+| globby (biome)     | **部分场景报错**（Windows 路径下 os error 123）       |
+| micromatch (lint-staged) | brace expansion 生效                            |
+
+**强制**：
+
+- `package.json` scripts 中用 prettier/biome 时：**MUST 用双引号 + 分开两个 pattern**：
+  ```json
+  "format": "biome format . && prettier --check --no-error-on-unmatched-pattern \"**/*.md\" \"**/*.mdx\"",
+  "format:fix": "biome format --write . && prettier --write --no-error-on-unmatched-pattern \"**/*.md\" \"**/*.mdx\""
+  ```
+- 仓库无 `.mdx` 文件时加 `--no-error-on-unmatched-pattern`，否则 `npm run format` 退出码 2
+- `lint-staged` 配置中 `*.{md,mdx}` 是 micromatch 处理（不是 shell），可保留 brace expansion
 
 ## 13. 提示词规范 (Prompt Conventions)
 
