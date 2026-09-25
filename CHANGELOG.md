@@ -23,7 +23,7 @@ _2026-09-25_
 - **[repo]** docs: extend 12.1 markdown authoring conventions (handlebars / table wrap / nested code) ([7fa520b](https://github.com/houjallen/agent-skills/commit/7fa520b))
 - **[repo]** docs: add 12.1 markdown authoring conventions to AGENTS.md ([83b4704](https://github.com/houjallen/agent-skills/commit/83b4704))
 - **[repo]** docs: add 0021 review report for eas-knowledge-using ([3eb4c30](https://github.com/houjallen/agent-skills/commit/3eb4c30))
-- **[skill:eas-knowledge-using]** docs: sync references to upstream v0.3.24 + entry-matrix MCP count ([d36ce85](https://github.com/houjallen/agent-skills/commit/d36ce85))
+- **[skill:eas-knowledge-using]** docs: sync references to upstream v0.3.25 + entry-matrix MCP count ([d36ce85](https://github.com/houjallen/agent-skills/commit/d36ce85))
 - **[skill:eas-research]** docs: fix description format per §9.3 spec ([1dacf1c](https://github.com/houjallen/agent-skills/commit/1dacf1c))
 - **[repo]** docs: add 0020 review report for eas-research v3.0.0 (round 2) ([67e3ad2](https://github.com/houjallen/agent-skills/commit/67e3ad2))
 - **[repo]** docs: project-level sync for eas-research v3.0.0 builtin upgrade ([397947e](https://github.com/houjallen/agent-skills/commit/397947e))
@@ -33,8 +33,8 @@ _2026-09-25_
 
 - **[repo]** chore(format): batch reformat markdown with prettier ([8f04a57](https://github.com/houjallen/agent-skills/commit/8f04a57))
 - **[repo]** chore: extend format:fix to run prettier on markdown ([1d68273](https://github.com/houjallen/agent-skills/commit/1d68273))
-- **[repo]** chore(prettier): add overrides for *.md/*.mdx (printWidth 100 + proseWrap preserve) ([2f2c20d](https://github.com/houjallen/agent-skills/commit/2f2c20d))
-- **[repo]** chore(pnpm): bump @easbot deps to 0.3.24 + prettier/lint-staged ([884a711](https://github.com/houjallen/agent-skills/commit/884a711))
+- **[repo]** chore(prettier): add overrides for _.md/_.mdx (printWidth 100 + proseWrap preserve) ([2f2c20d](https://github.com/houjallen/agent-skills/commit/2f2c20d))
+- **[repo]** chore(pnpm): bump @easbot deps to 0.3.25 + prettier/lint-staged ([884a711](https://github.com/houjallen/agent-skills/commit/884a711))
 - **[repo]** chore: bundle housekeeping changes (pnpm / scripts / skill / cli) ([ddf8746](https://github.com/houjallen/agent-skills/commit/ddf8746))
 - **[repo]** chore(skills): register eas-knowledge-using in marketplace/AGENTS/README ([80b4c17](https://github.com/houjallen/agent-skills/commit/80b4c17))
 - **[repo]** chore(husky): wire lint-staged into pre-commit hook ([a67bb79](https://github.com/houjallen/agent-skills/commit/a67bb79))
@@ -45,8 +45,6 @@ _2026-09-25_
 ### 👷 CI/CD
 
 - **[repo]** ci: migrate from npm ci to pnpm install --frozen-lockfile ([49a51b6](https://github.com/houjallen/agent-skills/commit/49a51b6))
-
-
 
 ## 0.3.14
 
