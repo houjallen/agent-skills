@@ -53,8 +53,8 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@easbot/skills": "^0.3.25",
-    "@easbot/utils": "^0.3.25"
+    "@easbot/skills": "^0.3.26",
+    "@easbot/utils": "^0.3.26"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.5",
@@ -74,7 +74,7 @@
     "tsx": "4.23.12"
   },
   "peerDependencies": {
-    "@easbot/agent": "^0.3.25"
+    "@easbot/agent": "^0.3.26"
   },
   "peerDependenciesMeta": {
     "@easbot/agent": {
