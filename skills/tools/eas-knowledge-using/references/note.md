@@ -1,285 +1,519 @@
 # note CLI 使用手册 (note Command Reference)
 
-> 本文档是 `easbot note *` 命令的**使用手册**，按子命令列出 flags、用法、输出示例、典型场景。
+> 本文档是 `easbot note *`（agent 主 CLI）和 `easbot-note *`（独立 CLI）命令的**使用手册**。
+>
+> **版本对齐**（2026-09-25 同步）：
+>
+> - `@easbot/note`：**v0.3.24**（独立 npm 包；`package.json` 的 `version`）
+> - `easbot`（主包）：**v0.3.24**（workspace 24 包统一版本）
+> - `node` 要求：`>=22.22.2`（`@easbot/note` 的 `engines.node`）
+>
+> **真值源**：
+>
+> - agent CLI：`packages/agent/src/cli/commands/note.ts`（`registerNoteCommand`）
+> - 独立 CLI：`packages/note/src/cli-handler.ts` + `packages/note/src/commands/*.ts`（`parseXxxOptions`）
+> - 共用底层 handler：`handleNoteCli`（两者入口统一委派到此）
+>
+> **关键差异**：agent CLI 与独立 CLI 子命令**数量相同**（各 11 个），但 **flags / positional 形态有差异**（agent CLI 用 commander space-form `[]`，独立 CLI 用 `=`-form；agent CLI `search` / `graph` / `sync` 等选项集与独立 CLI 不同）。
+>
+> 本文档与代码同步（2026-09-25）。
 
 ---
 
-## 1. 子命令清单 (Command Index)
+## 0. 独立 CLI 安装与调用（`easbot-note`）
 
-| 子命令 | 用途 | 关键 flags |
-|---|---|---|
-| `init` | 一次性 bootstrap（创建 db + 下载 embedding 模型） | `--force` / `--json` / `--skip-auto-sync` |
-| `search` | 混合搜索（FTS + vector + rerank） | `<query>` / `--mode` / `--max` / `--file` / `--kind` / `--include-graph` / `--cwd` / `--json` |
-| `ingest` | 摄入文档到 KG | `<path>` / `--no-embed` |
-| `extract` | 读取已 ingest 的 KG entity / relation | `<documentId|chunkId|path>` |
-| `remove` | 删除 note + 级联 KG（destructive） | `<id>` / `--confirm` / `-y` |
-| `sync` | 重扫 workspace + reconcile | `--async` / `--quiet` / `--json` / `--dir` |
-| `graph` | KG 子图查询 | `<nodeId>` / `--kind` / `--depth` / `--direction` |
-| `status` | db / ingest queue / KG size 快照 | （无 flag） |
-| `doctor` | 完整性检查 | `--json` |
-| `mcp` | 启动 MCP stdio server | — |
-| `config` | 查看 / 修改 note 配置 | 子命令 |
-| `format-text` | CLI 内部 helper | — |
+> 安装命令、全局选项、入口矩阵见 [SKILL.md §双 CLI 入口与安装](../SKILL.md)。本节仅列 note 特有事项。
+
+### 0.1 与 SKILL.md 安装节的差异
+
+note 独立 CLI 的 `cli.ts` 有 `stripGlobalOptions()` 自动剥离 `--cwd` / `--config` / `--log-level` 等，避免子命令 parser 误把它们当 positional。其他知识库 CLI 无此 helper（行为不同点）。
+
+### 0.2 MCP 工具（8 个）
+
+`easbot-note mcp` 启动 stdio MCP server，暴露：
+
+- `search` / `ingest` / `remove` / `sync`
+- `graph_query` / `status` / `doctor` / `init`
 
 ---
 
-## 2. 各命令详解 (Command Details)
+## 1. 子命令清单：Agent CLI vs 独立 CLI
+
+### 1.1 子命令对照（11 vs 11，子命令集合相同）
+
+| 子命令    | Agent CLI (`easbot note *`) | 独立 CLI (`easbot-note *`) | 子命令数量 |
+| --------- | --------------------------- | -------------------------- | ---------- |
+| `init`    | ✅                          | ✅                         | 双端       |
+| `status`  | ✅                          | ✅                         | 双端       |
+| `doctor`  | ✅                          | ✅                         | 双端       |
+| `search`  | ✅                          | ✅                         | 双端       |
+| `ingest`  | ✅                          | ✅                         | 双端       |
+| `extract` | ✅                          | ✅                         | 双端       |
+| `remove`  | ✅                          | ✅                         | 双端       |
+| `sync`    | ✅                          | ✅                         | 双端       |
+| `graph`   | ✅                          | ✅                         | 双端       |
+| `config`  | ✅                          | ✅                         | 双端       |
+| `mcp`     | ✅                          | ✅                         | 双端       |
+
+**统计**：两端都是 **11 个子命令**，**完全覆盖**；但每个子命令的 flags / positional 形态不同。
+
+### 1.2 flags 形态差异（note 特有）
+
+note 独立 CLI **同时支持** `--flag <value>`（space-form）和 `--flag=<value>`（`=`-form）两种形式（codebase / memory 独立 CLI 只支持其一）。其他形态总览见 [SKILL.md §快速参考 §2](../SKILL.md)。
+
+note 特有约束：
+
+- **`--dir <path>` flag**：agent CLI 仅 `status` / `doctor` / `ingest` 三个子命令暴露（commander space-form）；独立 CLI **完全不接受** `--dir <path>` flag，workspaceDir 走 ctx / `--cwd` 全局选项 / positional `[dir]`
+- **`--kind` / `--direction`**：agent CLI 报 unknown option；独立 CLI 静默忽略
+
+---
+
+## 2. 各命令详解（Agent CLI vs 独立 CLI flags 对照）
+
+> 本节对 **11 个子命令**逐一对比两端 flags。**关键差异**在每节"flags"表的 "Agent CLI" / "独立 CLI" 列明确标注。
 
 ### 2.1 `init` — Bootstrap（一次性）
 
 ```bash
-easbot note init [--force] [--json] [--skip-auto-sync]
+# Agent CLI
+easbot note init [dir] [-f|--force] [--skip-auto-sync] [--json]
+
+# 独立 CLI
+easbot-note init [dir] [--force] [--skip-auto-sync] [--json]
 ```
 
 **flags**：
 
-| flag | 说明 |
-|---|---|
-| `--force` / `-f` | 强制覆盖已有 db |
-| `--json` | JSON 输出 |
-| `--skip-auto-sync` | 跳过 init 之后的首次 auto-sync |
-
-**典型用法**：
-
-```bash
-# 一次性 bootstrap（含 embedding 模型下载，可能耗时数分钟）
-easbot note init
-
-# 强制重新初始化
-easbot note init --force
-```
+| flag               | Agent CLI       | 独立 CLI             | 说明                           |
+| ------------------ | --------------- | -------------------- | ------------------------------ |
+| `[dir]`            | ✅ positional   | ✅ positional        | 工作区目录                     |
+| `-f` / `--force`   | ✅（`-f` 简写） | ✅（只有 `--force`） | 强制覆盖已有 db                |
+| `--skip-auto-sync` | ✅              | ✅                   | 跳过 init 之后的首次 auto-sync |
+| `--json`           | ✅              | ✅                   | JSON 输出                      |
 
 > ⚠️ `note init` 会下载 embedding 模型（首次可能耗时数分钟）。
 
----
-
-### 2.2 `search` — 混合搜索
+**典型用法**：
 
 ```bash
-easbot note search <query> [--mode=balanced] [--max=10] [--file=<glob>] [--kind=document|chunk|node] [--include-graph] [--cwd=<dir>] [--json]
+# Agent CLI：默认 init
+easbot note init
+
+# Agent CLI：强制重建（-f 简写）
+easbot note init -f
+
+# 独立 CLI：跳过首次 sync
+easbot-note init --skip-auto-sync
 ```
+
+---
+
+### 2.2 `status` — db / KG 快照
+
+```bash
+# Agent CLI
+easbot note status [--dir <path>] [--json]
+
+# 独立 CLI（注意：独立 CLI 无 --dir flag，dir 走 positional）
+easbot-note status [--skip-embedding-probe] [--skip-llm] [--dir] [--json]
+```
+
+> 注：独立 CLI `parseStatusOptions` 接受 `--dir` 作为** positional**（`else if (!arg.startsWith('-')) opts.dir = arg`），不是 `--dir <path>` flag。Agent CLI 用 commander space-form `--dir <path>`。
 
 **flags**：
 
-| flag | 取值 | 说明 |
-|---|---|---|
-| `--mode` | `conservative` / `balanced` / `tokenmax` | 搜索模式（默认 `balanced`） |
-| `--max` | 整数 | 最大返回数（默认 10；**注意：flag 名是 `--max` 不是 `--limit`**） |
-| `--file` | glob | 按文件路径过滤（子串匹配） |
-| `--kind` | `document` / `chunk` / `node` | 按 hit 来源过滤 |
-| `--include-graph` | — | 包含 KG 邻居（会显著增加 token，按需开启） |
-| `--cwd` | 路径 | 指定 cwd |
-| `--json` | — | JSON 输出 |
+| flag                     | Agent CLI                      | 独立 CLI                    | 说明                                    |
+| ------------------------ | ------------------------------ | --------------------------- | --------------------------------------- |
+| `--dir <path>` / `[dir]` | ✅ `--dir <path>`（commander） | ✅ positional（parse 函数） | 目标工作区                              |
+| `--skip-embedding-probe` | ❌                             | ✅                          | 跳过 embedding probe（加速 / 离线场景） |
+| `--skip-llm`             | ❌                             | ✅                          | 跳过 LLM 探测（独立 CLI only）          |
+| `--json`                 | ✅                             | ✅                          | JSON 输出                               |
+
+**输出字段**（人类可读模式）：
+
+```
+init note workspace
+  packageName:  note
+  rootDir:      /path/to/workspace
+  configPath:   /path/to/workspace/.easbot/note.json
+  dbPath:       /path/to/workspace/.easbot/db/note.db
+  indexState:   ready | uninitialized | partial | failed
+  schemaVersion: 5
+  llm:          { initialized: true, capabilities: { embedding: true, graph: true, rerank: true } }
+  DB stats:     { documents: 12, chunks: 87, nodes: 234, edges: 567, ... }
+  extras:       { rerank_available: yes, fts_available: yes, meta/<key>: ... }
+```
 
 **典型用法**：
 
 ```bash
-# 基本搜索
-easbot note search "payment module"
-
-# 按文件过滤
-easbot note search "auth" --file="docs/*.md"
-
-# 扩域搜索
-easbot note search "API design" --mode=tokenmax --max=20
-```
-
----
-
-### 2.3 `ingest` — 摄入文档
-
-```bash
-easbot note ingest <path> [--no-embed]
-```
-
-**flags**：
-
-| flag | 说明 |
-|---|---|
-| `--no-embed` | 跳过 embedding 生成（适合大批量摄取后再单独跑 embed） |
-
-**典型用法**：
-
-```bash
-# 摄入单个文件
-easbot note ingest docs/spec.md
-
-# 摄入但不跑 embedding（之后单独 embed）
-easbot note ingest docs/big-archive.md --no-embed
-```
-
----
-
-### 2.4 `extract` — 读取已 ingest 的 KG
-
-```bash
-easbot note extract <documentId|chunkId|path>
-```
-
-**参数**（三选一，positional）：
-
-| 类型 | 说明 |
-|---|---|
-| `<documentId>` | 整数 ID |
-| `<chunkId>` | 整数 ID |
-| `<path>` | workspace 相对路径（子串匹配） |
-
-**典型用法**：
-
-```bash
-easbot note extract 42             # 按 documentId
-easbot note extract 100            # 按 chunkId
-easbot note extract docs/spec.md   # 按路径
-```
-
----
-
-### 2.5 `remove` — 删除 note
-
-```bash
-easbot note remove <id> [--confirm|-y]
-```
-
-**flags**：
-
-| flag | 说明 |
-|---|---|
-| `--confirm` / `-y` | 实际删除（默认 dry-run，仅打印预览） |
-
-> 注：`note remove` **没有 `--force` flag**。删除是级联删除 KG 关系；如需预览确认，先不带 `--confirm` 跑一次看 dry-run 输出。
-
-**典型用法**：
-
-```bash
-# 预览删除（默认 dry-run）
-easbot note remove docs/old.md
-
-# 实际删除
-easbot note remove docs/old.md --confirm
-# 等价于
-easbot note remove docs/old.md -y
-```
-
-> ⚠️ 删除会级联删除 KG 关系。
-
----
-
-### 2.6 `sync` — 重扫 workspace
-
-```bash
-easbot note sync [--async] [--quiet] [--json] [--dir <dir>]
-```
-
-**flags**：
-
-| flag | 说明 |
-|---|---|
-| `--async` | 后台 worker pool（适合大批量） |
-| `--quiet` / `-q` | 静默（不打印每文件进度） |
-| `--json` | JSON 输出 |
-| `--dir <dir>` | 指定 workspace 路径 |
-
-**典型用法**：
-
-```bash
-# 前台 sync（默认）
-easbot note sync
-
-# 后台异步 sync
-easbot note sync --async
-
-# 静默跑
-easbot note sync --quiet
-```
-
----
-
-### 2.7 `graph` — KG 子图查询
-
-```bash
-easbot note graph <nodeId> [--kind=nodes|edges|neighbors] [--depth=1] [--direction=both]
-```
-
-**flags**：
-
-| flag | 取值 | 说明 |
-|---|---|---|
-| `--kind` | `nodes` / `edges` / `neighbors` | 查询类型（默认 `neighbors`） |
-| `--depth` | 1-5 | BFS 深度（默认 1） |
-| `--direction` | `incoming` / `outgoing` / `both` | 边方向（默认 `both`） |
-
-**典型用法**：
-
-```bash
-# 单节点邻居
-easbot note graph 42
-
-# 出向 2 层邻居
-easbot note graph 42 --kind=neighbors --direction=outgoing --depth=2
-```
-
----
-
-### 2.8 `status` — db / KG 快照
-
-```bash
+# 人类可读
 easbot note status
-```
 
-无 flag。返回 db stats / ingest queue / KG size 摘要。
+# JSON 给脚本 / 监控
+easbot note status --json | jq '.recommendation'
+```
 
 ---
 
-### 2.9 `doctor` — 完整性检查
+### 2.3 `doctor` — 完整性检查
 
 ```bash
-easbot note doctor [--json]
+# Agent CLI
+easbot note doctor [--dir <path>] [--json]
+
+# 独立 CLI（注意：独立 CLI 接受 `--dir` 作为 positional，且不暴露 `--dir <path>` flag）
+easbot-note doctor [--skip-embedding-probe] [--skip-llm] [--dir] [--json]
 ```
+
+> 注：独立 CLI `parseDoctorOptions` 在 L65 `else if (!arg.startsWith('-')) opts.dir = arg` 把 `--dir` 当 positional 接受（**不是** `--dir <path>` flag）。Agent CLI 用 commander space-form `--dir <path>`。
 
 **flags**：
 
-| flag | 说明 |
-|---|---|
-| `--json` | JSON 输出 |
+| flag                     | Agent CLI                      | 独立 CLI                        | 说明                                  |
+| ------------------------ | ------------------------------ | ------------------------------- | ------------------------------------- |
+| `--dir <path>` / `[dir]` | ✅ `--dir <path>`（commander） | ✅ positional（parse 函数 L65） | 目标工作区                            |
+| `--skip-embedding-probe` | ❌                             | ✅                              | 跳过 embedding probe（独立 CLI only） |
+| `--skip-llm`             | ❌                             | ✅                              | 跳过 LLM 探测（独立 CLI only）        |
+| `--json`                 | ✅                             | ✅                              | JSON 输出                             |
+
+**退出码**：`healthy=true` → 0；`healthy=false` → 1。
 
 > 本命令**没有 `--repair`** —— 修复需通过 `init --force` 或手动删除 db 后重建。
 
 ---
 
-### 2.10 辅助子命令 (Auxiliary)
+### 2.4 `search` — 混合搜索（FTS + vector + rerank）
 
-| 子命令 | 用途 |
-|---|---|
-| `mcp` | 启动 MCP stdio server |
-| `config` | 查看 / 修改 note 配置 |
-| `format-text` | CLI 内部 helper |
+```bash
+# Agent CLI（commander 简写 + 不含 --kind）
+easbot note search <query>... [--mode <mode>] [--file <p>] [--max <n>] [--include-graph] [--rerank] [--min-score <n>] [--max-edges-per-node <n>] [--json]
+
+# 独立 CLI（注意：独立 CLI 无 `--dir` flag）
+easbot-note search <query>... [--mode <conservative|balanced|tokenmax>] [--max <n>] [--file <p>] [--include-graph] [--rerank] [--min-score <n>] [--max-edges-per-node <n>] [--cwd <dir>] [--json]
+```
+
+> ⚠️ **Agent CLI 与独立 CLI flags 主要差异**：
+>
+> - Agent CLI **不暴露** `--dir <path>`（workspaceDir 走 ctx）
+> - Agent CLI **不暴露** `--kind`（commander 已移除；与 agent tool / MCP 对齐）
+> - 独立 CLI **静默忽略** `--kind`（parse 时跳过；保留向后兼容）
+> - **其余 flags 两端完全一致**：包括 `--rerank` / `--include-graph` / `--min-score` / `--max-edges-per-node`
+
+**flags**：
+
+| flag                   | Agent CLI              | 独立 CLI                                          | 说明                      |
+| ---------------------- | ---------------------- | ------------------------------------------------- | ------------------------- |
+| `<query>...`           | ✅                     | ✅                                                | 1 个或多个查询词          |
+| `--mode`               | ✅ `<mode>`            | ✅ `<conservative\|balanced\|tokenmax>`           | 搜索模式                  |
+| `--max`                | ✅ `<n>`               | ✅ `<n>`                                          | 最大返回数（默认 10）     |
+| `--file`               | ✅ `<p>`               | ✅ `<p>`                                          | 按文件路径过滤            |
+| `--include-graph`      | ✅                     | ✅                                                | 包含 KG 邻居              |
+| `--rerank`             | ✅                     | ✅                                                | 启用 rerank               |
+| `--min-score`          | ✅ `<n>`               | ✅ `<n>`（range [0, 1]）                          | 最低相关分数过滤          |
+| `--max-edges-per-node` | ✅ `<n>`               | ✅ `<n>`（range [1, 100]）                        | 每节点最大边数            |
+| `--dir` / `[dir]`      | ❌                     | ✅ positional（parse 函数 L141 静默忽略 `--cwd`） | 目标工作区                |
+| `--kind`               | ❌（commander 已移除） | ✅ 但**静默忽略**                                 | 按 hit 来源过滤（已废弃） |
+
+**典型用法**：
+
+```bash
+# Agent CLI：基本搜索
+easbot note search "payment module"
+
+# Agent CLI：扩域 + rerank
+easbot note search "API design" --mode tokenmax --max 20 --rerank
+
+# 独立 CLI：按文件过滤
+easbot-note search "auth" --file "docs/*.md"
+
+# 独立 CLI：包含 graph 邻居
+easbot-note search "scheduler" --include-graph --max-edges-per-node 5
+```
+
+---
+
+### 2.5 `ingest` — 摄入文档
+
+```bash
+# Agent CLI（用 --dir <path> 形式）
+easbot note ingest <path>... [--dir <path>] [--no-embed] [--json]
+
+# 独立 CLI（注意：独立 CLI 无 `--dir` flag；workspaceDir 走 ctx）
+easbot-note ingest [<path>...] [--no-embed] [--path <p>] [--json]
+```
+
+> 注：独立 CLI `parseIngestOptions` 接受 `--path <value>` 或 `--path=<value>`（逗号分隔多路径）；workspaceDir 走 ctx。**没有 `--dir` flag 也没有 `--cwd` flag**（`parseSyncOptions` L83 注释也确认 `--dir` flag 已废弃）。
+
+**flags**：
+
+| flag           | Agent CLI     | 独立 CLI                  | 说明                   |
+| -------------- | ------------- | ------------------------- | ---------------------- |
+| `<path>...`    | ✅ positional | ✅ positional             | 1 个或多个路径         |
+| `--path <p>`   | ❌            | ✅（parse 函数 L63 处理） | 路径（逗号分隔多路径） |
+| `--dir <path>` | ✅            | ❌                        | 目标工作区             |
+| `--no-embed`   | ✅            | ✅                        | 跳过 embedding 生成    |
+| `--json`       | ✅            | ✅                        | JSON 输出              |
+
+**典型用法**：
+
+```bash
+# Agent CLI：摄入单个文件
+easbot note ingest docs/spec.md
+
+# 独立 CLI：批量摄入 + no-embed
+easbot-note ingest docs/ --no-embed
+```
+
+---
+
+### 2.6 `extract` — 读取已 ingest 的 entity / chunk / document
+
+```bash
+# Agent CLI（不带 positional dir；<id|path> 必填）
+easbot note extract [--chunk-id <id>] [--document-id <id>] [--path <p>] [--json]
+
+# 独立 CLI（注意：独立 CLI 无 `--dir` flag）
+easbot-note extract --chunk-id=<n> | --document-id=<n> | --path=<p> [--json]
+```
+
+> ⚠️ **必须传 `--chunk-id` / `--document-id` / `--path` 之一**；都不传 → CLI 直接报错退出。
+> Agent CLI 用 `--chunk-id <id>` 空格；独立 CLI 用 `--chunk-id=<n>` 等号。
+
+**flags**：
+
+| flag            | Agent CLI | 独立 CLI                                | 说明               |
+| --------------- | --------- | --------------------------------------- | ------------------ |
+| `--chunk-id`    | ✅ `<id>` | ✅ `<n>`                                | 按 chunkId 查      |
+| `--document-id` | ✅ `<id>` | ✅ `<n>`                                | 按 documentId 查   |
+| `--path`        | ✅ `<p>`  | ✅ `<p>`                                | 按路径（子串匹配） |
+| `--cwd <dir>`   | ❌        | ✅ 但**静默忽略**（parse 函数 L96-100） | 全局选项           |
+| `--json`        | ✅        | ✅                                      | JSON 输出          |
+
+**典型用法**：
+
+```bash
+# Agent CLI：按 documentId
+easbot note extract --document-id 42
+
+# 独立 CLI：按 documentId（等号形式）
+easbot-note extract --document-id=42
+
+# 独立 CLI：按路径
+easbot-note extract --path=docs/spec.md
+```
+
+---
+
+### 2.7 `remove` — 删除 note（destructive）
+
+```bash
+# Agent CLI（含 --force alias）
+easbot note remove <id|path> [--confirm] [--force] [--json]
+
+# 独立 CLI（注意：独立 CLI 无 `--dir` flag）
+easbot-note remove <id|path> [--confirm|-y] [--json]
+```
+
+> ⚠️ Agent CLI **额外暴露** `--force` flag；独立 CLI **没有** `--force` flag。
+> 默认是 dry-run；要真删必须 `--confirm` 或 `-y`。
+
+**flags**：
+
+| flag               | Agent CLI     | 独立 CLI      | 说明                                  |
+| ------------------ | ------------- | ------------- | ------------------------------------- |
+| `<id\|path>`       | ✅ positional | ✅ positional | documentId 或 workspace 相对路径      |
+| `--confirm` / `-y` | ✅            | ✅            | 实际删除                              |
+| `--force`          | ✅            | ❌            | agent CLI 别名（与 `--confirm` 等价） |
+| `--json`           | ✅            | ✅            | JSON 输出                             |
+
+**典型用法**：
+
+```bash
+# Agent CLI：实际删除（--confirm 或 --force）
+easbot note remove docs/old.md --confirm
+easbot note remove docs/old.md --force
+
+# 独立 CLI：预览 + 实际删除
+easbot-note remove docs/old.md                  # 预览
+easbot-note remove docs/old.md --confirm        # 真删
+easbot-note remove docs/old.md -y               # 真删（简写）
+```
+
+---
+
+### 2.8 `sync` — 重扫 workspace
+
+```bash
+# Agent CLI（含 --repair / --repair-only）
+easbot note sync [dir] [--async] [--quiet] [--repair] [--repair-only] [--json]
+
+# 独立 CLI（注意：独立 CLI 无 `[dir]` / `--dir` flag；与代码 `parseSyncOptions` L83 注释一致：`--dir flag was removed - using --cwd instead`）
+easbot-note sync [--async] [--quiet] [--repair] [--repair-only] [--json]
+```
+
+> ✅ **两端 flags 集一致**：包括 `--repair` / `--repair-only`。
+> 唯一差异：Agent CLI 接受 positional `[dir]`，独立 CLI 走 `--dir <path>`。
+
+**flags**：
+
+| flag            | Agent CLI     | 独立 CLI | 说明                                                      |
+| --------------- | ------------- | -------- | --------------------------------------------------------- |
+| `[dir]`         | ✅ positional | ❌       | 目标工作区（独立 CLI 走 `--cwd` 全局选项）                |
+| `--dir <path>`  | ❌            | ❌       | **两端都不暴露**；workspaceDir 走 ctx 或 `--cwd` 全局选项 |
+| `--async`       | ✅            | ✅       | 后台 worker pool                                          |
+| `--quiet`       | ✅            | ✅       | 静默                                                      |
+| `--repair`      | ✅            | ✅       | 修复                                                      |
+| `--repair-only` | ✅            | ✅       | 仅修复不重建                                              |
+| `--json`        | ✅            | ✅       | JSON 输出                                                 |
+
+**典型用法**：
+
+```bash
+# Agent CLI：后台异步 sync
+easbot note sync --async
+
+# Agent CLI：仅 repair
+easbot note sync --repair-only
+
+# 独立 CLI：前台 sync + 静默
+easbot-note sync --quiet
+
+# 独立 CLI：repair + 异步
+easbot-note sync --repair --async
+```
+
+---
+
+### 2.9 `graph` — KG 子图查询（ADR 0097 重构）
+
+```bash
+# Agent CLI（完整 graph_query schema：--mode / --chunk-id / --target-node-id / --max-depth / --relation-types / --max-edges-per-node）
+easbot note graph <nodeId> [-m|--mode <mode>] [--chunk-id <id>] [--target-node-id <id>] [--max-depth <n>] [--relation-types <types>] [--max-edges-per-node <n>] [--json]
+
+# 独立 CLI（注意：独立 CLI 无 `--dir` flag；只接受 `--depth` / `--json` + positional `<nodeId>`）
+easbot-note graph <nodeId> [--depth <n>] [--json]
+```
+
+> ⚠️ **Agent CLI 与独立 CLI graph 命令显著不同**：
+>
+> - Agent CLI 对齐 `note.graph_query` service schema（ADR 0097）：`mode` / `chunk-id` / `target-node-id` / `max-depth` / `relation-types` / `max-edges-per-node`
+> - 独立 CLI 是简化版（`--depth <n>` / `--dir` / `--json`；`--direction` 静默忽略 ADR 0096）
+> - **graph schema 完全重构**，旧 `--kind` / `--direction` / `--scope` flag 全部移除
+
+**flags**：
+
+| flag               | Agent CLI     | 独立 CLI          | 说明                                             |
+| ------------------ | ------------- | ----------------- | ------------------------------------------------ |
+| `<nodeId>`         | ✅ positional | ✅ positional     | 节点 ID（必填）                                  |
+| `-m` / `--mode`    | ✅ `<mode>`   | ❌                | mode（agent CLI only）                           |
+| `--chunk-id`       | ✅ `<id>`     | ❌                | chunk id（agent CLI only）                       |
+| `--target-node-id` | ✅ `<id>`     | ❌                | 目标 node id（agent CLI only）                   |
+| `--max-depth`      | ✅ `<n>`      | ❌                | BFS 深度上限（agent CLI only；替代旧 `--depth`） |
+| `--depth`          | ❌            | ✅ `<n>`          | BFS 深度（独立 CLI only）                        |
+| `--relation-types` | ✅ `<types>`  | ❌                | 关系类型（agent CLI only；逗号分隔）             |
+| `--direction`      | ❌（已移除）  | ❌ 但**静默忽略** | ADR 0096/0097 移除                               |
+
+**典型用法**：
+
+```bash
+# Agent CLI：max-depth 形式（注意：不是 --depth）
+easbot note graph 42 --max-depth 2
+
+# Agent CLI：mode + relation-types
+easbot note graph 42 --mode path --relation-types CALLS,IMPORTS
+
+# 独立 CLI：--depth（注意：不是 --max-depth）
+easbot-note graph 42 --depth 2
+```
+
+---
+
+### 2.10 `config <get|set>` — 读 / 写配置
+
+```bash
+# Agent CLI
+easbot note config <subcommand> [key] [value] [--json]
+
+# 独立 CLI（注意：独立 CLI 无 `--dir` flag）
+easbot-note config <get|set> [key] [value] [--json]
+```
+
+**子命令**：
+
+| 子命令                     | 用途                                                                                     |
+| -------------------------- | ---------------------------------------------------------------------------------------- |
+| `config get [key]`         | 显示所有字段（或单个 key）                                                               |
+| `config set <key> <value>` | 更新字段（**白名单**：embedding_model / graph_model / rerank_model / schema_version 等） |
+
+**flags**：
+
+| flag            | Agent CLI     | 独立 CLI      | 说明                       |
+| --------------- | ------------- | ------------- | -------------------------- |
+| `<subcommand>`  | ✅ positional | ✅ positional | `get` / `set`              |
+| `[key] [value]` | ✅ positional | ✅ positional | `set` 子命令的 key + value |
+| `--json`        | ✅            | ✅            | JSON 输出                  |
+
+---
+
+### 2.11 `mcp [dir]` — 启动 stdio MCP server
+
+```bash
+# Agent CLI（不接收 [dir]，统一走 ctx.worktree）
+easbot note mcp
+
+# 独立 CLI（接受 [dir]）
+easbot-note mcp [dir]
+```
+
+**flags**：
+
+| flag    | Agent CLI    | 独立 CLI      | 说明       |
+| ------- | ------------ | ------------- | ---------- |
+| `[dir]` | ❌（不接收） | ✅ positional | 目标工作区 |
+
+**暴露的 MCP 工具（8 个）**：
+
+- `search` / `ingest` / `remove` / `sync`
+- `graph_query` / `status` / `doctor` / `init`
 
 ---
 
 ## 3. 反模式 (Anti-patterns)
 
-- ❌ 给 `doctor` 加 `--repair` —— note doctor 没有修复选项
-- ❌ 给 `remove` 不带 `--confirm` 就调 —— 默认 dry-run；要真删必须 `--confirm`
-- ❌ `init` 时不警告 embedding 下载 —— embedding 模型首次下载可能耗时数分钟
-- ❌ 让 Agent 自行执行 `init` —— 涉及 embedding 下载，必须用户授权后手动跑
-- ❌ 编造未列出的 flag（如 `--limit` 不传整数） —— CLI 报参数错误
-- ❌ 跨 kb 编造 op（如 `easbot note reset`） —— note 没有 reset；要清空走 `init --force` 重建
-- ❌ 让 Agent 自己跑 `--force` 标志的 destructive 命令 —— 必须显式用户授权
+> 这些是 CLI parser **实际会忽略或报错**的写法，Agent 必须避免。
+
+- ❌ `easbot note doctor --repair` —— note doctor 没有修复选项；修复走 `init --force` 重建
+- ❌ `easbot note remove <id>`（不带 `--confirm` / `--force`） —— 默认 dry-run；要真删必须 `--confirm` / `--force`（agent CLI）/ `-y`（独立 CLI）
+- ❌ `easbot note init` 后不警告 embedding 下载 —— embedding 模型首次下载可能耗时数分钟
+- ❌ 让 Agent 自行执行 `init` —— 涉及 embedding 下载 + workspace 写盘，必须用户授权后手动跑
+- ❌ `easbot note search --kind=document` —— **agent CLI 已移除** `--kind`（commander 报 unknown option）；独立 CLI 静默忽略
+- ❌ `easbot note graph --direction=outgoing` —— **两端都已移除** `--direction`（ADR 0096/0097），agent CLI 报错，独立 CLI 静默忽略
+- ❌ `easbot note graph --depth 2`（agent CLI） —— **agent CLI 不接受 `--depth`**，要用 `--max-depth <n>`
+- ❌ `easbot-note graph --max-depth 2`（独立 CLI） —— **独立 CLI 不接受 `--max-depth`**，要用 `--depth <n>`
+- ❌ `easbot note reset` —— **不存在**；note 没有 reset；要清空走 `init --force` 重建
+- ❌ `easbot note format-text` —— 不存在；`format-text` 是包内 helper
+- ❌ 让 Agent 自己跑 `remove <path> --confirm` —— destructive，必须显式用户授权
+- ❌ `easbot-note remove --force` —— **独立 CLI 不暴露** `--force`（用 `--confirm` / `-y`）
 
 ---
 
 ## 4. 通用调用模式 (General Invocation Patterns)
 
-note CLI 支持 3 种典型调用场景：
+note CLI 支持 4 种典型调用场景：
 
-| 场景 | 调用方式 | 适用 |
-|---|---|---|
-| **脚本 / CI** | 直接调用 `easbot note <op>` | 定时任务 / 自动化流水线 |
-| **Agent 通过内置接口** | `easbot note <op>` 或 agent 暴露的对应 note 接口（取决于 agent 框架） | AI agent 编程场景 |
-| **人工排错** | 直接在终端跑 | 调试 / 一次性操作 |
+| 场景                       | 命令                                    | 适用                                                           |
+| -------------------------- | --------------------------------------- | -------------------------------------------------------------- |
+| **Agent 主 CLI（LLM）**    | `easbot note <op>`                      | LLM 编程场景；commander space-form flags（`--flag <value>`）   |
+| **独立 CLI（standalone）** | `easbot-note <op>`                      | 调试 / 一次性操作；独立 CLI 接受 `=`-form / positional `[dir]` |
+| **MCP 客户端**             | 通过 `easbot note mcp` 暴露的 8 个 tool | 其他 AI Agent 通过 MCP 协议消费                                |
+| **脚本 / CI**              | 直接调用任一 CLI                        | 定时任务 / 自动化流水线                                        |
 
 **核心约束**：
 
-- 三个知识库的 CLI 命令空间**完全独立**：不要跨 kb 拼接命令
-- `init` 涉及 embedding 模型下载，可能耗时数分钟——非必要不要重复跑
-- workspaceDir 等上下文参数**走 agent 上下文注入**，CLI 端一般不需要手动指定
+- **note CLI 命令空间独立**：只支持 `easbot note *` / `easbot-note *` 子命令集，不要混用其他命令
+- `init` 涉及 embedding 模型下载，可能耗时数分钟 —— 非必要不要重复跑
+- workspaceDir 等上下文参数**走 agent ctx 注入**，CLI 端一般不需要手动指定
+- **`--dir <path>` agent CLI only**：仅 `status` / `doctor` / `ingest` 三个子命令暴露（commander space-form）；独立 CLI **完全不接受** `--dir <path>` flag，workspaceDir 走 ctx / `--cwd` 全局选项 / positional `[dir]`
+- **`--kind` / `--direction` 已废弃**：agent CLI 报 unknown option；独立 CLI 静默忽略（保持向后兼容旧脚本）
+- **`graph` 命令 schema 完全重构**（ADR 0097）：agent CLI 是新版（`--max-depth` / `--mode` / `--relation-types`）；独立 CLI 是简化版（`--depth`）
