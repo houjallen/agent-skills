@@ -1,5 +1,26 @@
 # EASBot Agent Skills 更新日志
 
+## 0.3.26
+
+_2026-09-25_
+
+**影响技能 (1)**：`eas-knowledge-using`
+
+### 🐛 修复
+
+- **[repo]** fix(format): split brace-expansion glob in package.json scripts ([b74d5bb](https://github.com/houjallen/agent-skills/commit/b74d5bb))
+
+### 📝 文档
+
+- **[skill:eas-knowledge-using]** docs: sync references to upstream v0.3.26 + entry-matrix MCP count ([1f3ae1d](https://github.com/houjallen/agent-skills/commit/1f3ae1d))
+- **[repo]** docs: add 0022 review report for eas-knowledge-using (round 2) ([59897b2](https://github.com/houjallen/agent-skills/commit/59897b2))
+
+### 🔧 构建/工具
+
+- **[repo]** chore: update CHANGELOG.md post prettier lint-staged ([4613b07](https://github.com/houjallen/agent-skills/commit/4613b07))
+
+
+
 ## 0.3.25
 
 _2026-09-25_

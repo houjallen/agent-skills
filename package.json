@@ -1,6 +1,6 @@
 {
   "name": "@easbot/agent-skills",
-  "version": "0.3.25",
+  "version": "0.3.26",
   "description": "EASBot Agent Skills — the EASBot agent-skills management repository.",
   "type": "module",
   "bin": {
