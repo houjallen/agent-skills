@@ -1,0 +1,70 @@
+# {{name}} (Inversion)
+
+{{description}}
+
+## When to Use
+
+Use this skill when:
+- Requirements are ambiguous or incomplete
+- Critical parameters missing
+- Decision depends on multiple factors
+
+Do NOT use this skill when:
+- All required inputs are already specified (proceed directly with a generator / pipeline skill)
+- The user explicitly wants a best-effort output without back-and-forth
+
+## Question Guidelines
+
+- 2-4 clear options per question
+- Mutually exclusive options
+- Concise labels (1-3 words)
+
+## Decision Flow
+
+```
+Requirement Received
+        ↓
+All Required Questions Answered?
+    ↓ Yes         ↓ No
+Execute      Refuse Action
+```
+
+## Phases
+
+### Phase 1: Scope Clarification
+- What is the problem?
+- Who are the users?
+- What is the scale?
+
+### Phase 2: Environment Clarification
+- Deployment target?
+- Tech stack?
+
+### Phase 3: Constraint Clarification
+- Budget constraints?
+- Compliance requirements?
+
+## Output Format
+
+```json
+{
+  "clarified": true,
+  "scope": {...},
+  "env": {...},
+  "constraints": {...},
+  "readyToProceed": true
+}
+```
+
+## Structure
+
+```
+{{name}}/
+├── SKILL.md              # This file
+└── references/
+    └── when-to-ask.md    # Decision guide
+```
+
+## Created
+
+{{createdAt}}

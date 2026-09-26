@@ -1,0 +1,52 @@
+# {{name}} (Tool Wrapper)
+
+{{description}}
+
+## When to Use
+
+Use this skill when:
+- You need to use [library/API] in your code
+- User asks about [tool] usage
+- You need latest syntax or best practices
+
+Do NOT use this skill when:
+- Requirements are about process orchestration (use pipeline skill)
+- The model already knows the library well
+- A generator / reviewer skill better matches the request
+
+## Quick Reference
+
+```typescript
+// Import
+import { ... } from 'library';
+
+// Common pattern
+const result = library.function(args);
+```
+
+## Common Patterns
+
+1. **Pattern 1**: Description + example
+2. **Pattern 2**: Description + example
+
+## Known Pitfalls
+
+| Pitfall | Solution |
+|---------|----------|
+| Pitfall 1 | Fix description |
+| Pitfall 2 | Fix description |
+
+## Structure
+
+```
+{{name}}/
+├── SKILL.md              # This file
+├── references/
+│   └── api-cheatsheet.md # API reference
+└── scripts/
+    └── example.ts        # Working example
+```
+
+## Created
+
+{{createdAt}}

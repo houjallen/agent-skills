@@ -1,0 +1,62 @@
+# {{name}} (Generator)
+
+{{description}}
+
+## When to Use
+
+Use this skill when:
+- Output must follow a specific schema
+- User needs report / template / code scaffold
+- Format consistency is required
+
+Do NOT use this skill when:
+- The output format is free-form (let the model write directly)
+- A reviewer-style audit is the actual need
+
+## Output Schema
+
+```json
+{
+  "title": "{{description}}",
+  "summary": "One-line summary",
+  "sections": [{ "name": "section-name", "content": "section-content" }]
+}
+```
+
+## Validation Rules
+
+| Field | Rule | Error |
+|-------|------|-------|
+| title | Required, non-empty | Missing required field |
+| sections | Min 1 item | At least 1 section required |
+
+## Example
+
+**Input**: Generate a JSON report for Q1 2024
+**Output**:
+```json
+{
+  "title": "Q1 2024 Report",
+  "summary": "Quarterly performance overview",
+  "sections": [
+    { "name": "Metrics", "content": "..." },
+    { "name": "Analysis", "content": "..." }
+  ]
+}
+```
+
+## Structure
+
+```
+{{name}}/
+├── SKILL.md              # This file
+├── templates/
+│   └── output-schema.json # Output template
+└── examples/
+    ├── good.json         # Good examples
+    └── bad.json          # Bad examples
+```
+
+## Created
+
+{{createdAt}}

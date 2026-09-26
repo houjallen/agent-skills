@@ -1,0 +1,56 @@
+# {{name}} (Reviewer)
+
+{{description}}
+
+## When to Use
+
+Use this skill when:
+- Code needs to be checked against standards
+- Compliance verification required
+- Pre-PR checks needed
+
+Do NOT use this skill when:
+- A pipeline-style multi-stage audit is needed (use a pipeline skill)
+- The user wants to generate new content, not audit existing
+
+## Process
+
+1. **Read**: Parse the content to review
+2. **Check**: Item by item against checklist
+3. **Score**: Assign severity levels
+4. **Report**: Structured JSON output
+
+## Output Format
+
+```json
+{
+  "passed": true,
+  "failed": false,
+  "severity": ["critical", "high"],
+  "comments": [{ "item": "check-name", "status": "pass|fail", "comment": "..." }]
+}
+```
+
+## Severity Levels
+
+| Level | Meaning | Action |
+|-------|---------|--------|
+| critical | Must fix before merge | Block |
+| high | Should fix | Review |
+| medium | Consider fixing | Note |
+| low | Nice to have | Suggest |
+
+## Structure
+
+```
+{{name}}/
+├── SKILL.md              # This file
+├── references/
+│   └── checklist.md      # What to check
+└── scripts/
+    └── auto-check.ts     # Automated checks
+```
+
+## Created
+
+{{createdAt}}

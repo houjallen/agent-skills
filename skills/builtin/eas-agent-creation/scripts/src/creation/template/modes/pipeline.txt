@@ -1,0 +1,56 @@
+# {{name}} (Pipeline)
+
+{{description}}
+
+## When to Use
+
+Use this skill when:
+- Steps must execute in order
+- Each step has entry / exit requirements
+- Failure should be handled systematically
+
+Do NOT use this skill when:
+- Steps can run in parallel / any-order
+- The task has no step-level failure handling requirement
+
+## Gate System
+
+Each step has three elements:
+1. **Entry**: What must be true before step starts
+2. **Exit**: What must be true for step to pass
+3. **Failure**: What happens if step fails
+
+## Failure Strategies
+
+| Strategy | When to Use | Example |
+|----------|-------------|---------|
+| abort | Critical step | Permission check |
+| skip | Optional step | Documentation |
+| retry | Transient failure | Network call |
+| rollback | Data changes | Database ops |
+
+## Steps
+
+| # | Name | Gate | On Failure |
+|---|------|------|------------|
+| 1 | Parse Input | input-exists | abort |
+| 2 | Validate | dependency-met | abort |
+| 3 | Execute | manual-approve | rollback |
+
+## Policy
+
+- **Strict Mode**: Any step failure stops pipeline
+- **Rollback on Abort**: Revert completed steps
+
+## Structure
+
+```
+{{name}}/
+├── SKILL.md              # This file
+└── references/
+    └── gate.md           # Gate definitions
+```
+
+## Created
+
+{{createdAt}}
