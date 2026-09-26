@@ -8,8 +8,7 @@
 
 ## 版本
 
-v0.3.26
-
+v0.3.27
 ## 特性
 
 - **生命周期管理**:覆盖技能 `create` / `evolve` / `assess` / `list` / `apply-plan` / `review` 六个操作

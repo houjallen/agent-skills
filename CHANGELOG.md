@@ -1,5 +1,22 @@
 # EASBot Agent Skills 更新日志
 
+## 0.3.27
+
+_2026-09-27_
+
+### ✨ 新功能
+
+- **[repo]** feat(scripts): sync README top-of-file version anchor (zh/en) on version bump ([ff67cff](https://github.com/houjallen/agent-skills/commit/ff67cff))
+- **[repo]** feat(scripts): add list-published-versions to audit workspace packages on npm ([f5eca0f](https://github.com/houjallen/agent-skills/commit/f5eca0f))
+- **[repo]** feat(skill): bundle eas-agent-creation standalone CLI package + reviews ([f8ca135](https://github.com/houjallen/agent-skills/commit/f8ca135))
+
+### 🔧 构建/工具
+
+- **[repo]** chore: bundle housekeeping changes (scripts / skills / config) ([184c236](https://github.com/houjallen/agent-skills/commit/184c236))
+- **[repo]** chore: bundle housekeeping changes (scripts / skills / config) ([caf45bd](https://github.com/houjallen/agent-skills/commit/caf45bd))
+
+
+
 ## 0.3.26
 
 _2026-09-25_

@@ -8,8 +8,7 @@ Standalone CLI package for `eas-agent-creation` — runs without a host Agent vi
 
 ## Version
 
-v0.3.26
-
+v0.3.27
 ## Features
 
 - **Lifecycle coverage**: six operations — `create` / `evolve` / `assess` / `list` / `apply-plan` / `review`
