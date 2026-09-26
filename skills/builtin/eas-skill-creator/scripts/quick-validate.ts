@@ -48,6 +48,9 @@ export class SkillValidator {
       }
 
       const frontmatterText = frontmatterMatch[1];
+      if (frontmatterText === undefined) {
+        return { valid: false, message: 'Invalid frontmatter format' };
+      }
 
       // 解析YAML
       let frontmatter: any;
@@ -265,7 +268,7 @@ async function main() {
     return;
   }
 
-  const skillPath = args[0];
+  const skillPath = args[0] ?? '';
   const complete = args.includes('--complete');
 
   const validator = new SkillValidator();

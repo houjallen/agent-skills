@@ -62,7 +62,6 @@ function loadPlaywright() {
 }
 
 // ── Main ───────────────────────────────────────────────────────────────────────
-// biome-ignore lint/nursery/noFloatingPromises: top-level script entrypoint
 void (async () => {
   const { chromium } = loadPlaywright();
 

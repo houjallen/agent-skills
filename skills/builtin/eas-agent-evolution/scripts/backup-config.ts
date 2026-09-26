@@ -80,7 +80,7 @@ async function createBackup(options: BackupConfigOptions): Promise<BackupConfigR
   const backupDir = options.backupDir ?? getDefaultBackupDir();
   const configPath = options.configPath ?? '.easbot';
   const files = options.files ?? CORE_CONFIG_FILES;
-  const date = new Date().toISOString().split('T')[0];
+  const date = new Date().toISOString().split('T')[0] ?? new Date().toISOString().slice(0, 10);
   const backupPath = join(backupDir, date);
 
   const backedUpFiles: string[] = [];
@@ -246,14 +246,19 @@ async function main() {
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
-    if (arg === '--backup-dir' && args[i + 1]) {
-      options.backupDir = args[++i];
-    } else if (arg === '--config-path' && args[i + 1]) {
-      options.configPath = args[++i];
-    } else if (arg === '--retention-days' && args[i + 1]) {
-      options.retentionDays = parseInt(args[++i], 10);
-    } else if (arg === '--restore-date' && args[i + 1]) {
-      options.restoreDate = args[++i];
+    const next = args[i + 1];
+    if (arg === '--backup-dir' && next !== undefined) {
+      options.backupDir = next;
+      i++;
+    } else if (arg === '--config-path' && next !== undefined) {
+      options.configPath = next;
+      i++;
+    } else if (arg === '--retention-days' && next !== undefined) {
+      options.retentionDays = parseInt(next, 10);
+      i++;
+    } else if (arg === '--restore-date' && next !== undefined) {
+      options.restoreDate = next;
+      i++;
     } else if (arg === '--compress') {
       options.compress = true;
     }
@@ -284,7 +289,8 @@ async function main() {
 }
 
 // 如果直接运行此脚本
-if (import.meta.url === `file://${process.argv[1].replace(/\\/g, '/')}`) {
+const argv1 = process.argv[1];
+if (argv1 !== undefined && import.meta.url === `file://${argv1.replace(/\\/g, '/')}`) {
   main().catch(console.error);
 }
 

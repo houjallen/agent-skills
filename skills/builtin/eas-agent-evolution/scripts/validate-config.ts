@@ -342,8 +342,10 @@ async function main() {
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
-    if (arg === '--config-path' && args[i + 1]) {
-      options.configPath = args[++i];
+    const next = args[i + 1];
+    if (arg === '--config-path' && next !== undefined) {
+      options.configPath = next;
+      i++;
     } else if (arg === '--strict') {
       options.strict = true;
     } else if (arg === '--auto-fix') {
@@ -378,7 +380,8 @@ async function main() {
 }
 
 // 如果直接运行此脚本
-if (import.meta.url === `file://${process.argv[1].replace(/\\/g, '/')}`) {
+const argv1 = process.argv[1];
+if (argv1 !== undefined && import.meta.url === `file://${argv1.replace(/\\/g, '/')}`) {
   main().catch(console.error);
 }
 

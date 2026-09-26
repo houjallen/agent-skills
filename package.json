@@ -8,6 +8,9 @@
   },
   "scripts": {
     "build": "tsup --env.NODE_ENV production",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:clean": "tsx scripts/clean-test-fixtures.ts",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "lint:report": "biome check --reporter=summary .",
@@ -58,28 +61,24 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.5",
-    "@types/node": "^25.9.5",
     "@types/js-yaml": "4.0.9",
-    "node-pty": "1.1.0",
+    "@types/node": "^25.9.5",
+    "ai": "^6.0.290",
     "dotenv": "^17.4.2",
     "esbuild": "0.28.2",
-    "lint-staged": "^17.3.0",
-    "prettier": "^3.9.9",
-    "tsup": "^8.5.1",
-    "typescript": "6.0.3",
-    "vitest": "^4.1.6",
+    "glob": "^13.0.6",
     "husky": "^9.1.7",
     "js-yaml": "^5.3.0",
     "jszip": "3.10.1",
-    "tsx": "4.23.12"
-  },
-  "peerDependencies": {
-    "@easbot/agent": "^0.3.26"
-  },
-  "peerDependenciesMeta": {
-    "@easbot/agent": {
-      "optional": true
-    }
+    "lint-staged": "^17.3.0",
+    "node-pty": "1.1.0",
+    "prettier": "^3.9.9",
+    "tsup": "^8.5.1",
+    "tsx": "4.23.12",
+    "typescript": "6.0.3",
+    "vitest": "^4.1.6",
+    "xdg-basedir": "5.1.0",
+    "zod": "^4.4.3"
   },
   "publishConfig": {
     "access": "public",
@@ -88,6 +87,11 @@
   "engines": {
     "node": ">=22.22.2",
     "pnpm": ">=10.0.0"
+  },
+  "workspaces": {
+    "packages": [
+      "skills/**/*"
+    ]
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": [

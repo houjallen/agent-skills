@@ -64,7 +64,7 @@ const buildRequiredFrontmatter = (file: string, content: string) => {
   };
 };
 
-const formatFrontmatter = (frontmatter: Record<string, unknown>) => `---\n${dump(frontmatter, { lineWidth: -1, quotingType: '"' }).trim()}\n---\n`;
+const formatFrontmatter = (frontmatter: Record<string, unknown>) => `---\n${dump(frontmatter, { lineWidth: -1, quoteStyle: 'double' }).trim()}\n---\n`;
 
 const keywordFromName = (name: string) => Array.from(new Set(name.split('-').filter(Boolean)));
 

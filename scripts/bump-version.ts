@@ -15,9 +15,9 @@
  */
 
 /// <reference types="node" />
-import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync, writeFileSync, statSync } from 'node:fs';
 import { execSync } from 'node:child_process';
+import { Glob } from '@easbot/utils';
 
 // 版本号格式验证 (semver)
 const VERSION_REGEX = /^(\d+)\.(\d+)\.(\d+)(?:-([a-zA-Z0-9.-]+))?(?:\+([a-zA-Z0-9.-]+))?$/;
@@ -116,30 +116,47 @@ function tagExists(tag: string): boolean {
 
 /**
  * 获取所有子项目的 package.json 路径
+ *
+ * 使用 `@easbot/utils.Glob` 递归扫描，支持任意嵌套深度的 workspace 包。
+ * 例如 `skills/builtin/eas-agent-creation/scripts/package.json` 也会被命中。
+ *
+ * 排除规则:
+ *   - node_modules
+ *   - dist（构建产物，不会作为 workspace 包发布）
+ *   - .git
+ *
+ * 用 `scanSync` 保持原脚本的同步执行语义；`include: 'file'` 保证只命中文件
+ * （不会误匹配 `skills/xxx/dist/package.json` 之类的目录）。
  */
 function getAllPackageJsonPaths(): string[] {
-  const packagesDir = join(process.cwd(), 'packages');
-  const paths: string[] = ['package.json']; // 根目录
+  const cwd = process.cwd();
+  const patterns = [
+    'package.json', // 根目录
+    'skills/**/package.json', // 任意深度的子包
+    'packages/**/package.json', // 兜底：兼容旧版 packages/ 布局
+  ];
+  const ignore = ['**/node_modules/**', '**/dist/**', '**/.git/**'];
 
-  try {
-    const packages = readdirSync(packagesDir);
-    for (const pkg of packages) {
-      const pkgPath = join(packagesDir, pkg);
-      const pkgJsonPath = join(pkgPath, 'package.json');
-
-      try {
-        if (statSync(pkgPath).isDirectory() && statSync(pkgJsonPath).isFile()) {
-          paths.push(`packages/${pkg}/package.json`);
-        }
-      } catch {
-        // 忽略不存在 package.json 的目录
-      }
-    }
-  } catch (error) {
-    console.warn('⚠️  无法读取 packages 目录:', error);
+  // Glob.scanSync 是单 pattern；多 pattern 展开循环收集（与 clean-test-fixtures.ts 一致）
+  const allMatches: string[] = [];
+  for (const pattern of patterns) {
+    allMatches.push(
+      ...Glob.scanSync(pattern, {
+        cwd,
+        ignore,
+        absolute: false,
+        include: 'file',
+      }),
+    );
   }
 
-  return paths;
+  // 去重（根目录的 package.json 不会被 glob 重复，但保险起见）+ 稳定排序
+  // 根目录优先、其余按字典序（CI 日志友好）
+  return Array.from(new Set(allMatches)).sort((a, b) => {
+    if (a === 'package.json') return -1;
+    if (b === 'package.json') return 1;
+    return a.localeCompare(b);
+  });
 }
 
 /**

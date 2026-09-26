@@ -1,12 +1,34 @@
 ---
 name: eas-agent-creation
-description: 该技能应在 EASBot Agent 需要按应用场景创建新技能、演化现有技能、或管理技能组合（Bundle）时使用。覆盖技能从创建到废弃的完整生命周期（Create / Evolve / Deprecate）。触发短语：创建技能、演化技能、技能组合、Bundle 管理、技能废弃。不适用：临时单文件脚本 / 一次性 prompt / 不涉及技能生命周期的纯业务任务。
+description: |
+  EASBot 技能生命周期管理入口。覆盖技能从需求捕获、模式选择（Tool Wrapper / Generator / Reviewer / Inversion / Pipeline）、
+  创建、演化（自我评估 + 计划生成 + 回滚）、到废弃的全链路；也负责管理 Bundle（多模式组合）与 LLM 评审。
+
+  触发短语：创建技能 / 演化技能 / 技能评估 / 技能废弃 / Bundle 管理 / SKILL 评审 / 模式选择 / skill lifecycle。
+  使用场景：用户提出"帮我做一个 X 技能"、某技能失败率高需重生、新需求无现成 skill 可用、
+  多 skill 协作需编排、scheduler 触发自评估、要求对某 SKILL.md 跑 5 维度评分。
+
+  不适用（**这些场景请勿加载本技能**）：
+  - 临时性的单次任务 / 一次性 prompt / 纯业务功能开发（与 skill 生命周期无关）
+  - 单个 skill 的内容写作 / 模板填充（请用 eas-skill-creator）
+  - 搜索市场中已有 skill（请用 eas-skill-find）
+  - 知识类问答 / 编码协助（请用对应工具 wrapper skill）
 license: MIT
 metadata:
   category: builtin
   version: 1.0.0
   author: EASBot
+  compatibility:
+    node: '>=22.22.2'
+    pnpm: '>=10.0.0'
   tags: [easbot, skill, lifecycle, bundle]
+  deliveryChecklist:
+    developmentGuide: true # 当用 / 快速参考 / CLI 三种调用风格齐全
+    pitfallTable: true # 4 个已知 pitfall 列在 body
+    reviewProcess: true # 5 维度 rubric 由 LLM 评分
+    deploymentGuide: true # scripts/dist/cli.{mjs,cjs} 已发布；pnpm dlx 直接用
+    observability: true # --log-level / --print-logs / --debug 控制日志
+    scripts: true # scripts/src/cli.ts standalone CLI（无需 host）
 ---
 
 # eas-agent-creation (EASBot 技能创建与演化)
@@ -43,11 +65,9 @@ metadata:
 - 需要生成自我评估报告
 - 需要制定进化计划
 
-不适用于：
-
-- 临时性的单次任务
-- 与技能管理无关的常规开发任务
-- 单个技能的内容写作（那是 `eas-skill-creator`）
+> 完整"何时不用"清单见 frontmatter `description`（自动加载依据）。
+> 简版：临时任务 / 单 skill 内容写作（用 `eas-skill-creator`）/ 搜索市场 skill（用 `eas-skill-find`）/
+> 知识类问答 / 纯业务功能开发 — 这些场景请勿加载本技能。
 
 ## 快速参考 (Quick Reference)
 
@@ -89,7 +109,7 @@ Validator.validateSkillSpec()
    └─ 验证 behavior 结构
         ↓
 Creator.register()
-   ├─ 写盘到 ~/.easbot/created/skills/<name>/
+   ├─ 写盘到 `{cwd}/.easbot/skills/<name>/SKILL.md`（scope='project'，默认）；scope='global' 时写到 `~/.config/easbot/skills/<name>/SKILL.md`
    └─ Bus.publish(CreationComplete)
         ↓
 Skill Ready for Agent
@@ -182,139 +202,36 @@ Skill Evolved
 
 ## 实现 (Implementation)
 
-### 使用 creation 工具
+### 使用 standalone CLI（推荐路径）(Use the Standalone CLI)
 
-> **[NOTE]** 以下示例调用的是宿主 Agent 的 `creation` 工具，**非**本技能自带 scripts/。本技能无内置 TypeScript 脚本，所有操作由宿主 Agent 通过 `creation` 工具完成。
+`eas-agent-creation` 自带 standalone CLI（[`scripts/src/cli.ts`](scripts/src/cli.ts)），通过 `npx tsx` 直接调用，**不依赖宿主 Agent 的 `creation` 工具**。Agent 可在任意仓库根目录运行该 CLI 完成 6 类操作：`create` / `evolve` / `assess` / `list` / `apply-plan` / `review`。
 
-Agent 应使用 `creation` 工具完成任务。所有创建、演化、评估操作都通过该工具执行。
+> 完整 CLI 入口 / 全局选项 / 操作参数 / 创建-演化-评审步骤 / 输出契约 / ProviderOptions 自动推导 / 故障排查 → 见 [`references/cli.md`](references/cli.md)。
 
-#### 工具调用示例 (Tool Call Examples)
+#### 快速调用 (Quick Calls)
 
-```typescript
-// 1. 创建新技能
-creation({
-  operation: 'create',
-  requirement: '创建一个帮助审查代码命名的技能',
-  hints: ['包含命名规范清单', '支持中英文命名'],
-});
+```bash
+# 创建新 skill
+npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts create \
+  --requirement "创建一个帮助审查代码命名的技能" \
+  --hints "包含命名规范清单,支持中英文命名"
 
-// 2. 执行自我评估
-creation({
-  operation: 'assess',
-  windowDays: 30,
-});
+# 自检
+npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts assess --windowDays 7
 
-// 3. 运行进化引擎（试运行）
-creation({
-  operation: 'evolve',
-  dryRun: true,
-});
+# 演化（试运行）
+npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts evolve --dryRun
 
-// 4. 应用进化计划
-creation({
-  operation: 'apply-plan',
-  planId: 'plan_xxx',
-  approvedBy: 'user@example.com',
-});
+# 应用演化计划
+npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts apply-plan \
+  --planId "<plan-id>" --approvedBy "user@example.com"
 
-// 5. 列出已创建的技能
-creation({
-  operation: 'list',
-  mode: 'always',
-  limit: 10,
-});
+# LLM 评审
+npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts review \
+  --skillName <name> --variant reviewer
 ```
 
-### 创建 Skill 的步骤 (Creation Steps)
-
-#### 步骤 1：分析需求 (Analyze Requirements)
-
-理解用户需求的本质，判断需要的模式组合。
-
-#### 步骤 2：使用 creation 工具创建 (Invoke creation Tool)
-
-调用 `creation` 工具的 `create` 操作：
-
-```typescript
-creation({
-  operation: 'create',
-  requirement: '用户需求描述（至少10个字符）',
-  hints: ['可选的提示数组'],
-});
-```
-
-工具将返回生成的技能规格（SkillSpec），包含：
-
-- `name`: 技能名称
-- `spec`: 完整的技能规格对象
-
-#### 步骤 3：使用 eas-skill-creator 完善 (Refine via eas-skill-creator)
-
-**关键**：creation 工具只生成骨架，必须使用 `eas-skill-creator` 完善：
-
-1. **完善示例**：添加正向/反向使用示例
-2. **补全文档**：填充 references/ 目录的详细内容
-3. **优化模板**：补充具体参数和配置
-4. **验证结构**：`tsx scripts/quick-validate.ts <skill-path>`
-
-#### 步骤 4：测试使用 (Test in Real Tasks)
-
-在实际任务中验证技能效果。
-
-### 演化 Skill 的步骤 (Evolution Steps)
-
-#### 步骤 1：获取评估 (Run Self Assessment)
-
-调用 `creation` 工具的 `assess` 操作：
-
-```typescript
-creation({
-  operation: 'assess',
-  windowDays: 7, // 分析窗口期，1-90天
-});
-```
-
-#### 步骤 2：分析弱点 (Analyze Weaknesses)
-
-查看返回的 `weaknesses` 和 `opportunities` 列表。
-
-#### 步骤 3：使用 eas-skill-creator 优化 (Optimize via eas-skill-creator)
-
-根据弱点分析结果，使用 `eas-skill-creator` 完善技能内容：
-
-- 针对识别的问题补充示例
-- 修复已知坑
-- 优化验证规则
-
-#### 步骤 4：运行进化 (Run Evolution)
-
-调用 `evolve` 操作：
-
-```typescript
-// 试运行：生成计划不应用
-creation({
-  operation: 'evolve',
-  dryRun: true,
-});
-
-// 正式运行：生成并执行计划
-creation({
-  operation: 'evolve',
-  dryRun: false,
-});
-```
-
-#### 步骤 5：应用计划（如需审批）(Apply Plan)
-
-如果计划需要人工审批：
-
-```typescript
-creation({
-  operation: 'apply-plan',
-  planId: '计划ID（从 evolve 结果获取）',
-  approvedBy: '审批人邮箱或ID',
-});
-```
+> 详细步骤（创建后用 `eas-skill-creator` 完善、演化的弱点分析、review 的评分维度与 ProviderOptions 自动推导）见 [`references/cli.md`](references/cli.md)。
 
 ## 常见错误 (Common Pitfalls)
 
@@ -365,17 +282,27 @@ creation({
 ```yaml
 ---
 name: react-19-server-actions
-description: 提供 React 19 Server Actions 的使用指南。用于处理表单、异步操作和数据提交。
+description: |
+  提供 React 19 Server Actions 的使用指南。处理表单、异步操作和数据提交。
+
+  触发：React 19 / Server Actions / 表单 / async function / 数据变更 / 'use server' / 数据重新验证。
+  不适用：客户端组件（请用普通 client component skill）、纯展示页面、React 18 及以下版本。
 mode: tool-wrapper
 composition: single
+metadata:
+  category: builtin
+  version: 1.0.0
+  author: EASBot
+  tags: [react, server-actions, tool-wrapper]
 deliveryChecklist:
   developmentGuide: true
   pitfallTable: true
   reviewProcess: false
   deploymentGuide: false
   observability: false
-  scripts: true
----
+  scripts: false
+references:
+  - ./references/api-cheatsheet.md
 ```
 
 ### Example 2: Create a Reviewer Skill
@@ -393,9 +320,18 @@ deliveryChecklist:
 ```yaml
 ---
 name: code-quality-reviewer
-description: 审查代码的命名规范和错误处理。用于 Pre-PR 检查和代码质量保证。
+description: |
+  审查代码的命名规范和错误处理。用于 Pre-PR 检查和代码质量保证。
+
+  触发：代码审查 / Pre-PR / lint / 命名规范 / 错误处理 / 命名一致性 / PR review / 代码评审。
+  不适用：生成新代码（请用 generator skill）、性能优化审查（用专门 perf skill）。
 mode: reviewer
 composition: single
+metadata:
+  category: builtin
+  version: 1.0.0
+  author: EASBot
+  tags: [code-review, reviewer, naming]
 reviewer:
   checklist:
     filePath: ./references/checklist.md
@@ -410,7 +346,8 @@ reviewer:
         name: 检查错误处理
         checklistSection: §2 错误处理
     exit: 输出结构化 JSON 报告
----
+references:
+  - ./references/checklist.md
 ```
 
 ### Example 3: Create a Pipeline Skill
@@ -428,9 +365,18 @@ reviewer:
 ```yaml
 ---
 name: code-doc-pipeline
-description: 自动生成代码文档的多阶段流水线。用于生成 API 文档和代码注释。
+description: |
+  自动生成代码文档的多阶段流水线。用于生成 API 文档和代码注释。
+
+  触发：代码文档 / API 文档 / 文档生成 / docstring / 自动文档 / JSDoc / 注释补全 / documentation pipeline。
+  不适用：手工写文档（用通用写作 skill）、Markdown 转 PDF（用专门 pdf skill）。
 mode: pipeline
 composition: single
+metadata:
+  category: builtin
+  version: 1.0.0
+  author: EASBot
+  tags: [docs, pipeline, automation]
 behavior:
   sequence:
     - id: parse
@@ -459,5 +405,6 @@ behavior:
   policy:
     strictMode: true
     rollbackOnAbort: true
----
+references:
+  - ./references/gate.md
 ```

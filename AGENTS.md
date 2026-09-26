@@ -123,14 +123,13 @@ agent-skills/
 
 ### 5.2 技能包内部脚本
 
-| 用途                                                | 命令                                                                                                                                       | 依赖                |
-| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
-| 校验单个技能                                        | `npx tsx skills/builtin/eas-skill-creator/scripts/quick-validate.ts <skill-dir>`                                                           | `js-yaml`           |
-| 初始化技能骨架                                      | `npx tsx skills/builtin/eas-skill-creator/scripts/init-skill.ts <name> --path <dest> [--resources scripts,references,assets] [--examples]` | 零依赖              |
-| 打包为 `.skill`（ZIP）                              | `npx tsx skills/builtin/eas-skill-creator/scripts/package-skill.ts <skill-dir> [output-dir]`                                               | `js-yaml` + `jszip` |
-| Agent 配置：初始化 / 备份 / 校验 / 增量更新         | `npx tsx skills/builtin/eas-agent-evolution/scripts/{init,backup-config,validate-config,update}-agent.ts ...`                              | 零依赖              |
-| 注册定时备份任务（唯一允许 `import @easbot/agent`） | `npx tsx skills/builtin/eas-agent-evolution/scripts/register-backup-task.ts <register\|list\|delete\|help> [--cron <expr>]`                | `@easbot/agent`     |
-| 初始化规划三件套 / 检查完成度                       | `npx tsx skills/builtin/eas-planning-writer/scripts/{init-planning-session,check-complete}.ts ...`                                         | 零依赖              |
+| 用途                                        | 命令                                                                                                                                       | 依赖                |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
+| 校验单个技能                                | `npx tsx skills/builtin/eas-skill-creator/scripts/quick-validate.ts <skill-dir>`                                                           | `js-yaml`           |
+| 初始化技能骨架                              | `npx tsx skills/builtin/eas-skill-creator/scripts/init-skill.ts <name> --path <dest> [--resources scripts,references,assets] [--examples]` | 零依赖              |
+| 打包为 `.skill`（ZIP）                      | `npx tsx skills/builtin/eas-skill-creator/scripts/package-skill.ts <skill-dir> [output-dir]`                                               | `js-yaml` + `jszip` |
+| Agent 配置：初始化 / 备份 / 校验 / 增量更新 | `npx tsx skills/builtin/eas-agent-evolution/scripts/{init,backup-config,validate-config,update}-agent.ts ...`                              | 零依赖              |
+| 初始化规划三件套 / 检查完成度               | `npx tsx skills/builtin/eas-planning-writer/scripts/{init-planning-session,check-complete}.ts ...`                                         | 零依赖              |
 
 **全量"事实上的 test suite"**（CI 跑、Agent 自检都可用）：
 
@@ -331,7 +330,7 @@ git log -1                                            # 验证
 - [ ] 技能目录下无 `README.md` / `INSTALLATION_GUIDE.md` / `QUICK_REFERENCE.md`。
 - [ ] `references/` 链接用标准 Markdown 相对路径（**禁止 `@` 路径引用**）。
 - [ ] 用 §5.2 顶部全量循环跑过一次 `quick-validate`。
-- [ ] `scripts/*.ts` 第三方 import 仅限 `js-yaml` / `jszip` / `@easbot/agent`（仅 `register-backup-task.ts`）。
+- [ ] `scripts/*.ts` 第三方 import 仅限白名单（§12.7：基础工具 `js-yaml` / `jszip`；builtin skill 通用 `@easbot/utils` / `@easbot/llm` / `@easbot/plugin`；评审显式豁免：`ai` / `@ai-sdk/provider` 仅 `eas-agent-creation/scripts/llm.ts`）。
 - [ ] 提交标题遵循 §7.1 三种合法前缀之一。
 - [ ] 跨技能决策按 §11 落档（先于 commit）。
 - [ ] 内容评审遵循 §14 五维度清单（结构 / 内容 / 语义 / 规范 / 落地），所有 P0/P1 项必须为 0。
@@ -368,7 +367,14 @@ git log -1                                            # 验证
 - **scripts/ 依赖白名单**（与 §5 表格保持一致）：
   - `js-yaml` — 仅 `quick-validate.ts` / `package-skill.ts`。
   - `jszip` — 仅 `package-skill.ts`。
-  - `@easbot/agent` — 仅 `eas-agent-evolution/scripts/register-backup-task.ts`。
+
+  **builtin skill 常用白名单补充**（与 §5.1 / §5.2 表格实际使用对齐；本表与 §12.7 评审 0024 同步）：
+  - `@easbot/utils` — Log / Filesystem / Identifier 等基础设施工具；多个 builtin skill 使用。
+  - `@easbot/llm` — LLM bootstrap + ProviderOptions 推导；用于 builtin skill 内 LLM 评审。
+  - `@easbot/plugin` — ToolDefinition 接口；用于 `@easbot/llm` 注入工具。
+
+  **特定技能豁免（评审报告显式声明）**：
+  - `skills/builtin/eas-agent-creation/scripts/llm.ts`：依赖 `ai` / `@ai-sdk/provider`，因该技能实现「模型评审」op 必需 `generateText` + AI SDK LanguageModelV3 类型；评审 0024 已显式豁免此依赖。
 
   其它需求落地到调用方环境，不入仓。
 

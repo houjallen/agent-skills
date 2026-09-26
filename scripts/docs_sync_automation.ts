@@ -82,7 +82,7 @@ function stringifyFrontMatter(frontmatter: any) {
     keywords: Array.isArray(frontmatter.keywords) ? frontmatter.keywords : [],
     tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
   };
-  return `---\n${dump(frontmatterCopy, { lineWidth: -1, quotingType: '"' }).trim()}\n---\n`;
+  return `---\n${dump(frontmatterCopy, { lineWidth: -1, quoteStyle: 'double' }).trim()}\n---\n`;
 }
 
 /**

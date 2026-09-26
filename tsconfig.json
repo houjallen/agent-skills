@@ -8,6 +8,6 @@
     "types": ["node"],
     "resolveJsonModule": true
   },
-  "include": ["scripts/*", "skills/*"],
+  "include": ["scripts/**/*", "skills/**/*", "src/**/*", "*.config.ts"],
   "exclude": ["node_modules", "dist"]
 }

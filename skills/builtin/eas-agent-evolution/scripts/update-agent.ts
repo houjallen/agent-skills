@@ -120,19 +120,26 @@ if (process.argv[1] === __filename) {
   };
 
   for (let i = 0; i < args.length; i++) {
-    if (args[i] === '--config-path' && args[i + 1]) {
-      options.configPath = args[++i];
-    } else if (args[i] === '--field' && args[i + 1]) {
-      options.field = args[++i];
-    } else if (args[i] === '--value' && args[i + 1]) {
-      options.value = sanitizeValue(args[++i]);
-    } else if (args[i] === '--json' && args[i + 1]) {
+    const cur = args[i];
+    const next = args[i + 1];
+    if (cur === '--config-path' && next !== undefined) {
+      options.configPath = next;
+      i++;
+    } else if (cur === '--field' && next !== undefined) {
+      options.field = next;
+      i++;
+    } else if (cur === '--value' && next !== undefined) {
+      options.value = sanitizeValue(next);
+      i++;
+    } else if (cur === '--json' && next !== undefined) {
+      const jsonValue = next;
       try {
-        const parsed = JSON.parse(args[++i]);
+        const parsed = JSON.parse(jsonValue);
         options.value = sanitizeJsonValue(parsed);
       } catch {
-        options.value = sanitizeValue(args[i]);
+        options.value = sanitizeValue(jsonValue);
       }
+      i++;
     }
   }
 

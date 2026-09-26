@@ -332,16 +332,19 @@ async function main() {
   let includeExamples = false;
 
   for (let i = 1; i < args.length; i++) {
-    if (args[i] === '--path' && i + 1 < args.length) {
-      destPath = args[i + 1];
+    const cur = args[i];
+    if (cur === undefined) continue;
+    const next = args[i + 1];
+    if (cur === '--path' && next !== undefined) {
+      destPath = next;
       i++;
-    } else if (args[i] === '--resources' && i + 1 < args.length) {
-      resourcesStr = args[i + 1];
+    } else if (cur === '--resources' && next !== undefined) {
+      resourcesStr = next;
       i++;
-    } else if (args[i] === '--examples') {
+    } else if (cur === '--examples') {
       includeExamples = true;
-    } else if (args[i].startsWith('-')) {
-      console.error(`[ERROR] Unknown argument: ${args[i]}`);
+    } else if (cur.startsWith('-')) {
+      console.error(`[ERROR] Unknown argument: ${cur}`);
       process.exit(1);
     }
   }
@@ -357,7 +360,7 @@ async function main() {
     process.exit(1);
   }
 
-  const rawSkillName = skillName;
+  const rawSkillName = skillName ?? '';
   skillName = normalizeSkillName(rawSkillName);
 
   if (!skillName) {

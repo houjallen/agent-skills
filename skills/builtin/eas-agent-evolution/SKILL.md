@@ -188,23 +188,6 @@ workspace/.easbot/
     └── USER.md
 ```
 
-### 定时备份任务 (Scheduled Backup Task)
-
-使用 `register-backup-task.ts` 脚本注册定时备份任务：
-
-```bash
-# 注册默认备份任务（每天凌晨 2 点）
-npx tsx scripts/register-backup-task.ts register
-
-# 自定义备份时间（每 6 小时）
-npx tsx scripts/register-backup-task.ts register --cron="0 */6 * * *"
-
-# 列出所有备份任务
-npx tsx scripts/register-backup-task.ts list
-```
-
-备份命令作为 local command 由 scheduler 定时触发执行。
-
 ## 参考资料 (References)
 
 - [workspace 与 agentId 说明](references/workspace-and-agent-id.md) — 初始化前必读
