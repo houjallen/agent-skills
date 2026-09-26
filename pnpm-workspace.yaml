@@ -85,4 +85,4 @@ overrides:
 
 # 注：已通过 minimumReleaseAgeStrict: false 关闭 24h 冷静期
 # 此白名单保留仅为紧急绕过特定版本发布审核（按需取消注释）
-minimumReleaseAgeExclude: [ '@easbot/llm@0.3.26', '@easbot/local-model-sdk@0.3.26', '@easbot/mcp@0.3.26', '@easbot/ollama-sdk@0.3.26', '@easbot/plugin@0.3.26', '@easbot/sdk@0.3.26', '@easbot/skills@0.3.26', '@easbot/terminal@0.3.26', '@easbot/types@0.3.26', '@easbot/utils@0.3.26' ]
+minimumReleaseAgeExclude: [ '@easbot/llm@0.3.27', '@easbot/local-model-sdk@0.3.27', '@easbot/mcp@0.3.27', '@easbot/ollama-sdk@0.3.27', '@easbot/plugin@0.3.27', '@easbot/sdk@0.3.27', '@easbot/skills@0.3.27', '@easbot/terminal@0.3.27', '@easbot/types@0.3.27', '@easbot/utils@0.3.27' ]

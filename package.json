@@ -21,8 +21,8 @@
     "version:pre-commit": "tsx scripts/pre-commit-version.ts",
     "version:patch": "tsx scripts/bump-version.ts patch",
     "version:minor": "tsx scripts/bump-version.ts minor",
-    "publish:npm": "bash scripts/publish.sh",
-    "publish:npm:win": "powershell -ExecutionPolicy Bypass -File scripts/publish.ps1",
+    "publish:npm": "bash scripts/publish.sh && pnpm --filter ./skills/** publish:npm",
+    "publish:npm:win": "powershell -ExecutionPolicy Bypass -File scripts/publish.ps1 && pnpm --filter ./skills/** publish:npm:win",
     "publish:list": "tsx ./scripts/list-published-versions.ts",
     "docs:add": "npx tsx ./scripts/docs_add_frontmatter.ts",
     "docs:sync": "npx tsx ./scripts/docs_sync_automation.ts",
@@ -57,8 +57,8 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@easbot/skills": "^0.3.26",
-    "@easbot/utils": "^0.3.26"
+    "@easbot/skills": "^0.3.27",
+    "@easbot/utils": "^0.3.27"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.5",
