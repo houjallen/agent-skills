@@ -23,6 +23,7 @@
     "version:minor": "tsx scripts/bump-version.ts minor",
     "publish:npm": "bash scripts/publish.sh",
     "publish:npm:win": "powershell -ExecutionPolicy Bypass -File scripts/publish.ps1",
+    "publish:list": "tsx ./scripts/list-published-versions.ts",
     "docs:add": "npx tsx ./scripts/docs_add_frontmatter.ts",
     "docs:sync": "npx tsx ./scripts/docs_sync_automation.ts",
     "docs:validate": "npx tsx ./scripts/docs_sync_automation.ts --validate",
