@@ -8,6 +8,15 @@
  *   pnpm version:minor   # 升级次版本 (0.1.0 -> 0.2.0)
  *   pnpm version:major   # 升级主版本 (0.1.0 -> 1.0.0)
  *
+ * 副作用（自动化同步，**唯一真相源是 package.json**）:
+ *   1. 写入根 package.json + 所有子包 package.json 的 version 字段
+ *   2. 同步 README 顶部的中文版本段（heading = `## 版本`）与英文版本段（heading = `## Version`）：
+ *      - 根 README.md / README.en.md
+ *      - 每个包 README.md / README.en.md（如存在）
+ *      仅写顶部锚定段，绝不散布版本号到正文表格 / 段落。
+ *   3. 生成 CHANGELOG.md（如生成脚本存在）
+ *   4. 提交所有 package.json + README + CHANGELOG 到 git 并打 tag
+ *
  * 最佳实践:
  *   - 发布前确保所有更改已提交
  *   - 生成 CHANGELOG 时显式传递版本号参数
@@ -15,7 +24,8 @@
  */
 
 /// <reference types="node" />
-import { readFileSync, writeFileSync, statSync } from 'node:fs';
+import { readFileSync, writeFileSync, statSync, existsSync } from 'node:fs';
+import { join, relative } from 'node:path';
 import { execSync } from 'node:child_process';
 import { Glob } from '@easbot/utils';
 
@@ -168,6 +178,155 @@ function hasUncommittedChanges(): boolean {
 }
 
 /**
+ * README 顶部版本锚定段定义
+ *
+ * - 中文锚点：`## 版本` 段，下一行为 `v<version>`
+ * - 英文锚点：`## Version` 段，下一行为 `v<version>`
+ *
+ * 如果文件**已有**对应段：替换段中的版本号（保留所有其它内容）。
+ * 如果文件**没有**对应段：在第一个 `## ` 段之前插入新段（不会破坏文件结构）。
+ */
+const README_SYNC = {
+  zh: {
+    heading: '## 版本',
+    bodyLine: (v: string): string => `v${v}`,
+    section: (v: string): string => `## 版本\n\nv${v}\n`,
+  },
+  en: {
+    heading: '## Version',
+    bodyLine: (v: string): string => `v${v}`,
+    section: (v: string): string => `## Version\n\nv${v}\n`,
+  },
+} as const;
+
+type ReadmeLang = 'zh' | 'en';
+
+interface ReadmeSyncResult {
+  file: string;
+  action: 'updated' | 'inserted' | 'unchanged' | 'skipped-no-file';
+  oldVersion?: string;
+  newVersion: string;
+}
+
+/**
+ * 同步单个 README 的版本锚定段
+ *
+ * 规则：
+ * 1. 找到 `## 版本`（zh）或 `## Version`（en）段（位于行首）
+ * 2. 该段从该行开始，直到下一个 `## ` / `### ` / `---` 行 / EOF（取最先）
+ * 3. 替换整段内容为 `${heading}\n\nv<new>\n`，保留后续内容不动
+ *
+ * 如果段不存在：在文件**第一个 `## ` 二级标题之前**插入新段（保持顶部锚定位置）
+ */
+function syncReadmeVersion(filePath: string, newVersion: string, lang: ReadmeLang): ReadmeSyncResult {
+  const cfg = README_SYNC[lang];
+
+  if (!existsSync(filePath)) {
+    return { file: filePath, action: 'skipped-no-file', newVersion };
+  }
+
+  const content = readFileSync(filePath, 'utf-8');
+  const lines = content.split('\n');
+
+  // 找到锚点段行号
+  const headingIdx = lines.findIndex((line) => line.trim() === cfg.heading);
+
+  let result: ReadmeSyncResult;
+
+  if (headingIdx >= 0) {
+    // 段已存在 → 替换 [headingIdx, endIdx) 区间
+    // 段结束 = 下一个 `## ` / `### ` / `---` 行 / EOF（取最先）
+    let endIdx = lines.length;
+    for (let i = headingIdx + 1; i < lines.length; i++) {
+      const trimmed = lines[i]?.trim() ?? '';
+      if (trimmed.startsWith('## ') || trimmed.startsWith('### ') || trimmed === '---') {
+        endIdx = i;
+        break;
+      }
+    }
+
+    // 取出当前段（含空行）→ 提取旧版本
+    const oldBlock = lines.slice(headingIdx, endIdx).join('\n');
+    const oldVersionMatch = oldBlock.match(/v(\d+\.\d+\.\d+(?:-[a-zA-Z0-9.-]+)?(?:\+[a-zA-Z0-9.-]+)?)/);
+    const oldVersion = oldVersionMatch?.[1];
+
+    // 构造新段（heading + 1 行空 + 1 行版本号）
+    const newBlock = `${cfg.heading}\n\n${cfg.bodyLine(newVersion)}`;
+
+    // 替换：保持后续内容的缩进（不剥离尾部空行）
+    const newLines = [
+      ...lines.slice(0, headingIdx),
+      ...newBlock.split('\n'),
+      ...lines.slice(endIdx),
+    ];
+    writeFileSync(filePath, newLines.join('\n'), 'utf-8');
+
+    result = {
+      file: filePath,
+      action: oldVersion === newVersion ? 'unchanged' : 'updated',
+      oldVersion,
+      newVersion,
+    };
+  } else {
+    // 段不存在 → 在文件第一个 `## ` 之前插入（保证顶部锚定位置）
+    const firstH2Idx = lines.findIndex((line) => /^## /.test(line));
+    const newBlock = cfg.section(newVersion);
+    const insertIdx = firstH2Idx >= 0 ? firstH2Idx : lines.length;
+
+    const newLines = [...lines.slice(0, insertIdx), newBlock, ...lines.slice(insertIdx)];
+    writeFileSync(filePath, newLines.join('\n'), 'utf-8');
+
+    result = { file: filePath, action: 'inserted', newVersion };
+  }
+
+  return result;
+}
+
+/**
+ * 同步所有 README（中英文两套）的版本锚定段
+ *
+ * 与 getAllPackageJsonPaths 对齐：复用相同的 Glob.scanSync 模式集合
+ * （递归扫描 skills 与 packages 两套布局下的 package.json），
+ * 以 package.json 是否存在作为"这是一个 workspace 包"的判定标准，
+ * 再对每个包目录下的 README.md 与 README.en.md 执行锚定段同步。
+ */
+export function syncAllReadmes(newVersion: string): ReadmeSyncResult[] {
+  const results: ReadmeSyncResult[] = [];
+  const cwd = process.cwd();
+
+  // 根 README
+  results.push(syncReadmeVersion(join(cwd, 'README.md'), newVersion, 'zh'));
+  results.push(syncReadmeVersion(join(cwd, 'README.en.md'), newVersion, 'en'));
+
+  // 与 package.json 扫描规则保持一致：递归扫描 skills/ 与 packages/ 两套布局
+  const pkgPatterns = ['skills/**/package.json', 'packages/**/package.json'];
+  const ignore = ['**/node_modules/**', '**/dist/**', '**/.git/**'];
+
+  const pkgPaths = new Set<string>();
+  for (const pattern of pkgPatterns) {
+    for (const p of Glob.scanSync(pattern, {
+      cwd,
+      ignore,
+      absolute: false,
+      include: 'file',
+    })) {
+      pkgPaths.add(p);
+    }
+  }
+
+  for (const pkgPath of pkgPaths) {
+    // pkgPath 形如 "skills/foo/README.md/../package.json" 之外的 → 实际是 "skills/foo/package.json"
+    // 把结尾的 package.json 去掉，得到目录相对路径
+    const dirRel = pkgPath.replace(/[/\\]package\.json$/, '');
+    const pkgDir = join(cwd, dirRel);
+    results.push(syncReadmeVersion(join(pkgDir, 'README.md'), newVersion, 'zh'));
+    results.push(syncReadmeVersion(join(pkgDir, 'README.en.md'), newVersion, 'en'));
+  }
+
+  return results;
+}
+
+/**
  * 主函数
  */
 function main(): void {
@@ -227,6 +386,28 @@ function main(): void {
     }
   }
 
+  // 同步 README 顶部 `## 版本` / `## Version` 段
+  console.log(`\n📝 同步 README 版本锚定段...`);
+  const readmeResults = syncAllReadmes(newVersion);
+  for (const r of readmeResults) {
+    const tagIcon =
+      r.action === 'updated'
+        ? '✏️  updated'
+        : r.action === 'inserted'
+          ? '➕ inserted'
+          : r.action === 'unchanged'
+            ? '✅ unchanged'
+            : '⏭️  skipped';
+    const verInfo =
+      r.action !== 'skipped-no-file'
+        ? r.oldVersion
+          ? ` (${r.oldVersion} → ${r.newVersion})`
+          : ` → v${r.newVersion}`
+        : '';
+    const relPath = relative(process.cwd(), r.file).replace(/\\/g, '/');
+    console.log(`   ${tagIcon} ${relPath}${verInfo}`);
+  }
+
   // 生成 CHANGELOG.md
   console.log(`\n📝 生成 CHANGELOG.md...`);
   try {
@@ -239,10 +420,17 @@ function main(): void {
     console.warn(`   ⚠️  生成 CHANGELOG.md 失败:`, error);
   }
 
-  // 提交更改
-  console.log(`\n📝 提交版本更新...`);
+  // 提交所有 package.json
   for (const pkgPath of allPackages) {
     git(`add ${pkgPath}`);
+  }
+
+  // 提交所有同步过的 README
+  const readmePathsToAdd = readmeResults
+    .filter((r) => r.action !== 'skipped-no-file')
+    .map((r) => relative(process.cwd(), r.file).replace(/\\/g, '/'));
+  for (const readmePath of readmePathsToAdd) {
+    git(`add ${readmePath}`);
   }
 
   const commitMessage = `[auto] chore(release): easbot-skills@${newVersion}`;
@@ -258,9 +446,17 @@ function main(): void {
   console.log(`   版本: ${oldVersion} -> ${newVersion}`);
   console.log(`   Tag: ${tag}`);
   console.log(`   Commit: ${git('rev-parse --short HEAD')}`);
+  console.log(
+    `   同步的 README 数: ${readmeResults.filter((r) => r.action !== 'skipped-no-file').length} / ${readmeResults.length}`,
+  );
   console.log(`\n推送到远程仓库:`);
   console.log(`   git push`);
   console.log(`   git push --tags`);
 }
 
-main();
+// 仅在被直接调用（而非被 import）时执行 main()
+// ESM 模式：通过比较 import.meta.url 与 process.argv[1] 判断入口
+import { fileURLToPath } from 'node:url';
+if (process.argv[1] && process.argv[1] === fileURLToPath(import.meta.url)) {
+  main();
+}
