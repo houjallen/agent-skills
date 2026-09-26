@@ -189,16 +189,18 @@ Skill Evolved
 
 ## 交付清单 (Delivery Checklist)
 
-每个 Skill 必须自检以下交付项：
+每个 Skill 必须自检以下交付项（`SkillSpecSchema.deliveryChecklist` 全部 6 项必填）：
 
-| Item             | Description             |
-| ---------------- | ----------------------- |
-| developmentGuide | 何时用/不用、典型用法   |
-| pitfallTable     | 已知坑 + 反模式         |
-| reviewProcess    | 准入准出清单            |
-| deploymentGuide  | 安装/卸载/升级命令      |
-| observability    | 日志、metrics、调试入口 |
-| scripts          | 自动化辅助脚本          |
+| Item             | Description             | 默认值推断 |
+| ---------------- | ----------------------- | ---------- |
+| developmentGuide | 何时用/不用、典型用法   | body 含"使用"/"When to Use"/"Quick Start" → `true` |
+| pitfallTable     | 已知坑 + 反模式         | body 含"Pitfall"/"常见错误" → `true` |
+| reviewProcess    | 准入准出清单            | body 含"Review"/"Checklist" → `true` |
+| deploymentGuide  | 安装/卸载/升级命令      | **默认 `false`** — 部署细节需要上下文，本技能无法自动判断（用户可在二次编辑时改为 `true`） |
+| observability    | 日志、metrics、调试入口 | body 含"Log"/"日志" → `true` |
+| scripts          | 自动化辅助脚本          | body 含`scripts/`/`npx tsx` → `true` |
+
+> **注意**：`deploymentGuide: false` 是合法默认值，**不**影响 SKILL.md 落地（仅作为下游"是否需要二次补 deployment 文档"的信号）。当 Skill 实际包含安装 / 升级 / 卸载命令时，由用户二次编辑改为 `true`。
 
 ## 实现 (Implementation)
 
@@ -212,24 +214,26 @@ Skill Evolved
 
 ```bash
 # 创建新 skill
-npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts create \
+npx tsx <skillPath>/scripts/src/cli.ts create \
   --requirement "创建一个帮助审查代码命名的技能" \
   --hints "包含命名规范清单,支持中英文命名"
 
 # 自检
-npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts assess --windowDays 7
+npx tsx <skillPath>/scripts/src/cli.ts assess --windowDays 7
 
 # 演化（试运行）
-npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts evolve --dryRun
+npx tsx <skillPath>/scripts/src/cli.ts evolve --dryRun
 
 # 应用演化计划
-npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts apply-plan \
+npx tsx <skillPath>/scripts/src/cli.ts apply-plan \
   --planId "<plan-id>" --approvedBy "user@example.com"
 
 # LLM 评审
-npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts review \
+npx tsx <skillPath>/scripts/src/cli.ts review \
   --skillName <name> --variant reviewer
 ```
+
+> **路径约定**：上述命令假设 `cwd = 仓库根`，脚本路径用 `<skillPath>` 占位符指向 `eas-agent-creation` 技能目录（解析规则：本 monorepo = `skills/builtin/eas-agent-creation/`，全局 = `~/.local/share/easbot/skills/eas-agent-creation/`）。跨环境调用时可用 `--cwd <dir>` 覆盖。**禁止硬编码** `skills/builtin/eas-agent-creation/scripts/...` 绝对路径（违反 [eas-skill-creator §脚本调用路径规范](file:///c:/Users/houjian/.trae/skills/eas-skill-creator)）。
 
 > 详细步骤（创建后用 `eas-skill-creator` 完善、演化的弱点分析、review 的评分维度与 ProviderOptions 自动推导）见 [`references/cli.md`](references/cli.md)。
 
@@ -301,9 +305,29 @@ deliveryChecklist:
   deploymentGuide: false
   observability: false
   scripts: false
+origin:
+  kind: created
+createdAt: 2026-09-26T00:00:00.000Z
+body: |
+  # react-19-server-actions
+
+  ## 概述
+  React 19 Server Actions 速查：表单 / async function / 'use server' / revalidatePath。
+  完整 body ≥ 50 字符以通过 SkillSpecSchema（[spec/skill-spec.ts](scripts/src/creation/spec/skill-spec.ts)）。
+
+  ## 何时使用
+  - 服务端表单提交
+  - 数据变更后重新验证
+  - 'use server' 指令的函数封装
+
+  ## 常见错误
+  - 在 client component 中使用 'use server'
+  - 忘记调 revalidatePath 导致缓存陈旧
 references:
   - ./references/api-cheatsheet.md
 ```
+
+> ✅ 此示例通过 `SkillSpecSchema.parse()`（`name`/`description`/`body`/`origin.kind`/`createdAt`/`mode`/`composition`/`deliveryChecklist` 全部 8 项必填字段齐备）。
 
 ### Example 2: Create a Reviewer Skill
 
@@ -332,6 +356,13 @@ metadata:
   version: 1.0.0
   author: EASBot
   tags: [code-review, reviewer, naming]
+deliveryChecklist:
+  developmentGuide: true
+  pitfallTable: true
+  reviewProcess: true
+  deploymentGuide: false
+  observability: false
+  scripts: false
 reviewer:
   checklist:
     filePath: ./references/checklist.md
@@ -346,9 +377,26 @@ reviewer:
         name: 检查错误处理
         checklistSection: §2 错误处理
     exit: 输出结构化 JSON 报告
+origin:
+  kind: created
+createdAt: 2026-09-26T00:00:00.000Z
+body: |
+  # code-quality-reviewer
+
+  ## 概述
+  按 checklist 审查代码命名 + 错误处理，输出结构化 JSON 报告。
+
+  ## 何时使用
+  - Pre-PR 评审
+  - Code review 自动化
+
+  ## 严重度
+  critical / high / medium / low — 与 reviewer.checklist.severityLevels 对齐。
 references:
   - ./references/checklist.md
 ```
+
+> ✅ 此示例通过 `SkillSpecSchema.parse()`，并展示 Reviewer 模式的强校验字段（`reviewer.checklist.filePath` + `process.entry/steps/exit` 三段必填）。
 
 ### Example 3: Create a Pipeline Skill
 
@@ -377,6 +425,13 @@ metadata:
   version: 1.0.0
   author: EASBot
   tags: [docs, pipeline, automation]
+deliveryChecklist:
+  developmentGuide: true
+  pitfallTable: true
+  reviewProcess: true
+  deploymentGuide: false
+  observability: true
+  scripts: true
 behavior:
   sequence:
     - id: parse
@@ -405,6 +460,19 @@ behavior:
   policy:
     strictMode: true
     rollbackOnAbort: true
+origin:
+  kind: created
+createdAt: 2026-09-26T00:00:00.000Z
+body: |
+  # code-doc-pipeline
+
+  ## 概述
+  parse → generate → review 三阶段流水线，gate 三要素完整（entry/exit/onFailure）。
+
+  ## Gate 三要素
+  每步必须定义 entryConditions + exitConditions + onFailure，否则 Schema 校验失败。
 references:
   - ./references/gate.md
 ```
+
+> ✅ 此示例通过 `SkillSpecSchema.parse()`，并展示 Pipeline 模式强校验（`behavior.sequence.steps` ≥ 2 步 + 每步 gate 三要素 + dependsOn 引用存在）。

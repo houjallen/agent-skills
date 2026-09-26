@@ -26,7 +26,28 @@ applyPlan()
 Skill Evolved
 ```
 
-> **注意（0024 评审 known issue）**：`Evolver.executeAction` 当前写死 `~/.easbot/created` 作为 storageDir（evolver.ts:427/463/487/534），与 `Creation.create` 在 scope='project' 时的落盘路径 `{cwd}/.easbot/skills/{name}` 不一致。Evolve 操作需后续对齐到 Creator 的 `storageDir`。
+## 2. 持久化命名空间（P2-8 前移自 §9）
+
+> 以下目录结构与 [scripts/src/creation/store.ts](../scripts/src/creation/store.ts) / [memory-bridge.ts](../scripts/src/creation/memory-bridge.ts) 实际落盘路径对齐。
+
+```
+~/.easbot/memory-bridge/                       # MemoryBridge 落盘根（snapshots/）
+  └── snapshots/
+      └── {specId}/
+          └── {ISO-timestamp}-{hash}.json      # 按 specId 分目录的历史快照
+
+~/.local/share/easbot/creation/                # CreationStore 落盘根（XDG data）
+  ├── experiences.jsonl                        # 经验（追加）
+  ├── patterns.jsonl                           # 模式（upsert by id）
+  ├── knowledge.jsonl                          # 知识（upsert by id）
+  ├── evolver-state.json                       # 进化器配额状态
+  ├── plans/
+  │   └── {planId}.json                        # 进化计划（按 ID 分离）
+  └── results/
+      └── {resultId}.json                      # 进化结果（按 ID 分离）
+```
+
+> **注意**：上文 §9 段落保留作为兼容性引用（已前移至此 §2）。
 
 ## 2. SelfAssessor 自我评估
 
@@ -153,23 +174,6 @@ for (const o of assessment.opportunities.filter((x) => x.kind === 'merge')) {
 }
 ```
 
-## 9. 持久化命名空间
+## 9. 持久化命名空间（参考）
 
-P2-8（2026-09-26 评审）：以下目录结构与 [scripts/src/creation/store.ts](scripts/src/creation/store.ts) / [memory-bridge.ts](scripts/src/creation/memory-bridge.ts) 实际落盘路径对齐。
-
-```
-~/.easbot/memory-bridge/                       # MemoryBridge 落盘根（snapshots/）
-  └── snapshots/
-      └── {specId}/
-          └── {ISO-timestamp}-{hash}.json      # 按 specId 分目录的历史快照
-
-~/.local/share/easbot/creation/                # CreationStore 落盘根（XDG data）
-  ├── experiences.jsonl                        # 经验（追加）
-  ├── patterns.jsonl                           # 模式（upsert by id）
-  ├── knowledge.jsonl                          # 知识（upsert by id）
-  ├── evolver-state.json                       # 进化器配额状态
-  ├── plans/
-  │   └── {planId}.json                        # 进化计划（按 ID 分离）
-  └── results/
-      └── {resultId}.json                      # 进化结果（按 ID 分离）
-```
+> 见 §2。已前移至演化流程概述后作为前置条件小节。

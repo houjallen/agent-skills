@@ -59,8 +59,10 @@
     "@easbot/llm": "^0.3.26",
     "@easbot/plugin": "^0.3.26",
     "@easbot/utils": "^0.3.26",
+    "xdg-basedir": "^5.1.0",
     "ai": "^6.0.290",
-    "zod": "^4.4.3"
+    "zod": "^4.4.3",
+    "glob": "^13.0.6"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.5",

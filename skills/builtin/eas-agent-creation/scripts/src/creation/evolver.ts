@@ -16,9 +16,10 @@
 import path from 'node:path';
 import os from 'node:os';
 import fs from 'node:fs/promises';
-import { Log } from '@easbot/utils';
+import { Log, Filesystem } from '@easbot/utils';
 import { Identifier } from '@easbot/utils';
 import { getCreationStore } from './store';
+import { renderSkillMarkdown } from './render-skill-md';
 import type { Memory } from './memory';
 import type { ApplyPlanRequest, EvolutionAction, EvolutionPlan, EvolutionResult, EvolverQuota, SelfAssessment, SkillSpec, SpecDiff, Weakness } from './types';
 
@@ -453,15 +454,15 @@ export class DefaultEvolver implements Evolver {
         };
 
         // 3. 创建目录和文件
-        const { Filesystem } = await import('@easbot/utils');
         const storageDir = this._storageDir;
         const dir = path.join(storageDir, 'skills', spec.name);
         const filePath = path.join(dir, 'SKILL.md');
 
         await fs.mkdir(dir, { recursive: true });
 
-        // 渲染 markdown
-        const content = this.renderSkillMarkdown(spec);
+        // 渲染 markdown（委托 render-skill-md 走 gray-matter 序列化 YAML，
+        // 避免 description 含特殊字符导致 YAML 解析失败）
+        const content = renderSkillMarkdown(spec);
         await Filesystem.write(filePath, content);
 
         // 4. 写元数据
@@ -506,8 +507,8 @@ export class DefaultEvolver implements Evolver {
           const oldContent = await fs.readFile(filePath, 'utf-8');
           await this.memory.snapshot(action.specId, oldContent);
 
-          const content = this.renderSkillMarkdown(newSpec);
-          await fs.writeFile(filePath, content, 'utf-8');
+          const content = renderSkillMarkdown(newSpec);
+          await Filesystem.write(filePath, content);
 
           return {
             specId: action.specId,
@@ -531,7 +532,7 @@ export class DefaultEvolver implements Evolver {
           meta.deprecated = true;
           meta.deprecatedReason = action.reason;
           meta.deprecatedAt = new Date().toISOString();
-          await fs.writeFile(metaPath, JSON.stringify(meta, null, 2));
+          await Filesystem.write(metaPath, JSON.stringify(meta, null, 2));
 
           return {
             specId: action.specId,
@@ -573,7 +574,7 @@ export class DefaultEvolver implements Evolver {
         const storageDir = this._storageDir;
         const filePath = path.join(storageDir, 'skills', diff.specId, 'SKILL.md');
         try {
-          await fs.writeFile(filePath, diff.before, 'utf-8');
+          await Filesystem.write(filePath, diff.before);
           log.debug('rollback:restored_modified', { specId: diff.specId });
         } catch (e) {
           log.error('rollback:restore_failed', { specId: diff.specId, error: this.errorMsg(e) });
@@ -685,21 +686,6 @@ export class DefaultEvolver implements Evolver {
         scripts: false,
       },
     };
-  }
-
-  /**
-   * 渲染 SKILL.md
-   */
-  private renderSkillMarkdown(spec: SkillSpec): string {
-    const fmLines: string[] = ['---'];
-    fmLines.push(`name: ${spec.name}`);
-    fmLines.push(`description: ${spec.description}`);
-    if (spec.scope) fmLines.push(`scope: ${spec.scope}`);
-    if (spec.mode) fmLines.push(`mode: ${spec.mode}`);
-    fmLines.push('---');
-    fmLines.push('');
-    fmLines.push(spec.body);
-    return fmLines.join('\n');
   }
 
   /**

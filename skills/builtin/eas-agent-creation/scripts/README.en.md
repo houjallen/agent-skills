@@ -4,6 +4,12 @@
 
 Standalone CLI package for `eas-agent-creation` — runs without a host Agent via `npx tsx` or `pnpm dlx`, enabling create / evolve / review of AI skills from any repo root.
 
+> **Path convention**: this is the npm package README; readers are assumed to run commands from the **repo root** (`easbot/`). All absolute `skills/builtin/eas-agent-creation/scripts/...` paths below refer to the package's physical location inside this monorepo — substitute with your local layout when applying the snippet.
+
+## Version
+
+v0.3.26
+
 ## Features
 
 - **Lifecycle coverage**: six operations — `create` / `evolve` / `assess` / `list` / `apply-plan` / `review`
@@ -28,7 +34,7 @@ pnpm dlx @eas-skills/eas-agent-creation --help
 > ⚠️ This skill is shipped under `skills/builtin/eas-agent-creation/`, and there is **no** pnpm workspace root (the repo root has neither `package.json` nor `pnpm-workspace.yaml`). The `scripts/` subdirectory is an independent npm package, so you **must** install its dependencies before invoking `src/cli.ts`.
 
 ```bash
-cd skills/builtin/eas-agent-creation/scripts
+cd <skillPath>/scripts
 
 # Install runtime + dev deps (@easbot/llm / @easbot/plugin / @easbot/utils / tsx / tsup / ai / zod ...)
 pnpm install
@@ -42,10 +48,10 @@ ls node_modules/@easbot
 
 After this, calling `npx tsx src/cli.ts ...` repeatedly inside `scripts/` does not need reinstalling.
 
-> The built artifacts `scripts/dist/cli.{mjs,cjs}` are already checked in; if you only want to run the CLI without touching source, use the artifact directly:
+> The built artifacts `<skillPath>/scripts/dist/cli.{mjs,cjs}` are already checked in; if you only want to run the CLI without touching source, use the artifact directly:
 >
 > ```bash
-> node skills/builtin/eas-agent-creation/scripts/dist/cli.mjs --help
+> node <skillPath>/scripts/dist/cli.mjs --help
 > ```
 
 ## Usage

@@ -257,6 +257,8 @@ async function main(): Promise<void> {
  *   3) 失败时 log.warn 但不 throw（CLI 继续，reviewSkill 会显式报"未配置"）
  */
 async function bootstrapLanguageLlm(cwd: string, opts: { logLevel: GlobalLogOptions['logLevel'] }): Promise<void> {
+  // P1-4：bootstrapLlm 在网络不通时可能无限挂起。加 60 秒超时，超时后降级到 mock（不影响 CLI 主流程）。
+  const BOOTSTRAP_TIMEOUT_MS = 60_000;
   try {
     const [{ bootstrapLlm, setAdapterRegistry }, { Global: GlobalNs }, { Instance: InstanceNs }, { Llm, llm }] = await Promise.all([
       import('@easbot/llm'),
@@ -287,11 +289,17 @@ async function bootstrapLanguageLlm(cwd: string, opts: { logLevel: GlobalLogOpti
       },
     });
 
-    const result = await bootstrapLlm({
+    const bootstrapPromise = bootstrapLlm({
       target: llm,
       cwd,
       language: true,
     });
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      const timer = setTimeout(() => reject(new Error(`bootstrap timed out after ${BOOTSTRAP_TIMEOUT_MS}ms`)), BOOTSTRAP_TIMEOUT_MS);
+      // 让 timer 不阻塞进程退出
+      timer.unref?.();
+    });
+    const result = await Promise.race([bootstrapPromise, timeoutPromise]);
 
     // P2-11：bootstrap 结果不再用 console.log 无条件输出。
     //   - DEBUG 模式 → 输出到 stderr（开发调试）
@@ -341,6 +349,19 @@ async function runOp(argv: string[]): Promise<number> {
   const { toolDefinition, toolArgsSchema } = await import('./tool');
   const { Instance } = await import('./project/instance');
   const z = await import('zod');
+
+  // P2-4：互斥检查（--args 与 --op/<op> 互斥 — cli.md §概述 已声明但代码未强制）
+  const hasArgs = argv.some((a) => a === '--args' || a?.startsWith('--args='));
+  const hasOpFlag = argv.some((a) => a === '--op' || a?.startsWith('--op='));
+  const hasPositionalOp = argv.some((a) => !a.startsWith('--'));
+  if (hasArgs && (hasOpFlag || hasPositionalOp)) {
+    process.stderr.write('Error: --args is mutually exclusive with --op/<op>\n');
+    return 2;
+  }
+  if (hasOpFlag && hasPositionalOp) {
+    process.stderr.write('Error: --op is mutually exclusive with positional <op>\n');
+    return 2;
+  }
 
   // 1) 提取 op 和可选的 --args JSON
   let op: string | undefined;

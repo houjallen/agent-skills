@@ -2,6 +2,8 @@
 
 > 本文档承接 [SKILL.md §实现](../SKILL.md) 中 CLI 调用细节。SKILL.md 仅保留高层入口,详细 flag / 步骤 / 输出契约在本文件展开。
 >
+> **路径约定**：本文档所有 `npx tsx <skillPath>/scripts/src/cli.ts ...` 命令的脚本路径用 `<skillPath>` 占位符指向 `eas-agent-creation` 技能目录(本 monorepo = `skills/builtin/eas-agent-creation/`,全局 = `~/.local/share/easbot/skills/eas-agent-creation/`)。跨环境调用时可用 `--cwd <dir>` 覆盖;前置安装步骤需 `cd` 到 npm 包物理位置。**禁止硬编码** `skills/builtin/eas-agent-creation/scripts/...` 绝对路径(违反 [eas-skill-creator §脚本调用路径规范](file:///c:/Users/houjian/.trae/skills/eas-skill-creator))。
+>
 > 实际入口:[`src/cli.ts`](../scripts/src/cli.ts)。`tsup` 打包入口由 [`tsup.config.ts`](../scripts/tsup.config.ts) 的 `entry: ['src/cli.ts']` 决定,产物 `scripts/dist/cli.{mjs,cjs}` 通过 [`package.json#bin.eas-agent-creation`](../scripts/package.json) 暴露。核心 schema 在 [`src/tool.ts`](../scripts/src/tool.ts),LLM 评审在 [`src/llm.ts`](../scripts/src/llm.ts)。
 
 ## 前置安装 (Prerequisites)
@@ -9,8 +11,8 @@
 > 本技能直接落在 `skills/builtin/eas-agent-creation/`,**没有** pnpm workspace 根(仓库根无 `package.json` / `pnpm-workspace.yaml`)。`scripts/` 子目录本身是一个独立的 npm 包,有独立的 [`package.json`](../scripts/package.json) 与依赖清单,调用 `src/cli.ts` 前**必须**先在 `scripts/` 下安装依赖。
 
 ```bash
-# 1. 进入技能脚本目录
-cd skills/builtin/eas-agent-creation/scripts
+# 1. 进入技能脚本目录(物理路径,本 monorepo 内是 skills/builtin/eas-agent-creation/scripts)
+cd <skillPath>/scripts
 
 # 2. 安装运行时 + 开发依赖(@easbot/llm / @easbot/plugin / @easbot/utils / tsx / tsup / ai / zod ...)
 pnpm install
@@ -27,7 +29,7 @@ ls node_modules/@easbot
 > 产物路径 `scripts/dist/cli.{mjs,cjs}` 已经在本仓库提交;若不想改源码、只想跑 CLI,直接用产物也行:
 >
 > ```bash
-> node skills/builtin/eas-agent-creation/scripts/dist/cli.mjs --help
+> node <skillPath>/scripts/dist/cli.mjs --help
 > ```
 
 ## 概述 (Overview)
@@ -55,7 +57,7 @@ CLI 同时支持三种调用风格:
 
 ```bash
 # 在仓库根(或 --cwd 指向的工作区)运行
-npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts <command> [flags]
+npx tsx <skillPath>/scripts/src/cli.ts <command> [flags]
 ```
 
 > 提示:依赖未装会触发 `ERR_MODULE_NOT_FOUND: Cannot find package '@easbot/utils'` 等错误,回到"前置安装"小节排查。
@@ -97,7 +99,7 @@ npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts <command> [flags]
 ### 步骤 2:调用 CLI create (Invoke CLI create)
 
 ```bash
-npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts create \
+npx tsx <skillPath>/scripts/src/cli.ts create \
   --requirement "创建一个帮助审查代码命名的技能" \
   --hints "包含命名规范清单,支持中英文命名" \
   --scope project
@@ -130,7 +132,7 @@ npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts create \
 ### 步骤 1:获取评估 (Run Self Assessment)
 
 ```bash
-npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts assess --windowDays 7
+npx tsx <skillPath>/scripts/src/cli.ts assess --windowDays 7
 ```
 
 返回 `SelfAssessment`(含 `capabilities[]` / `weaknesses[]` / `opportunities[]`)。若 LLM 已注入(`bootstrapLlm` 成功),CLI 会顺带对每个 capability 调 `Llm.reviewSkill`,结果挂在 `llmReviews` 字段。
@@ -151,10 +153,10 @@ npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts assess --windowDays
 
 ```bash
 # 试运行:生成计划不应用
-npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts evolve --dryRun
+npx tsx <skillPath>/scripts/src/cli.ts evolve --dryRun
 
 # 正式运行:生成并执行计划
-npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts evolve
+npx tsx <skillPath>/scripts/src/cli.ts evolve
 ```
 
 ### 步骤 5:应用计划(如需审批) (Apply Plan)
@@ -162,7 +164,7 @@ npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts evolve
 如果计划需要人工审批:
 
 ```bash
-npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts apply-plan \
+npx tsx <skillPath>/scripts/src/cli.ts apply-plan \
   --planId "<plan-id>" \
   --approvedBy "user@example.com"
 ```
@@ -172,7 +174,7 @@ npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts apply-plan \
 CLI `review` 操作调用 `.easbot/easbot.json` 顶层配置的 `language_model`(通过 `@easbot/llm` `bootstrapLlm`),由 LLM 按统一 JSON Schema 评分并返回改进建议。
 
 ```bash
-npx tsx skills/builtin/eas-agent-creation/scripts/src/cli.ts review \
+npx tsx <skillPath>/scripts/src/cli.ts review \
   --skillName <name> \
   --temperature 0.3 \
   --topP 0.95 \

@@ -25,6 +25,8 @@ export default defineConfig((options: Options): any => {
     '@easbot/types',
     'zod',
     'ai',
+    'xdg-basedir',
+    'glob',
     // Node.js 内置模块 - 使用 node: 前缀
     'node:fs',
     'node:path',

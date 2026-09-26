@@ -4,6 +4,12 @@
 
 `eas-agent-creation` 的 standalone CLI 包 —— 不依赖宿主 Agent,通过 `npx tsx` 或 `pnpm dlx` 即可在任意仓库根目录创建 / 演化 / 评审 AI 技能。
 
+> **路径约定**：本文档是 npm 包的 README,默认读者在**仓库根**(`easbot/`)运行命令。下文所有 `skills/builtin/eas-agent-creation/scripts/...` 绝对路径均是 npm 包在 monorepo 内的物理位置,读者执行时按本机实际路径替换。
+
+## 版本
+
+v0.3.26
+
 ## 特性
 
 - **生命周期管理**:覆盖技能 `create` / `evolve` / `assess` / `list` / `apply-plan` / `review` 六个操作
@@ -28,7 +34,7 @@ pnpm dlx @eas-skills/eas-agent-creation --help
 > ⚠️ 本技能直接落在 `skills/builtin/eas-agent-creation/`,**没有** pnpm workspace 根(仓库根无 `package.json` / `pnpm-workspace.yaml`)。`scripts/` 子目录是一个独立的 npm 包,调用 `src/cli.ts` 前**必须**先在 `scripts/` 下安装依赖。
 
 ```bash
-cd skills/builtin/eas-agent-creation/scripts
+cd <skillPath>/scripts
 
 # 安装运行时 + 开发依赖(@easbot/llm / @easbot/plugin / @easbot/utils / tsx / tsup / ai / zod ...)
 pnpm install
@@ -42,10 +48,10 @@ ls node_modules/@easbot
 
 之后在 `scripts/` 下反复调用 `npx tsx src/cli.ts ...` 不需要重装。
 
-> 产物路径 `scripts/dist/cli.{mjs,cjs}` 已在仓库提交;若不想改源码、只想跑 CLI,直接用产物也行:
+> 产物路径 `<skillPath>/scripts/dist/cli.{mjs,cjs}` 已在仓库提交;若不想改源码、只想跑 CLI,直接用产物也行:
 >
 > ```bash
-> node skills/builtin/eas-agent-creation/scripts/dist/cli.mjs --help
+> node <skillPath>/scripts/dist/cli.mjs --help
 > ```
 
 ## 使用
@@ -134,8 +140,6 @@ const result = await generateText({
 | `global`        | `~/.config/easbot/skills/{name}/SKILL.md`(遵循 XDG Base Directory) | 跨项目共享 skill              |
 
 > host 调用可通过 `ToolContext.directory` 覆盖默认目录;CLI 场景下由 `--cwd` 注入。
-
-> **已知问题(评审 0024 P1)**:Evolver 当前仍写死 `~/.easbot/created`(`evolver.ts executeAction`),与 `Creation.create` 的 `{cwd}/.easbot/skills/{name}` 不对齐。Evolve 落盘迁移见跟踪任务。
 
 ## 开发
 

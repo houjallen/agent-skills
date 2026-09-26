@@ -19,11 +19,11 @@ import os from 'node:os';
 import fs from 'node:fs/promises';
 import z from 'zod';
 import { glob } from 'glob';
-import { Log, Markdown } from '@easbot/utils';
+import { Log, Markdown, Filesystem } from '@easbot/utils';
 import { Bus } from '../bus';
 import { BusEvent } from '../bus/bus-event';
-import { Filesystem } from '@easbot/utils';
 import { loadTextFile } from '@easbot/utils';
+import { renderSkillMarkdown } from './render-skill-md';
 import type { Composition, CreateSkillRequest, CreateWorkflowRequest, DeliveryChecklist, Portability, SkillMode, SkillSpec, ValidationResult, WorkflowSpec } from './types';
 
 /** 创造引擎日志 */
@@ -386,7 +386,7 @@ export class DefaultCreator implements Creator {
       await fs.mkdir(dir, { recursive: true });
 
       // 2. 写入 SKILL.md（使用去重后的 name）
-      const content = this.renderSkillMarkdown(specWithUniqueName);
+      const content = renderSkillMarkdown(specWithUniqueName);
       await Filesystem.write(filePath, content);
 
       // 3. 写入元数据
@@ -591,7 +591,16 @@ export class DefaultCreator implements Creator {
    *   4) 末尾用 `SkillSpecSchema.parse` 兜底校验（P1-7：防止 generate 与 validate 漂移）
    */
   async generate(requirement: string, composition: Composition): Promise<SkillSpec> {
-    const name = slugifyRequirement(requirement);
+    const slugResult = slugifyRequirement(requirement);
+    const name = slugResult.name;
+    // P2-2：fallback 时 warn 提醒用户（中文需求无法生成有意义 slug）
+    if (slugResult.fallback) {
+      log.warn('generate:slug_fallback', {
+        requirement: requirement.slice(0, 80),
+        suggestion: '建议使用英文需求或事后手动改 name',
+        generatedName: name,
+      });
+    }
     const description = requirement.trim().slice(0, 200);
     const createdAt = new Date().toISOString();
 
@@ -603,6 +612,12 @@ export class DefaultCreator implements Creator {
 
     // 替换占位符（Markdown.renderTemplate 支持 (eq a b) / #each / 点路径 / 字符串字面量）
     // 注意：变量 key 必须符合 `\w+`（不含 `-`），用 `name` 而非 `skill-name`
+    //
+    // secondaryModes 在 body 模板渲染端是 CSV 字符串（方便模板里 `{{secondaryModes}}` 直接展示）；
+    // frontmatter 序列化端由 render-skill-md 传原始数组（`spec.secondaryModes`），
+    // 保证 YAML 写出为 `secondaryModes: [pipeline, reviewer]` 数组而非字符串。
+    // 当前 5 个 mode 模板未引用 `{{secondaryModes}}`，故 CSV 形式暂未触发，
+    // 但若未来模板要展示该字段，应直接传数组并让模板内做 join 处理（避免双标）。
     const secondaryModesCsv = composition.secondary.join(', ');
     const body = this.renderTemplate(rawBody, {
       name,
@@ -610,7 +625,6 @@ export class DefaultCreator implements Creator {
       requirement,
       mode: composition.primary,
       composition: composition.secondary.length > 0 ? 'composed' : 'single',
-      // 字符串形式供模板行内显示；frontmatter 序列化由 Markdown.format 走 gray-matter
       secondaryModes: secondaryModesCsv,
       createdAt,
     });
@@ -740,31 +754,6 @@ export class DefaultCreator implements Creator {
   // ── 辅助方法 ───────────────────────────────────────────
 
   /**
-   * 渲染 SKILL.md
-   *
-   * 委托 `@easbot/utils` 的 `Markdown.format` 走 gray-matter 序列化 frontmatter：
-   *   - description 含中文冒号 / 嵌套引号时，Markdown.format 内置 fallbackSanitization
-   *     自动转块标量，避免手拼 YAML 解析失败。
-   *   - frontmatter 与 body 之间留空行，与 EASBot 既有 SKILL.md 风格对齐。
-   */
-  private renderSkillMarkdown(spec: SkillSpec): string {
-    const data: Record<string, unknown> = {
-      name: spec.name,
-      description: spec.description,
-    };
-    if (spec.scope) data['scope'] = spec.scope;
-    if (spec.mode) data['mode'] = spec.mode;
-    if (spec.composition) data['composition'] = spec.composition;
-    if (spec.secondaryModes && spec.secondaryModes.length > 0) data['secondaryModes'] = spec.secondaryModes;
-    if (spec.deliveryChecklist) data['deliveryChecklist'] = spec.deliveryChecklist;
-    if (spec.portability) data['portability'] = spec.portability;
-    if (spec.reviewer) data['reviewer'] = spec.reviewer;
-    if (spec.behavior) data['behavior'] = spec.behavior;
-    if (spec.references && spec.references.length > 0) data['references'] = spec.references;
-    return Markdown.format(spec.body, data);
-  }
-
-  /**
    * 扫描 Prompt 注入（统一规则，与 references/validation.md §3 对齐）
    *
    * P0-2：原 validator.ts 与 creator.ts 各有一套 PROMPT_INJECTION_PATTERNS 列表，
@@ -774,6 +763,8 @@ export class DefaultCreator implements Creator {
   scanInjection(text: string): string[] {
     if (!text) return [];
     const issues: string[] = [];
+    // P1-5：补充中文等价模式 — 原始 10 条仅覆盖英文，中文 prompt injection 完全漏过。
+    // 新增中文规则（按 AGENTS.md §4 i18n 注释规范：reason 字段保持英文便于跨语言聚合）。
     const patterns = [
       { pattern: /ignore (all )?previous instructions/i, reason: 'Prompt injection: "ignore previous instructions"' },
       { pattern: /disregard (all )?prior (rules|instructions)/i, reason: 'Prompt injection: "disregard prior rules"' },
@@ -785,6 +776,14 @@ export class DefaultCreator implements Creator {
       { pattern: /bypass (security|sandbox|permission)/i, reason: 'Prompt injection: bypass security' },
       { pattern: /curl\s+.*\|\s*(sh|bash)/i, reason: 'Dangerous shell pattern: curl|sh' },
       { pattern: /rm\s+-rf\s+\//i, reason: 'Dangerous: rm -rf /' },
+      // 中文等价模式（与英文规则 1:1 对应，覆盖 i18n 攻击面）
+      { pattern: /忽略.*(之前|先前)的?(指令|规则|指示)/, reason: 'Prompt injection (zh): "忽略之前指令"' },
+      { pattern: /不再遵循.*(规则|约束|指令)/, reason: 'Prompt injection (zh): "不再遵循规则"' },
+      { pattern: /你(现在|其实)是/, reason: 'Prompt injection (zh): "你现在是"' },
+      { pattern: /\[?\s*管理员\s*\]?/ , reason: 'Prompt injection (zh): fake admin tag' },
+      { pattern: /展示.*(系统|你的)?提示词/, reason: 'Prompt injection (zh): reveal system prompt' },
+      { pattern: /(执行|运行).*(任意|任何).*(代码|命令)/, reason: 'Prompt injection (zh): execute arbitrary code' },
+      { pattern: /(绕过|跳过).*(安全|沙箱|权限|校验)/, reason: 'Prompt injection (zh): bypass security' },
     ];
     for (const { pattern, reason } of patterns) {
       if (pattern.test(text)) {
@@ -815,7 +814,7 @@ export class DefaultCreator implements Creator {
  * P2-5：本函数**不**检测同名冲突；同名检测在 `registerSkill` 内做，避免截断后
  * `aaaa-...` 与 `aaaa-...-v2` 互相覆盖。
  */
-function slugifyRequirement(requirement: string): string {
+function slugifyRequirement(requirement: string): { name: string; fallback: boolean } {
   const ascii = requirement
     .toLowerCase()
     .replace(/[\u4E00-\u9FFF]/g, ' ')
@@ -824,8 +823,9 @@ function slugifyRequirement(requirement: string): string {
     .filter(Boolean)
     .slice(0, 4)
     .join('-');
-  if (ascii && /^[a-z]/.test(ascii)) return ascii.slice(0, 50);
-  return `skill-${Date.now().toString(36)}`;
+  if (ascii && /^[a-z]/.test(ascii)) return { name: ascii.slice(0, 50), fallback: false };
+  // P2-2：fallback 时返回 fallback=true 让调用方 log.warn 提醒用户
+  return { name: `skill-${Date.now().toString(36)}`, fallback: true };
 }
 
 /**
@@ -833,7 +833,7 @@ function slugifyRequirement(requirement: string): string {
  */
 function buildBody(requirement: string, composition: Composition): string {
   const lines: string[] = [];
-  lines.push(`# ${slugifyRequirement(requirement)}`);
+  lines.push(`# ${slugifyRequirement(requirement).name}`);
   lines.push('');
   lines.push('## Purpose');
   lines.push(requirement);
