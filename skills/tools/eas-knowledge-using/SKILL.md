@@ -81,7 +81,7 @@ behavior:
 
 ## 概述 (Overview)
 
-> **版本对齐（单一来源）**：`@easbot/codebase` / `@easbot/note` / `@easbot/memory` 各 v0.3.26；`easbot` 主包 v0.3.26；`node >=22.22.2`。本块是技能内**唯一**版本对齐声明；各 reference 引用此块避免漂移。
+> **版本对齐（单一来源）**：`@easbot/codebase` / `@easbot/note` / `@easbot/memory` 和`easbot` 主包 与 `package.json` 一致；`node >=22.22.2`。本块是技能内**唯一**版本对齐声明；各 reference 引用此块避免漂移。
 
 `eas-knowledge-using` 是 EASBot 三大知识库（`codebase` / `note` / `memory`）的 **CLI 操作引导层**。当 Agent 或用户需要执行知识库的 CLI-only 操作（`init` / `doctor` / `status` / `sync` / `index` / `consolidate` / `watch` 等）时，本技能负责：
 

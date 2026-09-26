@@ -7,11 +7,7 @@
 > - [codebase.md](codebase.md) —— 13 个共用子命令 + 通用调用模式（~550 行）
 > - [codebase-standalone-only.md](codebase-standalone-only.md)（本文）—— 10 个独立 CLI only 子命令 + 反模式（~300 行）
 >
-> **版本对齐**：
->
-> - `@easbot/codebase`：**v0.3.26**（独立 npm 包；`package.json` 的 `version`）
-> - `easbot`（主包）：**v0.3.26**（workspace 24 包统一版本）
-> - `node` 要求：`>=22.22.2`（`@easbot/codebase` 的 `engines.node`）
+> **版本对齐**：见 [SKILL.md §版本对齐](../SKILL.md)（`@easbot/codebase`和`easbot`主包与 `package.json` 一致；`node >=22.22.2`）。
 >
 > **真值源**：`packages/codebase/src/cli-handler.ts` + `packages/codebase/src/commands/*.ts`（`parseXxxOptions`）。
 >

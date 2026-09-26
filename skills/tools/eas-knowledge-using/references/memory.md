@@ -2,7 +2,7 @@
 
 > 本文档是 `easbot memory *`（agent 主 CLI）和 `easbot-memory *`（独立 CLI）命令的**使用手册**。
 >
-> **版本对齐**：见 [SKILL.md §版本对齐](../SKILL.md)（`@easbot/memory` / `@easbot/note` / `@easbot/codebase` / `easbot` 主包统一 v0.3.26；`node >=22.22.2`）。
+> **版本对齐**：见 [SKILL.md §版本对齐](../SKILL.md)（`@easbot/memory`和`easbot`主包与 `package.json` 一致；`node >=22.22.2`）。
 >
 > **重要**：memory 是 **per-agent 存储**（每个 Agent 一份独立 db），区别于 workspace 共享资源。`agentId` 通过 ctx 自动注入（agent CLI 走 bridge 从 `protocol.json` 注入；独立 CLI 读 `.easbot/protocol.json` → `metadata.agentId`）。
 >

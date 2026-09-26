@@ -2,7 +2,7 @@
 
 > 本文档是 `easbot codebase *`（agent 主 CLI）和 `easbot-codebase *`（独立 CLI）命令的**使用手册**。
 >
-> **版本对齐**：见 [SKILL.md §版本对齐](../SKILL.md)（`@easbot/codebase` / `@easbot/note` / `@easbot/memory` / `easbot` 主包统一 v0.3.26；`node >=22.22.2`）。
+> **版本对齐**：见 [SKILL.md §版本对齐](../SKILL.md)（`@easbot/codebase`和`easbot`主包与 `package.json` 一致；`node >=22.22.2`）。
 >
 > **真值源**：
 >
