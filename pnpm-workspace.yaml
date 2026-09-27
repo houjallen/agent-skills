@@ -83,6 +83,18 @@ overrides:
   typescript: 'catalog:default'
   tsup: 'catalog:default'
 
+minimumReleaseAgeExclude:
+  - '@easbot/llm@0.3.28'
+  - '@easbot/local-model-sdk@0.3.28'
+  - '@easbot/mcp@0.3.28'
+  - '@easbot/ollama-sdk@0.3.28'
+  - '@easbot/plugin@0.3.28'
+  - '@easbot/sdk@0.3.28'
+  - '@easbot/skills@0.3.28'
+  - '@easbot/terminal@0.3.28'
+  - '@easbot/types@0.3.28'
+  - '@easbot/utils@0.3.28'
+
 # 注：已通过 minimumReleaseAgeStrict: false 关闭 24h 冷静期
 # 此白名单保留仅为紧急绕过特定版本发布审核（按需取消注释）
-minimumReleaseAgeExclude: [ '@easbot/llm@0.3.27', '@easbot/local-model-sdk@0.3.27', '@easbot/mcp@0.3.27', '@easbot/ollama-sdk@0.3.27', '@easbot/plugin@0.3.27', '@easbot/sdk@0.3.27', '@easbot/skills@0.3.27', '@easbot/terminal@0.3.27', '@easbot/types@0.3.27', '@easbot/utils@0.3.27' ]
+# minimumReleaseAgeExclude: [ '@easbot/llm@0.3.28', '@easbot/local-model-sdk@0.3.28', '@easbot/mcp@0.3.28', '@easbot/ollama-sdk@0.3.28', '@easbot/plugin@0.3.28', '@easbot/sdk@0.3.28', '@easbot/skills@0.3.28', '@easbot/terminal@0.3.28', '@easbot/types@0.3.28', '@easbot/utils@0.3.28' ]

@@ -22,11 +22,11 @@ importers:
   .:
     dependencies:
       '@easbot/skills':
-        specifier: ^0.3.27
-        version: 0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
+        specifier: ^0.3.28
+        version: 0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
       '@easbot/utils':
-        specifier: ^0.3.27
-        version: 0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
+        specifier: ^0.3.28
+        version: 0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
     devDependencies:
       '@biomejs/biome':
         specifier: 2.5.5
@@ -39,7 +39,7 @@ importers:
         version: 25.9.8
       ai:
         specifier: ^6.0.253
-        version: 6.0.290(zod@4.6.5)
+        version: 6.0.292(zod@4.6.5)
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
@@ -60,7 +60,7 @@ importers:
         version: 3.10.1
       lint-staged:
         specifier: ^17.3.0
-        version: 17.5.1
+        version: 17.6.0
       node-pty:
         specifier: 1.1.0
         version: 1.1.0
@@ -89,17 +89,17 @@ importers:
   skills/builtin/eas-agent-creation/scripts:
     dependencies:
       '@easbot/llm':
-        specifier: ^0.3.27
-        version: 0.3.27(@aws-sdk/credential-provider-node@3.972.84)(@smithy/signature-v4@5.7.3)(@standard-schema/spec@1.1.0)(@types/node@25.9.8)(graphql@16.14.2)(ws@8.21.3)(zod-to-json-schema@3.25.2(zod@4.6.5))
+        specifier: ^0.3.28
+        version: 0.3.28(@aws-sdk/credential-provider-node@3.972.84)(@smithy/signature-v4@5.7.4)(@standard-schema/spec@1.1.0)(@types/node@25.9.8)(graphql@16.14.2)(ws@8.22.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
       '@easbot/plugin':
-        specifier: ^0.3.27
-        version: 0.3.27
+        specifier: ^0.3.28
+        version: 0.3.28
       '@easbot/utils':
-        specifier: ^0.3.27
-        version: 0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
+        specifier: ^0.3.28
+        version: 0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
       ai:
         specifier: ^6.0.253
-        version: 6.0.290(zod@4.6.5)
+        version: 6.0.292(zod@4.6.5)
       glob:
         specifier: ^13.0.6
         version: 13.0.6
@@ -114,8 +114,8 @@ importers:
         specifier: 2.5.5
         version: 2.5.5
       '@easbot/terminal':
-        specifier: ^0.3.27
-        version: 0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
+        specifier: ^0.3.28
+        version: 0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
       '@types/js-yaml':
         specifier: 4.0.9
         version: 4.0.9
@@ -209,8 +209,8 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  '@ai-sdk/gateway@3.0.200':
-    resolution: {integrity: sha512-4I7lWtXixOV0Dh9cWqBD4BRiTA7iBCfGoBRcsyv0GE35xPSh3vYkOyA8/kOEzcQ8PPiUipbRi2Vzudu5AkD/FQ==}
+  '@ai-sdk/gateway@3.0.202':
+    resolution: {integrity: sha512-Ronhnf8CD4r1etZ37foVj+1klJfipLIcIYWH7/+WsotBrB64JdVzz2iC3PpzYYOcqKVcN1gvJPBYeJTCGfStRQ==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -454,45 +454,45 @@ packages:
     resolution: {integrity: sha512-dlT1m5e/0yUL0kRNcQn7yGLVThkgbB0Ga/1AmfDDC/8ik6AIiSf2QLQO2zPYvefsHP0aFgxO93cVLCCfDp7kzQ==}
     engines: {node: '>= 20.12.0'}
 
-  '@easbot/llm@0.3.27':
-    resolution: {integrity: sha512-KejfAv3HE5u3314EyFwEg8hSzbxCrPscelNEn1ivbrgWHeI/kEJei2OB/TcFxxpoRynAHgswdVcdf3nqQTFQRA==}
+  '@easbot/llm@0.3.28':
+    resolution: {integrity: sha512-MJ9gwEzDK6eeC1RkDu7EKjql4LZFpsq5VrdyFn4RP2p+AwZZZLDA8273c1MPHNkl37W4Ll0D87Wy+9B3yKmMKQ==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/local-model-sdk@0.3.27':
-    resolution: {integrity: sha512-J9Mxh/oMZdJD0nHlE2ui8H4jGpZ+YbeJ7zK5kQOoIrbxGPXxRlbOqtHxZEfCLFCodO+59Snx2s3O9jaVO/eLog==}
+  '@easbot/local-model-sdk@0.3.28':
+    resolution: {integrity: sha512-vEc1tu8r9cVU7O2Vf71RSdEHNwqSmwPHOL4rHbzGN5ikHYQzalrU9rnDLI1htDwsoAxMmuQCApci3YBdnTV8MA==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/mcp@0.3.27':
-    resolution: {integrity: sha512-8eVmIgEyl08UdhwK7za3AI0MFXy3EhNTA3e8Rg44xMLj2s5K0PqZBBVVFIJLfZH78O3u1/zxG2ilIq8HvIQ3vw==}
+  '@easbot/mcp@0.3.28':
+    resolution: {integrity: sha512-xg4IdjquNsXsyXM8dPjtaUCn9WqV9AKrkHN5D90NDPCAWOFlzOyZJ36k5ahct+AVL79lelTonB9RA4NHuKYjxQ==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/ollama-sdk@0.3.27':
-    resolution: {integrity: sha512-NV1kurtboIryDLn6rjLyDiOtqJXPNeUIRustnyEyYEpFD0g2LRnyK5W+4bLcE4O70RWqeBKNujsc4Jp/h5GLBw==}
+  '@easbot/ollama-sdk@0.3.28':
+    resolution: {integrity: sha512-JYm65IcttD4y1PQa5kicN9I4b9yCDEJhw1eTDbm4gMaxiYN7A8AjXbu8QZ6F4px7N8AU52KR5ZUG1vzsTZPduQ==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/plugin@0.3.27':
-    resolution: {integrity: sha512-IzwSKTIHfWjiDa08qbx2ghfkQJJBQaX+1tq2qNzSMILH+XsJfsgbZdy4NY+gS++sYVnuwSW/aJtWcgVyUrSmHw==}
+  '@easbot/plugin@0.3.28':
+    resolution: {integrity: sha512-0U6p56HJ9g1DBUs9jmOJToFunSgRB/euJ92uwGcLt8XV69nDbw7UQw1in8VBCQSFA6jt2L5a85Wn07lIkMN1Rw==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/sdk@0.3.27':
-    resolution: {integrity: sha512-7RwM10RxgzUvLsKWrZ5M9fZL8nJckfwN56aJ+6spNWHJIaARyl+kQha2uoyCnI219hDYJVqFTDyeOa4zdNh3kw==}
+  '@easbot/sdk@0.3.28':
+    resolution: {integrity: sha512-izVaNR+R40EBUatUdnRh7rg77hBRaz3l7JTjZo11W35egl9G84Cz4erJymnKlWZuznS4Gzeg63QgLPdrb5AfoA==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/skills@0.3.27':
-    resolution: {integrity: sha512-7cLzv9aKqSKu6kFAl77oJ4Lf4o0uA8fdsVm8gmKNsGuZzBmWwyfHiX/w6KLfvodNBYNievLCRd3jouszUnbbZg==}
+  '@easbot/skills@0.3.28':
+    resolution: {integrity: sha512-/HShn+M3egAbYps+IPZL131d15+5S6J357o6wSd25zjRb3Q+vlYiYFcNYtU4HTSL45dNS3Wddbqy87JCerS6Zg==}
     engines: {node: '>=22.22.2'}
     hasBin: true
 
-  '@easbot/terminal@0.3.27':
-    resolution: {integrity: sha512-3CpGLo3MtJc+sTPyGRJdXpVbY/LQuiwb6kXKLNHCRWdw3rD2G+v0BMg3y6WDXheP9TLNygImPoaOv2itZyS2qA==}
+  '@easbot/terminal@0.3.28':
+    resolution: {integrity: sha512-x+VXwVtuHg190BnKO9Upd8BBmugrIZwE0SpwPwoYYKamz6hi7ojDKfVfjZmQiwPthedbz6hHl9fWua27/ZgiDQ==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/types@0.3.27':
-    resolution: {integrity: sha512-9bW2ewHV2oGqSWYn/6PPdYV6SegEiBWLVR/8xR7AqsgM6N8bnBAaukQ7VK08cxA5wwdmeeTfSkRk/gr9caXLhw==}
+  '@easbot/types@0.3.28':
+    resolution: {integrity: sha512-V2M+s2NL7DN9xw4IhSXK+D0gnA84pczqM48KdBZgI9Bwo4WqnlKNHQOK+GylzeHBV2EZmYUGkhSEWkripq2Aow==}
     engines: {node: '>=22.22.2'}
 
-  '@easbot/utils@0.3.27':
-    resolution: {integrity: sha512-DlBkleRsVRkVYP9EM8gth6qSlPDNaA3EHbwpCmLtyHsQBfatQwMjEmkOFdTV8T5AcVxJ3oGZDuCy8vF2/+nkVA==}
+  '@easbot/utils@0.3.28':
+    resolution: {integrity: sha512-XMyy/g8eHIfnJYtYTtqOLbGU3v9l/abXxEdyMftCdkFQedyZkf9e7TSsdCZmWlDQKoy+0perjxRPFNAZIKtHTw==}
     engines: {node: '>=22.22.2'}
 
   '@emnapi/runtime@1.11.3':
@@ -1170,8 +1170,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@simple-git/args-pathspec@1.0.3':
-    resolution: {integrity: sha512-ngJMaHlsWDTfjyq9F3VIQ8b7NXbBLq5j9i5bJ6XLYtD6qlDXT7fdKY2KscWWUF8t18xx052Y/PUO1K1TRc9yKA==}
+  '@simple-git/args-pathspec@1.0.4':
+    resolution: {integrity: sha512-EtMX6XjRWSastG2SdkmSQByPtJ9dx/NIjnHbpQPCYt62j4RmSx5rgLTGpw0YCjF5h191gZOmBfheOT23cRSFdw==}
 
   '@simple-git/argv-parser@1.1.1':
     resolution: {integrity: sha512-Q9lBcfQ+VQCpQqGJFHe5yooOS5hGdLFFbJ5R+R5aDsnkPCahtn1hSkMcORX65J2Z5lxSkD0lQorMsncuBQxYUw==}
@@ -1196,8 +1196,8 @@ packages:
     resolution: {integrity: sha512-ThMkboGeONWXAelq9FvGsuJC4rOi+qyC4/zhUF58xYpxUg5sQKx2VXZYJmtNjr4dSuBJ1HeJXETQILCz3wOHvw==}
     engines: {node: '>=18.0.0'}
 
-  '@smithy/signature-v4@5.7.3':
-    resolution: {integrity: sha512-7ImGm+FkHRLcBaRttIAMZ6bzJZWb2cJGoYjq46F2UjycujWzrL9GEN9h4w7eQyXJYnltrUhxbbieBAIRrdqpow==}
+  '@smithy/signature-v4@5.7.4':
+    resolution: {integrity: sha512-tHy0K0VtqNd5Y7Y41h0a0Lhh0L1GzC08dTWg0F7vRJWFtTENg7IZikf3wQkanYIRdb7ngoIPMTmqgUi401fEeQ==}
     engines: {node: '>=18.0.0'}
 
   '@smithy/types@4.19.0':
@@ -1350,8 +1350,8 @@ packages:
       '@ai-sdk/provider-utils': ^4.0.45
       ai: ^6.0.253
 
-  ai@6.0.290:
-    resolution: {integrity: sha512-DK+7M/L4mz+W7oO9v0i1ZLmaEDOArELQHUUbZkhSJxomHVu1k6AMc/QITltbEaXgd+cIPjBqqbmsKrQeUO43Qg==}
+  ai@6.0.292:
+    resolution: {integrity: sha512-bWHUQhqCoHUj+KGSmU6u5ikZY+3zbsLEBNGOxIYH8D+MLzWO/iuvFjeacE45ekfuBLX8Z1DqDnZsPL/to8pTiw==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -1536,8 +1536,8 @@ packages:
     resolution: {integrity: sha512-Q0n9HRi4m6JuGIV1eFlmvJB7ZEVxu93IrMyiMsGC0lrMJMWzRgx6WGquyfQgZVb31vhGgXnfmPNNXmxnOkRBrg==}
     engines: {node: '>= 0.8'}
 
-  engine.io-client@6.6.6:
-    resolution: {integrity: sha512-iY6QdftLQ9pyiPoX082bpf/u1UewnOaJrtJIF9T0++QB34lZrj0uP+Q/bj8AlUsAxqhnkTV2BS8SBZSxOmoV5Q==}
+  engine.io-client@6.6.7:
+    resolution: {integrity: sha512-GyAvmPA7gnRCpDQbYACAy79Lg4ewevrmaPzySZz0OVvgyZc3gEfLLqPTYk8wVBScjOEpM9ZO4KryyFpVItjGEA==}
 
   engine.io-parser@5.2.3:
     resolution: {integrity: sha512-HqD3yTBfnBxIrbnM1DoD6Pcq8NECnh8d4As1Qgh0z5Gg3jRRIqijury0CL3ghu/edArpUYiYqQiDUQBIs4np3Q==}
@@ -1955,8 +1955,8 @@ packages:
   linkify-it@5.0.2:
     resolution: {integrity: sha512-ONTm2jCMAVZjgQa/Fy1kScXsuOoF5NPTsoFBdE1KVIZ2vAh/r9+Bqo+0jINCBYnavTPQZz38QzFTme79ENoN3Q==}
 
-  lint-staged@17.5.1:
-    resolution: {integrity: sha512-7EDuco1xnBMeVpvAbeMq1U5KXwJGLmY8q6l+Ye78r36C4mPc+Vg1Z2SK8gHyRTyvPro90A0q5/FAZ+Au23d6QQ==}
+  lint-staged@17.6.0:
+    resolution: {integrity: sha512-nOhBfYkZEwkFtNzD5pK9s9LkcWoxJ+whLzEnhqi9nl7zTB5n7tg8+9iYgMGx2Wm3VlLu8cbNj0RACzY+nWi5iQ==}
     engines: {node: '>=22.22.1'}
     hasBin: true
 
@@ -2328,8 +2328,8 @@ packages:
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
 
-  socket.io-client@4.8.3:
-    resolution: {integrity: sha512-uP0bpjWrjQmUt5DTHq9RuoCBdFJF10cdX9X+a368j/Ft0wmaVgxlrjvK3kjvgCODOMMOz9lcaRzxmso0bTWZ/g==}
+  socket.io-client@4.8.4:
+    resolution: {integrity: sha512-7wjKAvVXYOJsbmUgkWbnhPD4bFpkqrUR0++XOjpGFmqDqsqV1CI93VTraeExLxpjxEqrWgFoSRZu1ihjLWfkAA==}
     engines: {node: '>=10.0.0'}
 
   socket.io-parser@4.2.7:
@@ -2464,8 +2464,8 @@ packages:
   undici-types@7.24.6:
     resolution: {integrity: sha512-WRNW+sJgj5OBN4/0JpHFqtqzhpbnV0GuB+OozA9gCL7a993SmU+1JBZCzLNxYsbMfIeDL+lTsphD5jN5N+n0zg==}
 
-  undici@6.28.1:
-    resolution: {integrity: sha512-zWpdTVD54H48CIybL0rWQ3ukpb9d23wM7eH5RtfdmeP70cWHNjtfo7P4vZX+5CoDcO53J4Pu5uXp7lNfjc6DRA==}
+  undici@6.29.0:
+    resolution: {integrity: sha512-R+RODBqp6i2pPflGdq+xIOUkl+RNfGgHwoinecKu/JCuf2uO06cOKoDbI2P7Dn6KcswdKwrczbU6IYJ6K8X+wg==}
     engines: {node: '>=18.17'}
 
   undici@8.11.2:
@@ -2606,6 +2606,18 @@ packages:
       utf-8-validate:
         optional: true
 
+  ws@8.22.0:
+    resolution: {integrity: sha512-Ydggc987+RO0AnWtZ/7Wq9FtNvcrL1b/RO0ud9mWjUPgDrsAAwQSF51sm2hm1XofbU/4jkpGEsLFsZZxU+1DOg==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
   xdg-basedir@5.1.0:
     resolution: {integrity: sha512-GCPAHLvrIH13+c0SuacwvRYj2SxJXQ4kaVTT5xgL3kPrz56XxkF21IGhjSE1+W0aw7gpBWRGXLCPnPby6lSpmQ==}
     engines: {node: '>=12'}
@@ -2719,7 +2731,7 @@ snapshots:
       '@vercel/oidc': 3.2.0
       zod: 4.6.5
 
-  '@ai-sdk/gateway@3.0.200(zod@4.6.5)':
+  '@ai-sdk/gateway@3.0.202(zod@4.6.5)':
     dependencies:
       '@ai-sdk/provider': 3.0.17
       '@ai-sdk/provider-utils': 4.0.54(zod@4.6.5)
@@ -2798,7 +2810,7 @@ snapshots:
       '@ai-sdk/provider': 3.0.17
       '@standard-schema/spec': 1.1.0
       eventsource-parser: 3.1.1
-      undici: 6.28.1
+      undici: 6.29.0
       zod: 4.6.5
 
   '@ai-sdk/provider@3.0.17':
@@ -2842,7 +2854,7 @@ snapshots:
       '@aws-sdk/xml-builder': 3.972.41
       '@aws/lambda-invoke-store': 0.3.0
       '@smithy/core': 3.35.0
-      '@smithy/signature-v4': 5.7.3
+      '@smithy/signature-v4': 5.7.4
       '@smithy/types': 4.19.0
       bowser: 2.14.1
       tslib: 2.8.1
@@ -2972,7 +2984,7 @@ snapshots:
   '@aws-sdk/signature-v4-multi-region@3.996.47':
     dependencies:
       '@aws-sdk/types': 3.974.6
-      '@smithy/signature-v4': 5.7.3
+      '@smithy/signature-v4': 5.7.4
       '@smithy/types': 4.19.0
       tslib: 2.8.1
 
@@ -3046,7 +3058,7 @@ snapshots:
       fast-wrap-ansi: 0.2.2
       sisteransi: 1.0.5
 
-  '@easbot/llm@0.3.27(@aws-sdk/credential-provider-node@3.972.84)(@smithy/signature-v4@5.7.3)(@standard-schema/spec@1.1.0)(@types/node@25.9.8)(graphql@16.14.2)(ws@8.21.3)(zod-to-json-schema@3.25.2(zod@4.6.5))':
+  '@easbot/llm@0.3.28(@aws-sdk/credential-provider-node@3.972.84)(@smithy/signature-v4@5.7.4)(@standard-schema/spec@1.1.0)(@types/node@25.9.8)(graphql@16.14.2)(ws@8.22.0)(zod-to-json-schema@3.25.2(zod@4.6.5))':
     dependencies:
       '@ai-sdk/alibaba': 1.0.45(zod@4.6.5)
       '@ai-sdk/amazon-bedrock': 4.0.153(zod@4.6.5)
@@ -3070,17 +3082,17 @@ snapshots:
       '@ai-sdk/vercel': 2.0.69(zod@4.6.5)
       '@ai-sdk/xai': 3.0.120(zod@4.6.5)
       '@aws-sdk/credential-providers': 3.1110.0
-      '@easbot/local-model-sdk': 0.3.27(@standard-schema/spec@1.1.0)(@types/node@25.9.8)(zod-to-json-schema@3.25.2(zod@4.6.5))
-      '@easbot/ollama-sdk': 0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
-      '@easbot/plugin': 0.3.27
-      '@easbot/sdk': 0.3.27
-      '@easbot/types': 0.3.27
-      '@easbot/utils': 0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
-      '@openrouter/ai-sdk-provider': 2.10.0(ai@6.0.290(zod@4.6.5))(zod@4.6.5)
-      ai: 6.0.290(zod@4.6.5)
-      ai-gateway-provider: 3.2.0(@ai-sdk/openai-compatible@2.0.70(zod@4.6.5))(@ai-sdk/provider-utils@4.0.54(zod@4.6.5))(@ai-sdk/provider@3.0.17)(ai@6.0.290(zod@4.6.5))(zod@4.6.5)
+      '@easbot/local-model-sdk': 0.3.28(@standard-schema/spec@1.1.0)(@types/node@25.9.8)(zod-to-json-schema@3.25.2(zod@4.6.5))
+      '@easbot/ollama-sdk': 0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
+      '@easbot/plugin': 0.3.28
+      '@easbot/sdk': 0.3.28
+      '@easbot/types': 0.3.28
+      '@easbot/utils': 0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
+      '@openrouter/ai-sdk-provider': 2.10.0(ai@6.0.292(zod@4.6.5))(zod@4.6.5)
+      ai: 6.0.292(zod@4.6.5)
+      ai-gateway-provider: 3.2.0(@ai-sdk/openai-compatible@2.0.70(zod@4.6.5))(@ai-sdk/provider-utils@4.0.54(zod@4.6.5))(@ai-sdk/provider@3.0.17)(ai@6.0.292(zod@4.6.5))(zod@4.6.5)
       fuzzysort: 4.0.2
-      gitlab-ai-provider: 6.18.0(@ai-sdk/provider-utils@4.0.54(zod@4.6.5))(@ai-sdk/provider@3.0.17)(@aws-sdk/credential-provider-node@3.972.84)(@smithy/signature-v4@5.7.3)(graphql@16.14.2)(ws@8.21.3)
+      gitlab-ai-provider: 6.18.0(@ai-sdk/provider-utils@4.0.54(zod@4.6.5))(@ai-sdk/provider@3.0.17)(@aws-sdk/credential-provider-node@3.972.84)(@smithy/signature-v4@5.7.4)(graphql@16.14.2)(ws@8.22.0)
       google-auth-library: 11.1.0
       remeda: 2.50.0
       zod: 4.6.5
@@ -3105,16 +3117,16 @@ snapshots:
       - zod-openapi
       - zod-to-json-schema
 
-  '@easbot/local-model-sdk@0.3.27(@standard-schema/spec@1.1.0)(@types/node@25.9.8)(zod-to-json-schema@3.25.2(zod@4.6.5))':
+  '@easbot/local-model-sdk@0.3.28(@standard-schema/spec@1.1.0)(@types/node@25.9.8)(zod-to-json-schema@3.25.2(zod@4.6.5))':
     dependencies:
       '@ai-sdk/anthropic': 3.0.110(zod@4.6.5)
       '@ai-sdk/openai-compatible': 2.0.70(zod@4.6.5)
       '@ai-sdk/provider': 3.0.17
       '@ai-sdk/provider-utils': 4.0.54(zod@4.6.5)
-      '@easbot/types': 0.3.27
-      '@easbot/utils': 0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
+      '@easbot/types': 0.3.28
+      '@easbot/utils': 0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
       '@huggingface/transformers': 4.3.0(@types/node@25.9.8)
-      ai: 6.0.290(zod@4.6.5)
+      ai: 6.0.292(zod@4.6.5)
       onnxruntime-node: 1.30.0
       zod: 4.6.5
     transitivePeerDependencies:
@@ -3131,12 +3143,12 @@ snapshots:
       - zod-openapi
       - zod-to-json-schema
 
-  '@easbot/mcp@0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))':
+  '@easbot/mcp@0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))':
     dependencies:
-      '@easbot/types': 0.3.27
-      '@easbot/utils': 0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
+      '@easbot/types': 0.3.28
+      '@easbot/utils': 0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
       '@modelcontextprotocol/sdk': 1.30.1(zod@4.6.5)
-      ai: 6.0.290(zod@4.6.5)
+      ai: 6.0.292(zod@4.6.5)
       zod: 4.6.5
     transitivePeerDependencies:
       - '@cfworker/json-schema'
@@ -3153,13 +3165,13 @@ snapshots:
       - zod-openapi
       - zod-to-json-schema
 
-  '@easbot/ollama-sdk@0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))':
+  '@easbot/ollama-sdk@0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))':
     dependencies:
       '@ai-sdk/provider': 3.0.17
       '@ai-sdk/provider-utils': 4.0.54(zod@4.6.5)
-      '@easbot/types': 0.3.27
-      '@easbot/utils': 0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
-      ai: 6.0.290(zod@4.6.5)
+      '@easbot/types': 0.3.28
+      '@easbot/utils': 0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
+      ai: 6.0.292(zod@4.6.5)
       zod: 4.6.5
     transitivePeerDependencies:
       - '@standard-schema/spec'
@@ -3174,24 +3186,24 @@ snapshots:
       - zod-openapi
       - zod-to-json-schema
 
-  '@easbot/plugin@0.3.27':
+  '@easbot/plugin@0.3.28':
     dependencies:
-      '@easbot/sdk': 0.3.27
-      '@easbot/types': 0.3.27
+      '@easbot/sdk': 0.3.28
+      '@easbot/types': 0.3.28
       zod: 4.6.5
 
-  '@easbot/sdk@0.3.27':
+  '@easbot/sdk@0.3.28':
     dependencies:
       commander: 15.0.0
       events: 3.3.0
       zod: 4.6.5
 
-  '@easbot/skills@0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))':
+  '@easbot/skills@0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))':
     dependencies:
-      '@easbot/mcp': 0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
-      '@easbot/terminal': 0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
-      '@easbot/types': 0.3.27
-      '@easbot/utils': 0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
+      '@easbot/mcp': 0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
+      '@easbot/terminal': 0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
+      '@easbot/types': 0.3.28
+      '@easbot/utils': 0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
       simple-git: 3.36.0
       xdg-basedir: 5.1.0
       yaml: 2.9.1
@@ -3211,11 +3223,11 @@ snapshots:
       - zod-openapi
       - zod-to-json-schema
 
-  '@easbot/terminal@0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))':
+  '@easbot/terminal@0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))':
     dependencies:
       '@clack/prompts': 1.8.1
-      '@easbot/types': 0.3.27
-      '@easbot/utils': 0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
+      '@easbot/types': 0.3.28
+      '@easbot/utils': 0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))
       chalk: 6.0.0
     transitivePeerDependencies:
       - '@standard-schema/spec'
@@ -3230,17 +3242,17 @@ snapshots:
       - zod-openapi
       - zod-to-json-schema
 
-  '@easbot/types@0.3.27':
+  '@easbot/types@0.3.28':
     dependencies:
       '@ai-sdk/provider': 3.0.17
       '@ai-sdk/provider-utils': 4.0.54(zod@4.6.5)
-      '@easbot/sdk': 0.3.27
-      ai: 6.0.290(zod@4.6.5)
+      '@easbot/sdk': 0.3.28
+      ai: 6.0.292(zod@4.6.5)
       zod: 4.6.5
 
-  '@easbot/utils@0.3.27(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))':
+  '@easbot/utils@0.3.28(@standard-schema/spec@1.1.0)(zod-to-json-schema@3.25.2(zod@4.6.5))':
     dependencies:
-      '@easbot/types': 0.3.27
+      '@easbot/types': 0.3.28
       '@hono/node-server': 2.1.1(hono@4.13.9)
       '@hono/node-ws': 1.3.1(@hono/node-server@2.1.1(hono@4.13.9))(hono@4.13.9)
       '@hono/standard-validator': 0.4.0(@standard-schema/spec@1.1.0)(hono@4.13.9)
@@ -3252,7 +3264,7 @@ snapshots:
       hono-openapi: 1.3.3(hono@4.13.9)(zod-to-json-schema@3.25.2(zod@4.6.5))(zod@4.6.5)
       markdown-it: 14.3.2
       undici: 8.11.2
-      ws: 8.21.3
+      ws: 8.22.0
       xdg-basedir: 5.1.0
       zod: 4.6.5
     transitivePeerDependencies:
@@ -3363,7 +3375,7 @@ snapshots:
     dependencies:
       '@hono/node-server': 2.1.1(hono@4.13.9)
       hono: 4.13.9
-      ws: 8.21.3
+      ws: 8.22.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -3545,9 +3557,9 @@ snapshots:
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
     optional: true
 
-  '@openrouter/ai-sdk-provider@2.10.0(ai@6.0.290(zod@4.6.5))(zod@4.6.5)':
+  '@openrouter/ai-sdk-provider@2.10.0(ai@6.0.292(zod@4.6.5))(zod@4.6.5)':
     dependencies:
-      ai: 6.0.290(zod@4.6.5)
+      ai: 6.0.292(zod@4.6.5)
       zod: 4.6.5
 
   '@opentelemetry/api@1.9.1': {}
@@ -3696,11 +3708,11 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.63.5':
     optional: true
 
-  '@simple-git/args-pathspec@1.0.3': {}
+  '@simple-git/args-pathspec@1.0.4': {}
 
   '@simple-git/argv-parser@1.1.1':
     dependencies:
-      '@simple-git/args-pathspec': 1.0.3
+      '@simple-git/args-pathspec': 1.0.4
 
   '@smithy/core@3.35.0':
     dependencies:
@@ -3730,7 +3742,7 @@ snapshots:
       '@smithy/types': 4.19.0
       tslib: 2.8.1
 
-  '@smithy/signature-v4@5.7.3':
+  '@smithy/signature-v4@5.7.4':
     dependencies:
       '@smithy/core': 3.35.0
       '@smithy/types': 4.19.0
@@ -3837,12 +3849,12 @@ snapshots:
 
   agent-base@7.1.4: {}
 
-  ai-gateway-provider@3.2.0(@ai-sdk/openai-compatible@2.0.70(zod@4.6.5))(@ai-sdk/provider-utils@4.0.54(zod@4.6.5))(@ai-sdk/provider@3.0.17)(ai@6.0.290(zod@4.6.5))(zod@4.6.5):
+  ai-gateway-provider@3.2.0(@ai-sdk/openai-compatible@2.0.70(zod@4.6.5))(@ai-sdk/provider-utils@4.0.54(zod@4.6.5))(@ai-sdk/provider@3.0.17)(ai@6.0.292(zod@4.6.5))(zod@4.6.5):
     dependencies:
       '@ai-sdk/openai-compatible': 2.0.70(zod@4.6.5)
       '@ai-sdk/provider': 3.0.17
       '@ai-sdk/provider-utils': 4.0.54(zod@4.6.5)
-      ai: 6.0.290(zod@4.6.5)
+      ai: 6.0.292(zod@4.6.5)
     optionalDependencies:
       '@ai-sdk/amazon-bedrock': 4.0.153(zod@4.6.5)
       '@ai-sdk/anthropic': 3.0.110(zod@4.6.5)
@@ -3860,14 +3872,14 @@ snapshots:
       '@ai-sdk/openai': 3.0.96(zod@4.6.5)
       '@ai-sdk/perplexity': 3.0.53(zod@4.6.5)
       '@ai-sdk/xai': 3.0.120(zod@4.6.5)
-      '@openrouter/ai-sdk-provider': 2.10.0(ai@6.0.290(zod@4.6.5))(zod@4.6.5)
+      '@openrouter/ai-sdk-provider': 2.10.0(ai@6.0.292(zod@4.6.5))(zod@4.6.5)
     transitivePeerDependencies:
       - supports-color
       - zod
 
-  ai@6.0.290(zod@4.6.5):
+  ai@6.0.292(zod@4.6.5):
     dependencies:
-      '@ai-sdk/gateway': 3.0.200(zod@4.6.5)
+      '@ai-sdk/gateway': 3.0.202(zod@4.6.5)
       '@ai-sdk/provider': 3.0.17
       '@ai-sdk/provider-utils': 4.0.54(zod@4.6.5)
       '@opentelemetry/api': 1.9.1
@@ -4026,7 +4038,7 @@ snapshots:
 
   encodeurl@2.0.0: {}
 
-  engine.io-client@6.6.6:
+  engine.io-client@6.6.7:
     dependencies:
       '@socket.io/component-emitter': 3.1.2
       debug: 4.4.3
@@ -4249,16 +4261,16 @@ snapshots:
       dunder-proto: 1.0.1
       es-object-atoms: 1.1.2
 
-  gitlab-ai-provider@6.18.0(@ai-sdk/provider-utils@4.0.54(zod@4.6.5))(@ai-sdk/provider@3.0.17)(@aws-sdk/credential-provider-node@3.972.84)(@smithy/signature-v4@5.7.3)(graphql@16.14.2)(ws@8.21.3):
+  gitlab-ai-provider@6.18.0(@ai-sdk/provider-utils@4.0.54(zod@4.6.5))(@ai-sdk/provider@3.0.17)(@aws-sdk/credential-provider-node@3.972.84)(@smithy/signature-v4@5.7.4)(graphql@16.14.2)(ws@8.22.0):
     dependencies:
       '@ai-sdk/provider': 3.0.17
       '@ai-sdk/provider-utils': 4.0.54(zod@4.6.5)
       '@anthropic-ai/sdk': 0.71.2(zod@3.25.76)
       '@anycable/core': 0.9.2
       graphql-request: 6.1.0(graphql@16.14.2)
-      isomorphic-ws: 5.0.0(ws@8.21.3)
-      openai: 6.49.0(@aws-sdk/credential-provider-node@3.972.84)(@smithy/signature-v4@5.7.3)(ws@8.21.3)(zod@3.25.76)
-      socket.io-client: 4.8.3
+      isomorphic-ws: 5.0.0(ws@8.22.0)
+      openai: 6.49.0(@aws-sdk/credential-provider-node@3.972.84)(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76)
+      socket.io-client: 4.8.4
       vscode-jsonrpc: 8.2.1
       zod: 3.25.76
     transitivePeerDependencies:
@@ -4406,9 +4418,9 @@ snapshots:
 
   isexe@2.0.0: {}
 
-  isomorphic-ws@5.0.0(ws@8.21.3):
+  isomorphic-ws@5.0.0(ws@8.22.0):
     dependencies:
-      ws: 8.21.3
+      ws: 8.22.0
 
   jose@6.2.12: {}
 
@@ -4519,7 +4531,7 @@ snapshots:
     dependencies:
       uc.micro: 2.1.0
 
-  lint-staged@17.5.1:
+  lint-staged@17.6.0:
     dependencies:
       picomatch: 4.0.7
       string-argv: 0.3.2
@@ -4646,11 +4658,11 @@ snapshots:
       platform: 1.3.6
       protobufjs: 7.6.6
 
-  openai@6.49.0(@aws-sdk/credential-provider-node@3.972.84)(@smithy/signature-v4@5.7.3)(ws@8.21.3)(zod@3.25.76):
+  openai@6.49.0(@aws-sdk/credential-provider-node@3.972.84)(@smithy/signature-v4@5.7.4)(ws@8.22.0)(zod@3.25.76):
     optionalDependencies:
       '@aws-sdk/credential-provider-node': 3.972.84
-      '@smithy/signature-v4': 5.7.3
-      ws: 8.21.3
+      '@smithy/signature-v4': 5.7.4
+      ws: 8.22.0
       zod: 3.25.76
 
   openapi-types@12.1.3: {}
@@ -4941,7 +4953,7 @@ snapshots:
     dependencies:
       '@kwsites/file-exists': 1.1.1
       '@kwsites/promise-deferred': 1.1.1
-      '@simple-git/args-pathspec': 1.0.3
+      '@simple-git/args-pathspec': 1.0.4
       '@simple-git/argv-parser': 1.1.1
       debug: 4.4.3
     transitivePeerDependencies:
@@ -4949,11 +4961,11 @@ snapshots:
 
   sisteransi@1.0.5: {}
 
-  socket.io-client@4.8.3:
+  socket.io-client@4.8.4:
     dependencies:
       '@socket.io/component-emitter': 3.1.2
       debug: 4.4.3
-      engine.io-client: 6.6.6
+      engine.io-client: 6.6.7
       socket.io-parser: 4.2.7
     transitivePeerDependencies:
       - bufferutil
@@ -5080,7 +5092,7 @@ snapshots:
 
   undici-types@7.24.6: {}
 
-  undici@6.28.1: {}
+  undici@6.29.0: {}
 
   undici@8.11.2: {}
 
@@ -5155,6 +5167,8 @@ snapshots:
   wrappy@1.0.2: {}
 
   ws@8.21.3: {}
+
+  ws@8.22.0: {}
 
   xdg-basedir@5.1.0: {}
 
