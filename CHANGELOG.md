@@ -1,5 +1,21 @@
 # EASBot Agent Skills 更新日志
 
+## 0.3.28
+
+_2026-09-27_
+
+**影响技能 (1)**：`eas-knowledge-using`
+
+### ♻️ 重构
+
+- **[skill:eas-knowledge-using]** refactor: collapse version alignment to single source (SKILL.md) ([f0b8142](https://github.com/houjallen/agent-skills/commit/f0b8142))
+
+### 🔧 构建/工具
+
+- **[repo]** chore: refresh lockfiles + workspace + sub-package metadata ([23c37df](https://github.com/houjallen/agent-skills/commit/23c37df))
+
+
+
 ## 0.3.27
 
 _2026-09-27_

@@ -1,6 +1,6 @@
 {
   "name": "@eas-skills/eas-agent-creation",
-  "version": "0.3.27",
+  "version": "0.3.28",
   "description": "Standalone CLI for EASBot skill lifecycle — create, evolve, assess, list, apply-plan and LLM-review AI skills via six zod-validated operations.",
   "type": "module",
   "bin": {
