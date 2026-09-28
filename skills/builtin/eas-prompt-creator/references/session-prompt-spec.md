@@ -1,59 +1,41 @@
-# Session Prompt Specification
+# Session 提示词规范 (Session Prompt Specification)
 
-## Overview
+## 概述 (Overview)
 
-Session prompts define session lifecycle, session initialization, and session management behavior specifications.
+Session 提示词定义会话生命周期、会话初始化与会话管理的行为规范。
 
-## Frontmatter Specification
+> **本规范中的边界关键字 MUST 符合 RFC 2119。完整的关键字表见 [`boundary-control.md`](./boundary-control.md) §3，10 项合规自检表见 §6。**
 
-All session prompt files MUST include the following YAML frontmatter:
+## 前置元数据规范 (Frontmatter Specification)
 
-```yaml
----
-name: [filename] # 文件名（必需，用于唯一标识）
-type: [system|extension] # 文件类型（必需）
-scope: [all|general|coder] # 模式范围（必需）
-priority: [number] # 加载优先级（可选，默认 1000）
-permission: [read|write] # 权限（可选，默认 read）
-dynamic: [true|false] # 是否动态内容（可选，默认 false）
-owner: [string...] # 所有者（可选，数组）
-share: [string...] # 共享目标（可选，数组）
-description: [description] # 描述（可选）
----
-```
+所有 Session 提示词文件 MUST 使用 agent-info 9 字段 frontmatter 模板。模板定义、字段表格与共同规则见 SKILL.md §前置元数据决策（[../SKILL.md](../SKILL.md)）。
 
-### Frontmatter Fields
+> **CRITICAL: agent-info 模板与 output-template 模板 MUST NOT 混用。**
 
-| Field       | Type     | Required | Default | Description                        |
-| ----------- | -------- | -------- | ------- | ---------------------------------- |
-| name        | string   | Yes      | -       | File name (unique identifier)      |
-| type        | string   | Yes      | -       | `system` or `extension`            |
-| scope       | string   | Yes      | -       | `all`, `general`, or `coder`       |
-| priority    | number   | No       | 1000    | Loading priority (lower = earlier) |
-| permission  | string   | No       | read    | `read` or `write`                  |
-| dynamic     | boolean  | No       | false   | Whether content is dynamic         |
-| owner       | string[] | No       | -       | Owner identifiers                  |
-| share       | string[] | No       | -       | Share targets                      |
-| description | string   | No       | -       | File description                   |
+### Session 必填字段 (Session Required Fields)
 
-## Required Fields
+> **L2 → L1 映射 (L2-to-L1 Mapping)**：下表 3 个 L2 字段为**正文必填字段**（独立于 frontmatter），写入正文 `## Trigger` / `## Content` 章节。
+>
+> - L2 `name` 与 L1 `name` 同义（如 `default`）。
+> - L2 `trigger` / `content` 仅在正文表达（`## Trigger` / `## Content`）。
+> - Session 类型无 L2 `description`，精简版说明可写入 L1 `description`。
 
-| Field   | Description        | Example                 |
-| ------- | ------------------ | ----------------------- |
-| name    | Session type       | `default`, `explore`    |
-| trigger | Trigger conditions | `On new session start`  |
-| content | Session content    | `System prompt content` |
+| 字段 (Field) | 描述 (Description)         | 示例 (Example)          |
+| ------------ | -------------------------- | ----------------------- |
+| name         | Session 类型（与 L1 一致） | `default`、`explore`    |
+| trigger      | 触发条件                   | `On new session start`  |
+| content      | Session 内容               | `System prompt content` |
 
-## Optional Fields
+## 可选字段 (Optional Fields)
 
-| Field   | Description       | Example                    |
-| ------- | ----------------- | -------------------------- |
-| context | Context injection | `memory`, `knowledge`      |
-| cleanup | Cleanup actions   | `Compact history messages` |
+| 字段 (Field) | 描述 (Description) | 示例 (Example)             |
+| ------------ | ------------------ | -------------------------- |
+| context      | 上下文注入         | `memory`、`knowledge`      |
+| cleanup      | 清理动作           | `Compact history messages` |
 
-## Fixed Section Structure
+## 固定章节结构 (Fixed Section Structure)
 
-### 1. Session Type
+### 1. Session 类型 (Session Type)
 
 ```markdown
 # [Session type] Session Prompt
@@ -63,7 +45,7 @@ description: [description] # 描述（可选）
 [Brief description of session type]
 ```
 
-### 2. Trigger
+### 2. 触发 (Trigger)
 
 ```markdown
 ## Trigger
@@ -79,7 +61,7 @@ description: [description] # 描述（可选）
 - [Timing 2]
 ```
 
-### 3. Content
+### 3. 内容 (Content)
 
 ````markdown
 ## Content
@@ -95,7 +77,7 @@ description: [description] # 描述（可选）
 
 ````
 
-### 4. Context Injection
+### 4. 上下文注入 (Context Injection)
 
 ```markdown
 ## Context Injection
@@ -108,11 +90,11 @@ description: [description] # 描述（可选）
 [Timing]
 ````
 
-## Session Type Details
+## Session 类型详解 (Session Type Details)
 
-### Default Session
+### 默认会话 (Default Session)
 
-Default prompt when starting a new session.
+启动新会话时的默认提示词。
 
 ````markdown
 # Default Session Prompt
@@ -128,9 +110,9 @@ Use tools to help you complete tasks.
 
 ````
 
-### Resume Session
+### 恢复会话 (Resume Session)
 
-Prompt when resuming a previous session.
+恢复先前的会话时的提示词。
 
 ```markdown
 # Resume Session Prompt
@@ -145,9 +127,9 @@ You are resuming a previous session.
 
 ````
 
-### Summary Session
+### 总结会话 (Summary Session)
 
-Prompt for session summary generation.
+生成会话总结的提示词。
 
 ```markdown
 # Summary Session Prompt
@@ -165,16 +147,23 @@ Rules:
 
 ````
 
-## Example
+## 示例 (Example)
+
+```yaml
+---
+name: default
+type: system
+scope: all
+priority: 1000
+permission: read
+dynamic: true
+owner: [core]
+share: [general, coder]
+description: Default session startup prompt for all new session initialization
+---
+```
 
 ```markdown
----
-title: Default Session Prompt
-type: session
-mode: all
-category: init
----
-
 # Default Session Prompt
 
 ## Type
@@ -184,16 +173,17 @@ Default session startup prompt for all new session initialization.
 ## Trigger
 
 ### When to trigger
+
 - User starts new CLI session
 - User creates new project context
 - Session timeout and reconnect
 
 ## Content
 
-```markdown
 You are EASBot, an intelligent assistant.
 
 Use tools to help you complete tasks. Available tools:
+
 - Read: Read files
 - Write: Write files
 - Edit: Edit files
@@ -204,36 +194,42 @@ Use tools to help you complete tasks. Available tools:
 ## Context Injection
 
 ### Always inject
+
 - Current working directory
 - User identity information
 - System configuration
 
 ### Inject on demand
+
 - Long-term memory content
 - Project knowledge base
 - Related documentation
-````
 
 ## Boundaries
 
-### NEVER
+### MUST NOT
 
 - Assume user's project structure
 - Preset user preferences
 - Skip context loading
 
-### ALWAYS
+### MUST
 
 - Confirm working directory
 - Load relevant context
 - Check system configuration
-
 ```
 
-## Quality Checklist
+## 不适用 (Not Applicable)
 
-- [ ] Trigger conditions are clear
-- [ ] Session content is complete
-- [ ] Context injection logic is correct
-- [ ] Boundaries use correct keywords
-```
+- Agent / Tool / Task / Command / Mode / Feature / Context 类 —— 走对应 spec.md。
+- 单次对话（无会话初始化需求）—— 直接使用默认 Session 即可。
+- SKILL.md —— 走 `eas-skill-creator`。
+
+## 质量自检表 (Quality Checklist)
+
+- [ ] 触发条件清晰
+- [ ] Session 内容完整
+- [ ] 上下文注入逻辑正确
+- [ ] 边界使用正确的关键字（RFC 2119）
+````

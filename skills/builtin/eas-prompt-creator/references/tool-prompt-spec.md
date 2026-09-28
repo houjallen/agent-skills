@@ -1,62 +1,44 @@
-# Tool Prompt Specification
+# Tool 提示词规范 (Tool Prompt Specification)
 
-## Overview
+## 概述 (Overview)
 
-Tool prompts define tool functionality, usage methods, parameter specifications, and boundary controls.
+Tool 提示词定义工具功能、使用方法、参数规范与边界控制。
 
-## Frontmatter Specification
+> **本规范中的边界关键字 MUST 符合 RFC 2119。完整的关键字表见 [`boundary-control.md`](./boundary-control.md) §3，10 项合规自检表见 §6。**
 
-All tool prompt files MUST include the following YAML frontmatter:
+## 前置元数据规范 (Frontmatter Specification)
 
-```yaml
----
-name: [filename] # 文件名（必需，用于唯一标识）
-type: [system|extension] # 文件类型（必需）
-scope: [all|general|coder] # 模式范围（必需）
-priority: [number] # 加载优先级（可选，默认 1000）
-permission: [read|write] # 权限（可选，默认 read）
-dynamic: [true|false] # 是否动态内容（可选，默认 false）
-owner: [string...] # 所有者（可选，数组）
-share: [string...] # 共享目标（可选，数组）
-description: [description] # 描述（可选）
----
-```
+所有 Tool 提示词文件 MUST 使用 agent-info 9 字段 frontmatter 模板。模板定义、字段表格与共同规则见 SKILL.md §前置元数据决策（[../SKILL.md](../SKILL.md)）。
 
-### Frontmatter Fields
+> **CRITICAL: agent-info 模板与 output-template 模板 MUST NOT 混用。**
 
-| Field       | Type     | Required | Default | Description                        |
-| ----------- | -------- | -------- | ------- | ---------------------------------- |
-| name        | string   | Yes      | -       | File name (unique identifier)      |
-| type        | string   | Yes      | -       | `system` or `extension`            |
-| scope       | string   | Yes      | -       | `all`, `general`, or `coder`       |
-| priority    | number   | No       | 1000    | Loading priority (lower = earlier) |
-| permission  | string   | No       | read    | `read` or `write`                  |
-| dynamic     | boolean  | No       | false   | Whether content is dynamic         |
-| owner       | string[] | No       | -       | Owner identifiers                  |
-| share       | string[] | No       | -       | Share targets                      |
-| description | string   | No       | -       | File description                   |
+### Tool 必填字段 (Tool Required Fields)
 
-## Required Fields
+> **L2 → L1 映射 (L2-to-L1 Mapping)**：下表 4 个 L2 字段为**正文必填字段**（独立于 frontmatter），写入正文 `## Parameters` / `## Description` 章节。
+>
+> - L2 `name` 与 L1 `name` 同义；L1 `name` = 工具注册名（如 `Read`），L2 `name` = 正文标题，两者 MUST 一致。
+> - L2 `description` 写入 L1 `description` 字段（精简版 ≤ 200 字符）；详细描述保留在正文 `## Description` 章节。
+> - L2 `usage` / `parameters` 均无对应 L1 字段，仅在正文表达。
 
-| Field       | Description            | Example                     |
-| ----------- | ---------------------- | --------------------------- |
-| name        | Tool name              | `Read`, `Write`, `Glob`     |
-| description | Functional description | `Read file contents`        |
-| usage       | Usage method           | `tsx script.ts`             |
-| parameters  | Parameter list         | See parameter specification |
+| 字段 (Field) | 描述 (Description)      | 示例 (Example)          |
+| ------------ | ----------------------- | ----------------------- |
+| name         | Tool 名称（与 L1 一致） | `Read`、`Write`、`Glob` |
+| description  | 功能描述（精简版入 L1） | `Read file contents`    |
+| usage        | 使用方法                | `tsx script.ts`         |
+| parameters   | 参数列表                | 见参数规范              |
 
-## Optional Fields
+## 可选字段 (Optional Fields)
 
-| Field        | Description    | Example                                |
-| ------------ | -------------- | -------------------------------------- |
-| examples     | Usage examples | 3-5 typical scenarios                  |
-| notes        | Precautions    | `Check path before reading`            |
-| relatedTools | Related tools  | `Read → Write`                         |
-| errors       | Error handling | `Return error when path doesn't exist` |
+| 字段 (Field) | 描述 (Description) | 示例 (Example)                         |
+| ------------ | ------------------ | -------------------------------------- |
+| examples     | 使用示例           | 3-5 个典型场景                         |
+| notes        | 注意事项           | `Check path before reading`            |
+| relatedTools | 相关工具           | `Read → Write`                         |
+| errors       | 错误处理           | `Return error when path doesn't exist` |
 
-## Fixed Section Structure
+## 固定章节结构 (Fixed Section Structure)
 
-### 1. Header
+### 1. 头信息 (Header)
 
 ````markdown
 # [Tool name] Tool Prompt
@@ -68,7 +50,7 @@ description: [description] # 描述（可选）
 
 ````
 
-### 2. Description Section
+### 2. 描述章节 (Description Section)
 
 ```markdown
 ## Description
@@ -76,7 +58,7 @@ description: [description] # 描述（可选）
 [Concise functional description, 1-2 sentences]
 ````
 
-### 3. Parameters Section
+### 3. 参数章节 (Parameters Section)
 
 ```markdown
 ## Parameters
@@ -87,7 +69,7 @@ description: [description] # 描述（可选）
 | param2    | number | No       | [Description] |
 ```
 
-### 4. Usage Section
+### 4. 使用章节 (Usage Section)
 
 ```markdown
 ## Usage
@@ -96,21 +78,25 @@ description: [description] # 描述（可选）
 - [Usage point 2]
 ```
 
-### 5. Boundaries Section
+### 5. 边界章节 (Boundaries Section)
+
+> **Boundary keywords in this specification MUST conform to RFC 2119. See [`boundary-control.md`](./boundary-control.md) for the complete keyword table and 10-item compliance checklist.**
 
 ```markdown
-### NEVER
+## Boundaries
+
+### MUST NOT
 
 - [Absolute prohibition 1]
 - [Absolute prohibition 2]
 
-### ALWAYS
+### MUST
 
 - [Must follow 1]
 - [Must follow 2]
 ```
 
-### 6. Examples Section
+### 6. 示例章节 (Examples Section)
 
 ```markdown
 ## Examples
@@ -120,7 +106,7 @@ description: [description] # 描述（可选）
 [Example 3: Edge case]
 ```
 
-## Parameter Specification Template
+## 参数规范模板 (Parameter Specification Template)
 
 ```markdown
 | Parameter | Type   | Required | Default | Description          |
@@ -130,16 +116,23 @@ description: [description] # 描述（可选）
 | limit     | number | No       | 2000    | Maximum lines        |
 ```
 
-## Example
+## 示例 (Example)
 
-```markdown
+```yaml
 ---
-title: Read Tool Prompt
-type: tool
-mode: all
-category: file
+name: read
+type: system
+scope: all
+priority: 1000
+permission: read
+dynamic: false
+owner: [core]
+share: [general, coder]
+description: Read file or directory contents from the local filesystem
 ---
+```
 
+````markdown
 # Read Tool Prompt
 
 ## Description
@@ -162,12 +155,12 @@ Read file or directory contents from the local filesystem.
 - Parallel reading of multiple files improves efficiency
 - Use offset for large files
 
-### NEVER
+### MUST NOT
 
 - Read non-existent files
 - Assume file encoding (use Read results)
 
-### ALWAYS
+### MUST
 
 - Check if path exists
 - Use Grep to search large file contents
@@ -175,29 +168,35 @@ Read file or directory contents from the local filesystem.
 ## Examples
 
 **Read file beginning:**
-```
 
-filePath: "/path/to/file.ts"
+```yaml
+filePath: '/path/to/file.ts'
 limit: 200
-
 ```
+````
 
 **Read specific file position:**
-```
 
-filePath: "/path/to/file.ts"
+```yaml
+filePath: '/path/to/file.ts'
 offset: 100
 limit: 50
-
 ```
 
 ```
 
-## Quality Checklist
+## 不适用 (Not Applicable)
 
-- [ ] Functional description is concise and accurate
-- [ ] Parameter types and required status are correct
-- [ ] Usage methods are clear and executable
-- [ ] Boundaries use correct keywords
-- [ ] Examples cover main scenarios
-- [ ] Error handling description is complete
+- Agent（定义 Agent 行为）—— 走 `agent-prompt-spec.md`。
+- Task / Command / Mode / Session / Feature / Context 类 —— 走对应 spec.md。
+- SKILL.md —— 走 `eas-skill-creator`。
+
+## 质量自检表 (Quality Checklist)
+
+- [ ] 功能描述简洁准确
+- [ ] 参数类型与必填状态正确
+- [ ] 使用方法清晰可执行
+- [ ] 边界使用正确的关键字（RFC 2119）
+- [ ] 示例覆盖主要场景
+- [ ] 错误处理描述完整
+```

@@ -1,70 +1,51 @@
-# Task Prompt Specification
+# Task 提示词规范 (Task Prompt Specification)
 
-## Overview
+## 概述 (Overview)
 
-Task prompts define task management workflows, task state transitions, and output formatting.
+Task 提示词定义任务管理工作流、任务状态转换与输出格式化。
 
-## Frontmatter Specification
+> **本规范中的边界关键字 MUST 符合 RFC 2119。完整的关键字表见 [`boundary-control.md`](./boundary-control.md) §3，10 项合规自检表见 §6。**
 
-All task prompt files MUST include the following YAML frontmatter:
+## 前置元数据规范 (Frontmatter Specification)
 
-```yaml
----
-name: [filename] # 文件名（必需，用于唯一标识）
-type: [system|extension] # 文件类型（必需）
-scope: [all|general|coder] # 模式范围（必需）
-priority: [number] # 加载优先级（可选，默认 1000）
-permission: [read|write] # 权限（可选，默认 read）
-dynamic: [true|false] # 是否动态内容（可选，默认 false）
-owner: [string...] # 所有者（可选，数组）
-share: [string...] # 共享目标（可选，数组）
-description: [description] # 描述（可选）
----
-```
+所有 Task 提示词文件 MUST 使用 agent-info 9 字段 frontmatter 模板。模板定义、字段表格与共同规则见 SKILL.md §前置元数据决策（[../SKILL.md](../SKILL.md)）。
 
-### Frontmatter Fields
+> **CRITICAL: agent-info 模板与 output-template 模板 MUST NOT 混用。**
 
-| Field       | Type     | Required | Default | Description                        |
-| ----------- | -------- | -------- | ------- | ---------------------------------- |
-| name        | string   | Yes      | -       | File name (unique identifier)      |
-| type        | string   | Yes      | -       | `system` or `extension`            |
-| scope       | string   | Yes      | -       | `all`, `general`, or `coder`       |
-| priority    | number   | No       | 1000    | Loading priority (lower = earlier) |
-| permission  | string   | No       | read    | `read` or `write`                  |
-| dynamic     | boolean  | No       | false   | Whether content is dynamic         |
-| owner       | string[] | No       | -       | Owner identifiers                  |
-| share       | string[] | No       | -       | Share targets                      |
-| description | string   | No       | -       | File description                   |     | -   | Share targets |
-| description | string   | No       | -       | Task description                   |
+### Task 必填字段 (Task Required Fields)
 
-## Required Fields
+> **L2 → L1 映射 (L2-to-L1 Mapping)**：下表 4 个 L2 字段为**正文必填字段**（独立于 frontmatter），写入正文 `## Workflow` / `## When to Use` 章节。
+>
+> - L2 `name` 与 L1 `name` 同义（如 `todowrite`）。
+> - L2 `purpose` 写入 L1 `description` 字段（精简版 ≤ 200 字符）。
+> - L2 `workflow` / `states` 仅在正文表达（含 `## Workflow` 章节的状态转换图）。
 
-| Field    | Description       | Example                           |
-| -------- | ----------------- | --------------------------------- |
-| name     | Task name         | `Todowrite`, `TaskCreate`         |
-| purpose  | Task purpose      | `Create and manage task lists`    |
-| workflow | Workflow process  | `Create → In Progress → Complete` |
-| states   | State definitions | `pending                          | in_progress | completed` |
+| 字段 (Field) | 描述 (Description)       | 示例 (Example)                      |
+| ------------ | ------------------------ | ----------------------------------- |
+| name         | Task 名称（与 L1 一致）  | `Todowrite`、`TaskCreate`           |
+| purpose      | Task 用途（精简版入 L1） | `Create and manage task lists`      |
+| workflow     | 工作流                   | `Create → In Progress → Complete`   |
+| states       | 状态定义                 | `pending → in_progress → completed` |
 
-## Optional Fields
+## 可选字段 (Optional Fields)
 
-| Field          | Description        | Example                         |
+| 字段 (Field)   | 描述 (Description) | 示例 (Example)                  |
 | -------------- | ------------------ | ------------------------------- |
-| triggers       | Trigger conditions | `Tasks with 3+ steps`           |
-| limits         | Constraints        | `Maximum 20 tasks`              |
-| dependencies   | Dependencies       | `Complete before starting next` |
-| outputTemplate | Output format      | `JSON or Markdown`              |
+| triggers       | 触发条件           | `Tasks with 3+ steps`           |
+| limits         | 约束               | `Maximum 20 tasks`              |
+| dependencies   | 依赖               | `Complete before starting next` |
+| outputTemplate | 输出格式           | `JSON or Markdown`              |
 
-## Output Template
+## 输出模板 (Output Template)
 
-**Important**: Output template is not fixed. Based on the scenario:
+**重要 (Important)**：输出模板并非固定。根据场景判断：
 
-- If the Agent can determine the prompt needs a fixed output format (e.g., task results, status updates), add it automatically
-- If the Agent cannot determine, ask the user: `"Does this prompt require a fixed output template? Supported formats: JSON / Markdown"`
+- 若 Agent 能判断该提示词需要固定输出格式（如任务结果、状态更新），则自动添加。
+- 若 Agent 无法判断，向用户提问：`"此提示词是否需要固定输出模板？支持的格式：JSON / Markdown"`
 
-**Supported formats**: JSON, Markdown
+**支持的格式 (Supported Formats)**：JSON、Markdown。
 
-When adding output template:
+添加输出模板时：
 
 ````markdown
 ## Output Template
@@ -82,7 +63,6 @@ When adding output template:
   }
 }
 ```
-````
 
 ### Error Output
 
@@ -92,20 +72,19 @@ When adding output template:
   "message": "Error description"
 }
 ```
-
 ````
 
-## Fixed Section Structure
+## 固定章节结构 (Fixed Section Structure)
 
-### 1. Overview
+### 1. 概述 (Overview)
 
 ```markdown
 ## Overview
 
 [Concise description of task purpose]
-````
+```
 
-### 2. When to Use
+### 2. 何时使用 (When to Use)
 
 ```markdown
 ## When to Use
@@ -121,7 +100,7 @@ When adding output template:
 - [Scenario 2]
 ```
 
-### 3. Workflow
+### 3. 工作流 (Workflow)
 
 ```markdown
 ## Workflow
@@ -134,32 +113,43 @@ State transitions:
 - in_progress → completed: [trigger condition]
 ```
 
-### 4. Boundaries
+### 4. 边界 (Boundaries)
+
+> **Boundary keywords in this specification MUST conform to RFC 2119. See [`boundary-control.md`](./boundary-control.md) for the complete keyword table and 10-item compliance checklist.**
 
 ```markdown
-### NEVER
+## Boundaries
+
+### MUST NOT
 
 - [Prohibited behavior]
 
-### DO NOT
+### SHOULD NOT
 
 - [Discouraged behavior]
 
-### ALWAYS
+### MUST
 
 - [Required behavior]
 ```
 
-## Example
+## 示例 (Example)
+
+```yaml
+---
+name: todowrite
+type: system
+scope: all
+priority: 900
+permission: write
+dynamic: false
+owner: [core]
+share: [general, coder]
+description: Create and manage structured task lists to track progress of complex tasks
+---
+```
 
 ````markdown
----
-title: Todowrite Task Prompt
-type: task
-mode: all
-scope: manage
----
-
 # Todowrite Task Prompt
 
 ## Overview
@@ -222,28 +212,37 @@ State transitions:
 
 ## Boundaries
 
-### NEVER
+### MUST NOT
 
 - Batch mark multiple tasks as complete
 - Create more than 20 tasks
 - Delete incomplete tasks
 
-### DO NOT
+### SHOULD NOT
 
 - Vague task descriptions
 - Skip in_progress state when completing
 - Assume user intentions
 
-### ALWAYS
+### MUST
 
 - Use TodoWrite tool to manage tasks
 - Keep one in_progress task at a time
 - Update status immediately after completion
 - Keep task descriptions clear and specific
 
-## Quality Checklist
+```
 
-- [ ] Use cases are clearly defined
-- [ ] Do-not-use cases are clearly defined
-- [ ] State transitions are logical
-- [ ] Boundaries are complete with correct keywords
+## 不适用 (Not Applicable)
+
+- Agent / Tool / Command / Mode / Session / Feature / Context 类 —— 走对应 spec.md。
+- 单步交互（< 3 步且无状态）—— 直接内联调用，不单独建 Task。
+- SKILL.md —— 走 `eas-skill-creator`。
+
+## 质量自检表 (Quality Checklist)
+
+- [ ] Use cases 清晰定义
+- [ ] Do-not-use cases 清晰定义
+- [ ] 状态转换合乎逻辑
+- [ ] 边界完整，使用正确的关键字（RFC 2119）
+```

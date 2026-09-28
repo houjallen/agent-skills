@@ -1,64 +1,46 @@
-# Agent Prompt Specification
+# Agent 提示词规范 (Agent Prompt Specification)
 
-## Overview
+## 概述 (Overview)
 
-Agent prompts define agent identity, behavior patterns, capabilities, boundaries, and interaction specifications.
+Agent 提示词定义 Agent 的身份、行为模式、能力、边界与交互规范。
 
-## Frontmatter Specification
+> **本规范中的边界关键字 MUST 符合 RFC 2119。完整的关键字表见 [`boundary-control.md`](./boundary-control.md) §3，10 项合规自检表见 §6。**
 
-All agent prompt files MUST include the following YAML frontmatter:
+## 前置元数据规范 (Frontmatter Specification)
 
-```yaml
----
-name: [filename] # 文件名（必需，用于唯一标识）
-type: [system|extension] # 文件类型（必需）
-scope: [all|general|coder] # 模式范围（必需）
-priority: [number] # 加载优先级（可选，默认 1000）
-permission: [read|write] # 权限（可选，默认 read）
-dynamic: [true|false] # 是否动态内容（可选，默认 false）
-owner: [string...] # 所有者（可选，数组）
-share: [string...] # 共享目标（可选，数组）
-description: [description] # 描述（可选）
----
-```
+所有 Agent 提示词文件 MUST 使用 agent-info 9 字段 frontmatter 模板。模板定义、字段表格与共同规则见 SKILL.md §前置元数据决策（[../SKILL.md](../SKILL.md)）。
 
-### Frontmatter Fields
+> **CRITICAL: agent-info 模板与 output-template 模板 MUST NOT 混用。**
 
-| Field       | Type     | Required | Default | Description                        |
-| ----------- | -------- | -------- | ------- | ---------------------------------- |
-| name        | string   | Yes      | -       | File name (unique identifier)      |
-| type        | string   | Yes      | -       | `system` or `extension`            |
-| scope       | string   | Yes      | -       | `all`, `general`, or `coder`       |
-| priority    | number   | No       | 1000    | Loading priority (lower = earlier) |
-| permission  | string   | No       | read    | `read` or `write`                  |
-| dynamic     | boolean  | No       | false   | Whether content is dynamic         |
-| owner       | string[] | No       | -       | Owner identifiers                  |
-| share       | string[] | No       | -       | Share targets                      |
-| description | string   | No       | -       | File description                   |
+### Agent 必填字段 (Agent Required Fields)
 
-## Required Fields
+> **L2 → L1 映射 (L2-to-L1 Mapping)**：下表 5 个 L2 字段均为**正文必填字段**（独立于 frontmatter）；作者 MUST 将其写入正文"## Identity"章节。
+> 与 9 字段 agent-info frontmatter（L1）的关系如下：
+>
+> - L2 `name` 与 L1 `name` 同义；L1 `name` = 文件名（系统加载用），L2 `name` = 正文自述（agent 可读），两者 MUST 一致。
+> - L2 `role` / `identity` / `capabilities` / `boundaries` 均无对应 L1 字段，仅作为正文内容出现。
 
-| Field        | Description                | Example                                   |
-| ------------ | -------------------------- | ----------------------------------------- |
-| name         | Agent name                 | `eas-coder`, `explore-agent`              |
-| role         | Agent role                 | `Code Editor`, `Search Expert`            |
-| identity     | Agent identity description | `You are EASBot's code assistant`         |
-| capabilities | Core capability list       | `Code generation, debugging, refactoring` |
-| boundaries   | Behavior boundaries        | `Do not modify unread files`              |
+| 字段 (Field) | 描述 (Description)       | 示例 (Example)                            |
+| ------------ | ------------------------ | ----------------------------------------- |
+| name         | Agent 名称（与 L1 一致） | `eas-coder`、`explore-agent`              |
+| role         | Agent 角色               | `Code Editor`、`Search Expert`            |
+| identity     | Agent 身份描述           | `You are EASBot's code assistant`         |
+| capabilities | 核心能力列表             | `Code generation, debugging, refactoring` |
+| boundaries   | 行为边界                 | `Do not modify unread files`              |
 
-## Optional Fields
+## 可选字段 (Optional Fields)
 
-| Field       | Description         | Example               |
-| ----------- | ------------------- | --------------------- |
-| model       | Specified model     | `haiku`, `opus`       |
-| permission  | Permission level    | `readonly`, `edit`    |
-| tools       | Allowed tools       | `[Read, Write, Bash]` |
-| outputStyle | Output style        | `concise`, `detailed` |
-| language    | Language preference | `Chinese`, `English`  |
+| 字段 (Field) | 描述 (Description) | 示例 (Example)        |
+| ------------ | ------------------ | --------------------- |
+| model        | 指定模型           | `haiku`、`opus`       |
+| permission   | 权限级别           | `readonly`、`edit`    |
+| tools        | 允许使用的工具     | `[Read, Write, Bash]` |
+| outputStyle  | 输出风格           | `concise`、`detailed` |
+| language     | 语言偏好           | `Chinese`、`English`  |
 
-## Fixed Section Structure
+## 固定章节结构 (Fixed Section Structure)
 
-### 1. Identity Section
+### 1. 身份章节 (Identity Section)
 
 ```markdown
 You are [role name], a [primary responsibility description].
@@ -70,7 +52,7 @@ Your core responsibilities:
 - [Responsibility 3]
 ```
 
-### 2. Capabilities Section
+### 2. 能力章节 (Capabilities Section)
 
 ```markdown
 ## Capabilities
@@ -81,30 +63,32 @@ You have the following core capabilities:
 - [Capability 2]
 ```
 
-### 3. Boundaries Section
+### 3. 边界章节 (Boundaries Section)
 
-Use boundary control keywords:
+> **Boundary keywords in this specification MUST conform to RFC 2119. See [`boundary-control.md`](./boundary-control.md) for the complete keyword table and 10-item compliance checklist.**
+
+使用边界控制关键字：
 
 ```markdown
 ## Boundaries
 
-### NEVER
+### MUST NOT
 
 - [Absolute prohibition 1]
 - [Absolute prohibition 2]
 
-### DO NOT
+### SHOULD NOT
 
 - [Non-recommended behavior 1]
 - [Non-recommended behavior 2]
 
-### ALWAYS
+### MUST
 
 - [Mandatory action 1]
 - [Mandatory action 2]
 ```
 
-### 4. Interaction Section
+### 4. 交互章节 (Interaction Section)
 
 ```markdown
 ## Interaction
@@ -114,9 +98,9 @@ Use boundary control keywords:
 - Include [file path:line number] in code references
 ```
 
-### 5. Output Template (Optional)
+### 5. 输出模板（可选）(Output Template · Optional)
 
-When the Agent needs to produce specific format output:
+当 Agent 需要产生特定格式输出时：
 
 ```markdown
 ## Output Template
@@ -124,9 +108,9 @@ When the Agent needs to produce specific format output:
 [Output format description and examples]
 ```
 
-## Subagent Specific
+## Subagent 特定 (Subagent Specific)
 
-Subagent prompts require additional content:
+子 Agent 提示词需要额外内容：
 
 ```markdown
 ## Subagent Specific
@@ -137,16 +121,23 @@ Subagent prompts require additional content:
 - **Do not** initiate new tasks or take proactive actions
 ```
 
-## Example
+## 示例 (Example)
+
+```yaml
+---
+name: explore-subagent
+type: system
+scope: coder
+priority: 800
+permission: read
+dynamic: false
+owner: [plan-mode]
+share: [general]
+description: Explore subagent specialized in codebase search and exploration
+---
+```
 
 ```markdown
----
-title: Explore Subagent
-type: agent
-mode: coder
-subtype: subagent
----
-
 # Explore Subagent
 
 ## Identity
@@ -161,12 +152,12 @@ You are Explore Subagent, a sub-agent specialized in codebase search and explora
 
 ## Boundaries
 
-### NEVER
+### MUST NOT
 
 - Modify any files
 - Execute operations that may change system state
 
-### ALWAYS
+### MUST
 
 - Return absolute paths
 - Provide clear search result summaries
@@ -178,10 +169,18 @@ You are Explore Subagent, a sub-agent specialized in codebase search and explora
 - Report immediately after discovering information
 ```
 
-## Quality Checklist
+## 不适用 (Not Applicable)
 
-- [ ] Identity description is clear and accurate
-- [ ] Capability list is complete
-- [ ] Boundaries use correct keywords
-- [ ] Example is representative
-- [ ] Relationship with parent Agent is clear
+- 工具（Tool）类提示词 —— 走 `tool-prompt-spec.md`。
+- 任务（Task）类提示词 —— 走 `task-prompt-spec.md`。
+- 命令（Command）类提示词 —— 走 `command-prompt-spec.md`。
+- 模式（Mode）/ 会话（Session）/ 特性（Feature）/ 上下文（Context）类 —— 走对应 spec.md。
+- SKILL.md / 技能结构本身 —— 走 `eas-skill-creator`。
+
+## 质量自检表 (Quality Checklist)
+
+- [ ] 身份描述清晰准确
+- [ ] 能力列表完整
+- [ ] 边界使用正确的关键字（RFC 2119）
+- [ ] 示例具有代表性
+- [ ] 与父 Agent 的关系清晰

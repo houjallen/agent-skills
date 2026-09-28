@@ -1,73 +1,53 @@
-# Feature Prompt Specification
+# Feature 提示词规范 (Feature Prompt Specification)
 
-## Overview
+## 概述 (Overview)
 
-Feature prompts define special functionality features (such as KAIROS, Daemon, Proactive) and their system injection behavior specifications.
+Feature 提示词定义特殊功能特性（如 KAIROS、Daemon、Proactive）及其系统注入行为规范。
 
-## Frontmatter Specification
+> **本规范中的边界关键字 MUST 符合 RFC 2119。完整的关键字表见 [`boundary-control.md`](./boundary-control.md) §3，10 项合规自检表见 §6。**
 
-All feature prompt files MUST include the following YAML frontmatter:
+## 前置元数据规范 (Frontmatter Specification)
 
-```yaml
----
-name: [filename] # 文件名（必需，用于唯一标识）
-type: [system|extension] # 文件类型（必需）
-scope: [all|general|coder] # 模式范围（必需）
-priority: [number] # 加载优先级（可选，默认 1000）
-permission: [read|write] # 权限（可选，默认 read）
-dynamic: [true|false] # 是否动态内容（可选，默认 false）
-owner: [string...] # 所有者（可选，数组）
-share: [string...] # 共享目标（可选，数组）
-description: [description] # 描述（可选）
----
-```
+所有 Feature 提示词文件 MUST 使用 agent-info 9 字段 frontmatter 模板。模板定义、字段表格与共同规则见 SKILL.md §前置元数据决策（[../SKILL.md](../SKILL.md)）。
 
-### Frontmatter Fields
+> **CRITICAL: agent-info 模板与 output-template 模板 MUST NOT 混用。**
 
-| Field       | Type     | Required | Default | Description                        |
-| ----------- | -------- | -------- | ------- | ---------------------------------- |
-| name        | string   | Yes      | -       | File name (unique identifier)      |
-| type        | string   | Yes      | -       | `system` or `extension`            |
-| scope       | string   | Yes      | -       | `all`, `general`, or `coder`       |
-| priority    | number   | No       | 1000    | Loading priority (lower = earlier) |
-| permission  | string   | No       | read    | `read` or `write`                  |
-| dynamic     | boolean  | No       | false   | Whether content is dynamic         |
-| owner       | string[] | No       | -       | Owner identifiers                  |
-| share       | string[] | No       | -       | Share targets                      |
-| description | string   | No       | -       | File description                   | permission | string | No  | read | `read` or `write` |
-| dynamic     | boolean  | No       | false   | Whether content is dynamic         |
-| owner       | string   | No       | -       | Owner identifier                   |
-| share       | string   | No       | -       | Share targets                      |
-| description | string   | No       | -       | Feature description                |
+## 内置功能 (Built-in Features)
 
-## Built-in Features
+| Feature   | 描述 (Description) | Feature Flag        |
+| --------- | ------------------ | ------------------- |
+| KAIROS    | 常驻助手模式       | `FEATURE_KAIROS`    |
+| Daemon    | 后台守护进程       | `FEATURE_DAEMON`    |
+| Proactive | 主动工作模式       | `FEATURE_PROACTIVE` |
+| Heartbeat | 心跳机制           | 内置 (Built-in)     |
 
-| Feature   | Description             | Feature Flag        |
-| --------- | ----------------------- | ------------------- |
-| KAIROS    | Resident assistant mode | `FEATURE_KAIROS`    |
-| Daemon    | Background daemon       | `FEATURE_DAEMON`    |
-| Proactive | Proactive work mode     | `FEATURE_PROACTIVE` |
-| Heartbeat | Heartbeat mechanism     | Built-in            |
+## 必填字段 (Required Fields)
 
-## Required Fields
+> **L2 → L1 映射 (L2-to-L1 Mapping)**：下表 4 个 L2 字段为**正文必填字段**（独立于 frontmatter），写入正文 `## Trigger Conditions` / `## Behavior` 章节。
+>
+> - L2 `name` 与 L1 `name` 同义（如 `KAIROS`）。
+> - L2 `description` 写入 L1 `description` 字段（精简版 ≤ 200 字符）。
+> - L2 `trigger` / `injection` 仅在正文表达。
 
-| Field       | Description          | Example                                         |
-| ----------- | -------------------- | ----------------------------------------------- |
-| name        | Feature name         | `KAIROS`, `Proactive`                           |
-| description | Feature description  | `Resident assistant, supports background tasks` |
-| trigger     | Activation condition | `FEATURE_KAIROS=1`                              |
-| injection   | Injection content    | `Heartbeat-driven instructions`                 |
+| 字段 (Field) | 描述 (Description)          | 示例 (Example)                                  |
+| ------------ | --------------------------- | ----------------------------------------------- |
+| name         | Feature 名称（与 L1 一致）  | `KAIROS`、`Proactive`                           |
+| description  | Feature 描述（精简版入 L1） | `Resident assistant, supports background tasks` |
+| trigger      | 激活条件                    | `FEATURE_KAIROS=1`                              |
+| injection    | 注入内容                    | `Heartbeat-driven instructions`                 |
 
-## Optional Fields
+## 可选字段 (Optional Fields)
 
-| Field        | Description  | Example                        |
-| ------------ | ------------ | ------------------------------ |
-| subsections  | Sub-features | `KAIROS_BRIEF`, `KAIROS_DREAM` |
-| dependencies | Dependencies | `KAIROS ⊃ PROACTIVE`           |
+| 字段 (Field) | 描述 (Description) | 示例 (Example)                   |
+| ------------ | ------------------ | -------------------------------- |
+| subsections  | 子功能             | `KAIROS_BRIEF`、`KAIROS_DREAM`   |
+| dependencies | 依赖               | 文字描述（见下方"依赖表达约定"） |
 
-## Fixed Section Structure
+> **依赖表达约定 (Dependency Notation)**：依赖关系使用纯文字描述（例如 "KAIROS 是 PROACTIVE 的超集"），MUST NOT 使用 `⊃`、`⊇` 等 Unicode 数学符号，以免 Markdown 解析器不一致。
 
-### 1. Feature Header
+## 固定章节结构 (Fixed Section Structure)
+
+### 1. Feature 头信息 (Feature Header)
 
 ```markdown
 # [Feature name]
@@ -76,7 +56,7 @@ description: [description] # 描述（可选）
 > Implementation Status: [Stub/Partial/Complete]
 ```
 
-### 2. Overview
+### 2. 概述 (Overview)
 
 ```markdown
 ## Overview
@@ -84,86 +64,83 @@ description: [description] # 描述（可选）
 [Core feature description]
 ```
 
-### 3. System Prompt Injection
+### 3. 系统提示词注入 (System Prompt Injection)
 
-````markdown
+```markdown
 ## System Prompt Injection
 
 ### Injection paragraph
 
-```markdown
 [Specific injection content]
 ```
-````
 
-````
-
-### 4. Trigger Conditions
+### 4. 触发条件 (Trigger Conditions)
 
 ```markdown
 ## Trigger Conditions
 
 ### Activation conditions
+
 - [Condition 1]
 - [Condition 2]
 
 ### Dependencies
+
 - [Dependency 1]
 - [Dependency 2]
-````
+```
 
-### 5. Behavior
+### 5. 行为 (Behavior)
+
+> **Boundary keywords in this specification MUST conform to RFC 2119. See [`boundary-control.md`](./boundary-control.md) for the complete keyword table and 10-item compliance checklist.**
 
 ```markdown
 ## Behavior
 
-### NEVER
+### MUST NOT
 
 - [Prohibited behavior]
 
-### ALWAYS
+### MUST
 
 - [Mandatory behavior]
 ```
 
-## KAIROS Feature Specification
+## KAIROS Feature 规范 (KAIROS Feature Specification)
 
-### System Injection Paragraph
+### 系统注入段落 (System Injection Paragraph)
 
 ````markdown
 ### Brief Section (getBriefSection)
 
 When `feature('KAIROS') || feature('KAIROS_BRIEF')` is active:
 
-```markdown
+```text
 # Brief Tool
 
 Use BriefTool to output structured messages...
 ```
 ````
 
-````
+### Proactive 段落 (Proactive Paragraph)
 
-### Proactive Paragraph
-
-```markdown
+````markdown
 ### Autonomous Work Section (getProactiveSection)
 
 When `feature('PROACTIVE') || feature('KAIROS')` and `isProactiveActive()`:
 
-```markdown
+```text
 # Autonomous Work Mode
 
 You are an autonomous agent. Use tools to perform useful work.
 
 Tick-driven: <tick_tag> keeps you active...
+```
 ````
 
-````
+## Proactive Feature 规范 (Proactive Feature Specification)
 
-## Proactive Feature Specification
-
-### Tick-driven Mechanism
+### Tick-driven 机制 (Tick-driven Mechanism)
 
 ```markdown
 ## Tick-driven
@@ -172,16 +149,18 @@ Tick-driven: <tick_tag> keeps you active...
 - Each tick triggers a response
 - Use SleepTool to control wait intervals
 
-### NEVER
+### MUST NOT
+
 - Output "still waiting" type text
 - Poll continuously without sleeping
 
-### ALWAYS
-- Must call Sleep during empty operations
-- Lean towards action over waiting
-````
+### MUST
 
-### Terminal Focus Awareness
+- MUST call Sleep during empty operations
+- Lean towards action over waiting
+```
+
+### 终端焦点感知 (Terminal Focus Awareness)
 
 ```markdown
 ## Terminal Focus Awareness
@@ -192,9 +171,9 @@ Tick-driven: <tick_tag> keeps you active...
 | Focused   | More collaborative, show choices |
 ```
 
-## Heartbeat Feature Specification
+## Heartbeat Feature 规范 (Heartbeat Feature Specification)
 
-### Heartbeat Protocol
+### 心跳协议 (Heartbeat Protocol)
 
 ```markdown
 ## Heartbeat Protocol
@@ -210,10 +189,7 @@ Tick-driven: <tick_tag> keeps you active...
 - **Something to report**: Reply with specific content (without `HEARTBEAT_OK`)
 ```
 
-### Heartbeat Configuration
-
-````markdown
-## Configuration Options
+### 心跳配置 (Heartbeat Configuration)
 
 ```yaml
 agents:
@@ -224,20 +200,24 @@ agents:
       prompt: | # Custom prompt
         Custom heartbeat instructions
 ```
-````
 
-````
+## 示例 (Example)
 
-## Example
-
-```markdown
+```yaml
 ---
-title: KAIROS Feature Prompt
-type: feature
-mode: all
-category: kairos
+name: KAIROS
+type: system
+scope: all
+priority: 600
+permission: write
+dynamic: true
+owner: [core]
+share: [general, coder]
+description: Resident assistant mode that runs CLI continuously in background
 ---
+```
 
+````markdown
 # KAIROS - Resident Assistant Mode
 
 > Feature Flag: `FEATURE_KAIROS=1` (and sub-features)
@@ -260,20 +240,19 @@ KAIROS transforms the CLI from a "Q&A tool" to a "resident assistant". When enab
 
 When `feature('KAIROS') || feature('KAIROS_BRIEF')` is active:
 
-```markdown
+```text
 # Brief Tool
 
 Use BriefTool to output structured messages.
 /brief toggle and --brief flag control display filtering.
-````
-
+```
 ````
 
 ### Proactive Section
 
 When `feature('PROACTIVE') || feature('KAIROS')` and `isProactiveActive()`:
 
-```markdown
+```text
 # Autonomous Work Mode
 
 You are an autonomous agent. Use available tools to perform useful work.
@@ -282,12 +261,12 @@ Tick-driven: <tick_tag> keeps you active. Each tick contains user's current loca
 
 Rhythm control: Use SleepTool to control wait intervals.
 
-Must Sleep on empty operations: Output "still waiting" type text is prohibited.
+MUST Sleep on empty operations: Output "still waiting" type text is prohibited.
 
 Lean towards action: Reading files, searching code, modifying files, committing - none require asking.
 
 Terminal Focus awareness: terminalFocus field indicates if user is watching the terminal.
-````
+```
 
 ## Trigger Conditions
 
@@ -297,18 +276,18 @@ Terminal Focus awareness: terminalFocus field indicates if user is watching the 
 
 ### Dependencies
 
-- `KAIROS ⊃ PROACTIVE`: When KAIROS is enabled, Proactive capability is automatically gained
+- `KAIROS 是 PROACTIVE 的超集`：当 KAIROS 启用时，自动获得 Proactive 能力
 - `KAIROS_BRIEF`: BriefTool structured output
 - `KAIROS_DREAM`: Memory distillation
 
 ## Behavior
 
-### NEVER
+### MUST NOT
 
 - Output token-wasting wait text
 - Execute dangerous operations without confirmation
 
-### ALWAYS
+### MUST
 
 - Call Sleep on empty operations
 - Adjust autonomy based on terminalFocus
@@ -316,11 +295,17 @@ Terminal Focus awareness: terminalFocus field indicates if user is watching the 
 
 ```
 
-## Quality Checklist
+## 不适用 (Not Applicable)
 
-- [ ] Feature Flag is correct
-- [ ] Injection paragraph format is correct
-- [ ] Trigger conditions are complete
-- [ ] Behavior uses correct keywords
-- [ ] Dependencies are clear
+- Agent / Tool / Task / Command / Mode / Session / Context 类 —— 走对应 spec.md。
+- 通用功能（非 Feature Flag 控制）—— 内联到 Agent / Mode 提示词即可。
+- SKILL.md —— 走 `eas-skill-creator`。
+
+## 质量自检表 (Quality Checklist)
+
+- [ ] Feature Flag 正确
+- [ ] 注入段落格式正确
+- [ ] 触发条件完整
+- [ ] 行为使用正确的关键字（RFC 2119）
+- [ ] 依赖关系清晰
 ```

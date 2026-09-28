@@ -1,22 +1,24 @@
-# Output Template Specification
+# 输出模板规范 (Output Template Specification)
 
-## Overview
+## 概述 (Overview)
 
-This document defines the standard output templates for EASBot prompts.
+本文档定义 EASBot 提示词的标准输出模板。
 
-## When to Use Output Template
+> **CRITICAL: 本文档中所有边界关键字 MUST 符合 RFC 2119。完整的关键字表与 10 项合规自检表见 [`boundary-control.md`](./boundary-control.md)。**
 
-**Important**: Output template is not fixed for all prompt types. Based on the scenario:
+## 何时使用输出模板 (When to Use Output Template)
 
-- If the Agent can determine the prompt needs a fixed output format (e.g., summary, plan, task results, compaction), add it automatically
-- If the Agent cannot determine, ask the user: `"Does this prompt require a fixed output template? Supported formats: JSON / Markdown"`
+**重要 (Important)**：输出模板并非对所有提示词类型都固定。根据场景判断：
 
-## Supported Formats
+- 若 Agent 能判断该提示词需要固定输出格式（如总结、计划、任务结果、压缩），则自动添加。
+- 若 Agent 无法判断，向用户提问：`"此提示词是否需要固定输出模板？支持的格式：JSON / Markdown"`
 
-- **JSON**: Structured data format for machine-readable outputs
-- **Markdown**: Human-readable format with structured sections
+## 支持的格式 (Supported Formats)
 
-## Standard YAML Frontmatter
+- **JSON** — 机器可读的结构化数据
+- **Markdown** — 可读的人类友好的结构化段落
+
+## 标准 YAML 前置元数据 (Standard YAML Frontmatter)
 
 ```yaml
 ---
@@ -28,9 +30,11 @@ optional: [comma-separated optional fields]
 ---
 ```
 
-## Output Template Types
+> **CRITICAL: 该 5 字段 frontmatter 模板 MUST 用于输出模板定义；与 agent-info 9 字段模板不可混用。详见 SKILL.md §Frontmatter Decision。**
 
-### 1. JSON Output Template
+## 输出模板类型 (Output Template Types)
+
+### 1. JSON 输出模板 (JSON Output Template)
 
 ````markdown
 ## Output Template
@@ -49,15 +53,15 @@ When completing the task, output MUST follow this format:
 ```
 ````
 
-### Example
+### 示例 (Example)
 
-**Input:**
+**输入 (Input)**：
 
 ```
 User: Summarize this conversation
 ```
 
-**Expected Output:**
+**预期输出 (Expected Output)**：
 
 ```json
 {
@@ -72,7 +76,7 @@ User: Summarize this conversation
 
 ````
 
-### 2. Markdown Output Template
+### 2. Markdown 输出模板 (Markdown Output Template)
 
 ```markdown
 ## Output Template
@@ -89,15 +93,15 @@ When completing the task, output MUST follow this format:
 [Content]
 ````
 
-### Example
+### 示例 (Example)
 
-**Input:**
+**输入 (Input)**：
 
 ```
 User: Generate a plan for adding dark mode
 ```
 
-**Expected Output:**
+**预期输出 (Expected Output)**：
 
 ```markdown
 ## Summary
@@ -118,9 +122,9 @@ Add dark mode toggle to settings page with theme persistence.
 3. Implement persistence
 ```
 
-### 3. Compaction/Summary Template
+### 3. 压缩/总结模板 (Compaction/Summary Template)
 
-Reference: `packages/agent/src/agent/prompt/compaction.txt`
+参考：[`packages/agent/src/agent/prompt/compaction.txt`](../../packages/agent/src/agent/prompt/compaction.txt)（相对仓库根路径；不在文档中硬编码绝对路径，遵守 eas-skill-creator "脚本调用路径规范"）。
 
 ````markdown
 ## Output Template
@@ -168,16 +172,16 @@ Analyze this conversation and generate a structured summary for session continua
 
 ### Rules
 
-- Never ask questions or request clarification
-- Never make assumptions beyond what was discussed
-- Never generate new solutions
-- Never omit important details
-- Preserve accuracy (exact paths, names, details)
-- Include context that helps continue the work
+- MUST NOT ask questions or request clarification
+- MUST NOT make assumptions beyond what was discussed
+- MUST NOT generate new solutions
+- MUST NOT omit important details
+- MUST preserve accuracy (exact paths, names, details)
+- MUST include context that helps continue the work
 
 ````
 
-## Template Quality Standards
+## 模板质量标准 (Template Quality Standards)
 
 ### MUST
 
@@ -186,16 +190,16 @@ Analyze this conversation and generate a structured summary for session continua
 - Specify exact output format
 - Provide both success and error cases
 
-### NEVER
+### MUST NOT
 
 - Use vague descriptions
 - Skip error handling templates
 - Include unnecessary formatting
 - Use emojis in structured output
 
-## Truncation Indicator
+## 截断标记 (Truncation Indicator)
 
-When truncating output:
+当截断输出时：
 
 ```markdown
 [content truncated...]
